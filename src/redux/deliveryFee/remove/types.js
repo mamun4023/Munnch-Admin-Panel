@@ -1,0 +1,3 @@
+export const REMOVE_REQUEST = "REMOVE_REQUEST";
+export const REMOVE_SUCCESS = "REMOVE_SUCCESS";
+export const REMOVE_FAILED = "REMOVE_FAILED";
