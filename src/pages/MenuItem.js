@@ -1,6 +1,6 @@
 import { filter } from 'lodash';
 import { useState, useEffect } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useParams } from 'react-router-dom';
 import { IconButton, Switch } from '@mui/material';
 import PersonAddDisabledIcon from '@mui/icons-material/PersonAddDisabled';
 import Tooltip from '@mui/material/Tooltip';
@@ -108,6 +108,7 @@ function applySortFilter(array, comparator, query) {
 }
 
 export default function MenuItem() {
+  const {id} = useParams();
   const [page, setPage] = useState(1);
   const [order, setOrder] = useState('desc');
   const [selected, setSelected] = useState([]);
@@ -120,7 +121,7 @@ export default function MenuItem() {
   const loading = useSelector(state => state.FetchAllMenu.loading);
 
   useEffect(()=>{
-    dispatch(FetchMenuList(filterName, page, rowsPerPage, order ))
+    dispatch(FetchMenuList(id,filterName, page, rowsPerPage, order ))
   },[filterName, page, rowsPerPage, order])
 
   const MenuList = useSelector(state => state.FetchAllMenu.data);
@@ -278,9 +279,7 @@ export default function MenuItem() {
             nextIconButtonProps={
               filteredUsers.length === 0 || filteredUsers.length < rowsPerPage? {disabled: true} : undefined
             }
-
           />
-
       </Box>} 
         </Card>
       </Container>

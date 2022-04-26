@@ -10,14 +10,17 @@ import { useDispatch } from 'react-redux';
 
 // ----------------------------------------------------------------------
 
-export default function UserMoreMenu({id}) {
+export default function UserMoreMenu({id, status, filter, page, limit, order}) {
   const ref = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
   const dispatch = useDispatch();
 
   const RemoveHandler = (id)=>{
     dispatch(RemoveMerchant(id))
-    dispatch(FetchMerchantList(1))
+    setTimeout(()=>{
+      dispatch(FetchMerchantList(status, filter, page, limit, order))
+    },1000)
+    
   }
 
   return (
@@ -59,7 +62,7 @@ export default function UserMoreMenu({id}) {
           <ListItemText primary="Update" primaryTypographyProps={{ variant: 'body2' }} />
         </MenuItem>
        
-        <MenuItem component={RouterLink} to="/dashboard/merchant/menu" sx={{ color: 'text.secondary' }}>
+        <MenuItem component={RouterLink} to= { `/dashboard/merchant/menu/${id}`} sx={{ color: 'text.secondary' }}>
           <ListItemIcon>
             <Iconify icon="bxs:food-menu" width={24} height={24} />
           </ListItemIcon>

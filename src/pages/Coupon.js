@@ -43,36 +43,32 @@ const TABLE_HEAD = [
     id: 'id', 
     alignRight: false 
   },
-  { 
-    label: 'USER ID',
-    id: 'userId', 
-    alignRight: false 
-  },
+  // { 
+  //   label: 'USER ID',
+  //   id: 'userId', 
+  //   alignRight: false 
+  // },
   { 
     label: 'CODE', 
     id: 'code', 
     alignRight: false 
   },
-  { 
-    label: 'DISCOUNT TYPE', 
-    id: 'discountType', 
-    alignRight: false 
-  },
-  { 
-    label: 'DISCOUNT TYPE NAME', 
-    id: 'discount_type_name', 
-    alignRight: false 
-  },
+  // { 
+  //   label: 'DISCOUNT TYPE', 
+  //   id: 'discountType', 
+  //   alignRight: false 
+  // },
+  // { 
+  //   label: 'DISCOUNT TYPE NAME', 
+  //   id: 'discount_type_name', 
+  //   alignRight: false 
+  // },
   { 
     label: 'AMOUNT', 
     id: 'amount', 
     alignRight: false 
   },
-  { 
-    label: 'STATUS', 
-    id: 'is_active', 
-    alignRight: false 
-  },
+ 
   { 
     label: 'START DATE     ', 
     id: 'start_date', 
@@ -81,6 +77,11 @@ const TABLE_HEAD = [
   { 
     label: 'EXPIRE DATE', 
     id: 'expireDate', 
+    alignRight: false 
+  },
+  { 
+    label: 'STATUS', 
+    id: 'is_active', 
     alignRight: false 
   },
   { 
@@ -293,22 +294,23 @@ export default function Coupon() {
                           key={id}
                         >
                           <TableCell align="left">{id}</TableCell>
-                          <TableCell align="left">{user_id}</TableCell>
+                          {/* <TableCell align="left">{user_id}</TableCell> */}
                           <TableCell align="left">{code}</TableCell>
-                          <TableCell align="left">{discount_type == 1 ? "Quantity" : "Cash"}</TableCell>
-                          <TableCell align="left">{discount_type_name}</TableCell>
+                          {/* <TableCell align="left">{discount_type == 1 ? "Quantity" : "Cash"}</TableCell> */}
+                          {/* <TableCell align="left">{discount_type_name}</TableCell> */}
                           <TableCell align="left">{amount}</TableCell>
-                          <TableCell align="left">
-                            <Switch
-                              onClick={()=>StatusToggleHandler(id)}
-                              defaultChecked = {is_active? is_active : is_active}
-                            />  
-                          </TableCell>
+                          
                           <TableCell align="left">
                             <Moment format="DD-MM-YYYY hh:mm a" >{start_date}</Moment>
                           </TableCell>
                           <TableCell align="left">
                             <Moment format="DD-MM-YYYY hh:mm a" >{end_date}</Moment>
+                          </TableCell>
+                          <TableCell align="left">
+                            <Switch
+                              onClick={()=>StatusToggleHandler(id)}
+                              defaultChecked = {is_active? is_active : is_active}
+                            />  
                           </TableCell>
                           <TableCell align="left">{usage_per_user}</TableCell>
                           <TableCell align="left">{minimum_spend}</TableCell>

@@ -22,10 +22,10 @@ const FetchMenuListFailed = (err)=>{
     }
 }
 
-export const FetchMenuList = (search, page, limit, order)=>{
+export const FetchMenuList = (storeId, search, page, limit, order)=>{
     return (dispatch)=>{
         dispatch(FetchMenuListRequest());
-        axios.get(`${URL}/api/v1/admin/store/menu-item/list?keyword=${search}&page=${page}&limit=${limit}&sortOrder=${order}`, AuthConfig)
+        axios.get(`${URL}/api/v1/admin/store/menu-item/list?store_id=${storeId}&keyword=${search}&page=${page}&limit=${limit}&sortOrder=${order}`, AuthConfig)
             .then(res =>{
                 const response = res.data.data.menu_items;
                 // console.log("data ",response);

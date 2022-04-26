@@ -73,8 +73,8 @@ function Update() {
   // const FoodList = useSelector(state => state.FetchFoodList.data);
   // const CusineList = useSelector(state => state.FetchCuisineList.data)
 
-   
-   console.log("SingleStoreData " , SingleStoreData);
+     console.log("SingleStoreData " , SingleStoreData.operational_hours);
+  //  console.log("SingleStoreData " , moment(SingleStoreData.operational_hours[0].start_time,  'hh:mm:ss').format('hh:mm:ss '));
   //  console.log("Cusine", CusineList);
 
 
@@ -122,26 +122,26 @@ function Update() {
       city : SingleStoreData.location ? SingleStoreData.location.city  : " " ,
 
       // oprational hours
-      saturday_start_time :  "",
+      saturday_start_time :   SingleStoreData.operational_hours[0]? moment(SingleStoreData.operational_hours[0].start_time,  'hh:mm:ss').format('hh:mm:ss') : "",
       saturday_no_of_hours : '',
 
-      sunday_start_time : SingleStoreData.operational_hours[0].start_time?SingleStoreData.operational_hours[0].start_time : "10:10",
+      sunday_start_time : SingleStoreData.operational_hours[0]? moment(SingleStoreData.operational_hours[0].start_time,  'hh:mm:ss').format('hh:mm:ss') : "",
       sunday_no_of_hours : '',
 
-      monday_start_time : '',
+      monday_start_time : SingleStoreData.operational_hours[0]? moment(SingleStoreData.operational_hours[1].start_time,  'hh:mm:ss').format('hh:mm:ss') : "",
       monday_no_of_hours : '',
       
 
-      tuesday_start_time : '',
+      tuesday_start_time : SingleStoreData.operational_hours[0]? moment(SingleStoreData.operational_hours[0].start_time,  'hh:mm:ss').format('hh:mm:ss') : "",
       tuesday_no_of_hours : '',
 
-      wednesday_start_time : '',
+      wednesday_start_time :  SingleStoreData.operational_hours[0]? moment(SingleStoreData.operational_hours[0].start_time,  'hh:mm:ss').format('hh:mm:ss') : "",
       wednesday_no_of_hours : '',
 
-      thursday_start_time : '',
+      thursday_start_time :  SingleStoreData.operational_hours[0]? moment(SingleStoreData.operational_hours[0].start_time,  'hh:mm:ss').format('hh:mm:ss') : "",
       thursday_no_of_hours : '',
 
-      friday_start_time : '',
+      friday_start_time :  SingleStoreData.operational_hours[0]? moment(SingleStoreData.operational_hours[0].start_time,  'hh:mm:ss').format('hh:mm:ss') : "",
       friday_no_of_hours : '',
 
       // social media
@@ -153,8 +153,6 @@ function Update() {
     // validationSchema: StoreSchema,
     onSubmit: (values) => {
       console.log(values)
-
-
 
       const CuisineIds = [];
       const FoodIds = [];
@@ -346,7 +344,28 @@ function Update() {
                           </PlacesAutocomplete>
 
 
-                        <h4 style={{textAlign : "center"}}> Operational Hours </h4> 
+                        <h4 style={{textAlign : "center"}}> Operational Hours </h4>
+                        <label> Saturday</label>
+                          <TextField
+                            fullWidth
+                            InputLabelProps={{
+                              shrink: true,
+                            }}
+                            type= "time"
+                            label="Start Time"
+                            {...getFieldProps('saturday_start_time')}
+                            error={Boolean(touched.saturday_start_time && errors.saturday_start_time)}
+                            helperText={touched.saturday_start_time && errors.saturday_start_time}
+                          />  
+
+                          <TextField
+                            fullWidth
+                            label="No Of Hours"
+                            {...getFieldProps('saturday_no_of_hours')}
+                            error={Boolean(touched.saturday_no_of_hours && errors.saturday_no_of_hours)}
+                            helperText={touched.saturday_no_of_hours && errors.saturday_no_of_hours}
+                          />  
+                        
                         <label> Sunday</label>
                           <TextField
                             fullWidth
@@ -376,7 +395,7 @@ function Update() {
                             }}
                             type= "time"
                             label="Start Time"
-                            {...getFieldProps('contact_no')}
+                            {...getFieldProps('monday_start_time')}
                             error={Boolean(touched.monday_start_time && errors.monday_start_time)}
                             helperText={touched.monday_start_time && errors.monday_start_time}
                           />  
@@ -526,14 +545,6 @@ function Update() {
         /> */}
       </Stack>
     </LocalizationProvider>
-
-
-
-        <h4>
-        <Moment date={value} format="hh:mm:ss" durationFromNow />
-        </h4>
-
-
 
 
 

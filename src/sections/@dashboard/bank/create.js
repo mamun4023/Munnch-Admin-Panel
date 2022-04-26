@@ -25,6 +25,9 @@ function Create() {
   const navigate = useNavigate();
   const[image, setImage] = useState();
   const [loading, setLoading] = useState(false);
+  const [fileValidation, setFileValidation] = useState(false);
+
+  console.log("image file", image)
 
   const BankSchema = Yup.object().shape({
     name : Yup.string().required('Bank Name is required'),
@@ -38,8 +41,13 @@ function Create() {
       is_popular : '',
     },
     validationSchema: BankSchema,
+
     onSubmit: (values) => {
       console.log(values)
+
+      if(image == undefined){
+         setFileValidation(true)
+      }
 
       const data = new FormData();
       data.append('name', values.name);
@@ -105,7 +113,8 @@ function Create() {
                         <TextField
                             fullWidth
                             type="file"
-                            onChange={(e)=> setImage(e.target.files[0])}  
+                            onChange={(e)=> setImage(e.target.files[0])}
+                            error={Boolean(fileValidation)}
                         />
                         <LoadingButton
                             fullWidth

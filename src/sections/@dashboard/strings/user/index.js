@@ -11,6 +11,7 @@ export default function MyComponent() {
   const [policy_value, setPolicyValue] = useState('');
   const [aboutUs, setAboutUs] = useState("");
   const [contactUs, setContactUs] = useState("");
+  const [term_condition, setTerm_condition] = useState('');
 
   const FetchString = ()=>{
     FetchUserString()
@@ -19,7 +20,8 @@ export default function MyComponent() {
             console.log(response);
             setAboutUs(response[0].value);
             setContactUs(response[1].value);
-            setPolicyValue(response[2].value)
+            setPolicyValue(response[2].value);
+            setTerm_condition(response[3].value)
           })
   }
 
@@ -36,8 +38,9 @@ export default function MyComponent() {
               "value": aboutUs
           },
           {
-              "name": "contact_us",
-              "value": contactUs
+            "admin_id": 1,
+            "name": "terms_and_conditions",
+            "value": term_condition
           },
           {
               "name": "privacy_policy",
@@ -100,13 +103,13 @@ export default function MyComponent() {
          </Box>   
           <Box marginTop={5}>   
             <Typography variant="h5" gutterBottom>
-              Contact Us
+              Terms and Condition
             </Typography>
           
                 <ReactQuill 
                   theme="snow" 
-                  value={contactUs} 
-                  onChange={setContactUs}
+                  value={term_condition} 
+                  onChange={setTerm_condition}
                 />
          </Box>   
     </>

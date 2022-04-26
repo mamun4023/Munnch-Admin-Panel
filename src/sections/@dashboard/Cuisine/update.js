@@ -28,6 +28,8 @@ export default function Update() {
     dispatch(FetchSingleList(id))
   },[])
 
+  console.log(image == undefined)
+
   const SingleCuisine = useSelector(state => state.FetchSingleCusineList.data)
 
   const CuisineSchema = Yup.object().shape({
@@ -43,9 +45,18 @@ export default function Update() {
     onSubmit: (values) => {
       // console.log(values)
       const data = new FormData();
-      data.append('cuisine_name', values.cuisine_name);
-      data.append('image', image);
-      data.append('_method', 'PUT')
+      
+      if(image == undefined){
+          data.append('cuisine_name', values.cuisine_name);
+          data.append('_method', 'PUT')
+      }else{
+          data.append('cuisine_name', values.cuisine_name);
+          data.append('_method', 'PUT');
+          data.append('image', image);
+      }
+     
+
+      // console.log(data);
 
       dispatch(UpdateCuisine(id, data))
       navigate('/dashboard/cuisine', { replace: true });

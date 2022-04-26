@@ -231,7 +231,14 @@ export default function Merchant() {
                             />
                           </TableCell>
                           <TableCell align="right">
-                            <MerchantMoreMenu id = {id} />
+                            <MerchantMoreMenu 
+                              id = {id} 
+                              status = {merchantStatus}
+                              filter = {filterName}
+                              page = {page}
+                              limit = {rowsPerPage}
+                              order = {order} 
+                              />
                           </TableCell>
                         </TableRow>
                       );

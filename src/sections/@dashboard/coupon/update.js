@@ -77,8 +77,9 @@ export default function Update() {
           navigate('/dashboard/coupon', { replace: true });
         })
         .catch((err)=>{
-          const response = err.response.data
-          toast.error(response)
+          const response = err.response.data.message;
+          const errors = err.response.data.errors.code[0];
+          toast.error(response + errors )
           setLoading(false)
       })
     }

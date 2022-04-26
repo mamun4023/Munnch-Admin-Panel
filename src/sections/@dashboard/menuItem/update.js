@@ -1,7 +1,7 @@
 import * as Yup from 'yup';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Link as RouterLink, useNavigate } from 'react-router-dom';
+import { Link as RouterLink, useNavigate, useParams } from 'react-router-dom';
 import { Grid, Typography, Autocomplete } from '@mui/material';
 import { useFormik, Form, FormikProvider } from 'formik';
 import { useTheme } from '@mui/material/styles';
@@ -14,6 +14,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import { toast } from 'material-react-toastify';
 import DeleteIcon from  '@mui/icons-material/Delete'
 import AddCircleIcon from  '@mui/icons-material/AddCircle';
+
 
 // material
 import {
@@ -28,16 +29,17 @@ import {
 import { LoadingButton } from '@mui/lab';
 // component
 import Iconify from '../../../components/Iconify';
-import {AddMenu} from '../../../redux/menu/add/action';
+import {UpdateMenu} from '../../../redux/menu/update/action';
+import { FetchSingleMenu} from '../../../redux/menu/fetchSingle/action';
 import {FetchCuisineTypeList , FetchFoodTypeList, CategoryList} from '../../../redux/merchantStore/other/actions';
 
 // ----------------------------------------------------------------------
 
-const FoodType = ['Burgers', 'Nasi Lemak', 'Ice Latte', 'Sushi', 'Fried Chicken'];
-const Cuisines = ['Asian', 'Western', 'Arabian', 'Russian'];
-const Category = ['Category 1', 'Category 2', "Category 3"];
-const Addons = ['Addon 1','Addon 2','Addon 3','Addon 4','Addon 5'];
-const Variations = ['Variation 1', 'Variation 2','Variation 3','Variation 4', 'Variation 5']
+// const FoodType = ['Burgers', 'Nasi Lemak', 'Ice Latte', 'Sushi', 'Fried Chicken'];
+// const Cuisines = ['Asian', 'Western', 'Arabian', 'Russian'];
+// const Category = ['Category 1', 'Category 2', "Category 3"];
+// const Addons = ['Addon 1','Addon 2','Addon 3','Addon 4','Addon 5'];
+// const Variations = ['Variation 1', 'Variation 2','Variation 3','Variation 4', 'Variation 5']
 
 
 const ITEM_HEIGHT = 48;
@@ -62,17 +64,32 @@ const MenuProps = {
 // }
 
 
-export default function Create() {
+export default function Update() {
+  const {id} = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const loading = useSelector(state => state.AddMenu.loading);
+
+  useEffect(()=>{
+    dispatch(FetchSingleMenu(id))
+  }, [])
+
+
+  const SingleMenu = useSelector(state => state.FetchSingle.data);
+
+  setTimeout(()=>{
+
+  }, 2000)
+
+  // console.log("Single Menu",SingleMenu?SingleMenu.cuisine.name : "")
+
 
   const [inputFields, setInputFields] = useState([
     { name: '', price: '' },
   ])
 
 
-  console.log(inputFields)
+  // console.log(inputFields)
 
   const handleFormChange = (index, event) => {
     let data = [...inputFields];
@@ -80,7 +97,7 @@ export default function Create() {
     setInputFields(data);
  }
 
-  console.log(inputFields)
+  // console.log(inputFields)
   const addFields = (e) => {
     e.preventDefault();
     let newfield = { name: '', price: '' }
@@ -102,6 +119,7 @@ const removeFields = (index) => {
   const[categoryList, setCategoryList] = useState([]);
   const[selectedCategory, setSelectedCategoryList] = useState();
 
+  
 
       // console.log("selectedFoodList", selectedFoodList)
  
@@ -132,51 +150,55 @@ const removeFields = (index) => {
   },[])
 
  
-  // const theme = useTheme()
-  const [addons, setAddons] = useState([]);
-  const [variations, setVariations] = useState([]);
+  // // const theme = useTheme()
+  // const [addons, setAddons] = useState([]);
+  // const [variations, setVariations] = useState([]);
 
 
-  const handleAddonsChange = (event) => {
-    const {
-      target: { value },
-    } = event;
-    setAddons(
-      // On autofill we get a stringified value.
-      typeof value === 'string' ? value.split(',') : value,
-    );
-  };
+  // const handleAddonsChange = (event) => {
+  //   const {
+  //     target: { value },
+  //   } = event;
+  //   setAddons(
+  //     // On autofill we get a stringified value.
+  //     typeof value === 'string' ? value.split(',') : value,
+  //   );
+  // };
 
 
-  const handleVariationsChange = (event) => {
-    const {
-      target: { value },
-    } = event;
-    setVariations(
-      // On autofill we get a stringified value.
-      typeof value === 'string' ? value.split(',') : value,
-    );
-  };
+  // const handleVariationsChange = (event) => {
+  //   const {
+  //     target: { value },
+  //   } = event;
+  //   setVariations(
+  //     // On autofill we get a stringified value.
+  //     typeof value === 'string' ? value.split(',') : value,
+  //   );
+  // };
 
 
 
   const MenuItemSchema = Yup.object().shape({
     name: Yup.string().required('Name is required'),
     price: Yup.string().required('Price is required'),
-    description: Yup.string().required('Description is required'),
-    foodPrice: Yup.string().required('Food Price is required'),
+    food_type_id: Yup.string().required('Food Type is required'),
+    cuisine_type_id: Yup.string().required('Cuisine Type is required'),
+    category_id: Yup.string().required('Category is required'),
+    restaurant_id : Yup.string().required('Restaurant Id is required'),
     food_item_type: Yup.string().required('Food Item Type is required'),
-    food_item_estimate_days :Yup.string().required('Estimate Days are required'),
-    cusine: Yup.string().required('Cusine  is required'),
-    category: Yup.string().required('Category  is required'),
+    food_item_estimate_days :Yup.string().required('Estimate Days are required')
   });
 
   const formik = useFormik({
+    enableReinitialize : true,
     initialValues: {
-      name : '',
-      price : '',
+      name : SingleMenu?.name,
+      price : SingleMenu?.price,
+      food_type_id : selectedFoodList?.id,
+      cuisine_type_id : selectedCuisine?.id,
+      category_id : selectedCategory?.id,
       food_item_type  : '',
-      food_item_estimate_days : '',
+      food_item_estimate_days : SingleMenu?.food_item_estimate_days,
       restaurant_id : '',
       addons : '',
       variationHalf : '',
@@ -204,20 +226,21 @@ const removeFields = (index) => {
         image : "",
       }
 
-      console.log(data)
+      // console.log(data)
 
-      AddMenu(data)
+      UpdateMenu(id ,data)
         .then(res =>{
           const response = res.data.message;
-          console.log(response);
-          toast.dark(response)
           navigate('/dashboard/merchant/menu', { replace: true });
+          console.log(response);
+          toast.dark(response);
         })
         .catch((err)=>{
-          const errors = err.response.data.message;
-          // const ddd = err.response.data.errors.name[0];
-          toast.error(errors)
+          const response = err.response.data.message;
+          toast.error(response)
+          console.log(response)
         })
+     
     }
   });
 
@@ -228,7 +251,7 @@ const removeFields = (index) => {
         <Typography variant="h4" gutterBottom>
           Update Menu Item
         </Typography>
-
+    
         <Grid
             container
             // item xs={8} 
@@ -254,7 +277,7 @@ const removeFields = (index) => {
 
                           <TextField
                               fullWidth
-                              type="text"
+                              type="number"
                               label="Price"
                               {...getFieldProps('price')}
                               error={Boolean(touched.price && errors.price)}
@@ -265,17 +288,34 @@ const removeFields = (index) => {
                               // multiple
                               options={foodList}
                               getOptionLabel = {(option)=> option.food_type_name}
-                              renderInput = {(option)=> <TextField {...option} label ="Food Type" /> }
+                              renderInput = {(option)=> 
+                                  <TextField {...option} 
+                                      label ="Food Type" 
+                                      {...getFieldProps('food_type_id')}
+                                      value = {values?.food_type_name}
+                                      error={Boolean(touched.food_type_id && errors.food_type_id)}
+                                      helperText={touched.food_type_id && errors.food_type_id}
+                                  /> }
                               onChange = {(event, value)=> setSelectedFoodList(value) }
 
                           />  
 
                           <Autocomplete
-                              // multiple
                               options={cuisineList}
-                              // defaultValue = {["new", "old"]}
+                              // defaultValue = { SingleMenu.cuisine?.name}
                               getOptionLabel = {(option)=> option.cuisine_name}
-                              renderInput = {(option)=> <TextField {...option} label ="Cuisine Type" /> }
+                              renderInput = {(option)=> 
+                                  <TextField 
+                                      {...option} 
+                                      label ="Cuisine Type"
+                                      value = { SingleMenu.cuisine?.name}
+                                      {...getFieldProps('cuisine_type_id')}
+                                      error={Boolean(touched.cuisine_type_id && errors.cuisine_type_id)}
+                                      helperText={touched.cuisine_type_id && errors.cuisine_type_id} 
+
+
+
+                                  /> }
                               onChange = {(event, value)=> setSelectedCuisineList(value) }
                           />
                           <Autocomplete
@@ -283,7 +323,15 @@ const removeFields = (index) => {
                               options={categoryList}
                               // defaultValue = {["new", "old"]}
                               getOptionLabel = {(option)=> option.name}
-                              renderInput = {(option)=> <TextField {...option} label ="Category" /> }
+                              renderInput = {(option)=> 
+                                  <TextField 
+                                    {...option} 
+                                    label ="Category" 
+                                    
+                                    {...getFieldProps('category_id')}
+                                    error={Boolean(touched.category_id && errors.category_id)}
+                                    helperText={touched.category_id && errors.category_id} 
+                                    /> }
                               onChange = {(event, value)=> setSelectedCategoryList(value) }
                           />
 
@@ -321,6 +369,7 @@ const removeFields = (index) => {
                         />
 
                           <h4 style={{ textAlign : "center" }} > Variation </h4>
+                         
                           <Stack
                             direction="row"
                             justifyContent="space-between"
@@ -330,72 +379,63 @@ const removeFields = (index) => {
 
                             <TextField
                               fullWidth
-                              type="text"
+                              type="number"
                               label="Half"
                               {...getFieldProps('variationHalf')}
                               error={Boolean(touched.variationHalf && errors.variationHalf)}
                               helperText={touched.variationHalf && errors.variationHalf}
-                          />
-                           <TextField
-                              fullWidth
-                              type="text"
-                              label="Full"
-                              {...getFieldProps('variationFull')}
-                              error={Boolean(touched.variationFull && errors.variationFull)}
-                              helperText={touched.variationFull && errors.navariationFullme}
-                          />
-
+                              
+                            />
+                            <TextField
+                                fullWidth
+                                type="number"
+                                label="Full"
+                                {...getFieldProps('variationFull')}
+                                error={Boolean(touched.variationFull && errors.variationFull)}
+                                helperText={touched.variationFull && errors.navariationFullme}
+                            />
                           </Stack>
-                <h4 style={{ textAlign : "center" }} > Addons </h4>
-{inputFields.map((input, index) => {
-          return (
-            <div key={index}>
 
-          <Stack
-                  direction="row"
-                  justifyContent="space-between"
-                  alignItems="flex-start"
-                  spacing={2}
-                >
-              <TextField
-                
-                name='name'
-                placeholder='Name'
-                value={input.name}
-                onChange={event => handleFormChange(index, event)}
-              />
-             
-              <TextField
-             
-                name='price'
-                placeholder='Price'
-                value={input.price}
-                onChange={event => handleFormChange(index, event)}
-              />
-
-              </Stack>
-            </div>
-          )
-        })}
-      <Stack
-        direction="row"
-        justifyContent="space-between"
-        alignItems="flex-start"
-        margin={0}
-      >
-      {/* <Button >Add More..</Button>  */}
-      <IconButton onClick={addFields} aria-label="delete" size="large">
-        <AddCircleIcon/>
-      </IconButton>
-      {/* <Button onClick={(index) => removeFields(index)}>Remove</Button> */}
-      <IconButton onClick={(index) => removeFields(index)} aria-label="delete" size="large">
-        <DeleteIcon />
-      </IconButton>
-      </Stack>
-
-                    
-
-
+                          <h4 style={{ textAlign : "center" }} > Addons </h4>
+                          {inputFields.map((input, index) => {
+                            return (
+                                <div key={index}>
+                                  <Stack
+                                    direction="row"
+                                    justifyContent="space-between"
+                                    alignItems="flex-start"
+                                    spacing={2}
+                                  >
+                                      <TextField
+                                        name='name'
+                                        placeholder='Name'
+                                        value={input.name}
+                                        onChange={event => handleFormChange(index, event)}
+                                      />
+                                      <TextField
+                                        name='price'
+                                        type= "number"
+                                        placeholder='Price'
+                                        value={input.price}
+                                        onChange={event => handleFormChange(index, event)}
+                                      />
+                                  </Stack>
+                                </div>
+                              )
+                          })}
+                        <Stack
+                          direction="row"
+                          justifyContent="space-between"
+                          alignItems="flex-start"
+                          margin={0}
+                        >
+                          <IconButton onClick={addFields} aria-label="delete" size="large">
+                            <AddCircleIcon/>
+                          </IconButton>
+                          <IconButton onClick={(index) => removeFields(index)} aria-label="delete" size="large">
+                            <DeleteIcon />
+                          </IconButton>
+                        </Stack>
 
                         <LoadingButton
                             fullWidth
@@ -408,7 +448,6 @@ const removeFields = (index) => {
                         </LoadingButton>
                         </Stack>
                     </Form>
-                    
                 </FormikProvider>
             </Grid>   
          </Grid>
