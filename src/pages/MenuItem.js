@@ -168,7 +168,7 @@ export default function MenuItem() {
           <Button
             variant='contained'
             component={RouterLink}
-            to="/dashboard/merchant/menu/create"
+            to= {`/dashboard/merchant/menu/create/${id}`}
             startIcon={<Iconify icon="eva:plus-fill" />}
           >
             Create Item

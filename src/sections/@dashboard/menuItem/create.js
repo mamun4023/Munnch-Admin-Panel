@@ -1,7 +1,7 @@
 import * as Yup from 'yup';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Link as RouterLink, useNavigate } from 'react-router-dom';
+import { Link as RouterLink, useNavigate, useParams } from 'react-router-dom';
 import { Grid, Typography, Autocomplete } from '@mui/material';
 import { useFormik, Form, FormikProvider } from 'formik';
 import { useTheme } from '@mui/material/styles';
@@ -63,6 +63,7 @@ const MenuProps = {
 
 
 export default function Create() {
+  const {id} = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const loading = useSelector(state => state.AddMenu.loading);
@@ -182,7 +183,7 @@ const removeFields = (index) => {
       category_id : selectedCategory?.id,
       food_item_type  : '',
       food_item_estimate_days : '',
-      restaurant_id : '',
+      restaurant_id : id,
       addons : '',
       variationHalf : '',
       variationFull : ''
@@ -414,11 +415,16 @@ const removeFields = (index) => {
                           <IconButton onClick={addFields} aria-label="delete" size="large">
                             <AddCircleIcon/>
                           </IconButton>
-                          <IconButton onClick={(index) => removeFields(index)} aria-label="delete" size="large">
-                            <DeleteIcon />
-                          </IconButton>
+                          {inputFields.length ===0 ? 
+                            <IconButton disabled  onClick={(index) => removeFields(index)} aria-label="delete" size="large">
+                              <DeleteIcon />
+                            </IconButton>
+                          : 
+                            <IconButton  onClick={(index) => removeFields(index)} aria-label="delete" size="large">
+                              <DeleteIcon />
+                            </IconButton>
+                          }
                         </Stack>
-
                         <LoadingButton
                             fullWidth
                             size="large"

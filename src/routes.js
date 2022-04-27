@@ -80,7 +80,7 @@ export default function Router() {
         { path: 'merchant/store/update/:id', element : <UpdateStore/>}, 
 
         { path: 'merchant/menu/:id', element : <MenuItem/>},
-        { path: 'merchant/menu/create', element : <CreateMenuItem/>},
+        { path: 'merchant/menu/create/:id', element : <CreateMenuItem/>},
         { path: 'merchant/menu/view/:id', element : <ViewMenuItem/>},
         { path: 'merchant/menu/image', element : <UploadImage/>},
         { path: 'merchant/menu/update/:id', element : <UpdateItem/>},
