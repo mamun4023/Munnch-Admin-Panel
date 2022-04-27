@@ -4,6 +4,7 @@ import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { Grid, Typography, Autocomplete } from '@mui/material';
 import { useFormik, Form, FormikProvider } from 'formik';
 import {useDispatch, useSelector} from 'react-redux';
+import { toast } from 'material-react-toastify';
 // material
 import {
   Link,
@@ -36,10 +37,8 @@ const MenuProps = {
 function Create() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const loading = useSelector(state => state.AddMerchant.loading);
-  const success = useSelector(state => state.AddMerchant.success)
+  const [loading, setLoading] = useState(false);
 
-  console.log("success",success)
 
   const MerchantSchema = Yup.object().shape({
     personal_name: Yup.string().required('Name is required'),
@@ -64,12 +63,22 @@ function Create() {
   
     validationSchema: MerchantSchema,
     onSubmit: (values) => {
-      dispatch(AddMerchant(values))
+      
+      setLoading(true);
+      AddMerchant(values)
+        .then(res =>{
+          const response = res.data.message;
+          console.log(response);
+          navigate('/dashboard/merchant', { replace: true });
+          toast.dark(response)
+          setLoading(false);
+        })
+        .catch((err)=>{
+          const errors = err.response.data.message;
+          setLoading(false);
+          toast.error(errors)
+        })
    
-      /// solve redirect erros
-      if(success){
-         navigate('/dashboard/merchant', { replace: true });
-      }
     }
   });
 

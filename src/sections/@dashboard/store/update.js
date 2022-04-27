@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
+import { toast } from 'material-react-toastify';
 
 // material
 import {
@@ -37,16 +38,13 @@ function Update() {
   const {id} = useParams();
   const [filter, setFilter] = useState('')
   const dispatch = useDispatch();
-  const loading = useSelector(state => state.UpdateStore.loading);
-
+  const[loading, setLoading] = useState(false);
 
 
   const[foodList, setFoodList] = useState([]);
   const[selectedFoodList, setSelectedFoodList] = useState();
   const[cuisineList, setCuisineList] = useState([]);
   const[selectedCuisine, setSelectedCuisineList] = useState();
-
-
 
 
 
@@ -102,14 +100,35 @@ function Update() {
   console.log(address);
 
 
+  const StoreSchema = Yup.object().shape({
+    store_name: Yup.string().required('Store Name is required'),
+    description: Yup.string().required('Description is required'),
+    max_delivery_km : Yup.string().required("Delivery KM is required"),
+    contact_no : Yup.string().required("Contact Number is required").min(10,"Must be 10 digit").max(10,"Must be 10 digit"),
+    // country : Yup.string().required('Country is required'),
+    // city : Yup.string().required('City is required'),
+    saturday_start_time : Yup.string().required("Start Time is required"),
+    saturday_no_of_hours : Yup.string().required("Hour is required"),
 
-  // const StoreSchema = Yup.object().shape({
-  //   store_name: Yup.string().required('Store Name is required'),
-  //   description: Yup.string().required('Description is required'),
-  //   max_delivery_km : Yup.string().required("Delivery KM is required"),
-  //   contact_no : Yup.string().required("Contact Number is required").min(10,"Must be 10 digit").max(10,"Must be 10 digit"),
+    sunday_start_time : Yup.string().required("Start Time is required"),
+    sunday_no_of_hours : Yup.string().required("Hour is required"),
 
-  // });
+    monday_start_time : Yup.string().required("Start Time is required"),
+    monday_no_of_hours : Yup.string().required("Hour is required"),
+
+    tuesday_start_time : Yup.string().required("Start Time is required"),
+    tuesday_no_of_hours : Yup.string().required("Hour is required"),
+
+    wednesday_start_time : Yup.string().required("Start Time is required"),
+    wednesday_no_of_hours : Yup.string().required("Hour is required"),
+
+    thursday_start_time : Yup.string().required("Start Time is required"),
+    thursday_no_of_hours : Yup.string().required("Hour is required"),
+
+    friday_start_time : Yup.string().required("Start Time is required"),
+    friday_no_of_hours : Yup.string().required("Hour is required"),
+
+  });
 
   const formik = useFormik({
     enableReinitialize : true,
@@ -131,7 +150,6 @@ function Update() {
       monday_start_time : SingleStoreData.operational_hours[0]? moment(SingleStoreData.operational_hours[1].start_time,  'hh:mm:ss').format('hh:mm:ss') : "",
       monday_no_of_hours : '',
       
-
       tuesday_start_time : SingleStoreData.operational_hours[0]? moment(SingleStoreData.operational_hours[0].start_time,  'hh:mm:ss').format('hh:mm:ss') : "",
       tuesday_no_of_hours : '',
 
@@ -150,7 +168,7 @@ function Update() {
       facebook : SingleStoreData.social_links?SingleStoreData.social_links.facebook : "" ,
 
     },
-    // validationSchema: StoreSchema,
+    validationSchema: StoreSchema,
     onSubmit: (values) => {
       console.log(values)
 
@@ -170,7 +188,6 @@ function Update() {
         FoodIds.push(obj)
       }
   
-
       const data = {
         "restaurant_name" : values.store_name,
         "description" : values.description,
@@ -187,35 +204,35 @@ function Update() {
             },
         "operational_hours" : [
             {
+              "day" : "Saturday",
+              "start_time": moment(values.saturday_start_time, 'hh:mm:ss').format('hh:mm:ss') ,
+              "no_of_hours": values.saturday_no_of_hours
+            },
+            {
                 "day" : "Sunday",
-                "start_time": values.sunday_start_time,
+                "start_time":  moment(values.sunday_start_time,'hh:mm:ss').format('hh:mm:ss') ,
                 "no_of_hours": values.sunday_no_of_hours
             },
             {
                 "day" : "Monday",
-                "start_time": values.monday_start_time,
+                "start_time":  moment(values.monday_start_time, 'hh:mm:ss').format('hh:mm:ss'),
                 "no_of_hours": values.monday_no_of_hours
             },
             {
                 "day" : "Tuesday",
-                "start_time": values.tuesday_start_time,
+                "start_time": moment(values.tuesday_start_time, 'hh:mm:ss').format('hh:mm:ss'),
                 "no_of_hours": values.tuesday_no_of_hours,
             },
             {
                 "day" : "Thursday",
-                "start_time": values.thursday_start_time,
+                "start_time": moment(values.thursday_start_time, 'hh:mm:ss').format('hh:mm:ss'),
                 "no_of_hours": values.thursday_no_of_hours
             },
             {
                 "day" : "Friday",
-                "start_time": values.friday_start_time,
+                "start_time":  moment(values.friday_start_time, 'hh:mm:ss').format('hh:mm:ss'),
                 "no_of_hours": values.friday_no_of_hours
             },
-            {
-                "day" : "Saturday",
-                "start_time": values.saturday_start_time,
-                "no_of_hours": values.saturday_no_of_hours
-            }
         ],
         "social_links" : {
             "website" : values.website,
@@ -226,13 +243,25 @@ function Update() {
         "cuisines" : CuisineIds
     }
 
-      dispatch(UpdateStore(id, data))
-      // navigate(`/dashboard/merchant/store/${id}`, { replace: true });
+    console.log("Submitting data",data)
+    
+    setLoading(true);
+    UpdateStore(id, data)
+      .then(res =>{
+        const response = res.data.message;
+        setLoading(false);
+        navigate(`/dashboard/merchant/store/${id}`, { replace: true });
+        toast.dark(response);
+      })
+      .catch((err)=>{
+        const response = err.response.data.errors.cuisine_name[0];
+        toast.dark(response);
+        setLoading(false);
+      }) 
     }
-  });
+});
 
   const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = formik;
-
 
   return(
         <>
@@ -261,7 +290,6 @@ function Update() {
                             error={Boolean(touched.store_name && errors.store_name)}
                             helperText={touched.store_name && errors.store_name}
                         />
-
                         <TextField
                             fullWidth
                             type="text"
@@ -272,7 +300,6 @@ function Update() {
                             error={Boolean(touched.description && errors.description)}
                             helperText={touched.description && errors.description}
                         />
-
 
                           <TextField
                             fullWidth
@@ -307,7 +334,6 @@ function Update() {
                             error={Boolean(touched.city && errors.city)}
                             helperText={touched.city && errors.city}
                           />  
-
 
                           <PlacesAutocomplete
                               value= {latllogAddress}

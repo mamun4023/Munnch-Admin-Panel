@@ -22,7 +22,7 @@ export default function BasicTable({timing}) {
             <TableCell align="right">Close At</TableCell>
           </TableRow>
         </TableHead>
-        {timing.length == 0? <Box padding={10} paddingLeft = {30}  textAlign= "center"> There is no timing data </Box> : <>
+        {timing.length == 0? <TableCell align="right" colSpan={2} >  </TableCell> : <>
         <TableBody>
         {timing.map(data=> 
             <TableRow
@@ -33,9 +33,7 @@ export default function BasicTable({timing}) {
                    <TableCell align="right"> {data.closing_time} </TableCell>
                  </TableRow>
            )}
-      
         </TableBody>
-
         </>}
       </Table>
     </TableContainer>

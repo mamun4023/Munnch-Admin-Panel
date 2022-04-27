@@ -9,7 +9,6 @@ const Input = styled('input')({
     display: 'none',
   });
 
-  
 function ImageUpload() {
     const[image, setImage] = useState()
 

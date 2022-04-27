@@ -113,7 +113,7 @@ export default function Store() {
                         </Typography>
                         
                         <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                          {StoreData.description? StoreData.description : "empty" }
+                          {StoreData.description? StoreData.description : <div  style={{ textAlign : "center"}} > empty </div> }
                         </Typography>
                     </Card>
                     <Card> 
@@ -122,60 +122,43 @@ export default function Store() {
                         </Typography>
                         {StoreData.images? <>
 
-    <ImageList >
-     
-    
-      {StoreData.images.map((item) => ( 
-        <> 
-
-        <ImageListItem key={item.id}>
-          <img
-            src={item.image}
-            // srcSet={`${item.id}}
-            // alt={item.title}
-            loading="lazy"
-          />
-          
-          <ImageListItemBar
-            actionIcon={
-              <IconButton
-                onClick={()=> ImageDeleteHandler(id, item.id)}
-                sx={{ color: 'rgba(255, 255, 255, 0.80)' }}
-                // aria-label={`info about ${item.id}`}
-              >
-                <DeleteIcon color='error' />
-              </IconButton>
-            }
-          />
-        </ImageListItem>
-        </>
-      ))}
-       <ImageListItem >
-        <Stack direction="row" alignItems="center" spacing={2}>
-            <label htmlFor="icon-button-file">
-            <Input
-              onChange={UploadHandler}
-            accept="image/*" id="icon-button-file" type="file" />
-            <IconButton  color="primary" aria-label="upload picture" component="span">
-              <AddPhotoAlternateIcon style={{ margin : "90px", fontSize : "100px" }}  color='primary' />
-            </IconButton>
-          </label>
-       </Stack>
-      </ImageListItem>
-    </ImageList>
-
-
-
-
-
-
-
-
-
-
-
-
-
+                        <ImageList >
+                          {StoreData.images.map((item) => ( 
+                            <> 
+                            <ImageListItem key={item.id}>
+                              <img
+                                src={item.image}
+                                // srcSet={`${item.id}}
+                                // alt={item.title}
+                                loading="lazy"
+                              />
+                              <ImageListItemBar
+                                actionIcon={
+                                  <IconButton
+                                    onClick={()=> ImageDeleteHandler(id, item.id)}
+                                    sx={{ color: 'rgba(255, 255, 255, 0.80)' }}
+                                    // aria-label={`info about ${item.id}`}
+                                  >
+                                    <DeleteIcon color='error' />
+                                  </IconButton>
+                                }
+                              />
+                            </ImageListItem>
+                            </>
+                          ))}
+                          <ImageListItem >
+                            <Stack direction="row" alignItems="center" spacing={2}>
+                                <label htmlFor="icon-button-file">
+                                <Input
+                                  onChange={UploadHandler}
+                                accept="image/*" id="icon-button-file" type="file" />
+                                <IconButton  color="primary" aria-label="upload picture" component="span">
+                                  <AddPhotoAlternateIcon style={{ margin : "90px", fontSize : "100px" }}  color='primary' />
+                                </IconButton>
+                              </label>
+                          </Stack>
+                          </ImageListItem>
+                        </ImageList>
                       
                          </>: "empty"}
                     </Card>
@@ -216,7 +199,6 @@ export default function Store() {
                         </Card>
                     </Grid>
                  </Grid>
-               
       </Container>
     </Page>
   );

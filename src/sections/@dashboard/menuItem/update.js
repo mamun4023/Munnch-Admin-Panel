@@ -42,6 +42,10 @@ import {FetchCuisineTypeList , FetchFoodTypeList, CategoryList} from '../../../r
 // const Variations = ['Variation 1', 'Variation 2','Variation 3','Variation 4', 'Variation 5']
 
 
+
+const top100Films = ['matar']
+
+
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
 const MenuProps = {
@@ -68,21 +72,25 @@ export default function Update() {
   const {id} = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const loading = useSelector(state => state.AddMenu.loading);
+  const [SingleMenu, setSingleMenu] = useState([]);
+  const [cusine, setCuisine] = useState();
+  const[loading, setLoading] = useState(false);
+
+  const SingleMenuData = (id)=>{
+    FetchSingleMenu(id)
+        .then(res =>{
+                const response = res.data.data;
+                setSingleMenu(response);
+                setCuisine(response.cuisine)
+                // console.log(response);
+            })
+  }
 
   useEffect(()=>{
-    dispatch(FetchSingleMenu(id))
+    SingleMenuData(id);
   }, [])
 
-
-  const SingleMenu = useSelector(state => state.FetchSingle.data);
-
-  setTimeout(()=>{
-
-  }, 2000)
-
-  // console.log("Single Menu",SingleMenu?SingleMenu.cuisine.name : "")
-
+  console.log("single Menu", SingleMenu);
 
   const [inputFields, setInputFields] = useState([
     { name: '', price: '' },
@@ -199,7 +207,7 @@ const removeFields = (index) => {
       category_id : selectedCategory?.id,
       food_item_type  : '',
       food_item_estimate_days : SingleMenu?.food_item_estimate_days,
-      restaurant_id : '',
+      restaurant_id : id,
       addons : '',
       variationHalf : '',
       variationFull : ''
@@ -208,7 +216,6 @@ const removeFields = (index) => {
     validationSchema: MenuItemSchema,
     onSubmit: (values) => {
       // console.log(values)
-
       const data = {
         name : values.name,
         price : values.price,
@@ -232,13 +239,13 @@ const removeFields = (index) => {
         .then(res =>{
           const response = res.data.message;
           navigate('/dashboard/merchant/menu', { replace: true });
-          console.log(response);
+          // console.log(response);
           toast.dark(response);
         })
         .catch((err)=>{
           const response = err.response.data.message;
           toast.error(response)
-          console.log(response)
+          // console.log(response)
         })
      
     }
@@ -268,6 +275,9 @@ const removeFields = (index) => {
                         <Stack style={{ width : "450px" }} spacing={3}>
                           <TextField
                               fullWidth
+                              InputLabelProps={{
+                                shrink: true,
+                              }}
                               type="text"
                               label="Name"
                               {...getFieldProps('name')}
@@ -277,6 +287,9 @@ const removeFields = (index) => {
 
                           <TextField
                               fullWidth
+                              InputLabelProps={{
+                                shrink: true,
+                              }}
                               type="number"
                               label="Price"
                               {...getFieldProps('price')}
@@ -285,9 +298,10 @@ const removeFields = (index) => {
                           />
 
                           <Autocomplete
-                              // multiple
+                              
                               options={foodList}
-                              getOptionLabel = {(option)=> option.food_type_name}
+                              getOptionLabel = {(option)=> option.food_type_name }
+                              defaultValue={"sou"} 
                               renderInput = {(option)=> 
                                   <TextField {...option} 
                                       label ="Food Type" 
@@ -357,10 +371,10 @@ const removeFields = (index) => {
                             helperText={touched.food_item_estimate_days && errors.food_item_estimate_days}
                         /> 
 
-
                       
                         <TextField
                             fullWidth
+                            disabled
                             type="number"
                             label="Restaurant ID"
                             {...getFieldProps('restaurant_id')}

@@ -54,7 +54,7 @@ const TABLE_HEAD = [
     alignRight: false 
   },
   { 
-    label: 'STATUS', 
+    label: 'ACCOUNT STATUS', 
     id: 'status',
     alignRight: false 
   },
@@ -208,7 +208,7 @@ export default function Merchant() {
                 <TableBody>
                   {filteredUsers
                     .map((row) => {
-                      const { id, personal_name, email, phone, status, is_verified } = row;
+                      const { id, personal_name, email, phone, status, is_verified, is_approved } = row;
                       return (
                         <TableRow
                           hover
@@ -227,7 +227,7 @@ export default function Merchant() {
                           <TableCell align="left">
                             <Switch
                               onClick={()=> ApprovalToggleHandler(id)}
-                              defaultChecked = {is_verified == 1?true: false}
+                              defaultChecked = {is_approved == 1?true: false}
                             />
                           </TableCell>
                           <TableCell align="right">

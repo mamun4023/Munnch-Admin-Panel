@@ -39,7 +39,6 @@ import {FetchCuisineTypeList , FetchFoodTypeList, CategoryList} from '../../../r
 // const Addons = ['Addon 1','Addon 2','Addon 3','Addon 4','Addon 5'];
 // const Variations = ['Variation 1', 'Variation 2','Variation 3','Variation 4', 'Variation 5']
 
-
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
 const MenuProps = {
@@ -51,7 +50,6 @@ const MenuProps = {
   },
 };
 
-
 // function getStyles(name, personName, theme) {
 //   return {
 //     fontWeight:
@@ -60,7 +58,6 @@ const MenuProps = {
 //         : theme.typography.fontWeightMedium,
 //   };
 // }
-
 
 export default function Create() {
   const {id} = useParams();
@@ -71,7 +68,6 @@ export default function Create() {
   const [inputFields, setInputFields] = useState([
     { name: '', price: '' },
   ])
-
 
   console.log(inputFields)
 
@@ -95,7 +91,6 @@ const removeFields = (index) => {
   setInputFields(data)
 }
 
-
   const[foodList, setFoodList] = useState([]);
   const[selectedFoodList, setSelectedFoodList] = useState();
   const[cuisineList, setCuisineList] = useState([]);
@@ -103,7 +98,6 @@ const removeFields = (index) => {
   const[categoryList, setCategoryList] = useState([]);
   const[selectedCategory, setSelectedCategoryList] = useState();
 
-  
 
       // console.log("selectedFoodList", selectedFoodList)
  
@@ -160,8 +154,6 @@ const removeFields = (index) => {
   //   );
   // };
 
-
-
   const MenuItemSchema = Yup.object().shape({
     name: Yup.string().required('Name is required'),
     price: Yup.string().required('Price is required'),
@@ -217,12 +209,12 @@ const removeFields = (index) => {
           const response = res.data.message;
           console.log(response);
           toast.dark(response)
-          navigate('/dashboard/merchant/menu', { replace: true });
+          navigate(`/dashboard/merchant/menu/${id}`, { replace: true });
         })
         .catch((err)=>{
           const errors = err.response.data.message;
-          // const ddd = err.response.data.errors.name[0];
-          toast.error(errors)
+          const ddd = err.response.data.errors?.name[0];
+          toast.error(ddd?ddd : errors)
         })
     }
   });
@@ -296,8 +288,6 @@ const removeFields = (index) => {
                                       error={Boolean(touched.cuisine_type_id && errors.cuisine_type_id)}
                                       helperText={touched.cuisine_type_id && errors.cuisine_type_id} 
 
-
-
                                   /> }
                               onChange = {(event, value)=> setSelectedCuisineList(value) }
                           />
@@ -329,8 +319,6 @@ const removeFields = (index) => {
                             <MenuItem value= "1">Food Item</MenuItem>
                             <MenuItem value= "2">Pre Order Item</MenuItem>
                         </TextField> 
-
-                          
                         <TextField
                             fullWidth
                             type="number"
@@ -340,8 +328,6 @@ const removeFields = (index) => {
                             helperText={touched.food_item_estimate_days && errors.food_item_estimate_days}
                         /> 
 
-
-                      
                         <TextField
                             fullWidth
                             type="number"

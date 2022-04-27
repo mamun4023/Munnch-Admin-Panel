@@ -48,18 +48,18 @@ export default function UserMoreMenu({id, status, filter, page, limit, order}) {
           <ListItemText primary="Delete" primaryTypographyProps={{ variant: 'body2' }} />
         </MenuItem>
 
-        <MenuItem component={RouterLink} to= {`/dashboard/merchant/view/${id}`} sx={{ color: 'text.secondary' }}>
+        {/* <MenuItem component={RouterLink} to= {`/dashboard/merchant/view/${id}`} sx={{ color: 'text.secondary' }}>
           <ListItemIcon>
             <Iconify icon="carbon:view-filled" width={24} height={24} />
           </ListItemIcon>
           <ListItemText primary="View" primaryTypographyProps={{ variant: 'body2' }} />
-        </MenuItem>
+        </MenuItem> */}
 
         <MenuItem component={RouterLink} to= {`/dashboard/merchant/update/${id}`} sx={{ color: 'text.secondary' }}>
           <ListItemIcon>
             <Iconify icon="clarity:note-edit-solid" width={24} height={24} />
           </ListItemIcon>
-          <ListItemText primary="Update" primaryTypographyProps={{ variant: 'body2' }} />
+          <ListItemText primary="Edit" primaryTypographyProps={{ variant: 'body2' }} />
         </MenuItem>
        
         <MenuItem component={RouterLink} to= { `/dashboard/merchant/menu/${id}`} sx={{ color: 'text.secondary' }}>

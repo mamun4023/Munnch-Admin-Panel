@@ -4,7 +4,7 @@ import {Link as RouterLink, useParams} from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
-import { Stack, Box, IconButton, Grid, CardActionArea } from '@mui/material';
+import { Stack, Box, IconButton, Grid, CardActionArea, Button } from '@mui/material';
 import Iconify from '../../../components/Iconify';
 import { FetchSingleMerchant } from '../../../redux/merchant/fetchSingle/action';
 import Spinner from 'src/components/Spinner';
@@ -23,9 +23,19 @@ function View() {
     console.log("Merchant data", MerchantData)
     return(
             <>
-                <Typography variant="h4" gutterBottom>
-                    Merchnat detailes
-                </Typography>
+                <Stack direction="row" alignItems="center" justifyContent="space-between" mb={1}>
+                    <Typography variant="h4" gutterBottom>
+                        Merchnat Details
+                    </Typography>
+                    <Button
+                        variant="contained"
+                        component={RouterLink}
+                        to= {`/dashboard/merchant/update/${id}`}
+                        startIcon={<Iconify icon="clarity:note-edit-solid" />}
+                    >
+                        Update Merchant
+                    </Button>
+                </Stack>  
 
                 {loading? <Spinner/> : <Box>
                 <Grid container spacing={2}>
