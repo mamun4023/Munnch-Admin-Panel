@@ -12,7 +12,6 @@ import Merchant from './pages/Merchant';
 import CreateMerchant from './sections/@dashboard/merchant/create';
 import ViewMerchant from './sections/@dashboard/merchant/view';
 import UpdateMerchant from './sections/@dashboard/merchant/Update';
-
 import MenuItem from './pages/MenuItem';
 import CreateMenuItem from './sections/@dashboard/menuItem/create';
 import ViewMenuItem from './sections/@dashboard/menuItem/view';
@@ -42,7 +41,8 @@ import Strings from './pages/String';
 import MerchantString from './sections/@dashboard/strings/merchant';
 import UserString from './sections/@dashboard/strings/user';
 import Profile from './pages/Profile';
-import Setting from './pages/Setting';
+import Settings from './pages/Settings';
+import UpdateSettings from './sections/@dashboard/settings/update';
 import Loyalty from './pages/Loyalty';
 import CreateLoyalty from './sections/@dashboard/loyalty/create';
 import UpdateLoyalty from './sections/@dashboard/loyalty/update';
@@ -100,7 +100,9 @@ export default function Router() {
         { path: "string/merchant", element : <MerchantString/>},
         { path: "string/user", element : <UserString/>},
         { path: "profile", element : <Profile/>},
-        { path: "setting", element : <Setting/>},
+        { path: "settings", element : <Settings/>},
+        { path: "settings/update", element : <UpdateSettings/>},
+        
         { path: 'banner/create', element : <BannerCreate/>},
         { path: 'banner/view/:id', element : <BannerView/>},
         { path: 'banner/update/:id', element : <BannerUpdate/>},

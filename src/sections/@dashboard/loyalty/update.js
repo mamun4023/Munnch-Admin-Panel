@@ -31,7 +31,7 @@ export default function Update() {
 
   const formik = useFormik({
     initialValues: {
-      type: '',
+      level: '',
     },
     validationSchema: LoginSchema,
     onSubmit: (values) => {
@@ -64,6 +64,14 @@ export default function Update() {
                     <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
                         <Stack style={{ width : "450px" }} spacing={3}>
                         <TextField
+                            fullWidth
+                            type="text"
+                            label="Level"
+                            {...getFieldProps('level')}
+                            error={Boolean(touched.level && errors.level)}
+                            helperText={touched.level && errors.level}
+                        />
+                         <TextField
                             fullWidth
                             type="text"
                             label="type"

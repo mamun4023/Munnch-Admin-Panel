@@ -73,7 +73,7 @@ export default function Update() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [SingleMenu, setSingleMenu] = useState([]);
-  const [cusine, setCuisine] = useState();
+  const [cusine, setCuisine] = useState(null);
   const[loading, setLoading] = useState(false);
 
   const SingleMenuData = (id)=>{
@@ -90,7 +90,7 @@ export default function Update() {
     SingleMenuData(id);
   }, [])
 
-  console.log("single Menu", SingleMenu);
+  console.log("single Menu", cusine);
 
   const [inputFields, setInputFields] = useState([
     { name: '', price: '' },
@@ -154,7 +154,6 @@ const removeFields = (index) => {
 
   useEffect(()=>{
     LoadListData();
-
   },[])
 
  
@@ -298,15 +297,14 @@ const removeFields = (index) => {
                           />
 
                           <Autocomplete
-                              
                               options={foodList}
                               getOptionLabel = {(option)=> option.food_type_name }
-                              defaultValue={"sou"} 
+                              defaultValue={[["ddd"]]} 
                               renderInput = {(option)=> 
                                   <TextField {...option} 
                                       label ="Food Type" 
                                       {...getFieldProps('food_type_id')}
-                                      value = {values?.food_type_name}
+                                      value = {"sou"}
                                       error={Boolean(touched.food_type_id && errors.food_type_id)}
                                       helperText={touched.food_type_id && errors.food_type_id}
                                   /> }
@@ -315,18 +313,22 @@ const removeFields = (index) => {
                           />  
 
                           <Autocomplete
+                              
                               options={cuisineList}
-                              // defaultValue = { SingleMenu.cuisine?.name}
+                              value={cusine}
+                              //  isOptionEqualToValue={(option, value) => option.id === value.id}
+                              // getOptionSelected={(option, value) => option.cuisine_name === value.name}
+                              isOptionEqualToValue={(option, value) => option.name === value.name}
                               getOptionLabel = {(option)=> option.cuisine_name}
                               renderInput = {(option)=> 
                                   <TextField 
                                       {...option} 
                                       label ="Cuisine Type"
-                                      value = { SingleMenu.cuisine?.name}
-                                      {...getFieldProps('cuisine_type_id')}
-                                      error={Boolean(touched.cuisine_type_id && errors.cuisine_type_id)}
-                                      helperText={touched.cuisine_type_id && errors.cuisine_type_id} 
-
+                                      // value = { SingleMenu.cuisine?.name}
+                                      // {...getFieldProps('cuisine_type_id')}
+                                      // error={Boolean(touched.cuisine_type_id && errors.cuisine_type_id)}
+                                      // helperText={touched.cuisine_type_id && errors.cuisine_type_id} 
+                                      variant="outlined"
 
 
                                   /> }

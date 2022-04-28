@@ -73,7 +73,11 @@ const sidebarConfig = [
     path: '/dashboard/notify',
     icon: getIcon('ic:baseline-notification-add')
   },
-
+  {
+    title: 'Settings',
+    path: '/dashboard/settings',
+    icon: getIcon('clarity:settings-solid')
+  },
   {
     title: 'Loyalty',
     path: '/dashboard/loyalty',

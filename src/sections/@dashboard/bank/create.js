@@ -32,6 +32,7 @@ function Create() {
   const BankSchema = Yup.object().shape({
     name : Yup.string().required('Bank Name is required'),
     is_popular: Yup.string().required('Popularity is required'),
+    image : Yup.mixed().required("Image is required")
   });
 
 
@@ -39,20 +40,17 @@ function Create() {
     initialValues: {
       name : '',
       is_popular : '',
+      image : null
     },
     validationSchema: BankSchema,
 
     onSubmit: (values) => {
       console.log(values)
 
-      if(image == undefined){
-         setFileValidation(true)
-      }
-
       const data = new FormData();
       data.append('name', values.name);
       data.append('is_popular', values.is_popular);
-      data.append('image', image)
+      data.append('image', values.image)
 
       setLoading(true)
       AddBank(data)
@@ -113,8 +111,9 @@ function Create() {
                         <TextField
                             fullWidth
                             type="file"
-                            onChange={(e)=> setImage(e.target.files[0])}
-                            error={Boolean(fileValidation)}
+                            onChange={ev=>{ formik.setFieldValue("image",ev.target.files[0]) }} 
+                            error={Boolean(touched.image && errors.image)}
+                            helperText={touched.image && errors.image}
                         />
                         <LoadingButton
                             fullWidth

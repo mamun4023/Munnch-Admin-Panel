@@ -105,14 +105,14 @@ export default function Banner() {
     setBannerStatus("1");
     setPage(1);
     setRowsPerPage(5);
-    setOrder('asc')
+    setOrder('desc')
   }
 
   const InactiveStatusHandler = ()=>{
     setBannerStatus("0");
     setPage(1);
     setRowsPerPage(5);
-    setOrder('asc')
+    setOrder('desc')
   }
 
   useEffect(()=>{

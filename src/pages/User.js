@@ -121,14 +121,14 @@ export default function Banner() {
     setUserStatus("1");
     setPage(1);
     setRowsPerPage(5);
-    setOrder('asc')
+    setOrder('desc')
   }
 
   const InactiveStatusHandler = ()=>{
     setUserStatus("0");
     setPage(1);
     setRowsPerPage(5);
-    setOrder('asc')
+    setOrder('desc')
   }
 
   useEffect(()=>{

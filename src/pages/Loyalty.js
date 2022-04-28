@@ -1,6 +1,6 @@
 import { filter } from 'lodash';
 import { sentenceCase } from 'change-case';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import { IconButton } from '@mui/material';
 import PersonAddDisabledIcon from '@mui/icons-material/PersonAddDisabled';
@@ -29,7 +29,7 @@ import Scrollbar from '../components/Scrollbar';
 import Iconify from '../components/Iconify';
 import SearchNotFound from '../components/SearchNotFound';
 import { LoyaltyListHead, LoyaltyListToolbar, LoyaltyMoreMenu } from '../sections/@dashboard/loyalty';
-
+import {GetLoyaltyImageList} from '../redux/loyalty/actions';
 // ----------------------------------------------------------------------
 
 const Data = [
@@ -64,23 +64,13 @@ const Data = [
 
 const TABLE_HEAD = [
   { 
-    label: 'ID',
+    label: 'Level',
     id: 'id', 
     alignRight: false 
   },
   { 
-    label: 'Royalty Type',
-    id: 'type', 
-    alignRight: false 
-  },
-  {
-    label: 'Updated', 
-    id: 'createAt', 
-    alignRight: false 
-  },
-  {
-    label: 'Created', 
-    id: 'createAt', 
+    label: 'Image',
+    id: 'image', 
     alignRight: false 
   },
 ];
@@ -123,6 +113,23 @@ export default function Loyalty() {
   const [orderBy, setOrderBy] = useState('id');
   const [filterName, setFilterName] = useState('');
   const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [LoyaltyList, setLoyaltyList] = useState([]);
+
+
+  const FetchData = ()=>{
+    GetLoyaltyImageList()
+      .then(res =>{
+          const response = res.data.data.level_images_list;
+          setLoyaltyList(response)
+
+      })
+  }
+
+  useEffect(()=>{
+    FetchData();
+  }, [])
+  
+  console.log(LoyaltyList)
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -144,7 +151,7 @@ export default function Loyalty() {
   };
 
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - Data.length) : 0;
-  const filteredUsers = applySortFilter(Data, getComparator(order, orderBy), filterName);
+  const filteredUsers = applySortFilter(LoyaltyList, getComparator(order, orderBy), filterName);
   const isUserNotFound = filteredUsers.length === 0;
 
   return (
@@ -160,15 +167,15 @@ export default function Loyalty() {
             to="/dashboard/loyalty/create"
             startIcon={<Iconify icon="eva:plus-fill" />}
           >
-            Create Loyalty
+            Add Image
           </Button>
         </Stack>
         <Card>
-          <LoyaltyListToolbar
+          {/* <LoyaltyListToolbar
             numSelected={selected.length}
             filterName={filterName}
             onFilterName={handleFilterByName}
-          />
+          /> */}
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
               <Table>
@@ -185,23 +192,19 @@ export default function Loyalty() {
                   {filteredUsers
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     .map((row) => {
-                      const { id, type, updateAt,  createAt } = row;
-                      const isItemSelected = selected.indexOf(type) !== -1;
+                      const { id, image } = row;
                       return (
                         <TableRow
                           hover
-                          key={id}
-                          tabIndex={-1}
-                          role="checkbox"
-                          selected={isItemSelected}
-                          aria-checked={isItemSelected}
+    
                         >
                           <TableCell align="left">{id}</TableCell>
-                          <TableCell align="left">{type}</TableCell>
-                          <TableCell align="left">{updateAt}</TableCell>
-                          <TableCell align="left">{createAt}</TableCell>   
+                          
+                          <TableCell align="left">
+                              <Avatar  variant="square" style={{width : "70px"}} src= {image} />
+                            </TableCell> 
                           <TableCell align="right">
-                            <LoyaltyMoreMenu />
+                            {/* <LoyaltyMoreMenu /> */}
                           </TableCell>
                         </TableRow>
                       );
@@ -224,7 +227,7 @@ export default function Loyalty() {
               </Table>
             </TableContainer>
           </Scrollbar>
-          <TablePagination
+          {/* <TablePagination
             rowsPerPageOptions={[5, 10, 25]}
             component="div"
             count={Data.length}
@@ -232,7 +235,7 @@ export default function Loyalty() {
             page={page}
             onPageChange={handleChangePage}
             onRowsPerPageChange={handleChangeRowsPerPage}
-          />
+          /> */}
         </Card>
       </Container>
     </Page>

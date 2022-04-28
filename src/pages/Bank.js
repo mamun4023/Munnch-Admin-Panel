@@ -119,14 +119,14 @@ export default function Banner() {
     setBankStatus("1");
     setPage(1);
     setRowsPerPage(5);
-    setOrder('asc')
+    setOrder('desc')
   }
 
   const InactiveStatusHandler = ()=>{
     setBankStatus("0")
     setPage(1);
     setRowsPerPage(5);
-    setOrder('asc')
+    setOrder('desc')
   }
 
   useEffect(()=>{

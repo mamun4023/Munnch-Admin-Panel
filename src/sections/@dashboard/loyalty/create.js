@@ -16,41 +16,59 @@ import {
 import { LoadingButton } from '@mui/lab';
 // component
 import Iconify from '../../../components/Iconify';
+import {StoreImage} from '../../../redux/loyalty/actions'
+import { toast } from 'material-react-toastify';
 
 // ----------------------------------------------------------------------
 
 function Create() {
   const navigate = useNavigate();
-  const [showPassword, setShowPassword] = useState(false);
+  const [image, setImage] = useState();
+  const [loading, setLoading] = useState(false);
 
   const LoginSchema = Yup.object().shape({
-    title: Yup.string().required('Title is required'),
-    amount: Yup.string().required('Amount is required'),
-    sendTo: Yup.string().required('Send-To is required'),
-
+    level: Yup.string().required('Title is required'),
   });
 
   const formik = useFormik({
     initialValues: {
-      type: '',
+      level: '',
     },
     validationSchema: LoginSchema,
+
     onSubmit: (values) => {
-      console.log(values)
-      // navigate('/dashboard', { replace: true });
+
+      const data = new FormData();
+      data.append('level', values.level);
+      data.append('image', image);
+
+      setLoading(true);
+      StoreImage(data)
+        .then(res =>{
+          const response = res.data.message;
+          toast.dark(response);
+          setLoading(false);
+          navigate('/dashboard/loyalty', { replace: true });
+        })
+        .catch(err =>{
+          const response = err.data.message;
+          toast.dark(response);
+          setLoading(false)
+        })
+      
+      setLoading(false)
+
+      
     }
   });
 
   const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = formik;
 
-  const handleShowPassword = () => {
-    setShowPassword((show) => !show);
-  };
 
   return(
         <>
         <Typography variant="h4" gutterBottom>
-            Add Loyalty
+            Add Image
         </Typography>
             
         <Grid
@@ -70,18 +88,25 @@ function Create() {
                         <TextField
                             fullWidth
                             type="text"
-                            label="type"
-                            {...getFieldProps('type')}
-                            error={Boolean(touched.type && errors.type)}
-                            helperText={touched.type && errors.type}
+                            label="Level"
+                            {...getFieldProps('level')}
+                            error={Boolean(touched.level && errors.level)}
+                            helperText={touched.level && errors.level}
                         />
+                         <TextField
+                            fullWidth
+                            type="file"
+                            onChange={(e)=> setImage(e.target.files[0])}
+                            
+                        />
+
 
                         <LoadingButton
                             fullWidth
                             size="large"
                             type="submit"
                             variant="contained"
-                            loading={isSubmitting}
+                            loading={loading}
                         >
                             Save
                         </LoadingButton>
