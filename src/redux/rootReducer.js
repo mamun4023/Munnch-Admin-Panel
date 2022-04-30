@@ -57,6 +57,8 @@ import FetchSingleFeeReducer from './deliveryFee/fetchSingle/reducer';
 import FetchCouponListReducer from './coupon/fetchAll/reducer';
 import FetchSingleCoupon from './coupon/fetchSingle/reducer';
 
+import FetchWithdrawal from './withdraw/fetchAll/reducer';
+
 const RootReducer = combineReducers({
     SignIn : SignInReducer,
     Profile : ProfileReducer,
@@ -106,7 +108,10 @@ const RootReducer = combineReducers({
     singleFee : FetchSingleFeeReducer,
 
     CouponList : FetchCouponListReducer,
-    SingleCoupon : FetchSingleCoupon
+    SingleCoupon : FetchSingleCoupon,
+
+
+    Withdrawal : FetchWithdrawal,
 
 
 })

@@ -47,9 +47,16 @@ import {UpdateFood} from '../../../redux/food/update/action';
     onSubmit: (values) => {
 
       const data = new FormData();
-      data.append('food_name', values.food_type_name);
-      data.append('image', image);
-      data.append('_method', 'PUT');
+      
+      if(image == undefined){
+        data.append('food_name', values.food_type_name);
+        data.append('_method', 'PUT');
+      }else{
+        data.append('food_name', values.food_type_name);
+        data.append('image', image);
+        data.append('_method', 'PUT');
+      }
+      
 
       setLoading(true)
       UpdateFood(id, data)

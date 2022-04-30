@@ -20,6 +20,7 @@ import {
   TableBody,
   TableCell,
   TextField,
+  CardMedia,
   Container,
   Typography,
   IconButton,
@@ -106,7 +107,6 @@ export default function Store() {
                         </Typography>
                         {StoreData.operational_hours? <TimingTable timing = {StoreData.operational_hours} />: "Empty"} 
                     </Card>
-
                     <Card> 
                         <Typography style={{ background : "#eee" }}  padding={2} textAlign= "center" variant="h6" component="div">
                             Description
@@ -117,11 +117,56 @@ export default function Store() {
                         </Typography>
                     </Card>
                     <Card> 
+                        <Typography style={{ background : "#eee" }}  padding={2} textAlign= "center" variant="h6" component="div">
+                            Food Type 
+                        </Typography>
+                      
+                        <Box sx={{ flexDirection: 'row', flexWrap: 'wrap', display: 'flex' }}> 
+                          {StoreData.food_types?.map(data => <>
+                              <Card sx={{ maxWidth: 300 }}>
+                                  <CardMedia
+                                    component="img"
+                                    height="140"
+                                    image= {data.image}
+                                    alt="green iguana"
+                                  />
+                                  <CardContent>
+                                    <Typography gutterBottom variant="h6" component="div">
+                                      {data.food_type_name}
+                                    </Typography>
+                                  </CardContent>
+                              </Card>
+                          </>) }
+                        </Box> 
+                    </Card>
+                    <Card> 
+                        <Typography style={{ background : "#eee" }}  padding={2} textAlign= "center" variant="h6" component="div">
+                            Cuisine Type 
+                        </Typography>
+
+                        <Box sx={{ flexDirection: 'row', flexWrap: 'wrap', display: 'flex' }}> 
+                          {StoreData.cuisines?.map(data => <>
+                              <Card sx={{ maxWidth: 300 }}>
+                                  <CardMedia
+                                    component="img"
+                                    height="140"
+                                    image= {data.image}
+                                    alt="green iguana"
+                                  />
+                                  <CardContent>
+                                    <Typography gutterBottom variant="h6" component="div">
+                                      {data.cuisine_name}
+                                    </Typography>
+                                  </CardContent>
+                              </Card>
+                          </>) }
+                        </Box> 
+                    </Card>
+                    <Card> 
                         <Typography padding={2} style={{background : "#eee" }}  textAlign="center" variant="h6" component="div">
                             Store Images
                         </Typography>
                         {StoreData.images? <>
-
                         <ImageList >
                           {StoreData.images.map((item) => ( 
                             <> 

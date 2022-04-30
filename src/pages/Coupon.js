@@ -53,11 +53,11 @@ const TABLE_HEAD = [
     id: 'code', 
     alignRight: false 
   },
-  // { 
-  //   label: 'DISCOUNT TYPE', 
-  //   id: 'discountType', 
-  //   alignRight: false 
-  // },
+  { 
+    label: 'COUPON TYPE', 
+    id: 'discountType', 
+    alignRight: false 
+  },
   // { 
   //   label: 'DISCOUNT TYPE NAME', 
   //   id: 'discount_type_name', 
@@ -77,6 +77,11 @@ const TABLE_HEAD = [
   { 
     label: 'EXPIRE DATE', 
     id: 'expireDate', 
+    alignRight: false 
+  },
+  { 
+    label: ' MAX DAYS', 
+    id: 'days', 
     alignRight: false 
   },
   { 
@@ -115,6 +120,11 @@ const TABLE_HEAD = [
     alignRight: false 
   },
   { 
+    label: 'DESCRIPTION', 
+    id: 'description', 
+    alignRight: false 
+  },
+  { 
     label: 'UPDATED AT', 
     id: 'updated_at', 
     alignRight: false 
@@ -127,6 +137,23 @@ const TABLE_HEAD = [
 ];
 
 // ----------------------------------------------------------------------
+
+
+function ReduceDescription(data){
+  let arr = data.split('');
+  let reducer , message;
+  if(arr.length > 50){
+    reducer = arr.slice(1, 50);
+    message = reducer.join('');
+    return message+" ...";
+  }
+  // reducer = arr.slice(1, 30);
+  message = arr.join('');
+  return message
+}
+
+
+
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -272,9 +299,10 @@ export default function Coupon() {
                       const { id, 
                         user_id,
                         code,
-                        discount_type,
+                        coupon_type,
                         discount_type_name,
                         amount,
+                        days,
                         start_date,
                         end_date,
                         usage_per_user,
@@ -284,6 +312,7 @@ export default function Coupon() {
                         is_active,
                         is_expired,
                         is_exhausted,
+                        description,
                         created_at,
                         updated_at,
                       } = row;
@@ -296,7 +325,7 @@ export default function Coupon() {
                           <TableCell align="left">{id}</TableCell>
                           {/* <TableCell align="left">{user_id}</TableCell> */}
                           <TableCell align="left">{code}</TableCell>
-                          {/* <TableCell align="left">{discount_type == 1 ? "Quantity" : "Cash"}</TableCell> */}
+                          <TableCell align="left">{coupon_type == 1 ? "Fixed" : "Percentage"}</TableCell>
                           {/* <TableCell align="left">{discount_type_name}</TableCell> */}
                           <TableCell align="left">{amount}</TableCell>
                           
@@ -306,6 +335,8 @@ export default function Coupon() {
                           <TableCell align="left">
                             <Moment format="DD-MM-YYYY hh:mm a" >{end_date}</Moment>
                           </TableCell>
+                          <TableCell align="left"> {days}  </TableCell>
+
                           <TableCell align="left">
                             <Switch
                               onClick={()=>StatusToggleHandler(id)}
@@ -319,6 +350,7 @@ export default function Coupon() {
                         
                           <TableCell align="left"> {is_expired? "Yes" : "No"} </TableCell>
                           <TableCell align="left">{is_exhausted?"Yes": "No"}</TableCell> 
+                          <TableCell align="left">{ReduceDescription(description?description : "empty")}</TableCell> 
                           <TableCell align="left">
                             <Moment format="DD-MM-YYYY hh:mm a" >{updated_at}</Moment>
                           </TableCell>

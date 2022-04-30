@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { filter } from 'lodash';
 import { IconButton, Button } from '@mui/material';
 import Tooltip from '@mui/material/Tooltip';
-
+import Moment from 'react-moment';
 // material
 import {
   Card,
@@ -23,47 +23,11 @@ import Iconify from '../components/Iconify';
 import SearchNotFound from '../components/SearchNotFound';
 import { WithdrawalListHead, WithdrawalListToolbar, WithdrawalMoreMenu } from '../sections/@dashboard/withdrawal';
 import {toast} from 'material-react-toastify';
+import {FetchWithdrawalList} from '../redux/withdraw/fetchAll/action';
+import { useDispatch, useSelector } from 'react-redux';
 
 // ----------------------------------------------------------------------
 
-const Data = [
-  {
-    "id" : "1",
-    "name" : "Tohid",
-    "bankName" : "Federal USA",
-    "accountNumber" : "45511256442",
-    "amount" : "120",
-    "createAt" : "2/1/2022",
-    "updateAt" : "2/1/2022"
-  },
-  {
-    "id" : "2",
-    "name" : "Tohid",
-    "bankName" : "Federal USA",
-    "accountNumber" : "45511256442",
-    "amount" : "120",
-    "createAt" : "2/1/2022",
-    "updateAt" : "2/1/2022"
-  },
-  {
-    "id" : "3",
-    "name" : "Tohid",
-    "bankName" : "Federal USA",
-    "accountNumber" : "45511256442",
-    "amount" : "120",
-    "createAt" : "2/1/2022",
-    "updateAt" : "2/1/2022"
-  },
-  {
-    "id" : "4",
-    "name" : "Tohid",
-    "bankName" : "Federal USA",
-    "accountNumber" : "45511256442",
-    "amount" : "120",
-    "createAt" : "2/1/2022",
-    "updateAt" : "2/1/2022"
-  },
-]
 
 const TABLE_HEAD = [
   { 
@@ -72,27 +36,27 @@ const TABLE_HEAD = [
     alignRight: false 
   },
   { 
-    label: ' Merchant name', 
+    label: ' HOLDER NAME', 
     id: 'name', 
     alignRight: false 
   },
+  // { 
+  //   label: 'BANK NAME', 
+  //   id: 'SSMNumber', 
+  //   alignRight: false 
+  // },
   { 
-    label: 'Bank Name', 
-    id: 'SSMNumber', 
-    alignRight: false 
-  },
-  { 
-    label: 'Account number', 
+    label: 'ACCOUNT NUMBER', 
     id: 'email',
     alignRight: false 
   },
   { 
-    label: 'Account', 
+    label: 'AMOUNT', 
     id: 'amount',
     alignRight: false 
   },
   { 
-    label: 'Created', 
+    label: 'CREATED AT', 
     id: 'createAt', 
     alignRight: false 
   },
@@ -124,7 +88,7 @@ function applySortFilter(array, comparator, query) {
     return a[1] - b[1];
   });
   if (query) {
-    return filter(array, (_user) => _user.name.toLowerCase().indexOf(query.toLowerCase()) !== -1);
+    return filter(array, (_user) => _user.store_bank?.holder_nam.toLowerCase().indexOf(query.toLowerCase()) !== -1);
   }
   return stabilizedThis.map((el) => el[0]);
 }
@@ -137,18 +101,17 @@ export default function Withdrawal() {
   const [filterName, setFilterName] = useState('');
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [withdrawalData, setWithdrawalData] = useState([]);
-  const [withdrawalStatus, setWithdrawalStatus] = useState("requested")
+  const [withdrawalStatus, setWithdrawalStatus] = useState("requested");
+  const dispatch = useDispatch();
 
-  const FetchWithdrawal = (withdrawalStatus)=>{
-    // return data from api
-    setWithdrawalData(Data);
-  }
 
   useEffect(()=>{
-    FetchWithdrawal(withdrawalStatus);
-  },[withdrawalStatus])
+    dispatch(FetchWithdrawalList(filterName, page, rowsPerPage, order));
+  },[filterName, page, rowsPerPage, order])
 
-  console.log("withdrawal Data", withdrawalData)
+  const WithdrawList = useSelector(state => state.Withdrawal.data)
+
+  console.log("withdrawal Data", WithdrawList)
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -169,8 +132,7 @@ export default function Withdrawal() {
     setFilterName(event.target.value);
   };
 
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - Data.length) : 0;
-  const filteredUsers = applySortFilter(withdrawalData, getComparator(order, orderBy), filterName);
+  const filteredUsers = applySortFilter(WithdrawList, getComparator(order, orderBy), filterName);
   const isUserNotFound = filteredUsers.length === 0;
 
   const ToggleHandler = () => {
@@ -192,7 +154,7 @@ export default function Withdrawal() {
                 filterName={filterName}
                 onFilterName={handleFilterByName}
               />
-            <div style={{ marginTop : "25px" }}>
+            {/* <div style={{ marginTop : "25px" }}>
               <Button
                 variant={withdrawalStatus === "requested" ? "contained" : null}
                 onClick={() => setWithdrawalStatus("requested")}
@@ -204,7 +166,7 @@ export default function Withdrawal() {
                 onClick={() => setWithdrawalStatus("approved")}
                 disableElevation
               >Approved</Button>
-            </div>
+            </div> */}
           </div>
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
@@ -217,44 +179,30 @@ export default function Withdrawal() {
                 />
                 <TableBody>
                   {filteredUsers
-                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     .map((row) => {
-                      const { id, name, bankName, accountNumber, amount, createAt } = row;
-                      const isItemSelected = selected.indexOf(name) !== -1;
+                      const { id, name, bankName, accountNumber, amount, store_bank, created_at } = row;
+      
                       return (
                         <TableRow
                           hover
                           key={id}
                           tabIndex={-1}
                           role="checkbox"
-                          selected={isItemSelected}
-                          aria-checked={isItemSelected}
                         >
                           <TableCell align="left">{id}</TableCell>
-                          <TableCell align="left">{name}</TableCell>
-                          <TableCell align="left">{bankName}</TableCell>
-                          <TableCell align="left">{accountNumber}</TableCell>
+                          <TableCell align="left">{store_bank?.holder_name}</TableCell>
+                          {/* <TableCell align="left">{bankName}</TableCell> */}
+                          <TableCell align="left">{store_bank?.account_number}</TableCell>
                           <TableCell align="left">{amount}</TableCell>
-                          <TableCell align="left">{createAt}</TableCell>   
+                          <TableCell align="left">
+                            <Moment format="DD-MM-YYYY hh:mm a" >{created_at}</Moment> 
+                          </TableCell>   
                           <TableCell align="right">
-                            <Tooltip title = "Approve Withdrawal" > 
-                              <IconButton
-                                onClick={ToggleHandler}
-                                style = {{background : "#1e272e", color : "white"}}
-                              > 
-                                <Iconify icon="file-icons:pullapprove" width={24} height={24} />
-                              </IconButton>
-                             </Tooltip>
                             {/* <MerchantMoreMenu /> */}
                           </TableCell>
                         </TableRow>
                       );
                     })}
-                  {emptyRows > 0 && (
-                    <TableRow style={{ height: 53 * emptyRows }}>
-                      <TableCell colSpan={6} />
-                    </TableRow>
-                  )}
                 </TableBody>
                 {isUserNotFound && (
                   <TableBody>
@@ -271,11 +219,20 @@ export default function Withdrawal() {
           <TablePagination
             rowsPerPageOptions={[5, 10, 25]}
             component="div"
-            count={Data.length}
+            count={-1}
             rowsPerPage={rowsPerPage}
             page={page}
             onPageChange={handleChangePage}
             onRowsPerPageChange={handleChangeRowsPerPage}
+            labelDisplayedRows={({ page }) => {
+              return `Page: ${page}`;
+            }}
+            backIconButtonProps={
+              page == 1 ? {disabled: true} : undefined
+            }
+            nextIconButtonProps={
+              filteredUsers.length === 0 || filteredUsers.length < rowsPerPage? {disabled: true} : undefined
+            }
           />
         </Card>
       </Container>

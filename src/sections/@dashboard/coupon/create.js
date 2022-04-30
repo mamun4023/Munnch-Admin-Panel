@@ -34,8 +34,13 @@ function Create() {
     end_date : Yup.string().required("Expire Date is required"),
     usage_per_user : Yup.string().required("Usage-Per-User is required"),
     minimum_spend : Yup.string().required("Min Spend is required"),
+    maximum_spend : Yup.string().required("Max Spend is required"),
     maximum_discount : Yup.string().required("Max Discount Value is required"),
     maximum_usage_limit : Yup.string().required("Max-Limit-Value is required"),
+    description : Yup.string().required("Description is required"),
+
+    days : Yup.array().nullable()
+
   });
 
   const formik = useFormik({
@@ -47,14 +52,32 @@ function Create() {
       end_date : '',
       usage_per_user : '',
       minimum_spend : '',
+      maximum_spend : '',
       maximum_discount : '',
       maximum_usage_limit : '',
+      description : '',
+      days : null
     },
     validationSchema: CouponSchema,
     onSubmit: (values) => {
       console.log("values", values)
 
-      AddCoupon(values)
+      const data  = {
+          code : values.code,
+          discount_type: values.discount_type,
+          amount : values.amount,
+          start_date : values.start_date,
+          end_date : values.end_date,
+          usage_per_user : values.usage_per_user,
+          minimum_spend : values.minimum_spend,
+          maximum_spend : values.maximum_spend,
+          maximum_discount : values.maximum_discount,
+          maximum_usage_limit : values.maximum_usage_limit,
+          description : values.description,
+          days : ["all days"]
+      }
+
+      AddCoupon(data)
         .then(res =>{
           const response = res.data.message;
           setLoading(false)
@@ -62,7 +85,7 @@ function Create() {
           navigate('/dashboard/coupon', { replace: true });
         })
         .catch((err)=>{
-          const response = err.response.data
+          const response = err.response.data.message;
           toast.error(response)
           setLoading(false)
       })
@@ -105,8 +128,8 @@ function Create() {
                             error={Boolean(touched.discount_type && errors.discount_type)}
                             helperText={touched.discount_type && errors.discount_type}
                         >    
-                            <MenuItem value= "1">Quantity </MenuItem>
-                            <MenuItem value= "2">Cash </MenuItem>
+                            <MenuItem value= "1">Fixed </MenuItem>
+                            <MenuItem value= "2">Percentage </MenuItem>
                         </TextField>
                         <TextField
                             fullWidth
@@ -148,11 +171,19 @@ function Create() {
                         />  
                          <TextField
                             fullWidth
-                            type="text"
+                            type="number"
                             label="Minimum Spend"
                             {...getFieldProps('minimum_spend')}
                             error={Boolean(touched.minimum_spend && errors.minimum_spend)}
                             helperText={touched.minimum_spend && errors.minimum_spend}
+                        /> 
+                          <TextField
+                            fullWidth
+                            type="number"
+                            label="Maximum Spend"
+                            {...getFieldProps('maximum_spend')}
+                            error={Boolean(touched.maximum_spend && errors.maximum_spend)}
+                            helperText={touched.maximum_spend && errors.maximum_spend}
                         /> 
                         <TextField
                             fullWidth
@@ -169,8 +200,24 @@ function Create() {
                             {...getFieldProps('maximum_usage_limit')}
                             error={Boolean(touched.maximum_usage_limit && errors.maximum_usage_limit)}
                             helperText={touched.maximum_usage_limit && errors.maximum_usage_limit}
+                        />
+                        <TextField
+                            fullWidth
+                            type="number"
+                            label="Days"
+                            {...getFieldProps('days')}
+                            error={Boolean(touched.days && errors.days)}
+                            helperText={touched.days && errors.days}
+                        />
+                         <TextField
+                            fullWidth
+                            multiline
+                            rows={5}
+                            label="Description"
+                            {...getFieldProps('description')}
+                            error={Boolean(touched.description && errors.description)}
+                            helperText={touched.description && errors.description}
                         />  
-
 
                         <LoadingButton
                             fullWidth

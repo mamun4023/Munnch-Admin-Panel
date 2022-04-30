@@ -49,7 +49,10 @@ export default function Update() {
     usage_per_user : Yup.string().required("Usage-Per-User is required"),
     minimum_spend : Yup.string().required("Min Spend is required"),
     maximum_discount : Yup.string().required("Max Discount Value is required"),
+    maximum_spend : Yup.string().required("Maximum Spend Value is required"),
     maximum_usage_limit : Yup.string().required("Max-Limit-Value is required"),
+    days : Yup.string().required("Days is required"),
+    description : Yup.string().required("Description is required"),
   });
 
   const formik = useFormik({
@@ -62,12 +65,31 @@ export default function Update() {
       end_date :  SingleCoupon.end_date? SingleCoupon.end_date : "",
       usage_per_user : SingleCoupon.usage_per_user ? SingleCoupon.usage_per_user : "",
       minimum_spend : SingleCoupon.minimum_spend ? SingleCoupon.usage_per_user : "",
+      maximum_spend : SingleCoupon.maximum_spend ? SingleCoupon.maximum_spend : "",
       maximum_discount : SingleCoupon.maximum_discount ? SingleCoupon.maximum_discount : "",
       maximum_usage_limit : SingleCoupon.maximum_usage_limit ? SingleCoupon.maximum_usage_limit : "",
+      description : '',
+      days : '',
     },
     validationSchema: CouponSchema,
     onSubmit: (values) => {
       console.log("values", values)
+
+
+      const data  = {
+        code : values.code,
+        discount_type: values.discount_type,
+        amount : values.amount,
+        start_date : values.start_date,
+        end_date : values.end_date,
+        usage_per_user : values.usage_per_user,
+        minimum_spend : values.minimum_spend,
+        maximum_spend : values.maximum_spend,
+        maximum_discount : values.maximum_discount,
+        maximum_usage_limit : values.maximum_usage_limit,
+        description : values.description,
+        days : ["all days"]
+    }
 
       UpdateCoupon(id, values)
         .then(res =>{
@@ -177,14 +199,40 @@ export default function Update() {
                             error={Boolean(touched.maximum_discount && errors.maximum_discount)}
                             helperText={touched.maximum_discount && errors.maximum_discount}
                         />  
-                        <TextField
+                          <TextField
                             fullWidth
                             type="text"
                             label="Maximum Limit"
                             {...getFieldProps('maximum_usage_limit')}
                             error={Boolean(touched.maximum_usage_limit && errors.maximum_usage_limit)}
                             helperText={touched.maximum_usage_limit && errors.maximum_usage_limit}
+                        />
+                        <TextField
+                            fullWidth
+                            type="number"
+                            label="Days"
+                            {...getFieldProps('days')}
+                            error={Boolean(touched.days && errors.days)}
+                            helperText={touched.days && errors.days}
+                        />
+                        <TextField
+                            fullWidth
+                            type="text"
+                            label="maximum_spend"
+                            {...getFieldProps('maximum_spend')}
+                            error={Boolean(touched.maximum_spend && errors.maximum_spend)}
+                            helperText={touched.maximum_spend && errors.maximum_spend}
                         />  
+
+                        <TextField
+                            fullWidth
+                            multiline
+                            rows={5}
+                            label="Description"
+                            {...getFieldProps('description')}
+                            error={Boolean(touched.description && errors.description)}
+                            helperText={touched.description && errors.description}
+                        /> 
 
 
                         <LoadingButton
