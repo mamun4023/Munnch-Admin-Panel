@@ -9,6 +9,7 @@ import {
   Table,
   Stack,
   TableRow,
+  Switch,
   TableBody,
   TableCell,
   Container,
@@ -36,15 +37,40 @@ const TABLE_HEAD = [
     alignRight: false 
   },
   { 
-    label: ' HOLDER NAME', 
+    label: 'USER TYPE',
+    id: 'id', 
+    alignRight: false 
+  },
+
+  { 
+    label: 'PROFILE IMAGE',
+    id: 'profile_image', 
+    alignRight: false 
+  },
+
+  { 
+    label: 'EMAIL',
+    id: 'email', 
+    alignRight: false 
+  },
+
+  { 
+    label: 'PHONE NUMBER',
+    id: 'phone_number', 
+    alignRight: false 
+  },
+  { 
+    label: 'BANK NAME', 
+    id: 'bank_name', 
+    alignRight: false 
+  },
+
+  { 
+    label: 'ACCOUNT HOLDER NAME', 
     id: 'name', 
     alignRight: false 
   },
-  // { 
-  //   label: 'BANK NAME', 
-  //   id: 'SSMNumber', 
-  //   alignRight: false 
-  // },
+
   { 
     label: 'ACCOUNT NUMBER', 
     id: 'email',
@@ -56,8 +82,13 @@ const TABLE_HEAD = [
     alignRight: false 
   },
   { 
-    label: 'CREATED AT', 
-    id: 'createAt', 
+    label: 'DATE', 
+    id: 'date', 
+    alignRight: false 
+  },
+  { 
+    label: 'APRROVAL', 
+    id: 'approval', 
     alignRight: false 
   },
 ];
@@ -169,7 +200,7 @@ export default function Withdrawal() {
             </div> */}
           </div>
           <Scrollbar>
-            <TableContainer sx={{ minWidth: 800 }}>
+            <TableContainer sx={{ minWidth: 1500 }}>
               <Table>
                 <WithdrawalListHead
                   order={order}
@@ -197,6 +228,12 @@ export default function Withdrawal() {
                           <TableCell align="left">
                             <Moment format="DD-MM-YYYY hh:mm a" >{created_at}</Moment> 
                           </TableCell>   
+                          <TableCell align="left">
+                              <Switch 
+
+                              />
+
+                            </TableCell>
                           <TableCell align="right">
                             {/* <MerchantMoreMenu /> */}
                           </TableCell>

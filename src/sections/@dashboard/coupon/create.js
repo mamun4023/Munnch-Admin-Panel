@@ -11,6 +11,7 @@ import {
   Checkbox,
   TextField,
   IconButton,
+  Autocomplete,
   InputAdornment,
   FormControlLabel
 } from '@mui/material';
@@ -21,10 +22,12 @@ import {AddCoupon} from '../../../redux/coupon/add/action';
 
 // ----------------------------------------------------------------------
 
-function Create() {
+const Days = ["All Days", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" ]
+
+
+export default function Create() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-
 
   const CouponSchema = Yup.object().shape({
     code: Yup.string().required('Coupon Code is required'),
@@ -38,8 +41,7 @@ function Create() {
     maximum_discount : Yup.string().required("Max Discount Value is required"),
     maximum_usage_limit : Yup.string().required("Max-Limit-Value is required"),
     description : Yup.string().required("Description is required"),
-
-    days : Yup.array().nullable()
+    days : Yup.array().required("Days is required").nullable()
 
   });
 
@@ -74,7 +76,7 @@ function Create() {
           maximum_discount : values.maximum_discount,
           maximum_usage_limit : values.maximum_usage_limit,
           description : values.description,
-          days : ["all days"]
+          days : values.days
       }
 
       AddCoupon(data)
@@ -93,6 +95,8 @@ function Create() {
   });
 
   const { errors, touched, values, handleSubmit, getFieldProps } = formik;
+
+  console.log(values)
 
   return(
         <>
@@ -201,14 +205,7 @@ function Create() {
                             error={Boolean(touched.maximum_usage_limit && errors.maximum_usage_limit)}
                             helperText={touched.maximum_usage_limit && errors.maximum_usage_limit}
                         />
-                        <TextField
-                            fullWidth
-                            type="number"
-                            label="Days"
-                            {...getFieldProps('days')}
-                            error={Boolean(touched.days && errors.days)}
-                            helperText={touched.days && errors.days}
-                        />
+            
                          <TextField
                             fullWidth
                             multiline
@@ -217,13 +214,35 @@ function Create() {
                             {...getFieldProps('description')}
                             error={Boolean(touched.description && errors.description)}
                             helperText={touched.description && errors.description}
-                        />  
+                        /> 
+
+                        <Autocomplete
+                            multiple
+                            fullWidth
+                            id="combo-box-demo"
+                            options={Days}
+                            disableCloseOnSelect
+                            getOptionSelected={(option, value) => option === "All Days"}
+                            // filterOptions={Days => Days.filter(opt => opt.fieldType)}
+                            disabledItemsFocusable
+                            // limitTags = {1}
+                            onChange = {(event, value)=>  formik.setFieldValue("days", value) }        
+                            renderInput={(params) => 
+                              <TextField 
+                                {...params} 
+                                label="Days"
+                                error={Boolean(touched.days && errors.days)}
+                                helperText={touched.days && errors.days} 
+                              
+                              />}
+                        /> 
 
                         <LoadingButton
                             fullWidth
                             size="large"
                             type="submit"
                             variant="contained"
+                           
                             loading={loading}
                         >
                             Save
@@ -237,5 +256,3 @@ function Create() {
     </> 
   );
 }
-
-export default Create;

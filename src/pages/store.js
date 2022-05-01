@@ -7,7 +7,7 @@ import ImageListItemBar from '@mui/material/ImageListItemBar';
 import ListSubheader from '@mui/material/ListSubheader';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
-
+import Info from '@mui/icons-material/Info';
 // material
 import {
   Card,
@@ -121,46 +121,60 @@ export default function Store() {
                             Food Type 
                         </Typography>
                       
-                        <Box sx={{ flexDirection: 'row', flexWrap: 'wrap', display: 'flex' }}> 
-                          {StoreData.food_types?.map(data => <>
-                              <Card sx={{ maxWidth: 300 }}>
-                                  <CardMedia
-                                    component="img"
-                                    height="140"
-                                    image= {data.image}
-                                    alt="green iguana"
+                
+
+                            <ImageList sx={{ height: 400 }}>
+                              {StoreData.food_types.map((item) => (
+                                <ImageListItem key={item.img}>
+                                  <img
+                                    src= {item.image}
                                   />
-                                  <CardContent>
-                                    <Typography gutterBottom variant="h6" component="div">
-                                      {data.food_type_name}
-                                    </Typography>
-                                  </CardContent>
-                              </Card>
-                          </>) }
-                        </Box> 
+                                  <ImageListItemBar
+                                    title={item.food_type_name}
+                                    
+                                    actionIcon={
+                                      <IconButton
+                                        sx={{ color: 'rgba(255, 255, 255, 0.54)' }}
+                                        aria-label={`info about ${item.title}`}
+                                      >
+                                        <Info />
+                                      </IconButton>
+                                    }
+                                  />
+                                </ImageListItem>
+                              ))}
+                            </ImageList>
+                           
+                              
+                            
+                         
+                        
                     </Card>
                     <Card> 
                         <Typography style={{ background : "#eee" }}  padding={2} textAlign= "center" variant="h6" component="div">
                             Cuisine Type 
                         </Typography>
 
-                        <Box sx={{ flexDirection: 'row', flexWrap: 'wrap', display: 'flex' }}> 
-                          {StoreData.cuisines?.map(data => <>
-                              <Card sx={{ maxWidth: 300 }}>
-                                  <CardMedia
-                                    component="img"
-                                    height="140"
-                                    image= {data.image}
-                                    alt="green iguana"
+                          <ImageList >
+                              {StoreData.cuisines.map((item) => (
+                                <ImageListItem key={item.img}>
+                                  <img
+                                    src= {item.image}
                                   />
-                                  <CardContent>
-                                    <Typography gutterBottom variant="h6" component="div">
-                                      {data.cuisine_name}
-                                    </Typography>
-                                  </CardContent>
-                              </Card>
-                          </>) }
-                        </Box> 
+                                  <ImageListItemBar
+                                    title={item.cuisine_name}
+                                    actionIcon={
+                                      <IconButton
+                                        sx={{ color: 'rgba(255, 255, 255, 0.54)' }}
+                                        aria-label={`info about ${item.title}`}
+                                      >
+                                        <Info />
+                                      </IconButton>
+                                    }
+                                  />
+                                </ImageListItem>
+                              ))}
+                            </ImageList>
                     </Card>
                     <Card> 
                         <Typography padding={2} style={{background : "#eee" }}  textAlign="center" variant="h6" component="div">

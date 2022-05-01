@@ -10,6 +10,7 @@ import {
   Link,
   Stack,
   Checkbox,
+  Autocomplete,
   TextField,
   IconButton,
   InputAdornment,
@@ -21,6 +22,7 @@ import Iconify from '../../../components/Iconify';
 import {FetchSingleCoupon} from '../../../redux/coupon/fetchSingle/action';
 import {UpdateCoupon} from '../../../redux/coupon/update/action';
 
+const Days = ["All Days", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" ]
 
 // ----------------------------------------------------------------------
 
@@ -48,11 +50,11 @@ export default function Update() {
     end_date : Yup.string().required("Expire Date is required"),
     usage_per_user : Yup.string().required("Usage-Per-User is required"),
     minimum_spend : Yup.string().required("Min Spend is required"),
-    maximum_discount : Yup.string().required("Max Discount Value is required"),
     maximum_spend : Yup.string().required("Maximum Spend Value is required"),
     maximum_usage_limit : Yup.string().required("Max-Limit-Value is required"),
-    days : Yup.string().required("Days is required"),
     description : Yup.string().required("Description is required"),
+    days : Yup.array().required("Days is required").nullable(),
+    
   });
 
   const formik = useFormik({
@@ -60,16 +62,15 @@ export default function Update() {
     initialValues: {
       code : SingleCoupon.code ? SingleCoupon.code : "",
       discount_type: SingleCoupon.discount_type? SingleCoupon.discount_type : "",
-      amount : SingleCoupon.amount ? SingleCoupon.discount_type : "",
+      amount : SingleCoupon.amount ? SingleCoupon.amount : "",
       start_date : SingleCoupon.start_date? SingleCoupon.start_date : "",
       end_date :  SingleCoupon.end_date? SingleCoupon.end_date : "",
       usage_per_user : SingleCoupon.usage_per_user ? SingleCoupon.usage_per_user : "",
       minimum_spend : SingleCoupon.minimum_spend ? SingleCoupon.usage_per_user : "",
       maximum_spend : SingleCoupon.maximum_spend ? SingleCoupon.maximum_spend : "",
-      maximum_discount : SingleCoupon.maximum_discount ? SingleCoupon.maximum_discount : "",
       maximum_usage_limit : SingleCoupon.maximum_usage_limit ? SingleCoupon.maximum_usage_limit : "",
-      description : '',
-      days : '',
+      description : SingleCoupon.description? SingleCoupon.description : '',
+      days : SingleCoupon.days?SingleCoupon.days : "",
     },
     validationSchema: CouponSchema,
     onSubmit: (values) => {
@@ -88,10 +89,10 @@ export default function Update() {
         maximum_discount : values.maximum_discount,
         maximum_usage_limit : values.maximum_usage_limit,
         description : values.description,
-        days : ["all days"]
+        days : values.days
     }
 
-      UpdateCoupon(id, values)
+      UpdateCoupon(id, data)
         .then(res =>{
           const response = res.data.message;
           setLoading(false)
@@ -134,7 +135,7 @@ export default function Update() {
                             error={Boolean(touched.code && errors.code)}
                             helperText={touched.code && errors.code}
                         />
-                        <TextField
+                         <TextField
                             fullWidth
                             select
                             label="Discount Type"
@@ -142,9 +143,11 @@ export default function Update() {
                             error={Boolean(touched.discount_type && errors.discount_type)}
                             helperText={touched.discount_type && errors.discount_type}
                         >    
-                            <MenuItem value= "1">Quantity </MenuItem>
-                            <MenuItem value= "2">Cash </MenuItem>
+                            <MenuItem value= "1">Fixed </MenuItem>
+                            <MenuItem value= "2">Percentage </MenuItem>
                         </TextField>
+
+
                         <TextField
                             fullWidth
                             type="text"
@@ -194,10 +197,10 @@ export default function Update() {
                         <TextField
                             fullWidth
                             type="text"
-                            label="Maximum Discount"
-                            {...getFieldProps('maximum_discount')}
-                            error={Boolean(touched.maximum_discount && errors.maximum_discount)}
-                            helperText={touched.maximum_discount && errors.maximum_discount}
+                            label="Maximum Spend"
+                            {...getFieldProps('maximum_spend')}
+                            error={Boolean(touched.maximum_spend && errors.maximum_spend)}
+                            helperText={touched.maximum_spend && errors.maximum_spend}
                         />  
                           <TextField
                             fullWidth
@@ -207,14 +210,7 @@ export default function Update() {
                             error={Boolean(touched.maximum_usage_limit && errors.maximum_usage_limit)}
                             helperText={touched.maximum_usage_limit && errors.maximum_usage_limit}
                         />
-                        <TextField
-                            fullWidth
-                            type="number"
-                            label="Days"
-                            {...getFieldProps('days')}
-                            error={Boolean(touched.days && errors.days)}
-                            helperText={touched.days && errors.days}
-                        />
+                   
                         <TextField
                             fullWidth
                             type="text"
@@ -233,6 +229,61 @@ export default function Update() {
                             error={Boolean(touched.description && errors.description)}
                             helperText={touched.description && errors.description}
                         /> 
+                      {
+                        values.days? 
+
+                        <Autocomplete
+                            multiple
+                            fullWidth
+                            id="combo-box-demo"
+                            defaultValue={values.days}
+                            options={Days}
+                            disableCloseOnSelect
+                            getOptionSelected={(option, value) => option === "All Days"}
+                            // filterOptions={Days => Days.filter(opt => opt.fieldType)}
+                            disabledItemsFocusable
+                            // limitTags = {1}
+                            onChange = {(event, value)=>  formik.setFieldValue("days", value) }        
+                            renderInput={(params) => 
+                              <TextField 
+                                {...params} 
+                                label="Days"
+                                error={Boolean(touched.days && errors.days)}
+                                helperText={touched.days && errors.days} 
+                              
+                              />}
+                        /> 
+
+                        : null
+                        // <Autocomplete
+                        //     multiple
+                        //     fullWidth
+                        //     id="combo-box-demo"
+                           
+                        //     options={Days}
+                        //     disableCloseOnSelect
+                        //     getOptionSelected={(option, value) => option === "All Days"}
+                        //     // filterOptions={Days => Days.filter(opt => opt.fieldType)}
+                        //     disabledItemsFocusable
+                        //     // limitTags = {1}
+                        //     onChange = {(event, value)=>  formik.setFieldValue("days", value) }        
+                        //     renderInput={(params) => 
+                        //       <TextField 
+                        //         {...params} 
+                        //         label="Days"
+                        //         error={Boolean(touched.days && errors.days)}
+                        //         helperText={touched.days && errors.days} 
+                              
+                        //       />}
+                        // /> 
+                              
+ 
+                      }
+
+                        
+
+
+                        
 
 
                         <LoadingButton

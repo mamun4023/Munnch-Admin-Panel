@@ -90,11 +90,11 @@ const sidebarConfig = [
     icon: getIcon('carbon:analytics')
   },
 
-  {
-    title: 'Delivery Fee',
-    path: '/dashboard/delivery_fee',
-    icon: getIcon('mdi:truck-delivery')
-  },
+  // {
+  //   title: 'Delivery Fee',
+  //   path: '/dashboard/delivery_fee',
+  //   icon: getIcon('mdi:truck-delivery')
+  // },
 
   {
     title: 'Contact Us',

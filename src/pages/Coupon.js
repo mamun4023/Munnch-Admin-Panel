@@ -80,7 +80,7 @@ const TABLE_HEAD = [
     alignRight: false 
   },
   { 
-    label: ' MAX DAYS', 
+    label: ' VALID DAYS', 
     id: 'days', 
     alignRight: false 
   },
@@ -100,8 +100,8 @@ const TABLE_HEAD = [
     alignRight: false 
   },
   { 
-    label: 'MAXIMUM DISCOUNT', 
-    id: 'maximum_discount', 
+    label: 'MAXIMUM SPEND', 
+    id: 'maximum_spend', 
     alignRight: false 
   },
   { 
@@ -111,7 +111,7 @@ const TABLE_HEAD = [
   },
   { 
     label: 'IS EXPIRE', 
-    id: 'expireDate', 
+    id: 'isExpire', 
     alignRight: false 
   },
   { 
@@ -152,6 +152,11 @@ function ReduceDescription(data){
   return message
 }
 
+
+function SeperatedByComma(data){
+
+  return data.join(', ')
+}
 
 
 
@@ -307,7 +312,7 @@ export default function Coupon() {
                         end_date,
                         usage_per_user,
                         minimum_spend,
-                        maximum_discount,
+                        maximum_spend,
                         maximum_usage_limit,
                         is_active,
                         is_expired,
@@ -335,7 +340,7 @@ export default function Coupon() {
                           <TableCell align="left">
                             <Moment format="DD-MM-YYYY hh:mm a" >{end_date}</Moment>
                           </TableCell>
-                          <TableCell align="left"> {days}  </TableCell>
+                          <TableCell align="left"> { SeperatedByComma(days?days: ['empty'])}  </TableCell>
 
                           <TableCell align="left">
                             <Switch
@@ -345,7 +350,7 @@ export default function Coupon() {
                           </TableCell>
                           <TableCell align="left">{usage_per_user}</TableCell>
                           <TableCell align="left">{minimum_spend}</TableCell>
-                          <TableCell align="left">{maximum_discount}</TableCell>
+                          <TableCell align="left">{maximum_spend}</TableCell>
                           <TableCell align="left">{maximum_usage_limit}</TableCell>
                         
                           <TableCell align="left"> {is_expired? "Yes" : "No"} </TableCell>
