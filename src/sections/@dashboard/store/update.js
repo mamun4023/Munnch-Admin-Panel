@@ -2,7 +2,7 @@ import * as Yup from 'yup';
 import { useEffect, useState } from 'react';
 import PlacesAutocomplete, {geocodeByAddress, getLatLng} from "react-places-autocomplete";
 import { Link as RouterLink, useNavigate, useParams } from 'react-router-dom';
-import { Grid,Autocomplete, MenuItem, Select, InputLabel, FormControl, Typography } from '@mui/material';
+import { Grid,Autocomplete, Switch, Box, MenuItem, Select, InputLabel, FormControl, Typography } from '@mui/material';
 import { useFormik, Form, FormikProvider } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
@@ -39,13 +39,12 @@ function Update() {
   const [filter, setFilter] = useState('')
   const dispatch = useDispatch();
   const[loading, setLoading] = useState(false);
-
+  const [toggler, setToggler] = useState(0);
 
   const[foodList, setFoodList] = useState([]);
   const[selectedFoodList, setSelectedFoodList] = useState();
   const[cuisineList, setCuisineList] = useState([]);
   const[selectedCuisine, setSelectedCuisineList] = useState();
-
 
 
   const LoadListData = ()=>{
@@ -99,7 +98,7 @@ function Update() {
   console.log(lat+","+lng)
   console.log(address);
 
-
+  
   const StoreSchema = Yup.object().shape({
     store_name: Yup.string().required('Store Name is required'),
     description: Yup.string().required('Description is required'),
@@ -141,26 +140,42 @@ function Update() {
       city : SingleStoreData.location ? SingleStoreData.location.city  : " " ,
 
       // oprational hours
-      saturday_start_time :   SingleStoreData.operational_hours[0]? moment(SingleStoreData.operational_hours[0].start_time,  'hh:mm:ss').format('hh:mm:ss') : "",
-      saturday_no_of_hours : '',
+   
 
       sunday_start_time : SingleStoreData.operational_hours[0]? moment(SingleStoreData.operational_hours[0].start_time,  'hh:mm:ss').format('hh:mm:ss') : "",
+      sunday_close_time : SingleStoreData.operational_hours[0]? moment(SingleStoreData.operational_hours[0].closing_time,  'hh:mm:ss').format('hh:mm:ss') : "",
+      sunday_is_open : SingleStoreData.operational_hours[0]? SingleStoreData.operational_hours[0].is_open : '',
       sunday_no_of_hours : '',
 
-      monday_start_time : SingleStoreData.operational_hours[0]? moment(SingleStoreData.operational_hours[1].start_time,  'hh:mm:ss').format('hh:mm:ss') : "",
+      monday_start_time : SingleStoreData.operational_hours[1]? moment(SingleStoreData.operational_hours[1].start_time,  'hh:mm:ss').format('hh:mm:ss') : "",
+      monday_close_time : SingleStoreData.operational_hours[1]? moment(SingleStoreData.operational_hours[1].closing_time,  'hh:mm:ss').format('hh:mm:ss') : "",
+      monday_is_open : SingleStoreData.operational_hours[1]? SingleStoreData.operational_hours[1].is_open : '',
       monday_no_of_hours : '',
       
-      tuesday_start_time : SingleStoreData.operational_hours[0]? moment(SingleStoreData.operational_hours[0].start_time,  'hh:mm:ss').format('hh:mm:ss') : "",
+      tuesday_start_time : SingleStoreData.operational_hours[2]? moment(SingleStoreData.operational_hours[2].start_time,  'hh:mm:ss').format('hh:mm:ss') : "",
+      tuesday_close_time : SingleStoreData.operational_hours[2]? moment(SingleStoreData.operational_hours[2].closing_time,  'hh:mm:ss').format('hh:mm:ss') : "",
+      tuesday_is_open : SingleStoreData.operational_hours[2]? SingleStoreData.operational_hours[2].is_open : '',
       tuesday_no_of_hours : '',
 
-      wednesday_start_time :  SingleStoreData.operational_hours[0]? moment(SingleStoreData.operational_hours[0].start_time,  'hh:mm:ss').format('hh:mm:ss') : "",
+      wednesday_start_time :  SingleStoreData.operational_hours[3]? moment(SingleStoreData.operational_hours[3].start_time,  'hh:mm:ss').format('hh:mm:ss') : "",
+      wednesday_close_time :  SingleStoreData.operational_hours[3]? moment(SingleStoreData.operational_hours[3].closing_time,  'hh:mm:ss').format('hh:mm:ss') : "",
+      wednesday_is_open : SingleStoreData.operational_hours[3]? SingleStoreData.operational_hours[3].is_open : '',
       wednesday_no_of_hours : '',
 
-      thursday_start_time :  SingleStoreData.operational_hours[0]? moment(SingleStoreData.operational_hours[0].start_time,  'hh:mm:ss').format('hh:mm:ss') : "",
+      thursday_start_time :  SingleStoreData.operational_hours[4]? moment(SingleStoreData.operational_hours[4].start_time,  'hh:mm:ss').format('hh:mm:ss') : "",
+      thursday_close_time :  SingleStoreData.operational_hours[4]? moment(SingleStoreData.operational_hours[4].closing_time,  'hh:mm:ss').format('hh:mm:ss') : "",
+      thursday_is_open : SingleStoreData.operational_hours[4]? SingleStoreData.operational_hours[4].is_open : '',
       thursday_no_of_hours : '',
 
-      friday_start_time :  SingleStoreData.operational_hours[0]? moment(SingleStoreData.operational_hours[0].start_time,  'hh:mm:ss').format('hh:mm:ss') : "",
+      friday_start_time : SingleStoreData.operational_hours[5]? moment(SingleStoreData.operational_hours[5].start_time,  'hh:mm:ss').format('hh:mm:ss') : "",
+      friday_close_time : SingleStoreData.operational_hours[5]? moment(SingleStoreData.operational_hours[5].closing_time,  'hh:mm:ss').format('hh:mm:ss') : "",
+      friday_is_open : SingleStoreData.operational_hours[5]? SingleStoreData.operational_hours[5].is_open : '',
       friday_no_of_hours : '',
+
+      saturday_start_time :  SingleStoreData.operational_hours[6]? moment(SingleStoreData.operational_hours[6].start_time,  'hh:mm:ss').format('hh:mm:ss') : "",
+      saturday_close_time :  SingleStoreData.operational_hours[6]? moment(SingleStoreData.operational_hours[6].start_time,  'hh:mm:ss').format('hh:mm:ss') : "",
+      saturday_is_open : SingleStoreData.operational_hours[6]? SingleStoreData.operational_hours[6].is_open : '',
+      saturday_no_of_hours : '',
 
       // social media
       website : SingleStoreData.social_links?SingleStoreData.social_links.website : "" ,
@@ -371,154 +386,315 @@ function Update() {
 
 
                         <h4 style={{textAlign : "center"}}> Operational Hours </h4>
-                        <label> Saturday</label>
-                          <TextField
-                            fullWidth
-                            InputLabelProps={{
-                              shrink: true,
-                            }}
-                            type= "time"
-                            label="Start Time"
-                            {...getFieldProps('saturday_start_time')}
-                            error={Boolean(touched.saturday_start_time && errors.saturday_start_time)}
-                            helperText={touched.saturday_start_time && errors.saturday_start_time}
-                          />  
+                        <Stack
+                            direction="row"
+                            justifyContent="space-between"
+                            alignItems="flex-start"
+                            margin={0}
+                        >
+                            <label> Sunday</label> 
+                            <label> Open <Switch defaultChecked  = {values.sunday_is_open === 1? true : false}  /></label> 
+                        </Stack>
 
-                          <TextField
-                            fullWidth
-                            label="No Of Hours"
-                            {...getFieldProps('saturday_no_of_hours')}
-                            error={Boolean(touched.saturday_no_of_hours && errors.saturday_no_of_hours)}
-                            helperText={touched.saturday_no_of_hours && errors.saturday_no_of_hours}
-                          />  
+                        <Stack
+                            direction="row"
+                            justifyContent="space-between"
+                            alignItems="flex-start"
+                            margin={0}
+                            spacing={2}
+                        >
+                            <TextField
+                                fullWidth
+                                InputLabelProps={{
+                                  shrink: true,
+                                }}
+                                type= "time"
+                                label="Start Time"
+                                {...getFieldProps('sunday_start_time')}
+                                error={Boolean(touched.sunday_start_time && errors.sunday_start_time)}
+                                helperText={touched.sunday_start_time && errors.sunday_start_time}
+                            />  
+
+                            <TextField
+                                fullWidth
+                                InputLabelProps={{
+                                  shrink: true,
+                                }}
+                                type= "time"
+                                label="Close Time"
+                                {...getFieldProps('sunday_close_time')}
+                                error={Boolean(touched.sunday_close_time && errors.sunday_close_time)}
+                                helperText={touched.sunday_close_time && errors.sunday_close_time}
+                            />  
+                        </Stack>
+
+
+                        <Stack
+                            direction="row"
+                            justifyContent="space-between"
+                            alignItems="flex-start"
+                            margin={0}
+                        >
+                            <label> Monday</label> 
+                            <label> Open <Switch  defaultChecked  = {values.monday_is_open === 1? true : false}  /></label> 
+                        </Stack>
+
+                        <Stack
+                            direction="row"
+                            justifyContent="space-between"
+                            alignItems="flex-start"
+                            margin={0}
+                            spacing={2}
+                        >
+                            <TextField
+                                fullWidth
+                                InputLabelProps={{
+                                  shrink: true,
+                                }}
+                                type= "time"
+                                label="Start Time"
+                                {...getFieldProps('monday_start_time')}
+                                error={Boolean(touched.monday_start_time && errors.monday_start_time)}
+                                helperText={touched.monday_start_time && errors.monday_start_time}
+                            />  
+
+                            <TextField
+                                fullWidth
+                                InputLabelProps={{
+                                  shrink: true,
+                                }}
+                                type= "time"
+                                label="Close Time"
+                                {...getFieldProps('monday_close_time')}
+                                error={Boolean(touched.monday_close_time && errors.monday_close_time)}
+                                helperText={touched.monday_close_time && errors.monday_close_time}
+                            />  
+                        </Stack>
+
+
+                        <Stack
+                            direction="row"
+                            justifyContent="space-between"
+                            alignItems="flex-start"
+                            margin={0}
+                        >
+                            <label> Tuesday</label> 
+                            <label> Open <Switch defaultChecked  = {values.tuesday_is_open === 1? true : false}  /></label> 
+                        </Stack>
+
+                        <Stack
+                            direction="row"
+                            justifyContent="space-between"
+                            alignItems="flex-start"
+                            margin={0}
+                            spacing={2}
+                        >
+                            <TextField
+                                fullWidth
+                                InputLabelProps={{
+                                  shrink: true,
+                                }}
+                                type= "time"
+                                label="Start Time"
+                                {...getFieldProps('tuesday_start_time')}
+                                error={Boolean(touched.tuesday_start_time && errors.tuesday_start_time)}
+                                helperText={touched.tuesday_start_time && errors.tuesday_start_time}
+                            />  
+
+                            <TextField
+                                fullWidth
+                                InputLabelProps={{
+                                  shrink: true,
+                                }}
+                                type= "time"
+                                label="Close Time"
+                                {...getFieldProps('tuesday_close_time')}
+                                error={Boolean(touched.tuesday_close_time && errors.tuesday_close_time)}
+                                helperText={touched.tuesday_close_time && errors.tuesday_close_time}
+                            />  
+                        </Stack>
+
+
+                        <Stack
+                            direction="row"
+                            justifyContent="space-between"
+                            alignItems="flex-start"
+                            margin={0}
+                        >
+                            <label> Wednesday</label> 
+                            <label> Open <Switch defaultChecked  = {values.wednesday_is_open === 1? true : false}  /></label> 
+                        </Stack>
+
+                        <Stack
+                            direction="row"
+                            justifyContent="space-between"
+                            alignItems="flex-start"
+                            margin={0}
+                            spacing={2}
+                        >
+                            <TextField
+                                fullWidth
+                                InputLabelProps={{
+                                  shrink: true,
+                                }}
+                                type= "time"
+                                label="Start Time"
+                                {...getFieldProps('wednesday_start_time')}
+                                error={Boolean(touched.wednesday_start_time && errors.wednesday_start_time)}
+                                helperText={touched.wednesday_start_time && errors.wednesday_start_time}
+                            />  
+
+                            <TextField
+                                fullWidth
+                                InputLabelProps={{
+                                  shrink: true,
+                                }}
+                                type= "time"
+                                label="Close Time"
+                                {...getFieldProps('wednesday_close_time')}
+                                error={Boolean(touched.wednesday_close_time && errors.wednesday_close_time)}
+                                helperText={touched.wednesday_close_time && errors.wednesday_close_time}
+                            />  
+                        </Stack>
+
+
+
+                        <Stack
+                            direction="row"
+                            justifyContent="space-between"
+                            alignItems="flex-start"
+                            margin={0}
+                        >
+                            <label> Thursday</label> 
+                            <label> Open <Switch defaultChecked  = {values.thursday_is_open === 1? true : false}  /></label> 
+                        </Stack>
+
+                        <Stack
+                            direction="row"
+                            justifyContent="space-between"
+                            alignItems="flex-start"
+                            margin={0}
+                            spacing={2}
+                        >
+                            <TextField
+                                fullWidth
+                                InputLabelProps={{
+                                  shrink: true,
+                                }}
+                                type= "time"
+                                label="Start Time"
+                                {...getFieldProps('thursday_start_time')}
+                                error={Boolean(touched.thursday_start_time && errors.thursday_start_time)}
+                                helperText={touched.thursday_start_time && errors.thursday_start_time}
+                            />  
+
+                            <TextField
+                                fullWidth
+                                InputLabelProps={{
+                                  shrink: true,
+                                }}
+                                type= "time"
+                                label="Close Time"
+                                {...getFieldProps('thursday_close_time')}
+                                error={Boolean(touched.thursday_close_time && errors.thursday_close_time)}
+                                helperText={touched.thursday_close_time && errors.thursday_close_time}
+                            />  
+                        </Stack>
+
+
+
+                        <Stack
+                            direction="row"
+                            justifyContent="space-between"
+                            alignItems="flex-start"
+                            margin={0}
+                        >
+                            <label> Friday</label> 
+                            <label> Open <Switch defaultChecked  = {values.friday_is_open === 1? true : false}  /></label> 
+                        </Stack>
+
+                        <Stack
+                            direction="row"
+                            justifyContent="space-between"
+                            alignItems="flex-start"
+                            margin={0}
+                            spacing={2}
+                        >
+                            <TextField
+                                fullWidth
+                                InputLabelProps={{
+                                  shrink: true,
+                                }}
+                                type= "time"
+                                label="Start Time"
+                                {...getFieldProps('friday_start_time')}
+                                error={Boolean(touched.friday_start_time && errors.friday_start_time)}
+                                helperText={touched.friday_start_time && errors.friday_start_time}
+                            />  
+
+                            <TextField
+                                fullWidth
+                                InputLabelProps={{
+                                  shrink: true,
+                                }}
+                                type= "time"
+                                label="Start Time"
+                                {...getFieldProps('friday_close_time')}
+                                error={Boolean(touched.friday_close_time && errors.friday_close_time)}
+                                helperText={touched.friday_close_time && errors.friday_close_time}
+                            />  
+                        </Stack>
                         
-                        <label> Sunday</label>
-                          <TextField
-                            fullWidth
-                            InputLabelProps={{
-                              shrink: true,
-                            }}
-                            type= "time"
-                            label="Start Time"
-                            {...getFieldProps('sunday_start_time')}
-                            error={Boolean(touched.sunday_start_time && errors.sunday_start_time)}
-                            helperText={touched.sunday_start_time && errors.sunday_start_time}
-                          />  
+                        
+                        <Stack
+                            direction="row"
+                            justifyContent="space-between"
+                            alignItems="flex-start"
+                            margin={0}
+                        >
+                            <label> Saturday</label> 
+                            <label> Open <Switch defaultChecked  = {values.saturday_is_open === 1? true : false}  /></label> 
+                        </Stack>
 
-                          <TextField
-                            fullWidth
-                            label="No Of Hours"
-                            {...getFieldProps('sunday_no_of_hours')}
-                            error={Boolean(touched.sunday_no_of_hours && errors.sunday_no_of_hours)}
-                            helperText={touched.sunday_no_of_hours && errors.sunday_no_of_hours}
-                          />  
-           
-                          <label> Monday</label>
-                          <TextField
-                            fullWidth
-                            InputLabelProps={{
-                              shrink: true,
-                            }}
-                            type= "time"
-                            label="Start Time"
-                            {...getFieldProps('monday_start_time')}
-                            error={Boolean(touched.monday_start_time && errors.monday_start_time)}
-                            helperText={touched.monday_start_time && errors.monday_start_time}
-                          />  
+                        <Stack
+                            direction="row"
+                            justifyContent="space-between"
+                            alignItems="flex-start"
+                            margin={0}
+                            spacing={2}
+                        >
+                            <TextField
+                                fullWidth
+                                InputLabelProps={{
+                                  shrink: true,
+                                }}
+                                type= "time"
+                                label="Start Time"
+                                {...getFieldProps('saturday_start_time')}
+                                error={Boolean(touched.saturday_start_time && errors.saturday_start_time)}
+                                helperText={touched.saturday_start_time && errors.saturday_start_time}
+                            />  
 
-                          <TextField
-                            fullWidth
-                            label="No Of Hours"
-                            {...getFieldProps('monday_no_of_hours')}
-                            error={Boolean(touched.monday_no_of_hours && errors.monday_no_of_hours)}
-                            helperText={touched.monday_no_of_hours && errors.monday_no_of_hours}
-                          />  
+                            <TextField
+                                fullWidth
+                                InputLabelProps={{
+                                  shrink: true,
+                                }}
+                                type= "time"
+                                label="Close Time"
+                                {...getFieldProps('saturday_close_time')}
+                                error={Boolean(touched.saturday_close_time && errors.saturday_close_time)}
+                                helperText={touched.saturday_close_time && errors.saturday_close_time}
+                            />  
+                        </Stack>
+                        
+                        
+                        
+                        
 
-                          <label> Tuesday </label>
-                          <TextField
-                            fullWidth
-                            InputLabelProps={{
-                              shrink: true,
-                            }}
-                            type= "time"
-                            label="Start Time"
-                            {...getFieldProps('tuesday_start_time')}
-                            error={Boolean(touched.tuesday_start_time && errors.tuesday_start_time)}
-                            helperText={touched.tuesday_start_time && errors.tuesday_start_time}
-                          />  
-
-                          <TextField
-                            fullWidth
-                            label="No Of Hours"
-                            {...getFieldProps('tuesday_no_of_hours')}
-                            error={Boolean(touched.tuesday_no_of_hours && errors.tuesday_no_of_hours)}
-                            helperText={touched.tuesday_no_of_hours && errors.tuesday_no_of_hours}
-                          />  
-                          
-                          <label> Wednesday </label>
-                          <TextField
-                            fullWidth
-                            InputLabelProps={{
-                              shrink: true,
-                            }}
-                            type= "time"
-                            label="Start Time"
-                            {...getFieldProps('wednesday_start_time')}
-                            error={Boolean(touched.wednesday_start_time && errors.wednesday_start_time)}
-                            helperText={touched.wednesday_start_time && errors.wednesday_start_time}
-                          />  
-
-                          <TextField
-                            fullWidth
-                            label="No Of Hours"
-                            {...getFieldProps('wednesday_no_of_hours')}
-                            error={Boolean(touched.wednesday_no_of_hours && errors.wednesday_no_of_hours)}
-                            helperText={touched.wednesday_no_of_hours && errors.wednesday_no_of_hours}
-                          />  
-
-                          
-                          <label> Thursday </label>
-                          <TextField
-                            fullWidth
-                            InputLabelProps={{
-                              shrink: true,
-                            }}
-                            type= "time"
-                            label="Start Time"
-                            {...getFieldProps('thursday_start_time')}
-                            error={Boolean(touched.thursday_start_time && errors.thursday_start_time)}
-                            helperText={touched.thursday_start_time && errors.thursday_start_time}
-                          />  
-
-                          <TextField
-                            fullWidth
-                           
-                            label="No Of Hours"
-                            {...getFieldProps('thursday_no_of_hours')}
-                            error={Boolean(touched.thursday_no_of_hours && errors.thursday_no_of_hours)}
-                            helperText={touched.thursday_no_of_hours && errors.thursday_no_of_hours}
-                          />  
-                          
-                          <label> Friday </label>
-                          <TextField
-                            fullWidth
-                            InputLabelProps={{
-                              shrink: true,
-                            }}
-                            type= "time"
-                            label="Start Time"
-                            {...getFieldProps('friday_start_time')}
-                            error={Boolean(touched.friday_start_time && errors.friday_start_time)}
-                            helperText={touched.friday_start_time && errors.friday_start_time}
-                          />  
-
-                          <TextField
-                            fullWidth
-                            label="No Of Hours"
-                            {...getFieldProps('friday_no_of_hours')}
-                            error={Boolean(touched.friday_no_of_hours && errors.friday_no_of_hours)}
-                            helperText={touched.friday_no_of_hours && errors.friday_no_of_hours}
-                          />  
+                  
+                         
+                    
 
 
               <Autocomplete

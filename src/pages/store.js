@@ -102,7 +102,7 @@ export default function Store() {
         <Grid container spacing={2}>
                     <Grid item xs={7}>
                     <Card> 
-                         <Typography padding={2} style={{background : "#eee" }}  textAlign="center" variant="h6" component="div">
+                         <Typography padding={3} style={{background : "#eee" }}  textAlign="center" variant="h6" component="div">
                             Store Operational Hours
                         </Typography>
                         {StoreData.operational_hours? <TimingTable timing = {StoreData.operational_hours} />: "Empty"} 
@@ -117,25 +117,27 @@ export default function Store() {
                         </Typography>
                     </Card>
                     <Card> 
-                        <Typography style={{ background : "#eee" }}  padding={2} textAlign= "center" variant="h6" component="div">
+                        <Typography  marginTop = {3} style={{ background : "#eee" }}  padding={2} textAlign= "center" variant="h6" component="div">
                             Food Type 
                         </Typography>
-                      
-                
-
-                            <ImageList sx={{ height: 400 }}>
+                    
+                          {StoreData.food_types?
+                            <ImageList >
                               {StoreData.food_types.map((item) => (
-                                <ImageListItem key={item.img}>
+                                <ImageListItem key={item.img}> 
                                   <img
                                     src= {item.image}
+                                    style={{ maxHeight : "250px"}}
+                                    
                                   />
                                   <ImageListItemBar
                                     title={item.food_type_name}
+                                    subtitle = {item.status ==1 ? "Active" : "Inactive"}
                                     
                                     actionIcon={
                                       <IconButton
                                         sx={{ color: 'rgba(255, 255, 255, 0.54)' }}
-                                        aria-label={`info about ${item.title}`}
+                                        
                                       >
                                         <Info />
                                       </IconButton>
@@ -144,25 +146,29 @@ export default function Store() {
                                 </ImageListItem>
                               ))}
                             </ImageList>
-                           
+                          :null} 
                               
                             
                          
                         
                     </Card>
-                    <Card> 
-                        <Typography style={{ background : "#eee" }}  padding={2} textAlign= "center" variant="h6" component="div">
+                    <Card marginTop = {5}> 
+                        <Typography  marginTop = {3} style={{ background : "#eee" }}  padding={2} textAlign= "center" variant="h6" component="div">
                             Cuisine Type 
                         </Typography>
 
+                        {StoreData.cuisines?               
                           <ImageList >
                               {StoreData.cuisines.map((item) => (
                                 <ImageListItem key={item.img}>
                                   <img
+                                    style={{ maxHeight : "250px"}}
                                     src= {item.image}
                                   />
                                   <ImageListItemBar
                                     title={item.cuisine_name}
+                                    subtitle = {item.status ==1 ? "Active" : "Inactive"}
+
                                     actionIcon={
                                       <IconButton
                                         sx={{ color: 'rgba(255, 255, 255, 0.54)' }}
@@ -175,9 +181,11 @@ export default function Store() {
                                 </ImageListItem>
                               ))}
                             </ImageList>
+
+                          : null }  
                     </Card>
                     <Card> 
-                        <Typography padding={2} style={{background : "#eee" }}  textAlign="center" variant="h6" component="div">
+                        <Typography  marginTop = {3} padding={2} style={{background : "#eee" }}  textAlign="center" variant="h6" component="div">
                             Store Images
                         </Typography>
                         {StoreData.images? <>
@@ -187,7 +195,6 @@ export default function Store() {
                             <ImageListItem key={item.id}>
                               <img
                                 src={item.image}
-                                // srcSet={`${item.id}}
                                 // alt={item.title}
                                 loading="lazy"
                               />
@@ -218,7 +225,6 @@ export default function Store() {
                           </Stack>
                           </ImageListItem>
                         </ImageList>
-                      
                          </>: "empty"}
                     </Card>
 

@@ -45,23 +45,39 @@ const TABLE_HEAD = [
     alignRight: false 
   },
   { 
-    label: 'Name', 
-    id: 'foodName', 
+    label: 'NAME', 
+    id: 'name', 
     alignRight: false 
   },
   { 
-    label: 'Menu Image', 
+    label: 'IMAGE', 
     id: 'image', 
     alignRight: false 
   },
   { 
-    label: 'Price', 
+    label: 'PRICE', 
     id: 'price', 
     alignRight: false 
   },
   { 
-    label: 'Type', 
-    id: 'foodType', 
+    label: 'DESCRIPTION', 
+    id: 'description', 
+    alignRight: false 
+  },
+
+  { 
+    label: 'CREATED AT', 
+    id: 'createdAt', 
+    alignRight: false 
+  },
+  { 
+    label: 'ITEM TYPE', 
+    id: 'itemType', 
+    alignRight: false 
+  },
+  { 
+    label: 'STATUS', 
+    id: 'itemType', 
     alignRight: false 
   },
   { 
@@ -211,7 +227,7 @@ export default function MenuItem() {
                 <TableBody>
                   {filteredUsers
                     .map((row) => {
-                      const { id, name, image, price, food_item_type, in_stock, best_seller} = row;
+                      const { id, name, image, price, food_item_type, in_stock, description, best_seller} = row;
                       return (
                         <TableRow
                           hover
@@ -224,11 +240,13 @@ export default function MenuItem() {
                           </TableCell>
                           
                           <TableCell align="left">{price} RM </TableCell>
+                          <TableCell align="left">{description} </TableCell>
+                          <TableCell align="left">{"Date missing"} </TableCell>
                           <TableCell align="left">{food_item_type}</TableCell>
                           <TableCell align="left">
                            <Switch
                               onChange={()=>StockTogglerHandler(id)}
-                              defaultChecked={in_stock == 1?true : false}
+                              default Checked={in_stock == 1?true : false}
                            />  
                           </TableCell>
                           <TableCell align="left">

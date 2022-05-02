@@ -44,7 +44,7 @@ export default function Update() {
 
   const CouponSchema = Yup.object().shape({
     code: Yup.string().required('Coupon Code is required'),
-    discount_type: Yup.string().required('Discount Type is required'),
+    coupon_type: Yup.string().required('Coupon Type is required'),
     amount: Yup.string().required('Amount is required'),
     start_date : Yup.string().required("Start date is required"),
     end_date : Yup.string().required("Expire Date is required"),
@@ -61,7 +61,7 @@ export default function Update() {
     enableReinitialize : true,
     initialValues: {
       code : SingleCoupon.code ? SingleCoupon.code : "",
-      discount_type: SingleCoupon.discount_type? SingleCoupon.discount_type : "",
+      coupon_type: SingleCoupon.coupon_type? SingleCoupon.coupon_type : "",
       amount : SingleCoupon.amount ? SingleCoupon.amount : "",
       start_date : SingleCoupon.start_date? SingleCoupon.start_date : "",
       end_date :  SingleCoupon.end_date? SingleCoupon.end_date : "",
@@ -79,7 +79,7 @@ export default function Update() {
 
       const data  = {
         code : values.code,
-        discount_type: values.discount_type,
+        coupon_type: values.coupon_type,
         amount : values.amount,
         start_date : values.start_date,
         end_date : values.end_date,
@@ -138,10 +138,10 @@ export default function Update() {
                          <TextField
                             fullWidth
                             select
-                            label="Discount Type"
-                            {...getFieldProps('discount_type')}
-                            error={Boolean(touched.discount_type && errors.discount_type)}
-                            helperText={touched.discount_type && errors.discount_type}
+                            label="Coupon Type"
+                            {...getFieldProps('coupon_type')}
+                            error={Boolean(touched.coupon_type && errors.coupon_type)}
+                            helperText={touched.coupon_type && errors.coupon_type}
                         >    
                             <MenuItem value= "1">Fixed </MenuItem>
                             <MenuItem value= "2">Percentage </MenuItem>

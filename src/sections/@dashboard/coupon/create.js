@@ -127,7 +127,7 @@ export default function Create() {
                         <TextField
                             fullWidth
                             select
-                            label="Discount Type"
+                            label="Coupon Type"
                             {...getFieldProps('discount_type')}
                             error={Boolean(touched.discount_type && errors.discount_type)}
                             helperText={touched.discount_type && errors.discount_type}
