@@ -39,13 +39,6 @@ function Update() {
   const [filter, setFilter] = useState('')
   const dispatch = useDispatch();
   const[loading, setLoading] = useState(false);
-  const [sundayIsOpen, setSundayIsOpen] = useState();
-  const [mondayIsopen, setMondayIsOpen] = useState();
-  const [tuesdayIsOpen, setTuesdayIsOpen] = useState();
-  const [wednesdayIsOpen, setWednesdayIsOpen] = useState();
-  const [thursdayIsOpen, setThursdayIsOpen] = useState();
-  const [fridayIsOpen, setFridayIsOpen] = useState();
-  const [saturdayIsOpen, setSaturdayIsOpen] = useState();
 
   const[foodList, setFoodList] = useState([]);
   const[selectedFoodList, setSelectedFoodList] = useState();
@@ -158,9 +151,16 @@ function Update() {
   // const FoodList = useSelector(state => state.FetchFoodList.data);
   // const CusineList = useSelector(state => state.FetchCuisineList.data)
 
-     console.log("SingleStoreData " , SingleStoreData);
-  //  console.log("SingleStoreData " , moment(SingleStoreData.operational_hours[0].start_time,  'hh:mm:ss').format('hh:mm:ss '));
-  //  console.log("Cusine", CusineList);
+   console.log("SingleStoreData " , SingleStoreData.operational_hours[0].is_open);
+  
+   const [sundayIsOpen, setSundayIsOpen] = useState(SingleStoreData.operational_hours[0]?.is_open);
+   const [mondayIsopen, setMondayIsOpen] = useState(SingleStoreData.operational_hours[1]?.is_open);
+   const [tuesdayIsOpen, setTuesdayIsOpen] = useState(SingleStoreData.operational_hours[2]?.is_open);
+   const [wednesdayIsOpen, setWednesdayIsOpen] = useState(SingleStoreData.operational_hours[3]?.is_open);
+   const [thursdayIsOpen, setThursdayIsOpen] = useState(SingleStoreData.operational_hours[4]?.is_open);
+   const [fridayIsOpen, setFridayIsOpen] = useState(SingleStoreData.operational_hours[5]?.is_open);
+   const [saturdayIsOpen, setSaturdayIsOpen] = useState(SingleStoreData.operational_hours[6]?.is_open);
+
 
 
 // geo location
@@ -237,37 +237,37 @@ function Update() {
 
       sunday_start_time : SingleStoreData.operational_hours[0]? moment(SingleStoreData.operational_hours[0].start_time,  'hh:mm:ss').format('hh:mm:ss') : "",
       sunday_close_time : SingleStoreData.operational_hours[0]? moment(SingleStoreData.operational_hours[0].closing_time,  'hh:mm:ss').format('hh:mm:ss') : "",
-      sunday_is_open : SingleStoreData.operational_hours[0]? SingleStoreData.operational_hours[0].is_open : '',
+      sunday_is_open : SingleStoreData.operational_hours[0].is_open === 1? SingleStoreData.operational_hours[0].is_open : 0,
       sunday_no_of_hours :  "",
 
       monday_start_time : SingleStoreData.operational_hours[1]? moment(SingleStoreData.operational_hours[1].start_time,  'hh:mm:ss').format('hh:mm:ss') : "",
       monday_close_time : SingleStoreData.operational_hours[1]? moment(SingleStoreData.operational_hours[1].closing_time,  'hh:mm:ss').format('hh:mm:ss') : "",
-      monday_is_open : SingleStoreData.operational_hours[1]? SingleStoreData.operational_hours[1].is_open : '',
+      monday_is_open : SingleStoreData.operational_hours[1].is_open  === 1? SingleStoreData.operational_hours[1].is_open : 0,
       monday_no_of_hours : '',
       
       tuesday_start_time : SingleStoreData.operational_hours[2]? moment(SingleStoreData.operational_hours[2].start_time,  'hh:mm:ss').format('hh:mm:ss') : "",
       tuesday_close_time : SingleStoreData.operational_hours[2]? moment(SingleStoreData.operational_hours[2].closing_time,  'hh:mm:ss').format('hh:mm:ss') : "",
-      tuesday_is_open : SingleStoreData.operational_hours[2]? SingleStoreData.operational_hours[2].is_open : '',
+      tuesday_is_open : SingleStoreData.operational_hours[2].is_open  === 1? SingleStoreData.operational_hours[2].is_open : 0,
       tuesday_no_of_hours : '',
 
       wednesday_start_time :  SingleStoreData.operational_hours[3]? moment(SingleStoreData.operational_hours[3].start_time,  'hh:mm:ss').format('hh:mm:ss') : "",
       wednesday_close_time :  SingleStoreData.operational_hours[3]? moment(SingleStoreData.operational_hours[3].closing_time,  'hh:mm:ss').format('hh:mm:ss') : "",
-      wednesday_is_open : SingleStoreData.operational_hours[3]? SingleStoreData.operational_hours[3].is_open : '',
+      wednesday_is_open : SingleStoreData.operational_hours[3].is_open === 1? SingleStoreData.operational_hours[3].is_open : 0,
       wednesday_no_of_hours : '',
 
       thursday_start_time :  SingleStoreData.operational_hours[4]? moment(SingleStoreData.operational_hours[4].start_time,  'hh:mm:ss').format('hh:mm:ss') : "",
       thursday_close_time :  SingleStoreData.operational_hours[4]? moment(SingleStoreData.operational_hours[4].closing_time,  'hh:mm:ss').format('hh:mm:ss') : "",
-      thursday_is_open : SingleStoreData.operational_hours[4]? SingleStoreData.operational_hours[4].is_open : '',
+      thursday_is_open : SingleStoreData.operational_hours[4].is_open === 1 ?1 : 0,
       thursday_no_of_hours : '',
 
       friday_start_time : SingleStoreData.operational_hours[5]? moment(SingleStoreData.operational_hours[5].start_time,  'hh:mm:ss').format('hh:mm:ss') : "",
       friday_close_time : SingleStoreData.operational_hours[5]? moment(SingleStoreData.operational_hours[5].closing_time,  'hh:mm:ss').format('hh:mm:ss') : "",
-      friday_is_open : SingleStoreData.operational_hours[5]? SingleStoreData.operational_hours[5].is_open : '',
+      friday_is_open : SingleStoreData.operational_hours[5].is_open  === 1? SingleStoreData.operational_hours[5].is_open : 0,
       friday_no_of_hours : '',
 
       saturday_start_time :  SingleStoreData.operational_hours[6]? moment(SingleStoreData.operational_hours[6].start_time,  'hh:mm:ss').format('hh:mm:ss') : "",
       saturday_close_time :  SingleStoreData.operational_hours[6]? moment(SingleStoreData.operational_hours[6].closing_time,  'hh:mm:ss').format('hh:mm:ss') : "",
-      saturday_is_open : SingleStoreData.operational_hours[6]? SingleStoreData.operational_hours[6].is_open : '',
+      saturday_is_open : SingleStoreData.operational_hours[6].is_open === 1? SingleStoreData.operational_hours[6].is_open : 0,
       saturday_no_of_hours : '',
 
       // social media
@@ -284,15 +284,18 @@ function Update() {
       const CuisineIds = [];
       const FoodIds = [];
 
-      for( let i in  selectedCuisine){
+      const cuisineData = values.cuisines;
+      const FoodData = values.foodType;
+
+      for( let i in  cuisineData){
         let obj = {
-          cuisine_id : selectedCuisine[i].id
+          cuisine_id : cuisineData[i].id
         }
         CuisineIds.push(obj)
       }
-      for( let i in  selectedFoodList){
+      for( let i in  FoodData){
         let obj = {
-          food_type_id : selectedFoodList[i].id
+          food_type_id : FoodData[i].id
         }
         FoodIds.push(obj)
       }
@@ -314,45 +317,44 @@ function Update() {
             {
                 "day" : "Sunday",
                 "start_time":  moment(values.sunday_start_time,'hh:mm:ss').format('hh:mm:ss') ,
-                "no_of_hours": values.sunday_no_of_hours,
+                "no_of_hours": Math.abs(moment(values.sunday_start_time, "hh").format('hh') - moment(values.sunday_close_time, "hh").format('hh')),
                 "is_open" : sundayIsOpen,
             },
             {
                 "day" : "Monday",
                 "start_time":  moment(values.monday_start_time, 'hh:mm:ss').format('hh:mm:ss'),
-                "no_of_hours": values.monday_no_of_hours,
+                "no_of_hours":  Math.abs(moment(values.monday_start_time, "hh").format('hh') - moment(values.monday_close_time, "hh").format('hh')),
                 "is_open" : mondayIsopen,
             },
             {
                 "day" : "Tuesday",
                 "start_time": moment(values.tuesday_start_time, 'hh:mm:ss').format('hh:mm:ss'),
-                "no_of_hours": values.tuesday_no_of_hours,
+                "no_of_hours":  Math.abs(moment(values.tuesday_start_time, "hh").format('hh') - moment(values.tuesday_close_time, "hh").format('hh')),
                 "is_open" : tuesdayIsOpen,
             },
             {
               "day" : "Wednesday",
               "start_time": moment(values.wednesday_start_time, 'hh:mm:ss').format('hh:mm:ss'),
-              "no_of_hours": values.wednesday_no_of_hours,
+              "no_of_hours": Math.abs(moment(values.wednesday_start_time, "hh").format('hh') - moment(values.wednesday_close_time, "hh").format('hh')),
               "is_open" : wednesdayIsOpen,
           },
             {
                 "day" : "Thursday",
                 "start_time": moment(values.thursday_start_time, 'hh:mm:ss').format('hh:mm:ss'),
-                "no_of_hours": values.thursday_no_of_hours,
+                "no_of_hours":  Math.abs(moment(values.thursday_start_time, "hh").format('hh') - moment(values.thursday_close_time, "hh").format('hh')),
                 "is_open" : thursdayIsOpen
             },
             {
                 "day" : "Friday",
                 "start_time":  moment(values.friday_start_time, 'hh:mm:ss').format('hh:mm:ss'),
-                "no_of_hours": values.friday_no_of_hours,
+                "no_of_hours":  Math.abs(moment(values.friday_start_time, "hh").format('hh') - moment(values.friday_close_time, "hh").format('hh')),
                 "is_open" : fridayIsOpen,
             },
             {
               "day" : "Saturday",
               "start_time": moment(values.saturday_start_time, 'hh:mm:ss').format('hh:mm:ss') ,
-              "no_of_hours": values.saturday_no_of_hours,
+              "no_of_hours":  Math.abs(moment(values.saturday_start_time, "hh").format('hh') - moment(values.saturday_close_time, "hh").format('hh')),
               "is_open" : saturdayIsOpen,
-              "is_open" : saturdayIsOpen
             }
         ],
         "social_links" : {
@@ -369,19 +371,19 @@ function Update() {
     
     
     
-    // setLoading(true);
-    // UpdateStore(id, data)
-    //   .then(res =>{
-    //     const response = res.data.message;
-    //     setLoading(false);
-    //     navigate(`/dashboard/merchant/store/${id}`, { replace: true });
-    //     toast.dark(response);
-    //   })
-    //   .catch((err)=>{
-    //     const response = err.response.data.errors.cuisine_name[0];
-    //     toast.dark(response);
-    //     setLoading(false);
-    //   }) 
+    setLoading(true);
+    UpdateStore(id, data)
+      .then(res =>{
+        const response = res.data.message;
+        setLoading(false);
+        navigate(`/dashboard/merchant/store/${id}`, { replace: true });
+        toast.dark(response);
+      })
+      .catch((err)=>{
+        const response = err.response.data.errors.cuisine_name[0];
+        toast.dark(response);
+        setLoading(false);
+      }) 
     }
 });
 
@@ -419,7 +421,7 @@ function Update() {
                         <TextField
                             fullWidth
                             type="text"
-                            label="description"
+                            label="Description"
                             multiline
                             rows={4}
                             {...getFieldProps('description')}
@@ -427,7 +429,6 @@ function Update() {
                             helperText={touched.description && errors.description}
                         />
 
-                        
                           <TextField
                             fullWidth
                             type= "number"
@@ -877,7 +878,7 @@ function Update() {
                           <h4 style= {{ textAlign : "center" }} > Social Address </h4>
                           <TextField
                             fullWidth
-                            label="website"
+                            label="Website"
                             {...getFieldProps('website')}
                             error={Boolean(touched.website && errors.website)}
                             helperText={touched.website && errors.website}

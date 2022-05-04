@@ -63,7 +63,7 @@ export default function Create() {
   const {id} = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const loading = useSelector(state => state.AddMenu.loading);
+  const [loading, setLoading] = useState(false);
 
   const [inputFields, setInputFields] = useState([
     { name: '', price: '' },
@@ -158,26 +158,25 @@ const removeFields = (index) => {
     name: Yup.string().required('Name is required'),
     price: Yup.string().required('Price is required'),
     description : Yup.string().required("Description is required"),
-    food_type_id: Yup.string().required('Food Type is required'),
-    cuisine_type_id: Yup.string().required('Cuisine Type is required'),
-    category_id: Yup.string().required('Category is required'),
-    restaurant_id : Yup.string().required('Restaurant Id is required'),
+    food_types: Yup.mixed().required('Food Type is required').nullable(),
+    cuisine_types: Yup.mixed().required('Cuisine Type is required').nullable(),
+    categories: Yup.mixed().required('Category is required').nullable(),
     food_item_type: Yup.string().required('Food Item Type is required'),
     food_item_estimate_days :Yup.string().required('Estimate Days are required')
   });
 
   const formik = useFormik({
-    enableReinitialize : true,
+    // enableReinitialize : true,
     initialValues: {
       name : '',
       price : '',
       description : '',
-      food_type_id : selectedFoodList?.id,
-      cuisine_type_id : selectedCuisine?.id,
-      category_id : selectedCategory?.id,
+      food_types : null,
+      cuisine_types : null,
+      categories : null,
       food_item_type  : '',
       food_item_estimate_days : '',
-      restaurant_id : id,
+      restaurant_id : '',
       addons : '',
       variationHalf : '',
       variationFull : ''
@@ -185,18 +184,17 @@ const removeFields = (index) => {
 
     validationSchema: MenuItemSchema,
     onSubmit: (values) => {
-      // console.log(values)
-
+ 
       const data = {
         name : values.name,
         price : values.price,
         description : values.description,
-        food_type_id : selectedFoodList.id,
-        cuisine_id : selectedCuisine.id,
-        category_id : selectedCategory.id,
+        food_type_id : values.food_types.id,
+        cuisine_id : values.cuisine_types.id,
+        category_id : values.categories.id,
         food_item_type : values.food_item_type,
         food_item_estimate_days : values.food_item_estimate_days,
-        restaurant_id : values.restaurant_id,
+        restaurant_id : id,
         food_addons : inputFields,
         food_variations : {
             "full" : values.variationFull,
@@ -207,14 +205,16 @@ const removeFields = (index) => {
 
       console.log(data)
 
+      setLoading(true);
       AddMenu(data)
         .then(res =>{
           const response = res.data.message;
-          console.log(response);
+          setLoading(false);
           toast.dark(response)
           navigate(`/dashboard/merchant/menu/${id}`, { replace: true });
         })
         .catch((err)=>{
+          setLoading(false);
           const errors = err.response.data.message;
           const ddd = err.response.data.errors?.name[0];
           toast.error(ddd?ddd : errors)
@@ -276,51 +276,51 @@ const removeFields = (index) => {
 
                           <Autocomplete
                               // multiple
+                              // limitTags={1}
                               options={foodList}
+                              disableClearable
                               getOptionLabel = {(option)=> option.food_type_name}
+                              onChange = {(event, value)=>  formik.setFieldValue("food_types", value) }  
                               renderInput = {(option)=> 
-                                  <TextField {...option} 
+                                  <TextField 
+                                      {...option} 
                                       label ="Food Type" 
-                                      {...getFieldProps('food_type_id')}
-                                      value = {values?.food_type_name}
-                                      error={Boolean(touched.food_type_id && errors.food_type_id)}
-                                      helperText={touched.food_type_id && errors.food_type_id}
+                                      error={Boolean(touched.food_types && errors.food_types)}
+                                      helperText={touched.food_types && errors.food_types}
                                   /> }
-                              onChange = {(event, value)=> setSelectedFoodList(value) }
-
                           />  
 
                           <Autocomplete
+                              // multiple
+                              fullWidth
+                              limitTags={1}
                               options={cuisineList}
-                              // defaultValue = {["new", "old"]}
                               getOptionLabel = {(option)=> option.cuisine_name}
+                              onChange = {(event, value)=>  formik.setFieldValue("cuisine_types", value) } 
                               renderInput = {(option)=> 
                                   <TextField 
                                       {...option} 
                                       label ="Cuisine Type"
-                                
-                                      {...getFieldProps('cuisine_type_id')}
-                                      error={Boolean(touched.cuisine_type_id && errors.cuisine_type_id)}
-                                      helperText={touched.cuisine_type_id && errors.cuisine_type_id} 
+                                      error={Boolean(touched.cuisine_types && errors.cuisine_types)}
+                                      helperText={touched.cuisine_types && errors.cuisine_types} 
 
                                   /> }
-                              onChange = {(event, value)=> setSelectedCuisineList(value) }
+                           
                           />
                           <Autocomplete
                               // multiple
+                              limitTags={1}
                               options={categoryList}
                               // defaultValue = {["new", "old"]}
                               getOptionLabel = {(option)=> option.name}
+                              onChange = {(event, value)=>  formik.setFieldValue("categories", value) } 
                               renderInput = {(option)=> 
                                   <TextField 
                                     {...option} 
                                     label ="Category" 
-                                    
-                                    {...getFieldProps('category_id')}
-                                    error={Boolean(touched.category_id && errors.category_id)}
-                                    helperText={touched.category_id && errors.category_id} 
+                                    error={Boolean(touched.categories && errors.categories)}
+                                    helperText={touched.categories && errors.categories} 
                                     /> }
-                              onChange = {(event, value)=> setSelectedCategoryList(value) }
                           />
 
                           <TextField
@@ -343,14 +343,14 @@ const removeFields = (index) => {
                             helperText={touched.food_item_estimate_days && errors.food_item_estimate_days}
                         /> 
 
-                        <TextField
+                        {/* <TextField
                             fullWidth
                             type="number"
                             label="Restaurant ID"
                             {...getFieldProps('restaurant_id')}
                             error={Boolean(touched.restaurant_id && errors.restaurant_id)}
                             helperText={touched.restaurant_id && errors.restaurant_id}
-                        />
+                        /> */}
 
                           <h4 style={{ textAlign : "center" }} > Variation </h4>
                          

@@ -1,3 +1,5 @@
+
+
 import * as Yup from 'yup';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
@@ -15,7 +17,6 @@ import { toast } from 'material-react-toastify';
 import DeleteIcon from  '@mui/icons-material/Delete'
 import AddCircleIcon from  '@mui/icons-material/AddCircle';
 
-
 // material
 import {
   Link,
@@ -29,9 +30,9 @@ import {
 import { LoadingButton } from '@mui/lab';
 // component
 import Iconify from '../../../components/Iconify';
-import {UpdateMenu} from '../../../redux/menu/update/action';
-import { FetchSingleMenu} from '../../../redux/menu/fetchSingle/action';
 import {FetchCuisineTypeList , FetchFoodTypeList, CategoryList} from '../../../redux/merchantStore/other/actions';
+import { FetchSingleMenu} from '../../../redux/menu/fetchSingle/action';
+import {UpdateMenu} from '../../../redux/menu/update/action';
 
 // ----------------------------------------------------------------------
 
@@ -40,11 +41,6 @@ import {FetchCuisineTypeList , FetchFoodTypeList, CategoryList} from '../../../r
 // const Category = ['Category 1', 'Category 2', "Category 3"];
 // const Addons = ['Addon 1','Addon 2','Addon 3','Addon 4','Addon 5'];
 // const Variations = ['Variation 1', 'Variation 2','Variation 3','Variation 4', 'Variation 5']
-
-
-
-const top100Films = ['matar']
-
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -57,7 +53,6 @@ const MenuProps = {
   },
 };
 
-
 // function getStyles(name, personName, theme) {
 //   return {
 //     fontWeight:
@@ -67,37 +62,31 @@ const MenuProps = {
 //   };
 // }
 
-
-export default function Update() {
+export default function Create() {
   const {id} = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [loading, setLoading] = useState(false);
   const [SingleMenu, setSingleMenu] = useState([]);
-  const [cusine, setCuisine] = useState(null);
-  const[loading, setLoading] = useState(false);
-
-  const SingleMenuData = (id)=>{
-    FetchSingleMenu(id)
-        .then(res =>{
-                const response = res.data.data;
-                setSingleMenu(response);
-                setCuisine(response.cuisine)
-                // console.log(response);
-            })
-  }
-
-  useEffect(()=>{
-    SingleMenuData(id);
-  }, [])
-
-  console.log("single Menu", cusine);
 
   const [inputFields, setInputFields] = useState([
     { name: '', price: '' },
   ])
 
 
-  // console.log(inputFields)
+  const FetchMenu = (id)=>{
+    FetchSingleMenu(id)
+      .then((res)=>{
+          const response = res.data.data;
+          setSingleMenu(response)
+      })
+  }
+
+  useEffect(()=>{
+    FetchMenu(id)
+  },[])
+ 
+  console.log("single menu", SingleMenu)
 
   const handleFormChange = (index, event) => {
     let data = [...inputFields];
@@ -119,7 +108,6 @@ const removeFields = (index) => {
   setInputFields(data)
 }
 
-
   const[foodList, setFoodList] = useState([]);
   const[selectedFoodList, setSelectedFoodList] = useState();
   const[cuisineList, setCuisineList] = useState([]);
@@ -127,7 +115,6 @@ const removeFields = (index) => {
   const[categoryList, setCategoryList] = useState([]);
   const[selectedCategory, setSelectedCategoryList] = useState();
 
-  
 
       // console.log("selectedFoodList", selectedFoodList)
  
@@ -183,15 +170,13 @@ const removeFields = (index) => {
   //   );
   // };
 
-
-
   const MenuItemSchema = Yup.object().shape({
     name: Yup.string().required('Name is required'),
     price: Yup.string().required('Price is required'),
-    food_type_id: Yup.string().required('Food Type is required'),
-    cuisine_type_id: Yup.string().required('Cuisine Type is required'),
-    category_id: Yup.string().required('Category is required'),
-    restaurant_id : Yup.string().required('Restaurant Id is required'),
+    description : Yup.string().required("Description is required"),
+    food_types: Yup.mixed().required('Food Type is required').nullable(),
+    cuisine_types: Yup.mixed().required('Cuisine Type is required').nullable(),
+    categories: Yup.mixed().required('Category is required').nullable(),
     food_item_type: Yup.string().required('Food Item Type is required'),
     food_item_estimate_days :Yup.string().required('Estimate Days are required')
   });
@@ -201,12 +186,13 @@ const removeFields = (index) => {
     initialValues: {
       name : SingleMenu?.name,
       price : SingleMenu?.price,
-      food_type_id : selectedFoodList?.id,
-      cuisine_type_id : selectedCuisine?.id,
-      category_id : selectedCategory?.id,
-      food_item_type  : '',
+      description : SingleMenu?.description,
+      food_types : SingleMenu?.food_type,
+      cuisine_types : SingleMenu?.cuisine,
+      categories : SingleMenu?.category,
+      food_item_type  : SingleMenu.food_item_type === "Food Item"?1 : 2,
       food_item_estimate_days : SingleMenu?.food_item_estimate_days,
-      restaurant_id : id,
+      restaurant_id : '',
       addons : '',
       variationHalf : '',
       variationFull : ''
@@ -214,16 +200,17 @@ const removeFields = (index) => {
 
     validationSchema: MenuItemSchema,
     onSubmit: (values) => {
-      // console.log(values)
+ 
       const data = {
         name : values.name,
         price : values.price,
-        food_type_id : selectedFoodList.id,
-        cuisine_id : selectedCuisine.id,
-        category_id : selectedCategory.id,
+        description : values.description,
+        food_type_id : values.food_types.id,
+        cuisine_id : values.cuisine_types.id,
+        category_id : values.categories.id,
         food_item_type : values.food_item_type,
         food_item_estimate_days : values.food_item_estimate_days,
-        restaurant_id : values.restaurant_id,
+        restaurant_id : id,
         food_addons : inputFields,
         food_variations : {
             "full" : values.variationFull,
@@ -234,19 +221,20 @@ const removeFields = (index) => {
 
       // console.log(data)
 
-      UpdateMenu(id ,data)
+      setLoading(true);
+      UpdateMenu(id, data)
         .then(res =>{
           const response = res.data.message;
-          navigate('/dashboard/merchant/menu', { replace: true });
-          // console.log(response);
-          toast.dark(response);
+          setLoading(false);
+          toast.dark(response)
+          navigate(`/dashboard/merchant/menu/${id}`, { replace: true });
         })
         .catch((err)=>{
-          const response = err.response.data.message;
-          toast.error(response)
-          // console.log(response)
+          setLoading(false);
+          const errors = err.response.data.message;
+          const ddd = err.response.data.errors?.name[0];
+          toast.error(ddd?ddd : errors)
         })
-     
     }
   });
 
@@ -255,9 +243,9 @@ const removeFields = (index) => {
   return(
         <>
         <Typography variant="h4" gutterBottom>
-          Update Menu Item
+          Add New Item
         </Typography>
-    
+            
         <Grid
             container
             // item xs={8} 
@@ -275,8 +263,9 @@ const removeFields = (index) => {
                           <TextField
                               fullWidth
                               InputLabelProps={{
-                                shrink: true,
+                                 shrink : true                                
                               }}
+                              
                               type="text"
                               label="Name"
                               {...getFieldProps('name')}
@@ -287,8 +276,8 @@ const removeFields = (index) => {
                           <TextField
                               fullWidth
                               InputLabelProps={{
-                                shrink: true,
-                              }}
+                                shrink : true                                
+                             }}
                               type="number"
                               label="Price"
                               {...getFieldProps('price')}
@@ -296,64 +285,86 @@ const removeFields = (index) => {
                               helperText={touched.price && errors.price}
                           />
 
+                            <TextField
+                              fullWidth
+                              InputLabelProps={{
+                                shrink : true                                
+                             }}
+                              type="text"
+                              label="Description"
+                              multiline
+                              rows={4}
+                              {...getFieldProps('description')}
+                              error={Boolean(touched.description && errors.description)}
+                              helperText={touched.description && errors.description}
+                          />
+
+                          {values.food_types? 
                           <Autocomplete
                               options={foodList}
-                              getOptionLabel = {(option)=> option.food_type_name }
-                              defaultValue={[["ddd"]]} 
+                              disableClearable
+                              getOptionLabel = {(option)=> option.food_type_name}
+                              defaultValue = {values.food_types}
+                              getOptionSelected={(option, value) => option.food_type_name === value.food_type_name}
+                              onChange = {(event, value)=>  formik.setFieldValue("food_types", value) }  
                               renderInput = {(option)=> 
-                                  <TextField {...option} 
+                                  <TextField 
+                                      {...option} 
                                       label ="Food Type" 
-                                      {...getFieldProps('food_type_id')}
-                                      value = {"sou"}
-                                      error={Boolean(touched.food_type_id && errors.food_type_id)}
-                                      helperText={touched.food_type_id && errors.food_type_id}
+                                      error={Boolean(touched.food_types && errors.food_types)}
+                                      helperText={touched.food_types && errors.food_types}
                                   /> }
-                              onChange = {(event, value)=> setSelectedFoodList(value) }
-
                           />  
+                          : null}
 
+                         {values.cuisine_types? 
                           <Autocomplete
-                              
+                              // multiple
+                              fullWidth
+                              limitTags={1}
                               options={cuisineList}
-                              value={cusine}
-                              //  isOptionEqualToValue={(option, value) => option.id === value.id}
-                              // getOptionSelected={(option, value) => option.cuisine_name === value.name}
-                              isOptionEqualToValue={(option, value) => option.name === value.name}
-                              getOptionLabel = {(option)=> option.cuisine_name}
+                              getOptionLabel = {(option)=> option.cuisine_name || option.name}
+                              defaultValue = {values.cuisine_types}
+                              getOptionSelected={(option, value) => option.name === value.name}
+                              onChange = {(event, value)=>  formik.setFieldValue("cuisine_types", value) } 
                               renderInput = {(option)=> 
                                   <TextField 
                                       {...option} 
                                       label ="Cuisine Type"
-                                      // value = { SingleMenu.cuisine?.name}
-                                      // {...getFieldProps('cuisine_type_id')}
-                                      // error={Boolean(touched.cuisine_type_id && errors.cuisine_type_id)}
-                                      // helperText={touched.cuisine_type_id && errors.cuisine_type_id} 
-                                      variant="outlined"
-
+                                      error={Boolean(touched.cuisine_types && errors.cuisine_types)}
+                                      helperText={touched.cuisine_types && errors.cuisine_types} 
 
                                   /> }
-                              onChange = {(event, value)=> setSelectedCuisineList(value) }
                           />
+                          : null}
+
+                          {values.categories? 
                           <Autocomplete
                               // multiple
+                              limitTags={1}
                               options={categoryList}
                               // defaultValue = {["new", "old"]}
                               getOptionLabel = {(option)=> option.name}
+                              defaultValue = {values.categories}
+                              getOptionSelected={(option, value) => option.name === value.name}
+                              onChange = {(event, value)=>  formik.setFieldValue("categories", value) } 
                               renderInput = {(option)=> 
                                   <TextField 
                                     {...option} 
                                     label ="Category" 
-                                    
-                                    {...getFieldProps('category_id')}
-                                    error={Boolean(touched.category_id && errors.category_id)}
-                                    helperText={touched.category_id && errors.category_id} 
+                                    error={Boolean(touched.categories && errors.categories)}
+                                    helperText={touched.categories && errors.categories} 
                                     /> }
-                              onChange = {(event, value)=> setSelectedCategoryList(value) }
                           />
+
+                          : null}
 
                           <TextField
                             fullWidth
                             select
+                            InputLabelProps={{
+                              shrink : true                                
+                           }}
                             label="Food Item Type"
                             {...getFieldProps('food_item_type')}
                             error={Boolean(touched.food_item_type && errors.food_item_type)}
@@ -362,10 +373,11 @@ const removeFields = (index) => {
                             <MenuItem value= "1">Food Item</MenuItem>
                             <MenuItem value= "2">Pre Order Item</MenuItem>
                         </TextField> 
-
-                          
                         <TextField
                             fullWidth
+                            InputLabelProps={{
+                              shrink : true                                
+                           }}
                             type="number"
                             label="food Item Estimate Days"
                             {...getFieldProps('food_item_estimate_days')}
@@ -373,16 +385,14 @@ const removeFields = (index) => {
                             helperText={touched.food_item_estimate_days && errors.food_item_estimate_days}
                         /> 
 
-                      
-                        <TextField
+                        {/* <TextField
                             fullWidth
-                            disabled
                             type="number"
                             label="Restaurant ID"
                             {...getFieldProps('restaurant_id')}
                             error={Boolean(touched.restaurant_id && errors.restaurant_id)}
                             helperText={touched.restaurant_id && errors.restaurant_id}
-                        />
+                        /> */}
 
                           <h4 style={{ textAlign : "center" }} > Variation </h4>
                          
@@ -448,11 +458,16 @@ const removeFields = (index) => {
                           <IconButton onClick={addFields} aria-label="delete" size="large">
                             <AddCircleIcon/>
                           </IconButton>
-                          <IconButton onClick={(index) => removeFields(index)} aria-label="delete" size="large">
-                            <DeleteIcon />
-                          </IconButton>
+                          {inputFields.length ===0 ? 
+                            <IconButton disabled  onClick={(index) => removeFields(index)} aria-label="delete" size="large">
+                              <DeleteIcon />
+                            </IconButton>
+                          : 
+                            <IconButton  onClick={(index) => removeFields(index)} aria-label="delete" size="large">
+                              <DeleteIcon />
+                            </IconButton>
+                          }
                         </Stack>
-
                         <LoadingButton
                             fullWidth
                             size="large"
