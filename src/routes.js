@@ -18,6 +18,8 @@ import ViewMenuItem from './sections/@dashboard/menuItem/view';
 import UpdateItem from './sections/@dashboard/menuItem/update';
 import UploadImage from './sections/@dashboard/menuItem/image';
 import Withdrawal from './pages/Withdrawal';
+import MerchantWithdraw from './sections/@dashboard/withdrawal/merchant';
+import UserWithdraw from './sections/@dashboard/withdrawal/user';
 import Notification from './pages/Notify';
 import CreateNotification from './sections/@dashboard/notify/create';
 import UpdateNotification from './sections/@dashboard/notify/update';
@@ -96,6 +98,8 @@ export default function Router() {
         { path: 'notify/create', element : <CreateNotification/>},
         { path: 'notify/update', element : <UpdateNotification/>},
         { path: 'withdrawal', element : <Withdrawal/>},
+        { path: 'withdrawal/user', element : <UserWithdraw/>},
+        { path: 'withdrawal/merchant', element : <MerchantWithdraw/>},
         { path: "string", element : <Strings/>},
         { path: "string/merchant", element : <MerchantString/>},
         { path: "string/user", element : <UserString/>},

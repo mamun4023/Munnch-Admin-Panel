@@ -157,6 +157,7 @@ const removeFields = (index) => {
   const MenuItemSchema = Yup.object().shape({
     name: Yup.string().required('Name is required'),
     price: Yup.string().required('Price is required'),
+    description : Yup.string().required("Description is required"),
     food_type_id: Yup.string().required('Food Type is required'),
     cuisine_type_id: Yup.string().required('Cuisine Type is required'),
     category_id: Yup.string().required('Category is required'),
@@ -170,6 +171,7 @@ const removeFields = (index) => {
     initialValues: {
       name : '',
       price : '',
+      description : '',
       food_type_id : selectedFoodList?.id,
       cuisine_type_id : selectedCuisine?.id,
       category_id : selectedCategory?.id,
@@ -188,6 +190,7 @@ const removeFields = (index) => {
       const data = {
         name : values.name,
         price : values.price,
+        description : values.description,
         food_type_id : selectedFoodList.id,
         cuisine_id : selectedCuisine.id,
         category_id : selectedCategory.id,
@@ -258,6 +261,18 @@ const removeFields = (index) => {
                               error={Boolean(touched.price && errors.price)}
                               helperText={touched.price && errors.price}
                           />
+
+                            <TextField
+                              fullWidth
+                              type="text"
+                              label="Description"
+                              multiline
+                              rows={4}
+                              {...getFieldProps('description')}
+                              error={Boolean(touched.description && errors.description)}
+                              helperText={touched.description && errors.description}
+                          />
+
 
                           <Autocomplete
                               // multiple

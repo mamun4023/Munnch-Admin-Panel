@@ -39,12 +39,100 @@ function Update() {
   const [filter, setFilter] = useState('')
   const dispatch = useDispatch();
   const[loading, setLoading] = useState(false);
-  const [toggler, setToggler] = useState(0);
+  const [sundayIsOpen, setSundayIsOpen] = useState();
+  const [mondayIsopen, setMondayIsOpen] = useState();
+  const [tuesdayIsOpen, setTuesdayIsOpen] = useState();
+  const [wednesdayIsOpen, setWednesdayIsOpen] = useState();
+  const [thursdayIsOpen, setThursdayIsOpen] = useState();
+  const [fridayIsOpen, setFridayIsOpen] = useState();
+  const [saturdayIsOpen, setSaturdayIsOpen] = useState();
 
   const[foodList, setFoodList] = useState([]);
   const[selectedFoodList, setSelectedFoodList] = useState();
   const[cuisineList, setCuisineList] = useState([]);
   const[selectedCuisine, setSelectedCuisineList] = useState();
+
+
+  const SundayTogglerHandeler = (data)=>{
+    let result;
+    if(data === 0){
+      result = 1;
+    }
+    if(data === 1){
+      result = 0
+    }
+    setSundayIsOpen(result);
+  }
+
+  const MondayTogglerHandeler = (data)=>{
+    let result;
+    if(data === 0){
+      result = 1;
+    }
+    if(data === 1){
+      result = 0
+    }
+    setMondayIsOpen(result);
+  }
+
+  const TuesdayTogglerHandeler = (data)=>{
+    let result;
+    if(data === 0){
+      result = 1;
+    }
+    if(data === 1){
+      result = 0
+    }
+    setTuesdayIsOpen(result);
+  }
+
+  const WednesdayTogglerHandeler = (data)=>{
+    let result;
+    if(data === 0){
+      result = 1;
+    }
+    if(data === 1){
+      result = 0
+    }
+    setWednesdayIsOpen(result);
+  }
+
+  const ThursdayTogglerHandeler = (data)=>{
+    let result;
+    if(data === 0){
+      result = 1;
+    }
+    if(data === 1){
+      result = 0
+    }
+    setThursdayIsOpen(result);
+  }
+
+
+  const FridayTogglerHandeler = (data)=>{
+    let result;
+    if(data === 0){
+      result = 1;
+    }
+    if(data === 1){
+      result = 0
+    }
+    setFridayIsOpen(result);
+  }
+
+  
+  const SaturdayTogglerHandeler = (data)=>{
+    let result;
+    if(data === 0){
+      result = 1;
+    }
+    if(data === 1){
+      result = 0
+    }
+    setSaturdayIsOpen(result);
+  }
+
+
 
 
   const LoadListData = ()=>{
@@ -70,19 +158,19 @@ function Update() {
   // const FoodList = useSelector(state => state.FetchFoodList.data);
   // const CusineList = useSelector(state => state.FetchCuisineList.data)
 
-     console.log("SingleStoreData " , SingleStoreData.operational_hours);
+     console.log("SingleStoreData " , SingleStoreData);
   //  console.log("SingleStoreData " , moment(SingleStoreData.operational_hours[0].start_time,  'hh:mm:ss').format('hh:mm:ss '));
   //  console.log("Cusine", CusineList);
 
 
 // geo location
-  const [address, setAddress] = useState('');
+  const [address, setAddress] = useState(SingleStoreData.location?SingleStoreData.location.address: "");
     // latLot data
   const[latllogAddress, setLatllogAddress] = useState(SingleStoreData.location?SingleStoreData.location.address: ""); // set default address
   const[location , setLocation] = useState();
-  const[lat, setLat] = useState();
-  const[lng, setLng] = useState();
-
+  const[lat, setLat] = useState(SingleStoreData.location?SingleStoreData.location.latitude: "");
+  const[lng, setLng] = useState(SingleStoreData.location?SingleStoreData.location.longitude: "");
+  
   const handleSelect = async (values) => {
   const result = await geocodeByAddress(values)
   setLocation(result[0].formatted_address)
@@ -95,8 +183,8 @@ function Update() {
   setLatllogAddress(values)
   };
 
-  console.log(lat+","+lng)
-  console.log(address);
+  // console.log(lat+","+lng)
+  // console.log(address);
 
   
   const StoreSchema = Yup.object().shape({
@@ -104,8 +192,11 @@ function Update() {
     description: Yup.string().required('Description is required'),
     max_delivery_km : Yup.string().required("Delivery KM is required"),
     contact_no : Yup.string().required("Contact Number is required").min(10,"Must be 10 digit").max(10,"Must be 10 digit"),
-    // country : Yup.string().required('Country is required'),
-    // city : Yup.string().required('City is required'),
+    country : Yup.string().required('Country is required'),
+    city : Yup.string().required('City is required'),
+    cuisines : Yup.array().required("Cusine is required").nullable(),
+    foodType : Yup.array().required("Food Type is required").nullable(),
+
     saturday_start_time : Yup.string().required("Start Time is required"),
     saturday_no_of_hours : Yup.string().required("Hour is required"),
 
@@ -138,6 +229,8 @@ function Update() {
       contact_no :  SingleStoreData.contact_no? SingleStoreData.contact_no : "",
       country : SingleStoreData.location ? SingleStoreData.location.country  : " " ,
       city : SingleStoreData.location ? SingleStoreData.location.city  : " " ,
+      cuisines : SingleStoreData.cuisines? SingleStoreData.cuisines : "",
+      foodType : SingleStoreData.food_types? SingleStoreData.food_types : "",
 
       // oprational hours
    
@@ -145,7 +238,7 @@ function Update() {
       sunday_start_time : SingleStoreData.operational_hours[0]? moment(SingleStoreData.operational_hours[0].start_time,  'hh:mm:ss').format('hh:mm:ss') : "",
       sunday_close_time : SingleStoreData.operational_hours[0]? moment(SingleStoreData.operational_hours[0].closing_time,  'hh:mm:ss').format('hh:mm:ss') : "",
       sunday_is_open : SingleStoreData.operational_hours[0]? SingleStoreData.operational_hours[0].is_open : '',
-      sunday_no_of_hours : '',
+      sunday_no_of_hours :  "",
 
       monday_start_time : SingleStoreData.operational_hours[1]? moment(SingleStoreData.operational_hours[1].start_time,  'hh:mm:ss').format('hh:mm:ss') : "",
       monday_close_time : SingleStoreData.operational_hours[1]? moment(SingleStoreData.operational_hours[1].closing_time,  'hh:mm:ss').format('hh:mm:ss') : "",
@@ -173,7 +266,7 @@ function Update() {
       friday_no_of_hours : '',
 
       saturday_start_time :  SingleStoreData.operational_hours[6]? moment(SingleStoreData.operational_hours[6].start_time,  'hh:mm:ss').format('hh:mm:ss') : "",
-      saturday_close_time :  SingleStoreData.operational_hours[6]? moment(SingleStoreData.operational_hours[6].start_time,  'hh:mm:ss').format('hh:mm:ss') : "",
+      saturday_close_time :  SingleStoreData.operational_hours[6]? moment(SingleStoreData.operational_hours[6].closing_time,  'hh:mm:ss').format('hh:mm:ss') : "",
       saturday_is_open : SingleStoreData.operational_hours[6]? SingleStoreData.operational_hours[6].is_open : '',
       saturday_no_of_hours : '',
 
@@ -183,9 +276,10 @@ function Update() {
       facebook : SingleStoreData.social_links?SingleStoreData.social_links.facebook : "" ,
 
     },
-    validationSchema: StoreSchema,
+    // validationSchema: StoreSchema,
     onSubmit: (values) => {
-      console.log(values)
+
+      // console.log(values)
 
       const CuisineIds = [];
       const FoodIds = [];
@@ -206,7 +300,6 @@ function Update() {
       const data = {
         "restaurant_name" : values.store_name,
         "description" : values.description,
-        "distance" : values.distance,
         "max_delivery_km" : values.max_delivery_km,
         "contact_no" : values.contact_no,
         "address" : 
@@ -219,35 +312,48 @@ function Update() {
             },
         "operational_hours" : [
             {
-              "day" : "Saturday",
-              "start_time": moment(values.saturday_start_time, 'hh:mm:ss').format('hh:mm:ss') ,
-              "no_of_hours": values.saturday_no_of_hours
-            },
-            {
                 "day" : "Sunday",
                 "start_time":  moment(values.sunday_start_time,'hh:mm:ss').format('hh:mm:ss') ,
-                "no_of_hours": values.sunday_no_of_hours
+                "no_of_hours": values.sunday_no_of_hours,
+                "is_open" : sundayIsOpen,
             },
             {
                 "day" : "Monday",
                 "start_time":  moment(values.monday_start_time, 'hh:mm:ss').format('hh:mm:ss'),
-                "no_of_hours": values.monday_no_of_hours
+                "no_of_hours": values.monday_no_of_hours,
+                "is_open" : mondayIsopen,
             },
             {
                 "day" : "Tuesday",
                 "start_time": moment(values.tuesday_start_time, 'hh:mm:ss').format('hh:mm:ss'),
                 "no_of_hours": values.tuesday_no_of_hours,
+                "is_open" : tuesdayIsOpen,
             },
+            {
+              "day" : "Wednesday",
+              "start_time": moment(values.wednesday_start_time, 'hh:mm:ss').format('hh:mm:ss'),
+              "no_of_hours": values.wednesday_no_of_hours,
+              "is_open" : wednesdayIsOpen,
+          },
             {
                 "day" : "Thursday",
                 "start_time": moment(values.thursday_start_time, 'hh:mm:ss').format('hh:mm:ss'),
-                "no_of_hours": values.thursday_no_of_hours
+                "no_of_hours": values.thursday_no_of_hours,
+                "is_open" : thursdayIsOpen
             },
             {
                 "day" : "Friday",
                 "start_time":  moment(values.friday_start_time, 'hh:mm:ss').format('hh:mm:ss'),
-                "no_of_hours": values.friday_no_of_hours
+                "no_of_hours": values.friday_no_of_hours,
+                "is_open" : fridayIsOpen,
             },
+            {
+              "day" : "Saturday",
+              "start_time": moment(values.saturday_start_time, 'hh:mm:ss').format('hh:mm:ss') ,
+              "no_of_hours": values.saturday_no_of_hours,
+              "is_open" : saturdayIsOpen,
+              "is_open" : saturdayIsOpen
+            }
         ],
         "social_links" : {
             "website" : values.website,
@@ -258,25 +364,30 @@ function Update() {
         "cuisines" : CuisineIds
     }
 
-    console.log("Submitting data",data)
     
-    setLoading(true);
-    UpdateStore(id, data)
-      .then(res =>{
-        const response = res.data.message;
-        setLoading(false);
-        navigate(`/dashboard/merchant/store/${id}`, { replace: true });
-        toast.dark(response);
-      })
-      .catch((err)=>{
-        const response = err.response.data.errors.cuisine_name[0];
-        toast.dark(response);
-        setLoading(false);
-      }) 
+    console.log("data", data);
+    
+    
+    
+    // setLoading(true);
+    // UpdateStore(id, data)
+    //   .then(res =>{
+    //     const response = res.data.message;
+    //     setLoading(false);
+    //     navigate(`/dashboard/merchant/store/${id}`, { replace: true });
+    //     toast.dark(response);
+    //   })
+    //   .catch((err)=>{
+    //     const response = err.response.data.errors.cuisine_name[0];
+    //     toast.dark(response);
+    //     setLoading(false);
+    //   }) 
     }
 });
 
   const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = formik;
+
+ 
 
   return(
         <>
@@ -316,6 +427,7 @@ function Update() {
                             helperText={touched.description && errors.description}
                         />
 
+                        
                           <TextField
                             fullWidth
                             type= "number"
@@ -393,7 +505,7 @@ function Update() {
                             margin={0}
                         >
                             <label> Sunday</label> 
-                            <label> Open <Switch defaultChecked  = {values.sunday_is_open === 1? true : false}  /></label> 
+                            <label> Open <Switch onChange={()=>SundayTogglerHandeler(values.sunday_is_open)} defaultChecked  = {values.sunday_is_open === 1? true : false}  /></label> 
                         </Stack>
 
                         <Stack
@@ -436,7 +548,7 @@ function Update() {
                             margin={0}
                         >
                             <label> Monday</label> 
-                            <label> Open <Switch  defaultChecked  = {values.monday_is_open === 1? true : false}  /></label> 
+                            <label> Open <Switch onChange={()=>MondayTogglerHandeler(values.monday_is_open)}  defaultChecked  = {values.monday_is_open === 1? true : false}  /></label> 
                         </Stack>
 
                         <Stack
@@ -479,7 +591,7 @@ function Update() {
                             margin={0}
                         >
                             <label> Tuesday</label> 
-                            <label> Open <Switch defaultChecked  = {values.tuesday_is_open === 1? true : false}  /></label> 
+                            <label> Open <Switch onChange={()=>TuesdayTogglerHandeler(values.tuesday_is_open)} defaultChecked  = {values.tuesday_is_open === 1? true : false}  /></label> 
                         </Stack>
 
                         <Stack
@@ -522,7 +634,7 @@ function Update() {
                             margin={0}
                         >
                             <label> Wednesday</label> 
-                            <label> Open <Switch defaultChecked  = {values.wednesday_is_open === 1? true : false}  /></label> 
+                            <label> Open <Switch onChange={()=>WednesdayTogglerHandeler(values.wednesday_is_open)}  defaultChecked  = {values.wednesday_is_open === 1? true : false}  /></label> 
                         </Stack>
 
                         <Stack
@@ -566,7 +678,7 @@ function Update() {
                             margin={0}
                         >
                             <label> Thursday</label> 
-                            <label> Open <Switch defaultChecked  = {values.thursday_is_open === 1? true : false}  /></label> 
+                            <label> Open <Switch onChange={()=>ThursdayTogglerHandeler(values.thursday_is_open)} defaultChecked  = {values.thursday_is_open === 1? true : false}  /></label> 
                         </Stack>
 
                         <Stack
@@ -610,7 +722,7 @@ function Update() {
                             margin={0}
                         >
                             <label> Friday</label> 
-                            <label> Open <Switch defaultChecked  = {values.friday_is_open === 1? true : false}  /></label> 
+                            <label> Open <Switch onChange={()=>FridayTogglerHandeler(values.friday_is_open)} defaultChecked  = {values.friday_is_open === 1? true : false}  /></label> 
                         </Stack>
 
                         <Stack
@@ -653,7 +765,7 @@ function Update() {
                             margin={0}
                         >
                             <label> Saturday</label> 
-                            <label> Open <Switch defaultChecked  = {values.saturday_is_open === 1? true : false}  /></label> 
+                            <label> Open <Switch onChange={()=>SaturdayTogglerHandeler(values.sunday_is_open)} defaultChecked  = {values.saturday_is_open === 1? true : false}  /></label> 
                         </Stack>
 
                         <Stack
@@ -695,26 +807,35 @@ function Update() {
                   
                          
                     
-
-
+              
+              {values.cuisines?  
+              
               <Autocomplete
                 multiple
                 options={cuisineList}
-                // defaultValue = {["new", "old"]}
+                defaultValue = {values.cuisines}
+                getOptionSelected={(option, value) => option.cuisine_name === values.cuisine_name}
                 getOptionLabel = {(option)=> option.cuisine_name}
                 renderInput = {(option)=> <TextField {...option} label ="Cuisine Type" /> }
                 onChange = {(event, value)=> setSelectedCuisineList(value) }
 
             />
+            : null}
 
+            {values.foodType? 
             <Autocomplete
                 multiple
                 options={foodList}
+                defaultValue = {values.foodType}
+                getOptionSelected={(option, value) => option.food_type_name === values.food_type_name}
+
                 getOptionLabel = {(option)=> option.food_type_name}
                 renderInput = {(option)=> <TextField {...option} label ="Food Type" /> }
                 onChange = {(event, value)=> setSelectedFoodList(value) }
 
             />  
+
+            :null}
                           
 
 
