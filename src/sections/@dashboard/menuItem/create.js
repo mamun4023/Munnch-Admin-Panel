@@ -334,6 +334,9 @@ const removeFields = (index) => {
                             <MenuItem value= "1">Food Item</MenuItem>
                             <MenuItem value= "2">Pre Order Item</MenuItem>
                         </TextField> 
+
+                      
+
                         <TextField
                             fullWidth
                             type="number"

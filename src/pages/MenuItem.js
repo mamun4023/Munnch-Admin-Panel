@@ -125,6 +125,7 @@ function applySortFilter(array, comparator, query) {
 
 export default function MenuItem() {
   const {id} = useParams();
+  const storeId = id;
   const [page, setPage] = useState(1);
   const [order, setOrder] = useState('desc');
   const [selected, setSelected] = useState([]);
@@ -137,7 +138,7 @@ export default function MenuItem() {
   const loading = useSelector(state => state.FetchAllMenu.loading);
 
   useEffect(()=>{
-    dispatch(FetchMenuList(id,filterName, page, rowsPerPage, order ))
+    dispatch(FetchMenuList(storeId,filterName, page, rowsPerPage, order ))
   },[filterName, page, rowsPerPage, order])
 
   const MenuList = useSelector(state => state.FetchAllMenu.data);
@@ -258,6 +259,7 @@ export default function MenuItem() {
                           <TableCell align="right">
                             <MenuMoreMenu 
                               id = {id}
+                              storeId = {storeId}
                               filter = {filterName}
                               page = {page}
                               limit = {rowsPerPage}

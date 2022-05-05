@@ -9,7 +9,7 @@ import {RemoveMenu} from '../../../redux/menu/remove/action';
 import {FetchMenuList} from '../../../redux/menu/fetchAll/action';
 // ----------------------------------------------------------------------
 
-export default function UserMoreMenu({id, filter, page, limit, order}) {
+export default function UserMoreMenu({id, storeId, filter, page, limit, order}) {
   const ref = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
   const dispatch = useDispatch();
@@ -17,7 +17,7 @@ export default function UserMoreMenu({id, filter, page, limit, order}) {
   const RemoveHandler = (id)=>{
     dispatch(RemoveMenu(id))
     setTimeout(()=>{
-      dispatch(FetchMenuList(filter, page, limit, order))
+      dispatch(FetchMenuList( storeId, filter, page, limit, order))
     },1000)
   }
 

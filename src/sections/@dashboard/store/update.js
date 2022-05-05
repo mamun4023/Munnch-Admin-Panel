@@ -192,6 +192,7 @@ function Update() {
     description: Yup.string().required('Description is required'),
     max_delivery_km : Yup.string().required("Delivery KM is required"),
     contact_no : Yup.string().required("Contact Number is required").min(10,"Must be 10 digit").max(10,"Must be 10 digit"),
+    additional_info : Yup.string().required('Additional Information is required'),
     country : Yup.string().required('Country is required'),
     city : Yup.string().required('City is required'),
     cuisines : Yup.array().required("Cusine is required").nullable(),
@@ -227,6 +228,7 @@ function Update() {
       description : SingleStoreData.description? SingleStoreData.description : "",
       max_delivery_km :  SingleStoreData.max_delivery_km ? SingleStoreData.max_delivery_km : '',
       contact_no :  SingleStoreData.contact_no? SingleStoreData.contact_no : "",
+      additional_info : SingleStoreData.additional_info? SingleStoreData.additional_info : "",
       country : SingleStoreData.location ? SingleStoreData.location.country  : " " ,
       city : SingleStoreData.location ? SingleStoreData.location.city  : " " ,
       cuisines : SingleStoreData.cuisines? SingleStoreData.cuisines : "",
@@ -305,6 +307,7 @@ function Update() {
         "description" : values.description,
         "max_delivery_km" : values.max_delivery_km,
         "contact_no" : values.contact_no,
+        "additional_info" : values.additional_info,
         "address" : 
             {
                 "country" : values.country,
@@ -436,12 +439,23 @@ function Update() {
                             {...getFieldProps('max_delivery_km')}
                             error={Boolean(touched.max_delivery_km && errors.max_delivery_km)}
                             helperText={touched.max_delivery_km && errors.max_delivery_km}
-                          />   
+                          /> 
+
+                          <TextField
+                            fullWidth
+                            type="text"
+                            label="Additional Information"
+                            multiline
+                            rows={4}
+                            {...getFieldProps('additional_info')}
+                            error={Boolean(touched.additional_info && errors.additional_info)}
+                            helperText={touched.additional_info && errors.additional_info}
+                        />  
 
                           <TextField
                             fullWidth
                             type = "number"
-                            label="Contact Number"
+                            label="Business Contact Number"
                             {...getFieldProps('contact_no')}
                             error={Boolean(touched.contact_no && errors.contact_no)}
                             helperText={touched.contact_no && errors.contact_no}

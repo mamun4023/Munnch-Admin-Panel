@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import { IconButton , Button} from '@mui/material';
 import Tooltip from '@mui/material/Tooltip';
+import {useDispatch, useSelector} from 'react-redux';
 
 // material
 import {
@@ -25,7 +26,7 @@ import Scrollbar from '../components/Scrollbar';
 import Iconify from '../components/Iconify';
 import SearchNotFound from '../components/SearchNotFound';
 import { OrderListHead, OrderListToolbar, OrderMoreMenu } from '../sections/@dashboard/order';
-
+import {FetchOrderList} from '../redux/order/FetchAllOrder/action';
 // ----------------------------------------------------------------------
 
 const Data = [
@@ -142,9 +143,10 @@ export default function Order() {
   const [orderBy, setOrderBy] = useState('id');
   const [filterName, setFilterName] = useState('');
   const [rowsPerPage, setRowsPerPage] = useState(5);
-  const [orderData, setOrderData] = useState([])
+  const [orderData, setOrderData] = useState([]);
   const [orderStatus, setOrderStatus] = useState("new");
-
+  const dispatch = useDispatch();
+  const loading = useSelector(state => state.OrderList.loading);
 
 
   const FetchOrder = (orderStatus)=>{
@@ -153,10 +155,14 @@ export default function Order() {
   }
 
   useEffect(()=>{
-    FetchOrder(orderStatus)
+    // FetchOrder(orderStatus
+    dispatch(FetchOrderList())
   })
 
-  console.log("Order Data", orderData);
+  const OrderList = useSelector(state => state.OrderList.data);
+
+
+  console.log("Order Data", OrderList);
 
 
   const handleRequestSort = (event, property) => {

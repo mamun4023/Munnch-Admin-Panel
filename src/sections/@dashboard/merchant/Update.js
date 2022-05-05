@@ -55,8 +55,8 @@ function Create() {
     email: Yup.string().email().required('Email is required'),
     phone: Yup.string().required('Phone Number is required').min(10, "Must be 10 digit").max(10, "Must be 10 digit"),
     store_phone: Yup.string().required('Store Phone Number is required').min(10, "Must be 10 digit").max(10, "Must be 10 digit"),
-    // password: Yup.string().required('Password is required'),
-    // password_confirmation : Yup.string().required("Confirm Password is required"),
+    password: Yup.string().required('Password is required'),
+    password_confirmation : Yup.string().required("Confirm Password is required"),
   });
 
   const formik = useFormik({
@@ -67,8 +67,8 @@ function Create() {
       email : SingleMerchant.email? SingleMerchant.email : "",
       phone : SingleMerchant.phone? SingleMerchant.phone : "",
       store_phone : SingleMerchant.store_phone ? SingleMerchant.phone : "",
-      // password : SingleMerchant.password ? SingleMerchant.password : "",
-      // password_confirmation : SingleMerchant.password_confirmation? SingleMerchant.password_confirmation : '',
+      password : SingleMerchant.password ? SingleMerchant.password : "",
+      password_confirmation : SingleMerchant.password_confirmation? SingleMerchant.password_confirmation : '',
     },
     validationSchema: MerchantSchema,
 
@@ -91,7 +91,6 @@ function Create() {
   })
 
   const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = formik;
-
 
   return(
         <>
@@ -152,30 +151,29 @@ function Create() {
                               error={Boolean(touched.store_phone && errors.store_phone)}
                               helperText={touched.store_phone && errors.store_phone}
                           />
-                          {/* <TextField
+                          <TextField
                               fullWidth
                               type="password"
                               label="Password"
                               {...getFieldProps('password')}
                               error={Boolean(touched.password && errors.password)}
                               helperText={touched.password && errors.password}
-                          /> */}
-                          {/* <TextField
+                          />
+                          <TextField
                               fullWidth
                               type="password"
                               label="Confirm Password"
                               {...getFieldProps('password_confirmation')}
                               error={Boolean(touched.password_confirmation && errors.password_confirmation)}
                               helperText={touched.password_confirmation && errors.password_confirmation}
-                          /> */}
-
-                        <LoadingButton
+                          />
+                          <LoadingButton
                             fullWidth
                             size="large"
                             type="submit"
                             variant="contained"
                             loading={loading}
-                        >
+                          >
                             Save
                         </LoadingButton>
                         </Stack>

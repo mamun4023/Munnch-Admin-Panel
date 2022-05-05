@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { Link as RouterLink} from 'react-router-dom';
 import {Typography, Box, Button, styled, Grid, Stack} from '@mui/material';
-import { Editor } from "react-draft-wysiwyg";
-import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
+
 import Page from '../components/Page';
 
 const RootStyle = styled(Page)(({ theme }) => ({
@@ -11,16 +10,14 @@ const RootStyle = styled(Page)(({ theme }) => ({
   }
 }));
 
-export default function MyEditor() {
-  const[editorState, onEditorStateChange] = useState();
+export default function Withdraw() {
 
-  console.log(editorState)
 
   return (
      <>
       <RootStyle title="Munchh | Strings"> </RootStyle>
           <Typography  variant="h4" gutterBottom>
-                Strings Management
+                Withdrawal Management
           </Typography>
 
         <Grid
