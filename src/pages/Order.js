@@ -5,7 +5,7 @@ import { Link as RouterLink } from 'react-router-dom';
 import { IconButton , Button, Switch} from '@mui/material';
 import Tooltip from '@mui/material/Tooltip';
 import {useDispatch, useSelector} from 'react-redux';
-import Moment from 'react-moment'
+import Moment from 'react-moment';
 // material
 import {
   Card,
@@ -27,51 +27,10 @@ import Iconify from '../components/Iconify';
 import SearchNotFound from '../components/SearchNotFound';
 import { OrderListHead, OrderListToolbar, OrderMoreMenu } from '../sections/@dashboard/order';
 import {FetchOrderList} from '../redux/order/FetchAllOrder/action';
+import {CancleOrder} from '../redux/order/cancelToggler/actions';
 import Spinner from 'src/components/Spinner';
 // ----------------------------------------------------------------------
 
-const Data = [
-  {
-    "id" : "1",
-    "userName" : "Rahul",
-    "merchantName" : "Akram",
-    "orderPrice" : "20",
-    "foodItem" : [],
-    "status" : "New",
-    "createAt" : "2/1/2022",
-    "updateAt" : "2/1/2022"
-  },
-  {
-    "id" : "2",
-    "userName" : "Rohid",
-    "merchantName" : "Akram",
-    "orderPrice" : "20",
-    "foodItem" : [],
-    "status" : "Ongoing",
-    "createAt" : "2/1/2022",
-    "updateAt" : "2/1/2022"
-  },
-  {
-    "id" : "3",
-    "userName" : "Yeasir",
-    "merchantName" : "Akram",
-    "orderPrice" : "20",
-    "foodItem" : [],
-    "status" : "Completed",
-    "createAt" : "2/1/2022",
-    "updateAt" : "2/1/2022"
-  },
-  {
-    "id" : "5",
-    "userName" : "Muskan",
-    "merchantName" : "Akram",
-    "orderPrice" : "20",
-    "foodItem" : [],
-    "status" : "Cancelled",
-    "createAt" : "2/1/2022",
-    "updateAt" : "2/1/2022"
-  },
-]
 
 const TABLE_HEAD = [
   { 
@@ -82,6 +41,16 @@ const TABLE_HEAD = [
   { 
     label: 'NAME', 
     id: 'name', 
+    alignRight: false 
+  },
+  { 
+    label: 'EMAIL', 
+    id: 'email', 
+    alignRight: false 
+  },
+  { 
+    label: 'PHONE NUMBER', 
+    id: 'phone', 
     alignRight: false 
   },
   { 
@@ -97,6 +66,11 @@ const TABLE_HEAD = [
   { 
     label: 'STATUS', 
     id: 'status',
+    alignRight: false 
+  },
+  { 
+    label: 'CANCEL ORDER', 
+    id: 'cancelOrder',
     alignRight: false 
   },
   { 
@@ -132,10 +106,11 @@ function applySortFilter(array, comparator, query) {
     return a[1] - b[1];
   });
   if (query) {
-    return filter(array, (_user) => _user.userName.toLowerCase().indexOf(query.toLowerCase()) !== -1);
+    return filter(array, (_user) => _user.customer?.name.toLowerCase().indexOf(query.toLowerCase()) !== -1);
   }
   return stabilizedThis.map((el) => el[0]);
 }
+
 
 export default function Order() {
   const [page, setPage] = useState(1);
@@ -145,20 +120,15 @@ export default function Order() {
   const [filterName, setFilterName] = useState('');
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [orderData, setOrderData] = useState([]);
-  const [orderStatus, setOrderStatus] = useState("new");
+  const [orderStatus, setOrderStatus] = useState("PENDING");
   const dispatch = useDispatch();
   const loading = useSelector(state => state.OrderList.loading);
 
 
-  const FetchOrder = (orderStatus)=>{
-    // return data from api
-    setOrderData(Data);
-  }
-
   useEffect(()=>{
     // FetchOrder(orderStatus
-    dispatch(FetchOrderList(page, rowsPerPage, order))
-  },[page, rowsPerPage, order])
+    dispatch(FetchOrderList(page, rowsPerPage, order, orderStatus, filterName))
+  },[page, rowsPerPage, order, orderStatus, filterName])
 
   const OrderList = useSelector(state => state.OrderList.data);
 
@@ -188,6 +158,12 @@ export default function Order() {
   const filteredUsers = applySortFilter(OrderList, getComparator(order, orderBy), filterName);
   const isUserNotFound = filteredUsers.length === 0;
 
+
+  const CanclerHandler = (id)=>{
+    dispatch(CancleOrder(id))
+  }
+  
+
   return (
     <Page title="Munchh | Order">
       <Container>
@@ -206,34 +182,62 @@ export default function Order() {
                 />
                 <div style={{ marginTop : "25px" }} >
                   <Button
-                      variant= {orderStatus === "new"? "contained": null}
-                      onClick = {()=> setOrderStatus("new")}
+                      variant= {orderStatus === "PENDING"? "contained": null}
+                      onClick = {()=> setOrderStatus("PENDING")}
                       disableElevation
-                  >New</Button>
+                  >Pending</Button>
 
                   <Button
-                    variant= {orderStatus === "ongoing"? "contained": null}
-                    onClick = {()=> setOrderStatus("ongoing")}
+                    variant= {orderStatus === "ASSIGNING_DRIVER"? "contained": null}
+                    onClick = {()=> setOrderStatus("ASSIGNING_DRIVER")}
                     disableElevation
-                  >Ongoing</Button>
+                  >Assigning Driver</Button>
+
+                
+                  <Button
+                    variant= {orderStatus === "CANCELED"? "contained": null}
+                    onClick = {()=> setOrderStatus("CANCELED")}
+                    disableElevation
+                  >Cancelled</Button>
+
+
+ 
 
                    <Button
-                    variant= {orderStatus === "completed"? "contained": null}
-                    onClick = {()=> setOrderStatus("completed")}
+                    variant= {orderStatus === "EXPIRED"? "contained": null}
+                    onClick = {()=> setOrderStatus("EXPIRED")}
                     disableElevation
-                  >Completed</Button>
+                  >Expired</Button>
 
                    <Button
-                    variant= {orderStatus === "cancelled"? "contained": null}
-                    onClick = {()=> setOrderStatus("cancelled")}
+                    variant= {orderStatus === "REJECTED"? "contained": null}
+                    onClick = {()=> setOrderStatus("REJECTED")}
                     disableElevation
-                  >Cancelled</Button>    
+                  >Rejected </Button>
+
+                  <Button
+                    variant= {orderStatus === "ON_GOING"? "contained": null}
+                    onClick = {()=> setOrderStatus("ON_GOING")}
+                    disableElevation
+                  >On Going </Button>
+
+                  <Button
+                    variant= {orderStatus === "PICKED_UP"? "contained": null}
+                    onClick = {()=> setOrderStatus("PICKED_UP")}
+                    disableElevation
+                  >Picked Up  </Button>
+
+                  <Button
+                    variant= {orderStatus === "COMPLETED"? "contained": null}
+                    onClick = {()=> setOrderStatus("COMPLETED")}
+                    disableElevation
+                  >Completed  </Button>
                 </div>
             </div>
 
           {loading? <Spinner/> : <> 
           <Scrollbar>
-            <TableContainer sx={{ minWidth: 800 }}>
+            <TableContainer sx={{ minWidth: 1200 }}>
               <Table>
                 <OrderListHead
                   order={order}
@@ -255,11 +259,16 @@ export default function Order() {
                         > 
                           <TableCell align="left">{id}</TableCell>
                           <TableCell align="left">{customer?.name}</TableCell>
+                          <TableCell align="left">{customer?.email}</TableCell>
+                          <TableCell align="left">{customer?.phone}</TableCell>
                           <TableCell align="left">{address}</TableCell>
                           <TableCell align="left">{paid_price}</TableCell> 
+                          <TableCell align="left">{status}</TableCell> 
                           <TableCell align="left">
                             <Switch 
-                              defaultChecked = {status}
+                              disabled ={status === "CANCELED"?true:false}
+                              onChange={()=>CanclerHandler(id)}
+                              defaultChecked = {status == "CANCELED"? true: false}
                             />
 
                           </TableCell>
@@ -280,7 +289,7 @@ export default function Order() {
                 {isUserNotFound && (
                   <TableBody>
                     <TableRow>
-                      <TableCell align="center" colSpan={6} sx={{ py: 3 }}>
+                      <TableCell align="center" colSpan={8} sx={{ py: 3 }}>
                         <SearchNotFound searchQuery={filterName} />
                       </TableCell>
                     </TableRow>

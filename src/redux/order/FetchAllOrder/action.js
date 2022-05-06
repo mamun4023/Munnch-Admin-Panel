@@ -22,10 +22,10 @@ const FetchOrderListFailed = (err)=>{
     }
 }
 
-export const FetchOrderList = (page, limit, order)=>{
+export const FetchOrderList = (page, limit, order, status, filter)=>{
     return (dispatch)=>{
         dispatch(FetchOrderListRequest());
-        axios.get(`${URL}/api/v1/admin/order/list?limit=${limit}&page=${page}&sortOrder=${order}`, AuthConfig)
+        axios.get(`${URL}/api/v1/admin/order/list?limit=${limit}&page=${page}&sortOrder=${order}&status=${status}&keyword=${filter}`, AuthConfig)
             .then(res =>{
                 const response = res.data.data.orders;
                 console.log( "from action",response);

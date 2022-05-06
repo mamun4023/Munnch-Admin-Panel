@@ -3,9 +3,9 @@ import {AuthConfig, URL} from '../../../config/config';
 import { toast } from 'material-react-toastify';
 
 
-export const MerchantStatusToggler = (id)=>{
+export const CancleOrder = (id)=>{
     return ()=>{
-        axios.post(`${URL}/api/v1/admin/withdraw/status/${id}`,{}, AuthConfig)
+        axios.post(`${URL}/api/v1/admin/order/cancel/${id}`,{}, AuthConfig)
             .then(res =>{
                 const response = res.data.message;
                 console.log(response);
