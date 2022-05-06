@@ -59,7 +59,7 @@ import FetchSingleCoupon from './coupon/fetchSingle/reducer';
 
 import FetchWithdrawal from './withdraw/fetchAll/reducer';
 
-import OrderListReducer from './order/fetchAll/reducer';
+import OrderListReducer from './order/FetchAllOrder/reducer';
 
 const RootReducer = combineReducers({
     SignIn : SignInReducer,

@@ -22,13 +22,13 @@ const FetchOrderListFailed = (err)=>{
     }
 }
 
-export const FetchOrderList = ()=>{
+export const FetchOrderList = (page, limit, order)=>{
     return (dispatch)=>{
         dispatch(FetchOrderListRequest());
-        axios.get(`${URL}/api/v1/admin/order/list`, AuthConfig)
+        axios.get(`${URL}/api/v1/admin/order/list?limit=${limit}&page=${page}&sortOrder=${order}`, AuthConfig)
             .then(res =>{
                 const response = res.data.data.orders;
-                // console.log(response);
+                console.log( "from action",response);
                 dispatch(FetchOrderListSuccess(response));
             })
             .catch((err)=>{

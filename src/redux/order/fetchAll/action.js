@@ -22,10 +22,10 @@ const FetchWithdrawalListFailed = (err)=>{
     }
 }
 
-export const FetchWithdrawalList = (filterName, page, limit, order)=>{
+export const FetchWithdrawalList = (page, limit, order)=>{
     return (dispatch)=>{
         dispatch(FetchWithdrawalListRequest());
-        axios.get(`${URL}/api/v1/admin/withdraw/list?keyword=${filterName}&page=${page}&limit =${limit}&order=${order}`, AuthConfig)
+        axios.get(`${URL}/api/v1/admin/order/list?&page=${page}&limit =${limit}&order=${order}`, AuthConfig)
             .then(res =>{
                 const response = res.data.data;
                 // console.log(response);

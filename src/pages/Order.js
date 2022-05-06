@@ -2,10 +2,10 @@ import { filter } from 'lodash';
 import { sentenceCase } from 'change-case';
 import { useEffect, useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
-import { IconButton , Button} from '@mui/material';
+import { IconButton , Button, Switch} from '@mui/material';
 import Tooltip from '@mui/material/Tooltip';
 import {useDispatch, useSelector} from 'react-redux';
-
+import Moment from 'react-moment'
 // material
 import {
   Card,
@@ -27,6 +27,7 @@ import Iconify from '../components/Iconify';
 import SearchNotFound from '../components/SearchNotFound';
 import { OrderListHead, OrderListToolbar, OrderMoreMenu } from '../sections/@dashboard/order';
 import {FetchOrderList} from '../redux/order/FetchAllOrder/action';
+import Spinner from 'src/components/Spinner';
 // ----------------------------------------------------------------------
 
 const Data = [
@@ -79,27 +80,27 @@ const TABLE_HEAD = [
     alignRight: false 
   },
   { 
-    label: 'User Name', 
-    id: 'userName', 
+    label: 'NAME', 
+    id: 'name', 
     alignRight: false 
   },
   { 
-    label: 'Merchant Name', 
-    id: 'merchantName', 
+    label: 'ADDRESS', 
+    id: 'address', 
     alignRight: false 
   },
   { 
-    label: 'Price', 
+    label: 'PRICE', 
     id: 'orderPrice',
     alignRight: false 
   },
   { 
-    label: 'Status', 
+    label: 'STATUS', 
     id: 'status',
     alignRight: false 
   },
   { 
-    label: 'Created', 
+    label: 'CREATED AT', 
     id: 'createAt', 
     alignRight: false 
   },
@@ -137,7 +138,7 @@ function applySortFilter(array, comparator, query) {
 }
 
 export default function Order() {
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(1);
   const [order, setOrder] = useState('desc');
   const [selected, setSelected] = useState([]);
   const [orderBy, setOrderBy] = useState('id');
@@ -156,8 +157,8 @@ export default function Order() {
 
   useEffect(()=>{
     // FetchOrder(orderStatus
-    dispatch(FetchOrderList())
-  })
+    dispatch(FetchOrderList(page, rowsPerPage, order))
+  },[page, rowsPerPage, order])
 
   const OrderList = useSelector(state => state.OrderList.data);
 
@@ -177,15 +178,14 @@ export default function Order() {
 
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
+    setPage(1);
   };
 
   const handleFilterByName = (event) => {
     setFilterName(event.target.value);
   };
 
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - Data.length) : 0;
-  const filteredUsers = applySortFilter(orderData, getComparator(order, orderBy), filterName);
+  const filteredUsers = applySortFilter(OrderList, getComparator(order, orderBy), filterName);
   const isUserNotFound = filteredUsers.length === 0;
 
   return (
@@ -231,6 +231,7 @@ export default function Order() {
                 </div>
             </div>
 
+          {loading? <Spinner/> : <> 
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
               <Table>
@@ -245,45 +246,36 @@ export default function Order() {
                 />
                 <TableBody>
                   {filteredUsers
-                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     .map((row) => {
-                      const { id, userName, merchantName, orderPrice, status, createAt } = row;
-                      const isItemSelected = selected.indexOf(userName) !== -1;
+                      const { id,  paid_price, customer, merchantName, address, status, created_at } = row;
                       return (
                         <TableRow
                           hover
                           key={id}
-                          tabIndex={-1}
-                          role="checkbox"
-                          selected={isItemSelected}
-                          aria-checked={isItemSelected}
                         > 
                           <TableCell align="left">{id}</TableCell>
-                          <TableCell align="left">{userName}</TableCell>
-                          <TableCell align="left">{merchantName}</TableCell>
-                          <TableCell align="left">{orderPrice}</TableCell>
-                          <TableCell align="left">{status}</TableCell>
-                          <TableCell align="left">{createAt}</TableCell>   
+                          <TableCell align="left">{customer?.name}</TableCell>
+                          <TableCell align="left">{address}</TableCell>
+                          <TableCell align="left">{paid_price}</TableCell> 
+                          <TableCell align="left">
+                            <Switch 
+                              defaultChecked = {status}
+                            />
+
+                          </TableCell>
+                          <TableCell align="left">
+                            <Moment format="DD-MM-YYYY HH:mm a" >{created_at}</Moment>
+                          </TableCell>   
                           <TableCell align="right">
-                            <Tooltip title = "View Order" > 
-                              <IconButton
-                                 component = {RouterLink}
-                                 to = "/dashboard/order/view"
-                                 style = {{background : "#1e272e", color : "white"}}
-                              > 
-                                <Iconify icon="carbon:view-filled" width={24} height={24} />
-                              </IconButton>
-                             </Tooltip>
+                            {/* <Tooltip title = "View Order" > 
+                            
+                             </Tooltip> */}
                             {/* <MerchantMoreMenu /> */}
                           </TableCell>
                         </TableRow>
                       );
                     })}
-                  {emptyRows > 0 && (
-                    <TableRow style={{ height: 53 * emptyRows }}>
-                      <TableCell colSpan={6} />
-                    </TableRow>
-                  )}
+
                 </TableBody>
                 {isUserNotFound && (
                   <TableBody>
@@ -300,12 +292,22 @@ export default function Order() {
           <TablePagination
             rowsPerPageOptions={[5, 10, 25]}
             component="div"
-            count={Data.length}
+            count={-1}
             rowsPerPage={rowsPerPage}
             page={page}
             onPageChange={handleChangePage}
             onRowsPerPageChange={handleChangeRowsPerPage}
+            labelDisplayedRows={({ page }) => {
+              return `Page: ${page}`;
+            }}
+            backIconButtonProps={
+              page == 1 ? {disabled: true} : undefined
+            }
+            nextIconButtonProps={
+              filteredUsers.length === 0 || filteredUsers.length < rowsPerPage? {disabled: true} : undefined
+            }
           />
+        </>}
         </Card>
       </Container>
     </Page>
