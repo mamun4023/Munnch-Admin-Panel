@@ -125,9 +125,6 @@ function Update() {
     setSaturdayIsOpen(result);
   }
 
-
-
-
   const LoadListData = ()=>{
     FetchCuisineTypeList()
       .then(res =>{
@@ -151,7 +148,7 @@ function Update() {
   // const FoodList = useSelector(state => state.FetchFoodList.data);
   // const CusineList = useSelector(state => state.FetchCuisineList.data)
 
-   console.log("SingleStoreData " , SingleStoreData.operational_hours[0].is_open);
+  //  console.log("SingleStoreData " , SingleStoreData.operational_hours[0].is_open);
   
    const [sundayIsOpen, setSundayIsOpen] = useState(SingleStoreData.operational_hours[0]?.is_open);
    const [mondayIsopen, setMondayIsOpen] = useState(SingleStoreData.operational_hours[1]?.is_open);
@@ -199,25 +196,25 @@ function Update() {
     foodType : Yup.array().required("Food Type is required").nullable(),
 
     saturday_start_time : Yup.string().required("Start Time is required"),
-    saturday_no_of_hours : Yup.string().required("Hour is required"),
-
+    saturday_close_time : Yup.string().required("Close Time is required"),
+  
     sunday_start_time : Yup.string().required("Start Time is required"),
-    sunday_no_of_hours : Yup.string().required("Hour is required"),
+    sunday_close_time : Yup.string().required("Close Time is required"),
 
     monday_start_time : Yup.string().required("Start Time is required"),
-    monday_no_of_hours : Yup.string().required("Hour is required"),
+    monday_close_time : Yup.string().required("Close Time is required"),
 
     tuesday_start_time : Yup.string().required("Start Time is required"),
-    tuesday_no_of_hours : Yup.string().required("Hour is required"),
+    tuesday_close_time : Yup.string().required("Close Time is required"),
 
     wednesday_start_time : Yup.string().required("Start Time is required"),
-    wednesday_no_of_hours : Yup.string().required("Hour is required"),
+    wednesday_close_time : Yup.string().required("Close Time is required"),
 
     thursday_start_time : Yup.string().required("Start Time is required"),
-    thursday_no_of_hours : Yup.string().required("Hour is required"),
+    thursday_close_time : Yup.string().required("Close Time is required"),
 
     friday_start_time : Yup.string().required("Start Time is required"),
-    friday_no_of_hours : Yup.string().required("Hour is required"),
+    friday_close_time : Yup.string().required("Close Time is required"),
 
   });
 
@@ -236,40 +233,39 @@ function Update() {
 
       // oprational hours
    
-
       sunday_start_time : SingleStoreData.operational_hours[0]? moment(SingleStoreData.operational_hours[0].start_time,  'hh:mm:ss').format('hh:mm:ss') : "",
       sunday_close_time : SingleStoreData.operational_hours[0]? moment(SingleStoreData.operational_hours[0].closing_time,  'hh:mm:ss').format('hh:mm:ss') : "",
-      sunday_is_open : SingleStoreData.operational_hours[0].is_open === 1? SingleStoreData.operational_hours[0].is_open : 0,
+      sunday_is_open : SingleStoreData.operational_hours[0]? SingleStoreData.operational_hours[0].is_open : 0,
       sunday_no_of_hours :  "",
 
       monday_start_time : SingleStoreData.operational_hours[1]? moment(SingleStoreData.operational_hours[1].start_time,  'hh:mm:ss').format('hh:mm:ss') : "",
       monday_close_time : SingleStoreData.operational_hours[1]? moment(SingleStoreData.operational_hours[1].closing_time,  'hh:mm:ss').format('hh:mm:ss') : "",
-      monday_is_open : SingleStoreData.operational_hours[1].is_open  === 1? SingleStoreData.operational_hours[1].is_open : 0,
+      monday_is_open : SingleStoreData.operational_hours[1]? SingleStoreData.operational_hours[1].is_open : 0,
       monday_no_of_hours : '',
       
       tuesday_start_time : SingleStoreData.operational_hours[2]? moment(SingleStoreData.operational_hours[2].start_time,  'hh:mm:ss').format('hh:mm:ss') : "",
       tuesday_close_time : SingleStoreData.operational_hours[2]? moment(SingleStoreData.operational_hours[2].closing_time,  'hh:mm:ss').format('hh:mm:ss') : "",
-      tuesday_is_open : SingleStoreData.operational_hours[2].is_open  === 1? SingleStoreData.operational_hours[2].is_open : 0,
+      tuesday_is_open : SingleStoreData.operational_hours[2]? SingleStoreData.operational_hours[2].is_open : 0,
       tuesday_no_of_hours : '',
 
       wednesday_start_time :  SingleStoreData.operational_hours[3]? moment(SingleStoreData.operational_hours[3].start_time,  'hh:mm:ss').format('hh:mm:ss') : "",
       wednesday_close_time :  SingleStoreData.operational_hours[3]? moment(SingleStoreData.operational_hours[3].closing_time,  'hh:mm:ss').format('hh:mm:ss') : "",
-      wednesday_is_open : SingleStoreData.operational_hours[3].is_open === 1? SingleStoreData.operational_hours[3].is_open : 0,
+      wednesday_is_open : SingleStoreData.operational_hours[3]? SingleStoreData.operational_hours[3].is_open : 0,
       wednesday_no_of_hours : '',
 
       thursday_start_time :  SingleStoreData.operational_hours[4]? moment(SingleStoreData.operational_hours[4].start_time,  'hh:mm:ss').format('hh:mm:ss') : "",
       thursday_close_time :  SingleStoreData.operational_hours[4]? moment(SingleStoreData.operational_hours[4].closing_time,  'hh:mm:ss').format('hh:mm:ss') : "",
-      thursday_is_open : SingleStoreData.operational_hours[4].is_open === 1 ?1 : 0,
+      thursday_is_open : SingleStoreData.operational_hours[4]?SingleStoreData.operational_hours[3].is_open: 0,
       thursday_no_of_hours : '',
 
       friday_start_time : SingleStoreData.operational_hours[5]? moment(SingleStoreData.operational_hours[5].start_time,  'hh:mm:ss').format('hh:mm:ss') : "",
       friday_close_time : SingleStoreData.operational_hours[5]? moment(SingleStoreData.operational_hours[5].closing_time,  'hh:mm:ss').format('hh:mm:ss') : "",
-      friday_is_open : SingleStoreData.operational_hours[5].is_open  === 1? SingleStoreData.operational_hours[5].is_open : 0,
+      friday_is_open : SingleStoreData.operational_hours[5]? SingleStoreData.operational_hours[5].is_open : 0,
       friday_no_of_hours : '',
 
       saturday_start_time :  SingleStoreData.operational_hours[6]? moment(SingleStoreData.operational_hours[6].start_time,  'hh:mm:ss').format('hh:mm:ss') : "",
       saturday_close_time :  SingleStoreData.operational_hours[6]? moment(SingleStoreData.operational_hours[6].closing_time,  'hh:mm:ss').format('hh:mm:ss') : "",
-      saturday_is_open : SingleStoreData.operational_hours[6].is_open === 1? SingleStoreData.operational_hours[6].is_open : 0,
+      saturday_is_open : SingleStoreData.operational_hours[6]? SingleStoreData.operational_hours[6].is_open : 0,
       saturday_no_of_hours : '',
 
       // social media
@@ -278,10 +274,10 @@ function Update() {
       facebook : SingleStoreData.social_links?SingleStoreData.social_links.facebook : "" ,
 
     },
-    // validationSchema: StoreSchema,
+    validationSchema: StoreSchema,
     onSubmit: (values) => {
 
-      // console.log(values)
+      console.log(values.cuisines)
 
       const CuisineIds = [];
       const FoodIds = [];
@@ -454,7 +450,7 @@ function Update() {
 
                           <TextField
                             fullWidth
-                            type = "number"
+                            type = "text"
                             label="Business Contact Number"
                             {...getFieldProps('contact_no')}
                             error={Boolean(touched.contact_no && errors.contact_no)}
@@ -832,7 +828,8 @@ function Update() {
                 getOptionSelected={(option, value) => option.cuisine_name === values.cuisine_name}
                 getOptionLabel = {(option)=> option.cuisine_name}
                 renderInput = {(option)=> <TextField {...option} label ="Cuisine Type" /> }
-                onChange = {(event, value)=> setSelectedCuisineList(value) }
+                // onChange = {(event, value)=> setSelectedCuisineList(value) }
+                onChange = {(event, value)=>  formik.setFieldValue("cuisines", value) } 
 
             />
             : null}
@@ -846,8 +843,8 @@ function Update() {
 
                 getOptionLabel = {(option)=> option.food_type_name}
                 renderInput = {(option)=> <TextField {...option} label ="Food Type" /> }
-                onChange = {(event, value)=> setSelectedFoodList(value) }
-
+                // onChange = {(event, value)=> setSelectedFoodList(value) }
+                onChange = {(event, value)=>  formik.setFieldValue("foodType", value) } 
             />  
 
             :null}

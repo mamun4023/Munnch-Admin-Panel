@@ -58,17 +58,16 @@ const TABLE_HEAD = [
     id: 'discountType', 
     alignRight: false 
   },
-  // { 
-  //   label: 'DISCOUNT TYPE NAME', 
-  //   id: 'discount_type_name', 
-  //   alignRight: false 
-  // },
   { 
     label: 'AMOUNT', 
     id: 'amount', 
     alignRight: false 
   },
- 
+  { 
+    label: 'MAX DISCOUNT', 
+    id: 'max_discount', 
+    alignRight: false 
+  },
   { 
     label: 'START DATE     ', 
     id: 'start_date', 
@@ -204,14 +203,14 @@ export default function Coupon() {
     setCouponStatus("1");
     setPage(1);
     setRowsPerPage(5);
-    setOrder('asc')
+    setOrder('desc')
   }
 
   const InactiveStatusHandler = ()=>{
     setCouponStatus("0");
     setPage(1);
     setRowsPerPage(5);
-    setOrder('asc')
+    setOrder('desc')
   }
 
   useEffect(()=>{
@@ -290,7 +289,7 @@ export default function Coupon() {
           
         {loading ? <Spinner/> : <Box> 
           <Scrollbar>
-            <TableContainer sx={{ minWidth: 2500 }}>
+            <TableContainer sx={{ minWidth: 2800 }}>
               <Table>
                 <CouponListHead
                   order={order}
@@ -305,7 +304,7 @@ export default function Coupon() {
                         user_id,
                         code,
                         coupon_type,
-                        discount_type_name,
+                        max_discount,
                         amount,
                         days,
                         start_date,
@@ -333,6 +332,8 @@ export default function Coupon() {
                           <TableCell align="left">{coupon_type == 1 ? "Fixed" : "Percentage"}</TableCell>
                           {/* <TableCell align="left">{discount_type_name}</TableCell> */}
                           <TableCell align="left">{amount}</TableCell>
+                          <TableCell align="left">{max_discount}</TableCell>
+                          
                           
                           <TableCell align="left">
                             <Moment format="DD-MM-YYYY hh:mm a" >{start_date}</Moment>

@@ -169,7 +169,7 @@ export default function Notification() {
           />
         {loading? <Spinner/> : <Box> 
           <Scrollbar>
-            <TableContainer sx={{ minWidth: 1700 }}>
+            <TableContainer sx={{ minWidth: 1500 }}>
               <Table>
                 <NotifyListHead
                   order={order}
@@ -189,9 +189,9 @@ export default function Notification() {
                           <TableCell align="left">{id}</TableCell>
                           <TableCell align="left">{title}</TableCell>
                           <TableCell align="left">{ capitalizeFirstLetter(user_type_name)}</TableCell>
-                          <TableCell align="left">
-                              {message}
-                            </TableCell>
+                          <TableCell align="left" sx={{ maxWidth: 300 }}>
+                             {message}
+                          </TableCell>
                           <TableCell align="left">
                             <Moment format="DD-MM-YYYY HH:mm a" >{created_at}</Moment>
                           </TableCell>

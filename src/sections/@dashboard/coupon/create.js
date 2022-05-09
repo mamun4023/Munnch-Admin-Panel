@@ -31,25 +31,26 @@ export default function Create() {
 
   const CouponSchema = Yup.object().shape({
     code: Yup.string().required('Coupon Code is required'),
-    discount_type: Yup.string().required('Discount Type is required'),
-    amount: Yup.string().required('Amount is required'),
+    discount_type: Yup.string().required('Discount Type is required').nullable(),
+    amount: Yup.string().required('Required'),
+    // max_discount: Yup.string().required('Maximum Discount is required'),
     start_date : Yup.string().required("Start date is required"),
     end_date : Yup.string().required("Expire Date is required"),
     usage_per_user : Yup.string().required("Usage-Per-User is required"),
     minimum_spend : Yup.string().required("Min Spend is required"),
     maximum_spend : Yup.string().required("Max Spend is required"),
-    maximum_discount : Yup.string().required("Max Discount Value is required"),
+    // maximum_discount : Yup.string().required("Max Discount Value is required"),
     maximum_usage_limit : Yup.string().required("Max-Limit-Value is required"),
     description : Yup.string().required("Description is required"),
     days : Yup.array().required("Days is required").nullable()
-
   });
 
   const formik = useFormik({
     initialValues: {
       code : '',
-      discount_type: '',
+      discount_type: null,
       amount : '',
+      max_discount : '',
       start_date : '',
       end_date : '',
       usage_per_user : '',
@@ -68,6 +69,7 @@ export default function Create() {
           code : values.code,
           discount_type: values.discount_type,
           amount : values.amount,
+          max_discount : values.max_discount,
           start_date : values.start_date,
           end_date : values.end_date,
           usage_per_user : values.usage_per_user,
@@ -79,6 +81,7 @@ export default function Create() {
           days : values.days
       }
 
+      setLoading(true);
       AddCoupon(data)
         .then(res =>{
           const response = res.data.message;
@@ -135,14 +138,71 @@ export default function Create() {
                             <MenuItem value= "1">Fixed </MenuItem>
                             <MenuItem value= "2">Percentage </MenuItem>
                         </TextField>
+
+                     
+                       {values.discount_type === null ? 
                         <TextField
                             fullWidth
                             type="text"
-                            label="Amount"
+                            label= "Amount"
                             {...getFieldProps('amount')}
                             error={Boolean(touched.amount && errors.amount)}
                             helperText={touched.amount && errors.amount}
                         />
+
+                        :  null}
+                        {values.discount_type === "1" ? 
+                        <TextField
+                            fullWidth
+                            type="text"
+                            label= "Amount"
+                            {...getFieldProps('amount')}
+                            error={Boolean(touched.amount && errors.amount)}
+                            helperText={touched.amount && errors.amount}
+                        />
+
+                        :  null}
+
+                        {/* {values.discount_type === "2"? 
+                        <TextField
+                            fullWidth
+                            type="text"
+                            label= "Amount In Percentage"
+                            {...getFieldProps('amount')}
+                            error={Boolean(touched.amount && errors.amount)}
+                            helperText={touched.amount && errors.amount}
+                        />
+
+
+                        :  null} */}
+
+                      {values.discount_type === "2"? <> 
+                        <TextField
+                            fullWidth
+                            type="text"
+                            label= "Amount In Percentage"
+                            {...getFieldProps('amount')}
+                            error={Boolean(touched.amount && errors.amount)}
+                            helperText={touched.amount && errors.amount}
+                        />
+
+                      <TextField
+                        fullWidth
+                        type="text"
+                        label= "Max Discount"
+                        {...getFieldProps('max_discount')}
+                        error={Boolean(touched.max_discount && errors.max_discount)}
+                        helperText={touched.max_discount && errors.max_discount}
+                        />
+                 
+
+                 </> 
+                        :  null}
+
+
+
+
+
                         <TextField
                             fullWidth
                             InputLabelProps={{
@@ -189,14 +249,14 @@ export default function Create() {
                             error={Boolean(touched.maximum_spend && errors.maximum_spend)}
                             helperText={touched.maximum_spend && errors.maximum_spend}
                         /> 
-                        <TextField
+                        {/* <TextField
                             fullWidth
                             type="text"
                             label="Maximum Discount"
                             {...getFieldProps('maximum_discount')}
                             error={Boolean(touched.maximum_discount && errors.maximum_discount)}
                             helperText={touched.maximum_discount && errors.maximum_discount}
-                        />  
+                        />   */}
                         <TextField
                             fullWidth
                             type="text"

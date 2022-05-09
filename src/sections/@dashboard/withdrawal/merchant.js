@@ -137,7 +137,7 @@ function applySortFilter(array, comparator, query) {
     return a[1] - b[1];
   });
   if (query) {
-    return filter(array, (_user) => _user.store.vendor?.personal_name.toLowerCase().indexOf(query.toLowerCase()) !== -1);
+    return filter(array, (_user) => _user.store?.restaurant_name.toLowerCase().indexOf(query.toLowerCase()) !== -1);
   }
   return stabilizedThis.map((el) => el[0]);
 }
@@ -221,7 +221,7 @@ export default function Withdrawal() {
           
           {loading? <Spinner/> :  <Box> 
           <Scrollbar>
-            <TableContainer sx={{ minWidth: 1500 }}>
+            <TableContainer sx={{ minWidth: 1800 }}>
               <Table>
                 <WithdrawalListHead
                   order={order}
@@ -242,15 +242,15 @@ export default function Withdrawal() {
                           role="checkbox"
                         >
                           <TableCell align="left">{id}</TableCell>
-                          <TableCell align="left">{store.vendor?.personal_name}</TableCell>
+                          <TableCell align="left">{store?.restaurant_name}</TableCell>
                           <TableCell align="left">
-                             <Avatar  variant="square" style={{width : "70px"}} src= {store.vendor?.profile_pic} />
+                             <Avatar  variant="square" style={{width : "70px"}} src= {store?.images[0].image} />
                           </TableCell>
-                          <TableCell align="left">{store.vendor?.email}</TableCell>
-                          <TableCell align="left">{store.vendor?.phone}</TableCell>
+                          <TableCell align="left">{store?.email}</TableCell>
+                          <TableCell align="left">{store?.contact_no}</TableCell>
                           
                           <TableCell align="left">{store_bank?.holder_name}</TableCell>
-                          <TableCell align="left">{store_bank.bank?.name}</TableCell>
+                          <TableCell align="left">{store_bank?.bank.name}</TableCell>
                           <TableCell align="left">{store_bank?.account_number}</TableCell>
                           <TableCell align="left">{amount}</TableCell>
                           <TableCell align="left">
@@ -259,8 +259,7 @@ export default function Withdrawal() {
                           <TableCell align="left">
                               <Switch 
                                 onChange={()=> StatusChangeHandler(id)}
-                                defaultChecked = {is_withdrawn === 1? true: false}
-
+                                defaultChecked = {is_withdrawn? false: true}
                               />
 
                             </TableCell>

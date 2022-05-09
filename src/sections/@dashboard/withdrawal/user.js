@@ -27,7 +27,7 @@ import SearchNotFound from '../../../components/SearchNotFound';
 import { WithdrawalListHead, WithdrawalListToolbar, WithdrawalMoreMenu } from './index';
 import {toast} from 'material-react-toastify';
 import {FetchWithdrawalList} from '../../../redux/withdraw/FetchAllUser/action';
-import {MerchantStatusToggler} from '../../../redux/withdraw/ApproveToggler/actions';
+import {UserStatusToggler} from '../../../redux/withdraw/ApproveToggler/actions';
 import Spinner from 'src/components/Spinner';
 
 // ----------------------------------------------------------------------
@@ -186,7 +186,7 @@ export default function Withdrawal() {
   const isUserNotFound = filteredUsers.length === 0;
 
   const StatusChangeHandler = (id) => {
-    dispatch(MerchantStatusToggler(id))
+    dispatch(UserStatusToggler(id))
   }
 
   return (
@@ -244,22 +244,21 @@ export default function Withdrawal() {
                           <TableCell align="left">{id}</TableCell>
                           <TableCell align="left">{customer?.name}</TableCell>
                           <TableCell align="left">
-                             <Avatar  variant="square" style={{width : "70px"}} src= {customer?.profile_pic} />
+                             <Avatar  variant="square" style={{width : "70px"}} src= {customer?.profile_image} />
                           </TableCell>
                           <TableCell align="left">{customer?.email}</TableCell>
                           <TableCell align="left">{customer?.phone}</TableCell>
-                          
                           <TableCell align="left">{store_bank?.holder_name}</TableCell>
-                          <TableCell align="left">{store_bank.bank?.name}</TableCell>
+                          <TableCell align="left">{store_bank?.bank.name}</TableCell>
                           <TableCell align="left">{store_bank?.account_number}</TableCell>
                           <TableCell align="left">{amount}</TableCell>
                           <TableCell align="left">
-                            <Moment format="DD-MM-YYYY hh:mm a" >{created_at}</Moment> 
+                            <Moment format="DD-MM-YYYY hh:mm a" >{customer?.created_at}</Moment> 
                           </TableCell>   
                           <TableCell align="left">
                               <Switch 
                                 onChange={()=> StatusChangeHandler(id)}
-                                defaultChecked = {is_withdrawn === 1? true: false}
+                                defaultChecked = {is_withdrawn? true: false}
 
                               />
 

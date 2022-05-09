@@ -7,6 +7,8 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { Box } from '@mui/material';
+import Moment from 'react-moment';
+import moment from 'moment';
 
 export default function BasicTable({timing}) {
 
@@ -30,7 +32,15 @@ export default function BasicTable({timing}) {
                  >
                    <TableCell component="th" scope="row"> {data.day} </TableCell>
                    <TableCell align="right"> {data.start_time} </TableCell>
-                   <TableCell align="right"> {data.closing_time} </TableCell>
+                   <TableCell align="right"> 
+                      
+                     
+                      {
+                       moment(data.closing_time, "HH:mm:ss").format("hh:mm A")
+                      }
+                      {/* <Moment format="mm:ss" >{data.closing_time}</Moment>  */}
+                    
+                    </TableCell> 
                  </TableRow>
            )}
         </TableBody>
