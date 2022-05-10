@@ -159,7 +159,6 @@ function Update() {
    const [saturdayIsOpen, setSaturdayIsOpen] = useState(SingleStoreData.operational_hours[6]?.is_open);
 
 
-
 // geo location
   const [address, setAddress] = useState(SingleStoreData.location?SingleStoreData.location.address: "");
     // latLot data
@@ -190,8 +189,8 @@ function Update() {
     max_delivery_km : Yup.string().required("Delivery KM is required"),
     contact_no : Yup.string().required("Contact Number is required").min(10,"Must be 10 digit").max(10,"Must be 10 digit"),
     additional_info : Yup.string().required('Additional Information is required'),
-    country : Yup.string().required('Country is required'),
-    city : Yup.string().required('City is required'),
+    country : Yup.string().required('Country is required').nullable(),
+    city : Yup.string().required('City is required').nullable(),
     cuisines : Yup.array().required("Cusine is required").nullable(),
     foodType : Yup.array().required("Food Type is required").nullable(),
 
@@ -365,11 +364,8 @@ function Update() {
         "cuisines" : CuisineIds
     }
 
-    
     console.log("data", data);
-    
-    
-    
+
     setLoading(true);
     UpdateStore(id, data)
       .then(res =>{
@@ -389,7 +385,6 @@ function Update() {
   const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = formik;
 
  
-
   return(
         <>
         <Typography variant="h4" gutterBottom>
@@ -551,7 +546,6 @@ function Update() {
                             />  
                         </Stack>
 
-
                         <Stack
                             direction="row"
                             justifyContent="space-between"
@@ -593,7 +587,6 @@ function Update() {
                                 helperText={touched.monday_close_time && errors.monday_close_time}
                             />  
                         </Stack>
-
 
                         <Stack
                             direction="row"
@@ -637,7 +630,6 @@ function Update() {
                             />  
                         </Stack>
 
-
                         <Stack
                             direction="row"
                             justifyContent="space-between"
@@ -679,8 +671,6 @@ function Update() {
                                 helperText={touched.wednesday_close_time && errors.wednesday_close_time}
                             />  
                         </Stack>
-
-
 
                         <Stack
                             direction="row"
@@ -809,82 +799,34 @@ function Update() {
                                 error={Boolean(touched.saturday_close_time && errors.saturday_close_time)}
                                 helperText={touched.saturday_close_time && errors.saturday_close_time}
                             />  
-                        </Stack>
-                        
-                        
-                        
-                        
-
-                  
-                         
-                    
+                        </Stack>       
               
-              {values.cuisines?  
-              
-              <Autocomplete
-                multiple
-                options={cuisineList}
-                defaultValue = {values.cuisines}
-                getOptionSelected={(option, value) => option.cuisine_name === values.cuisine_name}
-                getOptionLabel = {(option)=> option.cuisine_name}
-                renderInput = {(option)=> <TextField {...option} label ="Cuisine Type" /> }
-                // onChange = {(event, value)=> setSelectedCuisineList(value) }
-                onChange = {(event, value)=>  formik.setFieldValue("cuisines", value) } 
+                          {values.cuisines?  
+                            <Autocomplete
+                              multiple
+                              options={cuisineList}
+                              defaultValue = {values.cuisines}
+                              getOptionSelected={(option, value) => option.cuisine_name === values.cuisine_name}
+                              getOptionLabel = {(option)=> option.cuisine_name}
+                              renderInput = {(option)=> <TextField {...option} label ="Cuisine Type" /> }
+                              // onChange = {(event, value)=> setSelectedCuisineList(value) }
+                              onChange = {(event, value)=>  formik.setFieldValue("cuisines", value) } 
+                          />
+                          : null}
 
-            />
-            : null}
+                          {values.foodType? 
+                            <Autocomplete
+                              multiple
+                              options={foodList}
+                              defaultValue = {values.foodType}
+                              getOptionSelected={(option, value) => option.food_type_name === values.food_type_name}
 
-            {values.foodType? 
-            <Autocomplete
-                multiple
-                options={foodList}
-                defaultValue = {values.foodType}
-                getOptionSelected={(option, value) => option.food_type_name === values.food_type_name}
-
-                getOptionLabel = {(option)=> option.food_type_name}
-                renderInput = {(option)=> <TextField {...option} label ="Food Type" /> }
-                // onChange = {(event, value)=> setSelectedFoodList(value) }
-                onChange = {(event, value)=>  formik.setFieldValue("foodType", value) } 
-            />  
-
-            :null}
-                          
-
-
-
-
-                          <LocalizationProvider dateAdapter={AdapterDateFns}>
-      <Stack spacing={3}>
-        {/* <TimePicker
-          ampm={false}
-          openTo="hours"
-          views={['hours', 'minutes', 'seconds']}
-          inputFormat="HH:mm:ss"
-          mask="__:__:__"
-          label="With seconds"
-          value={value}
-          onChange={(newValue) => {
-            setValue(newValue);
-          }}
-          renderInput={(params) => <TextField {...params} />}
-        /> */}
-        {/* <TimePicker
-           
-           label="Basic example"
-           value={value}
-           onChange={(newValue) => {
-             setValue(newValue);
-           }}
-           renderInput={(params) => <TextField {...params} />}
-        
-        /> */}
-      </Stack>
-    </LocalizationProvider>
-
-
-
-
-
+                              getOptionLabel = {(option)=> option.food_type_name}
+                              renderInput = {(option)=> <TextField {...option} label ="Food Type" /> }
+                              // onChange = {(event, value)=> setSelectedFoodList(value) }
+                              onChange = {(event, value)=>  formik.setFieldValue("foodType", value) } 
+                          />  
+                          :null}
 
                           <h4 style= {{ textAlign : "center" }} > Social Address </h4>
                           <TextField
@@ -910,10 +852,6 @@ function Update() {
                             error={Boolean(touched.facebook && errors.facebook)}
                             helperText={touched.facebook && errors.facebook}
                           />
-
-
-
-
 
 
                           {/* <Autocomplete

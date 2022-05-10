@@ -190,36 +190,36 @@ const removeFields = (index) => {
       //  const FormData = new FormData();
       //  FormData.append('image', values.image);
 
-      // const data = {
-      //   name : values.name,
-      //   price : values.price,
-      //   description : values.description,
-      //   food_type_id : values.food_types.id,
-      //   cuisine_id : values.cuisine_types.id,
-      //   category_id : values.categories.id,
-      //   food_item_type : values.food_item_type,
-      //   food_item_estimate_days : values.food_item_estimate_days,
-      //   restaurant_id : id,
-      //   food_addons : inputFields,
-      //   food_variations : {
-      //       "full" : values.variationFull,
-      //       "half" : values.variationHalf
-      //     },
-      //   image : ""
-      // }
+      const data = {
+        name : values.name,
+        price : values.price,
+        description : values.description,
+        food_type_id : values.food_types.id,
+        cuisine_id : values.cuisine_types.id,
+        category_id : values.categories.id,
+        food_item_type : values.food_item_type,
+        food_item_estimate_days : values.food_item_estimate_days,
+        restaurant_id : id,
+        food_addons : inputFields,
+        food_variations : {
+            "full" : values.variationFull,
+            "half" : values.variationHalf
+          },
+        image : values.image
+      }
 
-      const data = new FormData();
-      data.append('name', values.name);
-      data.append('price', values.price);
-      data.append('description', values.description);
-      data.append('food_type_id', values.food_types.id);
-      data.append("cuisine_id", values.cuisine_types.id);
-      data.append("food_item_type",  values.food_item_type);
-      data.append("food_item_estimate_days", values.food_item_estimate_days);
-      data.append("restaurant_id", id);
-      data.append('food_addons',  JSON.stringify(inputFields));
-      data.append('food_variations',[{"full" : values.variationFull, "half" : values.variationHalf }])
-      data.append('image', values.image);
+      // const data = new FormData();
+      // data.append('name', values.name);
+      // data.append('price', values.price);
+      // data.append('description', values.description);
+      // data.append('food_type_id', values.food_types.id);
+      // data.append("cuisine_id", values.cuisine_types.id);
+      // data.append("food_item_type",  values.food_item_type);
+      // data.append("food_item_estimate_days", values.food_item_estimate_days);
+      // data.append("restaurant_id", id);
+      // data.append("dd",inputFields);
+      // data.append('food_variations',[{"full" : values.variationFull, "half" : values.variationHalf }])
+      // data.append('image', values.image);
 
       console.log(data)
 

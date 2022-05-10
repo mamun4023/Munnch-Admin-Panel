@@ -190,7 +190,6 @@ export default function Loyalty() {
                 />
                 <TableBody>
                   {filteredUsers
-                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     .map((row) => {
                       const { id, image } = row;
                       return (

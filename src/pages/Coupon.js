@@ -64,6 +64,11 @@ const TABLE_HEAD = [
     alignRight: false 
   },
   { 
+    label: 'PERCENTAGE', 
+    id: 'percentage', 
+    alignRight: false 
+  },
+  { 
     label: 'MAX DISCOUNT', 
     id: 'max_discount', 
     alignRight: false 
@@ -156,7 +161,6 @@ function SeperatedByComma(data){
 
   return data.join(', ')
 }
-
 
 
 function descendingComparator(a, b, orderBy) {
@@ -289,7 +293,7 @@ export default function Coupon() {
           
         {loading ? <Spinner/> : <Box> 
           <Scrollbar>
-            <TableContainer sx={{ minWidth: 2800 }}>
+            <TableContainer sx={{ minWidth: 3500 }}>
               <Table>
                 <CouponListHead
                   order={order}
@@ -331,9 +335,9 @@ export default function Coupon() {
                           <TableCell align="left">{code}</TableCell>
                           <TableCell align="left">{coupon_type == 1 ? "Fixed" : "Percentage"}</TableCell>
                           {/* <TableCell align="left">{discount_type_name}</TableCell> */}
-                          <TableCell align="left">{amount}</TableCell>
-                          <TableCell align="left">{max_discount}</TableCell>
-                          
+                          <TableCell align="left">{coupon_type == 1? amount : "--"}</TableCell>
+                          <TableCell align="left">{coupon_type == 2? amount : "--"}</TableCell>
+                          <TableCell align="left">{max_discount== 0? "--":max_discount}</TableCell>
                           
                           <TableCell align="left">
                             <Moment format="DD-MM-YYYY hh:mm a" >{start_date}</Moment>
@@ -354,9 +358,9 @@ export default function Coupon() {
                           <TableCell align="left">{maximum_spend}</TableCell>
                           <TableCell align="left">{maximum_usage_limit}</TableCell>
                         
-                          <TableCell align="left"> {is_expired? "Yes" : "No"} </TableCell>
-                          <TableCell align="left">{is_exhausted?"Yes": "No"}</TableCell> 
-                          <TableCell align="left">{ReduceDescription(description?description : "empty")}</TableCell> 
+                          <TableCell align="left"> {is_expired? "Yes" : "--"} </TableCell>
+                          <TableCell align="left">{is_exhausted?"Yes": "--"}</TableCell> 
+                          <TableCell align="left">{ReduceDescription(description?description : "--")}</TableCell> 
                           <TableCell align="left">
                             <Moment format="DD-MM-YYYY hh:mm a" >{updated_at}</Moment>
                           </TableCell>

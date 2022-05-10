@@ -116,6 +116,7 @@ export default function Store() {
                           {StoreData.description? StoreData.description : <div  style={{ textAlign : "center"}} > empty </div> }
                         </Typography>
                     </Card>
+
                     <Card> 
                         <Typography  marginTop = {3} style={{ background : "#eee" }}  padding={2} textAlign= "center" variant="h6" component="div">
                             Food Type 
@@ -147,10 +148,7 @@ export default function Store() {
                               ))}
                             </ImageList>
                           :null} 
-                              
-                            
-                         
-                        
+
                     </Card>
                     <Card marginTop = {5}> 
                         <Typography  marginTop = {3} style={{ background : "#eee" }}  padding={2} textAlign= "center" variant="h6" component="div">
@@ -182,13 +180,13 @@ export default function Store() {
                               ))}
                             </ImageList>
 
-                          : null }  
+                          : "Empty" }  
                     </Card>
                     <Card> 
                         <Typography  marginTop = {3} padding={2} style={{background : "#eee" }}  textAlign="center" variant="h6" component="div">
                             Store Images
                         </Typography>
-                        {StoreData.images? <>
+                        {StoreData.images ? <>
                         <ImageList >
                           {StoreData.images.map((item) => ( 
                             <> 

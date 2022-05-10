@@ -50,7 +50,7 @@ export default function Create() {
       code : '',
       discount_type: null,
       amount : '',
-      max_discount : '',
+      max_discount : 0,
       start_date : '',
       end_date : '',
       usage_per_user : '',
@@ -122,11 +122,22 @@ export default function Create() {
                         <TextField
                             fullWidth
                             type="text"
-                            label="Coupon Code"
+                            label="Coupon"
                             {...getFieldProps('code')}
                             error={Boolean(touched.code && errors.code)}
                             helperText={touched.code && errors.code}
                         />
+
+                        <TextField
+                            fullWidth
+                            multiline
+                            rows={5}
+                            label="Description"
+                            {...getFieldProps('description')}
+                            error={Boolean(touched.description && errors.description)}
+                            helperText={touched.description && errors.description}
+                        /> 
+
                         <TextField
                             fullWidth
                             select
@@ -162,19 +173,6 @@ export default function Create() {
                         />
 
                         :  null}
-
-                        {/* {values.discount_type === "2"? 
-                        <TextField
-                            fullWidth
-                            type="text"
-                            label= "Amount In Percentage"
-                            {...getFieldProps('amount')}
-                            error={Boolean(touched.amount && errors.amount)}
-                            helperText={touched.amount && errors.amount}
-                        />
-
-
-                        :  null} */}
 
                       {values.discount_type === "2"? <> 
                         <TextField
@@ -266,15 +264,6 @@ export default function Create() {
                             helperText={touched.maximum_usage_limit && errors.maximum_usage_limit}
                         />
             
-                         <TextField
-                            fullWidth
-                            multiline
-                            rows={5}
-                            label="Description"
-                            {...getFieldProps('description')}
-                            error={Boolean(touched.description && errors.description)}
-                            helperText={touched.description && errors.description}
-                        /> 
 
                         <Autocomplete
                             multiple

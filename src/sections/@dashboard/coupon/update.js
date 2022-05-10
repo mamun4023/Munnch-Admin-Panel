@@ -26,19 +26,29 @@ const Days = ["All Days", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday"
 
 // ----------------------------------------------------------------------
 
+function RemoveLastCharacter(type, data){
+  if( type === 1) return data;
+  let arr = data.split("")
+  for(let i = 0; i<arr.length; i++){
+    if(arr[i] == "%"){
+      arr.pop();
+      return arr.join('')
+    }
+  }
+  return arr.join('')
+}
+
 export default function Update() {
   const {id} = useParams();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
 
-
   useEffect(()=>{
     dispatch(FetchSingleCoupon(id))
   }, [])
 
   const SingleCoupon = useSelector(state => state.SingleCoupon.data)
-
 
   console.log("single coupon", SingleCoupon);
 
@@ -62,7 +72,8 @@ export default function Update() {
     initialValues: {
       code : SingleCoupon.code ? SingleCoupon.code : "",
       coupon_type: SingleCoupon.coupon_type? SingleCoupon.coupon_type : "",
-      amount : SingleCoupon.amount ? SingleCoupon.amount : "",
+      amount : SingleCoupon.amount ? RemoveLastCharacter( SingleCoupon?.coupon_type,  SingleCoupon.amount) : "",
+      max_discount : SingleCoupon.max_discount? SingleCoupon.max_discount : 0,
       start_date : SingleCoupon.start_date? SingleCoupon.start_date : "",
       end_date :  SingleCoupon.end_date? SingleCoupon.end_date : "",
       usage_per_user : SingleCoupon.usage_per_user ? SingleCoupon.usage_per_user : "",
@@ -76,11 +87,11 @@ export default function Update() {
     onSubmit: (values) => {
       console.log("values", values)
 
-
       const data  = {
         code : values.code,
         coupon_type: values.coupon_type,
         amount : values.amount,
+        max_discount : values.max_discount,
         start_date : values.start_date,
         end_date : values.end_date,
         usage_per_user : values.usage_per_user,
@@ -92,6 +103,7 @@ export default function Update() {
         days : values.days
     }
 
+      setLoading(true);
       UpdateCoupon(id, data)
         .then(res =>{
           const response = res.data.message;
@@ -130,11 +142,21 @@ export default function Update() {
                         <TextField
                             fullWidth
                             type="text"
-                            label="Coupon Code"
+                            label="Coupon"
                             {...getFieldProps('code')}
                             error={Boolean(touched.code && errors.code)}
                             helperText={touched.code && errors.code}
                         />
+
+                        <TextField
+                            fullWidth
+                            multiline
+                            rows={5}
+                            label="Description"
+                            {...getFieldProps('description')}
+                            error={Boolean(touched.description && errors.description)}
+                            helperText={touched.description && errors.description}
+                        /> 
                          <TextField
                             fullWidth
                             select
@@ -146,16 +168,40 @@ export default function Update() {
                             <MenuItem value= "1">Fixed </MenuItem>
                             <MenuItem value= "2">Percentage </MenuItem>
                         </TextField>
-
-
+                      
+                       {values.coupon_type === "1" || values.coupon_type === 1 ? 
                         <TextField
                             fullWidth
                             type="text"
-                            label="Amount"
+                            label= "Amount"
                             {...getFieldProps('amount')}
                             error={Boolean(touched.amount && errors.amount)}
                             helperText={touched.amount && errors.amount}
                         />
+                        :  null}
+
+                      {values.coupon_type === "2" || values.coupon_type === 2? <> 
+                        <TextField
+                            fullWidth
+                            type="text"
+                            label= "Amount In Percentage"
+                            {...getFieldProps('amount')}
+                            error={Boolean(touched.amount && errors.amount)}
+                            helperText={touched.amount && errors.amount}
+                        />
+
+                      <TextField
+                        fullWidth
+                        type="text"
+                        label= "Max Discount"
+                        {...getFieldProps('max_discount')}
+                        error={Boolean(touched.max_discount && errors.max_discount)}
+                        helperText={touched.max_discount && errors.max_discount}
+                        />
+                 
+                      </> 
+                        :  null}
+
                         <TextField
                             fullWidth
                             InputLabelProps={{
@@ -219,16 +265,6 @@ export default function Update() {
                             error={Boolean(touched.maximum_spend && errors.maximum_spend)}
                             helperText={touched.maximum_spend && errors.maximum_spend}
                         />  
-
-                        <TextField
-                            fullWidth
-                            multiline
-                            rows={5}
-                            label="Description"
-                            {...getFieldProps('description')}
-                            error={Boolean(touched.description && errors.description)}
-                            helperText={touched.description && errors.description}
-                        /> 
                       {
                         values.days? 
 
@@ -250,41 +286,10 @@ export default function Update() {
                                 label="Days"
                                 error={Boolean(touched.days && errors.days)}
                                 helperText={touched.days && errors.days} 
-                              
                               />}
                         /> 
-
                         : null
-                        // <Autocomplete
-                        //     multiple
-                        //     fullWidth
-                        //     id="combo-box-demo"
-                           
-                        //     options={Days}
-                        //     disableCloseOnSelect
-                        //     getOptionSelected={(option, value) => option === "All Days"}
-                        //     // filterOptions={Days => Days.filter(opt => opt.fieldType)}
-                        //     disabledItemsFocusable
-                        //     // limitTags = {1}
-                        //     onChange = {(event, value)=>  formik.setFieldValue("days", value) }        
-                        //     renderInput={(params) => 
-                        //       <TextField 
-                        //         {...params} 
-                        //         label="Days"
-                        //         error={Boolean(touched.days && errors.days)}
-                        //         helperText={touched.days && errors.days} 
-                              
-                        //       />}
-                        // /> 
-                              
- 
                       }
-
-                        
-
-
-                        
-
 
                         <LoadingButton
                             fullWidth
@@ -297,7 +302,6 @@ export default function Update() {
                         </LoadingButton>
                         </Stack>
                     </Form>
-                    
                 </FormikProvider>
             </Grid>   
          </Grid>
