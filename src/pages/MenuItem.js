@@ -5,6 +5,7 @@ import { IconButton, Switch } from '@mui/material';
 import PersonAddDisabledIcon from '@mui/icons-material/PersonAddDisabled';
 import Tooltip from '@mui/material/Tooltip';
 import {useDispatch, useSelector} from 'react-redux';
+import Moment from 'react-moment';
 
 // material
 import {
@@ -76,18 +77,13 @@ const TABLE_HEAD = [
     alignRight: false 
   },
   { 
-    label: 'STATUS', 
-    id: 'itemType', 
-    alignRight: false 
-  },
-  { 
-    label: 'In Stock', 
+    label: 'IN STOCK', 
     id: 'inStock', 
     alignRight: false 
   },
   { 
-    label: 'Best Seller', 
-    id: 'inStock', 
+    label: 'BEST SELLER', 
+    id: 'bestSeller', 
     alignRight: false 
   },
 ];
@@ -228,7 +224,7 @@ export default function MenuItem() {
                 <TableBody>
                   {filteredUsers
                     .map((row) => {
-                      const { id, name, image, price, food_item_type, in_stock, description, best_seller} = row;
+                      const { id, name, image, price, food_item_type, in_stock, description, best_seller, created_at} = row;
                       return (
                         <TableRow
                           hover
@@ -242,12 +238,14 @@ export default function MenuItem() {
                           
                           <TableCell align="left">{price} RM </TableCell>
                           <TableCell align="left">{description} </TableCell>
-                          <TableCell align="left">{"Date missing"} </TableCell>
+                          <TableCell align="left">
+                            <Moment format="DD-MM-YYYY HH:mm a" >{created_at}</Moment> 
+                          </TableCell>
                           <TableCell align="left">{food_item_type}</TableCell>
                           <TableCell align="left">
                            <Switch
                               onChange={()=>StockTogglerHandler(id)}
-                              default Checked={in_stock == 1?true : false}
+                              defaultChecked={in_stock == 1?true : false}
                            />  
                           </TableCell>
                           <TableCell align="left">

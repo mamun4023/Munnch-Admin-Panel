@@ -185,35 +185,35 @@ function Update() {
   
   const StoreSchema = Yup.object().shape({
     store_name: Yup.string().required('Store Name is required'),
-    description: Yup.string().required('Description is required'),
+    description: Yup.string().required('Description is required').max(150, "Maximum 150 Characters "),
     max_delivery_km : Yup.string().required("Delivery KM is required"),
-    contact_no : Yup.string().required("Contact Number is required").min(10,"Must be 10 digit").max(10,"Must be 10 digit"),
+    contact_no : Yup.string().required("Contact Number is required").min(9,"Minimum 9 Digit").max(11,"Maximum 11 Digit"),
     additional_info : Yup.string().required('Additional Information is required'),
     country : Yup.string().required('Country is required').nullable(),
     city : Yup.string().required('City is required').nullable(),
     cuisines : Yup.array().required("Cusine is required").nullable(),
     foodType : Yup.array().required("Food Type is required").nullable(),
 
-    saturday_start_time : Yup.string().required("Start Time is required"),
-    saturday_close_time : Yup.string().required("Close Time is required"),
+    // saturday_start_time : Yup.string().required("Start Time is required"),
+    // saturday_close_time : Yup.string().required("Close Time is required"),
   
-    sunday_start_time : Yup.string().required("Start Time is required"),
-    sunday_close_time : Yup.string().required("Close Time is required"),
+    // sunday_start_time : Yup.string().required("Start Time is required"),
+    // sunday_close_time : Yup.string().required("Close Time is required"),
 
-    monday_start_time : Yup.string().required("Start Time is required"),
-    monday_close_time : Yup.string().required("Close Time is required"),
+    // monday_start_time : Yup.string().required("Start Time is required"),
+    // monday_close_time : Yup.string().required("Close Time is required"),
 
-    tuesday_start_time : Yup.string().required("Start Time is required"),
-    tuesday_close_time : Yup.string().required("Close Time is required"),
+    // tuesday_start_time : Yup.string().required("Start Time is required"),
+    // tuesday_close_time : Yup.string().required("Close Time is required"),
 
-    wednesday_start_time : Yup.string().required("Start Time is required"),
-    wednesday_close_time : Yup.string().required("Close Time is required"),
+    // wednesday_start_time : Yup.string().required("Start Time is required"),
+    // wednesday_close_time : Yup.string().required("Close Time is required"),
 
-    thursday_start_time : Yup.string().required("Start Time is required"),
-    thursday_close_time : Yup.string().required("Close Time is required"),
+    // thursday_start_time : Yup.string().required("Start Time is required"),
+    // thursday_close_time : Yup.string().required("Close Time is required"),
 
-    friday_start_time : Yup.string().required("Start Time is required"),
-    friday_close_time : Yup.string().required("Close Time is required"),
+    // friday_start_time : Yup.string().required("Start Time is required"),
+    // friday_close_time : Yup.string().required("Close Time is required"),
 
   });
 
@@ -369,22 +369,23 @@ function Update() {
     setLoading(true);
     UpdateStore(id, data)
       .then(res =>{
-        const response = res.data.message;
         setLoading(false);
+        const response = res.data.message;
         navigate(`/dashboard/merchant/store/${id}`, { replace: true });
         toast.dark(response);
       })
       .catch((err)=>{
+        setLoading(false);
         const response = err.response.data.errors.cuisine_name[0];
         toast.dark(response);
-        setLoading(false);
+        
       }) 
     }
 });
 
   const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = formik;
 
- 
+
   return(
         <>
         <Typography variant="h4" gutterBottom>

@@ -44,10 +44,16 @@ function Create() {
     personal_name: Yup.string().required('Name is required'),
     ic_number: Yup.string().required('IC Number is required'),
     email: Yup.string().email().required('Email is required'),
-    phone: Yup.string().required('Phone Number is required').min(10, "Must be 10 digit").max(10, "Must be 10 digit"),
-    store_phone: Yup.string().required('Store Phone Number is required').min(10, "Must be 10 digit").max(10, "Must be 10 digit"),
-    password: Yup.string().required('Password is required'),
-    password_confirmation : Yup.string().required("Confirm Password is required"),
+    phone: Yup.string().required('Phone Number is required').min(9, "Minimum 9 digit").max(11, "Maximum 11 digit"),
+    store_phone: Yup.string().required('Store Phone Number is required').min(9, "Minimum 9 digit").max(11, "Maximum 11 digit"),
+    password: Yup.string().required('Password is required').min(8, "Minimum 8 Characters"),
+    password_confirmation: Yup.string().required("Confirm Password is required").min(8, "Minimum 8 Characters").when("password", {
+      is: val => (val && val.length > 0 ? true : false),
+      then: Yup.string().oneOf(
+        [Yup.ref("password")],
+        "Confirm Password not matched"
+      )
+    })
   });
 
   const formik = useFormik({
@@ -74,11 +80,25 @@ function Create() {
           setLoading(false);
         })
         .catch((err)=>{
-          const errors = err.response.data.message;
           setLoading(false);
-          toast.error(errors)
+          const errors = err.response.data.errors;
+          
+          if(errors.phone?errors.phone[0]:false){ 
+            toast.error(errors?.phone[0])
+          }
+          
+          if(errors.store_phone?errors.store_phone[0]: false){
+            toast.error(errors?.store_phone[0])
+          }
+           
+          if( errors.email?errors.email[0] : false){
+            toast.error( errors?.email[0])
+          }
+          if( errors.ic_number?errors.ic_number[0] : false){
+            toast.error( errors?.ic_number[0])
+          }
+
         })
-   
     }
   });
 

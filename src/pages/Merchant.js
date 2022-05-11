@@ -39,7 +39,7 @@ const TABLE_HEAD = [
     alignRight: false 
   },
   { 
-    label: 'NAME', 
+    label: 'MERCHANT NAME', 
     id: 'name', 
     alignRight: false 
   },

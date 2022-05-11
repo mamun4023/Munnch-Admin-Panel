@@ -173,12 +173,13 @@ const removeFields = (index) => {
   const MenuItemSchema = Yup.object().shape({
     name: Yup.string().required('Name is required'),
     price: Yup.string().required('Price is required'),
-    description : Yup.string().required("Description is required"),
+    description : Yup.string().required("Description is required").max(100, "Maximum 100 Characters"),
     food_types: Yup.mixed().required('Food Type is required').nullable(),
     cuisine_types: Yup.mixed().required('Cuisine Type is required').nullable(),
     categories: Yup.mixed().required('Category is required').nullable(),
     food_item_type: Yup.string().required('Food Item Type is required'),
-    food_item_estimate_days :Yup.string().required('Estimate Days are required')
+    food_item_estimate_days :Yup.string().required('Estimate Days are required'),
+    image : Yup.mixed().required('Image is required')
   });
 
   const formik = useFormik({
@@ -190,9 +191,10 @@ const removeFields = (index) => {
       food_types : SingleMenu?.food_type,
       cuisine_types : SingleMenu?.cuisine,
       categories : SingleMenu?.category,
+      image : null,
       food_item_type  : SingleMenu.food_item_type === "Food Item"?1 : 2,
       food_item_estimate_days : SingleMenu?.food_item_estimate_days,
-      restaurant_id : '',
+      restaurant_id : SingleMenu.store?.id,
       addons : '',
       variationHalf : '',
       variationFull : ''
@@ -201,23 +203,37 @@ const removeFields = (index) => {
     validationSchema: MenuItemSchema,
     onSubmit: (values) => {
  
-      const data = {
-        name : values.name,
-        price : values.price,
-        description : values.description,
-        food_type_id : values.food_types.id,
-        cuisine_id : values.cuisine_types.id,
-        category_id : values.categories.id,
-        food_item_type : values.food_item_type,
-        food_item_estimate_days : values.food_item_estimate_days,
-        restaurant_id : id,
-        food_addons : inputFields,
-        food_variations : {
-            "full" : values.variationFull,
-            "half" : values.variationHalf
-          },
-        image : "",
-      }
+      // const data = {
+      //   name : values.name,
+      //   price : values.price,
+      //   description : values.description,
+      //   food_type_id : values.food_types.id,
+      //   cuisine_id : values.cuisine_types.id,
+      //   category_id : values.categories.id,
+      //   food_item_type : values.food_item_type,
+      //   food_item_estimate_days : values.food_item_estimate_days,
+      //   restaurant_id : id,
+      //   food_addons : inputFields,
+      //   food_variations : {
+      //       "full" : values.variationFull,
+      //       "half" : values.variationHalf
+      //     },
+      //   image : "",
+      // }
+
+      const data = new FormData();
+      data.append('name', values.name);
+      data.append('price', values.price);
+      data.append('description', values.description);
+      data.append('food_type_id', values.food_types.id);
+      data.append("cuisine_id", values.cuisine_types.id);
+      data.append("category_id", values.categories.id)
+      data.append("food_item_type",  values.food_item_type);
+      data.append("food_item_estimate_days", values.food_item_estimate_days);
+      data.append("restaurant_id", values.restaurant_id);
+      data.append(inputFields, "food_addons");
+      data.append([{"full" : values.variationFull, "half" : values.variationHalf }], 'food_variations')
+      data.append('image', values.image);
 
       // console.log(data)
 
@@ -227,7 +243,7 @@ const removeFields = (index) => {
           const response = res.data.message;
           setLoading(false);
           toast.dark(response)
-          navigate(`/dashboard/merchant/menu/${id}`, { replace: true });
+          navigate(`/dashboard/merchant/menu/${values.restaurant_id}`, { replace: true });
         })
         .catch((err)=>{
           setLoading(false);
@@ -243,7 +259,7 @@ const removeFields = (index) => {
   return(
         <>
         <Typography variant="h4" gutterBottom>
-          Add New Item
+          Update Menu Item
         </Typography>
             
         <Grid
@@ -373,6 +389,8 @@ const removeFields = (index) => {
                             <MenuItem value= "1">Food Item</MenuItem>
                             <MenuItem value= "2">Pre Order Item</MenuItem>
                         </TextField> 
+
+
                         <TextField
                             fullWidth
                             InputLabelProps={{
@@ -468,6 +486,21 @@ const removeFields = (index) => {
                             </IconButton>
                           }
                         </Stack>
+
+                        <img 
+                          src= {SingleMenu.image}
+                        />
+
+                          
+                        <TextField
+                            fullWidth
+                            type="file"
+                            onChange={ev=>{ formik.setFieldValue("image",ev.target.files[0]) }} 
+                            error={Boolean(touched.image && errors.image)}
+                            helperText={touched.image && errors.image}
+                        /> 
+
+
                         <LoadingButton
                             fullWidth
                             size="large"

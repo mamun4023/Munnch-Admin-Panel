@@ -51,7 +51,6 @@ const Input = styled('input')({
 });
 
 
-
 export default function Store() {
   const {id} = useParams();
   const dispatch = useDispatch();
@@ -67,7 +66,6 @@ export default function Store() {
     },1000)
   }
 
-
   const ImageDeleteHandler = (storeId, imageId)=>{
     dispatch(RemoveImage(storeId, imageId));
     setTimeout(()=>{
@@ -81,6 +79,8 @@ export default function Store() {
   },[])
 
   const StoreData = useSelector(state => state.SingleStore.data);
+
+  console.log("Store data", StoreData)
 
 
   return (
@@ -114,6 +114,15 @@ export default function Store() {
                         
                         <Typography sx={{ mb: 1.5 }} color="text.secondary">
                           {StoreData.description? StoreData.description : <div  style={{ textAlign : "center"}} > empty </div> }
+                        </Typography>
+                    </Card>
+                    <Card> 
+                        <Typography style={{ background : "#eee" }}  padding={2} textAlign= "center" variant="h6" component="div">
+                            Additional Information
+                        </Typography>
+                        
+                        <Typography sx={{ mb: 1.5 }} color="text.secondary">
+                          {StoreData.additional_info? StoreData.additional_info : <div  style={{ textAlign : "center"}} > empty </div> }
                         </Typography>
                     </Card>
 
@@ -237,8 +246,9 @@ export default function Store() {
                                     <Box 
                                         sx={{ py: 1}}
                                     >
-                                        <h4> Contact Number &ensp;&ensp; : &ensp;  {StoreData.contact_no?StoreData.contact_no: "empty" }  </h4>
+                                       
                                         <h4> Max Delivery KM &emsp;: &ensp; {StoreData.max_delivery_km?StoreData.max_delivery_km: "empty"} </h4>
+                                        <h4> Business Contact Number &ensp;&ensp; : &ensp;  {StoreData.contact_no?StoreData.contact_no: "empty" }  </h4>
                                         {/* <h4> Delivery Charge &ensp; &ensp; : &ensp; {StoreData.delivery_charge? StoreData.delivery_charge: "empty" }  </h4>
                                         <h4> Minimum Order&ensp;&ensp; &ensp; : &ensp;  {StoreData.minimum_order? StoreData.minimum_order : "empty" }  </h4>
                                         */}

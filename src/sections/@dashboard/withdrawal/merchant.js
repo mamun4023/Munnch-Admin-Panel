@@ -259,7 +259,7 @@ export default function Withdrawal() {
                           <TableCell align="left">
                               <Switch 
                                 onChange={()=> StatusChangeHandler(id)}
-                                defaultChecked = {is_withdrawn? false: true}
+                                defaultChecked = {is_withdrawn === 1? true: false}
                               />
 
                             </TableCell>

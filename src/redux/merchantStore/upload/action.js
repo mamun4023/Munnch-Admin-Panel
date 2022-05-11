@@ -29,6 +29,5 @@ export const AddImage = (id, data)=>{
                 const response = res.data.message;
                 console.log(response);
                 toast.dark(response)
-               
             })
 }

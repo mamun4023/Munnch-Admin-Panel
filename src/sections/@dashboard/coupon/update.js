@@ -89,9 +89,9 @@ export default function Update() {
 
       const data  = {
         code : values.code,
-        coupon_type: values.coupon_type,
+        discount_type: values.coupon_type,
         amount : values.amount,
-        max_discount : values.max_discount,
+        max_discount : values.coupon_type ==1?0 : values.max_discount,
         start_date : values.start_date,
         end_date : values.end_date,
         usage_per_user : values.usage_per_user,

@@ -154,7 +154,6 @@ export default function Withdrawal() {
   const dispatch = useDispatch();
   const loading = useSelector(state => state.Withdrawal.loading);
 
-
   useEffect(()=>{
     dispatch(FetchWithdrawalList(filterName, page, rowsPerPage, order));
   },[filterName, page, rowsPerPage, order])
@@ -258,7 +257,7 @@ export default function Withdrawal() {
                           <TableCell align="left">
                               <Switch 
                                 onChange={()=> StatusChangeHandler(id)}
-                                defaultChecked = {is_withdrawn? true: false}
+                                defaultChecked = {is_withdrawn === 1? true: false}
 
                               />
 

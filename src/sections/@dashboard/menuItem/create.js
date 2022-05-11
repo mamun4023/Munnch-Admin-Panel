@@ -157,7 +157,7 @@ const removeFields = (index) => {
   const MenuItemSchema = Yup.object().shape({
     name: Yup.string().required('Name is required'),
     price: Yup.string().required('Price is required'),
-    description : Yup.string().required("Description is required"),
+    description : Yup.string().required("Description is required").max(100, "Maximum 100 Characters"),
     food_types: Yup.mixed().required('Food Type is required').nullable(),
     cuisine_types: Yup.mixed().required('Cuisine Type is required').nullable(),
     categories: Yup.mixed().required('Category is required').nullable(),
@@ -190,38 +190,37 @@ const removeFields = (index) => {
       //  const FormData = new FormData();
       //  FormData.append('image', values.image);
 
-      const data = {
-        name : values.name,
-        price : values.price,
-        description : values.description,
-        food_type_id : values.food_types.id,
-        cuisine_id : values.cuisine_types.id,
-        category_id : values.categories.id,
-        food_item_type : values.food_item_type,
-        food_item_estimate_days : values.food_item_estimate_days,
-        restaurant_id : id,
-        food_addons : inputFields,
-        food_variations : {
-            "full" : values.variationFull,
-            "half" : values.variationHalf
-          },
-        image : values.image
-      }
+      // const data = {
+      //   name : values.name,
+      //   price : values.price,
+      //   description : values.description,
+      //   food_type_id : values.food_types.id,
+      //   cuisine_id : values.cuisine_types.id,
+      //   category_id : values.categories.id,
+      //   food_item_type : values.food_item_type,
+      //   food_item_estimate_days : values.food_item_estimate_days,
+      //   restaurant_id : id,
+      //   food_addons : inputFields,
+      //   food_variations : {
+      //       "full" : values.variationFull,
+      //       "half" : values.variationHalf
+      //     },
+      //   image : values.image
+      // }
 
-      // const data = new FormData();
-      // data.append('name', values.name);
-      // data.append('price', values.price);
-      // data.append('description', values.description);
-      // data.append('food_type_id', values.food_types.id);
-      // data.append("cuisine_id", values.cuisine_types.id);
-      // data.append("food_item_type",  values.food_item_type);
-      // data.append("food_item_estimate_days", values.food_item_estimate_days);
-      // data.append("restaurant_id", id);
-      // data.append("dd",inputFields);
-      // data.append('food_variations',[{"full" : values.variationFull, "half" : values.variationHalf }])
-      // data.append('image', values.image);
-
-      console.log(data)
+      const data = new FormData();
+      data.append('name', values.name);
+      data.append('price', values.price);
+      data.append('description', values.description);
+      data.append('food_type_id', values.food_types.id);
+      data.append("cuisine_id", values.cuisine_types.id);
+      data.append("category_id", values.categories.id)
+      data.append("food_item_type",  values.food_item_type);
+      data.append("food_item_estimate_days", values.food_item_estimate_days);
+      data.append("restaurant_id", id);
+      data.append(inputFields, "food_addons");
+      data.append([{"full" : values.variationFull, "half" : values.variationHalf }], 'food_variations')
+      data.append('image', values.image);
 
       setLoading(true);
       AddMenu(data)
@@ -352,14 +351,7 @@ const removeFields = (index) => {
                             <MenuItem value= "2">Pre Order Item</MenuItem>
                         </TextField>
 
-                         <TextField
-                            fullWidth
-                            type="file"
-                            onChange={ev=>{ formik.setFieldValue("image",ev.target.files[0]) }} 
-                            error={Boolean(touched.image && errors.image)}
-                            helperText={touched.image && errors.image}
-                        /> 
-
+    
                       
 
                         <TextField
@@ -454,6 +446,15 @@ const removeFields = (index) => {
                             </IconButton>
                           }
                         </Stack>
+
+                        <TextField
+                            fullWidth
+                            type="file"
+                            onChange={ev=>{ formik.setFieldValue("image",ev.target.files[0]) }} 
+                            error={Boolean(touched.image && errors.image)}
+                            helperText={touched.image && errors.image}
+                        /> 
+
                         <LoadingButton
                             fullWidth
                             size="large"
