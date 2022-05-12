@@ -33,17 +33,94 @@ import moment from 'moment';
 
 
 function Update() {
-  const [value, setValue] = useState();
   const navigate = useNavigate();
   const {id} = useParams();
-  const [filter, setFilter] = useState('')
   const dispatch = useDispatch();
   const[loading, setLoading] = useState(false);
 
+  //loading list data variable
   const[foodList, setFoodList] = useState([]);
-  const[selectedFoodList, setSelectedFoodList] = useState();
   const[cuisineList, setCuisineList] = useState([]);
-  const[selectedCuisine, setSelectedCuisineList] = useState();
+
+  
+  const LoadListData = ()=>{
+    FetchCuisineTypeList()
+      .then(res =>{
+        const response = res.data.data.cuisine_list;
+        setCuisineList(response);
+      })
+
+    FetchFoodTypeList()
+      .then(res =>{
+        const response = res.data.data.food_list;
+        setFoodList(response);
+      }) 
+  }
+  
+  useEffect(()=>{
+    dispatch(FetchSingleStore(id));
+    LoadListData();
+  },[])
+
+  const SingleStoreData = useSelector(state => state.SingleStore.data);
+
+
+  // geo location
+  const [address, setAddress] = useState(SingleStoreData.location?SingleStoreData.location.address: "");
+    // latLot data
+  const[latllogAddress, setLatllogAddress] = useState(SingleStoreData.location?SingleStoreData.location.address: ""); // set default address
+  const[location , setLocation] = useState();
+  const[lat, setLat] = useState(SingleStoreData.location?SingleStoreData.location.latitude: "");
+  const[lng, setLng] = useState(SingleStoreData.location?SingleStoreData.location.longitude: "");
+  
+  const handleSelect = async (values) => {
+  const result = await geocodeByAddress(values)
+  setLocation(result[0].formatted_address)
+  // console.log("address",result[0].formatted_address)
+  const latlogResult = await getLatLng(result[0])
+  // console.log(latlogResult)
+  setLat(latlogResult.lat);
+  setLng(latlogResult.lng);
+  setAddress(result[0].formatted_address)
+  setLatllogAddress(values)
+  };
+
+  // console.log(lat+","+lng)
+  // console.log(address);
+
+
+  // start operational hours hooks
+
+  var [operationalHours, setOperationalHours]  = useState([]);
+
+  const [sundayStart, setSundayStart] = useState();
+  const [sundayClose, setSundayClose] = useState();
+
+  const [sundayIsOpen, setSundayIsOpen] = useState(SingleStoreData.operational_hours[0]?.is_open);
+  const [mondayIsopen, setMondayIsOpen] = useState(SingleStoreData.operational_hours[1]?.is_open);
+  const [tuesdayIsOpen, setTuesdayIsOpen] = useState(SingleStoreData.operational_hours[2]?.is_open);
+  const [wednesdayIsOpen, setWednesdayIsOpen] = useState(SingleStoreData.operational_hours[3]?.is_open);
+  const [thursdayIsOpen, setThursdayIsOpen] = useState(SingleStoreData.operational_hours[4]?.is_open);
+  const [fridayIsOpen, setFridayIsOpen] = useState(SingleStoreData.operational_hours[5]?.is_open);
+  const [saturdayIsOpen, setSaturdayIsOpen] = useState(SingleStoreData.operational_hours[6]?.is_open);
+
+  
+
+  // operational hours days objects
+  // const Sunday = {
+  //   sundayStart : "10:10 AM",
+  //   sundayClose : "12:00 PM",
+  //   sunday_is_open : true,
+  //   sunday_no_of_hours : 4
+  // }
+
+
+  // const Monday = {
+  //   sundayStart : "10:10 AM",
+  //   sundayClose : "12:00 PM",
+  //   sunday_is_open : true,
+  //   sunday_no_of_hours : 4
+  // }
 
 
   const SundayTogglerHandeler = (data)=>{
@@ -57,6 +134,7 @@ function Update() {
     setSundayIsOpen(result);
   }
 
+
   const MondayTogglerHandeler = (data)=>{
     let result;
     if(data === 0){
@@ -66,6 +144,7 @@ function Update() {
       result = 0
     }
     setMondayIsOpen(result);
+ 
   }
 
   const TuesdayTogglerHandeler = (data)=>{
@@ -125,62 +204,12 @@ function Update() {
     setSaturdayIsOpen(result);
   }
 
-  const LoadListData = ()=>{
-    FetchCuisineTypeList()
-      .then(res =>{
-        const response = res.data.data.cuisine_list;
-        setCuisineList(response);
-      })
-
-    FetchFoodTypeList()
-      .then(res =>{
-        const response = res.data.data.food_list;
-        setFoodList(response);
-      }) 
-  }
-  
-  useEffect(()=>{
-    dispatch(FetchSingleStore(id));
-    LoadListData();
-  },[])
-
-  const SingleStoreData = useSelector(state => state.SingleStore.data);
+ 
   // const FoodList = useSelector(state => state.FetchFoodList.data);
   // const CusineList = useSelector(state => state.FetchCuisineList.data)
 
   //  console.log("SingleStoreData " , SingleStoreData.operational_hours[0].is_open);
   
-   const [sundayIsOpen, setSundayIsOpen] = useState(SingleStoreData.operational_hours[0]?.is_open);
-   const [mondayIsopen, setMondayIsOpen] = useState(SingleStoreData.operational_hours[1]?.is_open);
-   const [tuesdayIsOpen, setTuesdayIsOpen] = useState(SingleStoreData.operational_hours[2]?.is_open);
-   const [wednesdayIsOpen, setWednesdayIsOpen] = useState(SingleStoreData.operational_hours[3]?.is_open);
-   const [thursdayIsOpen, setThursdayIsOpen] = useState(SingleStoreData.operational_hours[4]?.is_open);
-   const [fridayIsOpen, setFridayIsOpen] = useState(SingleStoreData.operational_hours[5]?.is_open);
-   const [saturdayIsOpen, setSaturdayIsOpen] = useState(SingleStoreData.operational_hours[6]?.is_open);
-
-
-// geo location
-  const [address, setAddress] = useState(SingleStoreData.location?SingleStoreData.location.address: "");
-    // latLot data
-  const[latllogAddress, setLatllogAddress] = useState(SingleStoreData.location?SingleStoreData.location.address: ""); // set default address
-  const[location , setLocation] = useState();
-  const[lat, setLat] = useState(SingleStoreData.location?SingleStoreData.location.latitude: "");
-  const[lng, setLng] = useState(SingleStoreData.location?SingleStoreData.location.longitude: "");
-  
-  const handleSelect = async (values) => {
-  const result = await geocodeByAddress(values)
-  setLocation(result[0].formatted_address)
-  // console.log("address",result[0].formatted_address)
-  const latlogResult = await getLatLng(result[0])
-  // console.log(latlogResult)
-  setLat(latlogResult.lat);
-  setLng(latlogResult.lng);
-  setAddress(result[0].formatted_address)
-  setLatllogAddress(values)
-  };
-
-  // console.log(lat+","+lng)
-  // console.log(address);
 
   
   const StoreSchema = Yup.object().shape({
@@ -194,26 +223,26 @@ function Update() {
     cuisines : Yup.array().required("Cusine is required").nullable(),
     foodType : Yup.array().required("Food Type is required").nullable(),
 
-    // saturday_start_time : Yup.string().required("Start Time is required"),
-    // saturday_close_time : Yup.string().required("Close Time is required"),
+    saturday_start_time : Yup.string().required("Start Time is required"),
+    saturday_close_time : Yup.string().required("Close Time is required"),
   
-    // sunday_start_time : Yup.string().required("Start Time is required"),
-    // sunday_close_time : Yup.string().required("Close Time is required"),
+    sunday_start_time : Yup.string().required("Start Time is required"),
+    sunday_close_time : Yup.string().required("Close Time is required"),
 
-    // monday_start_time : Yup.string().required("Start Time is required"),
-    // monday_close_time : Yup.string().required("Close Time is required"),
+    monday_start_time : Yup.string().required("Start Time is required"),
+    monday_close_time : Yup.string().required("Close Time is required"),
 
-    // tuesday_start_time : Yup.string().required("Start Time is required"),
-    // tuesday_close_time : Yup.string().required("Close Time is required"),
+    tuesday_start_time : Yup.string().required("Start Time is required"),
+    tuesday_close_time : Yup.string().required("Close Time is required"),
 
-    // wednesday_start_time : Yup.string().required("Start Time is required"),
-    // wednesday_close_time : Yup.string().required("Close Time is required"),
+    wednesday_start_time : Yup.string().required("Start Time is required"),
+    wednesday_close_time : Yup.string().required("Close Time is required"),
 
-    // thursday_start_time : Yup.string().required("Start Time is required"),
-    // thursday_close_time : Yup.string().required("Close Time is required"),
+    thursday_start_time : Yup.string().required("Start Time is required"),
+    thursday_close_time : Yup.string().required("Close Time is required"),
 
-    // friday_start_time : Yup.string().required("Start Time is required"),
-    // friday_close_time : Yup.string().required("Close Time is required"),
+    friday_start_time : Yup.string().required("Start Time is required"),
+    friday_close_time : Yup.string().required("Close Time is required"),
 
   });
 

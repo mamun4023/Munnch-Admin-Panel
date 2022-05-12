@@ -12,7 +12,7 @@ import moment from 'moment';
 
 export default function BasicTable({timing}) {
 
-  console.log("TImming is", timing)
+  // console.log("TImming is", timing)
 
   return (
     <TableContainer component={Paper}>

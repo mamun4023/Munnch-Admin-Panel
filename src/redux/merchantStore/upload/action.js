@@ -30,4 +30,9 @@ export const AddImage = (id, data)=>{
                 console.log(response);
                 toast.dark(response)
             })
+            .catch(err =>{
+                const errResponse = err.response.data.message;
+                console.log(errResponse);
+                toast.error(errResponse)
+            })
 }

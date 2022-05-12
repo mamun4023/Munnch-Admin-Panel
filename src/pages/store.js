@@ -61,6 +61,7 @@ export default function Store() {
     const data = new FormData();
     data.append('image', e.target.files[0])
     AddImage(id, data);
+
     setTimeout(()=>{
       dispatch(FetchSingleStore(id))
     },1000)
@@ -80,7 +81,7 @@ export default function Store() {
 
   const StoreData = useSelector(state => state.SingleStore.data);
 
-  console.log("Store data", StoreData)
+  // console.log("Store data", StoreData)
 
 
   return (
@@ -265,9 +266,9 @@ export default function Store() {
                         </Card>
                         <Card style={{ marginTop  : "10px" }} >
                           <CardContent style={{ display:'flex', justifyContent:'center' }} >
-                             <IconButton href= {StoreData.social_links?StoreData.social_links.website : null} size='large' > <Iconify icon= "mdi:web-box" /></IconButton>
-                             <IconButton href= {StoreData.social_links?StoreData.social_links.facebook : null} size='large'  > <Iconify icon= "fa6-brands:facebook-square" /></IconButton>
-                             <IconButton href= {StoreData.social_links?StoreData.social_links.instagram: null} size='large'  > <Iconify icon= "fa6-brands:instagram-square" /></IconButton>
+                             <IconButton href= {StoreData.social_links?StoreData.social_links.website : null} size='large'> <Iconify icon= "mdi:web-box" /></IconButton>
+                             <IconButton href= {StoreData.social_links?StoreData.social_links.facebook : null} size='large'> <Iconify icon= "fa6-brands:facebook-square" /></IconButton>
+                             <IconButton href= {StoreData.social_links?StoreData.social_links.instagram: null} size='large'> <Iconify icon= "fa6-brands:instagram-square" /></IconButton>
                           </CardContent>
                         </Card>
                     </Grid>
