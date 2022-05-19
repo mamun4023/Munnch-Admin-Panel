@@ -88,7 +88,7 @@ export default function Update() {
       console.log("values", values)
 
       const data  = {
-        code : values.code,
+        code : values.code.toUpperCase(),
         discount_type: values.coupon_type,
         amount : values.amount,
         max_discount : values.coupon_type ==1?0 : values.max_discount,

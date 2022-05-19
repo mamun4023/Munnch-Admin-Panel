@@ -92,6 +92,11 @@ function applySortFilter(array, comparator, query) {
   return stabilizedThis.map((el) => el[0]);
 }
 
+function CapitalizeFirstLetter (s){
+  if (typeof s !== 'string') return ''
+  return s.charAt(0).toUpperCase() + s.slice(1)
+}
+
 export default function Cuisine() {
   const [page, setPage] = useState(1);
   const dispatch = useDispatch();
@@ -178,7 +183,7 @@ const PopularToggleHandler = (id)=>{
                           key={id}
                         >
                           <TableCell align="left">{id}</TableCell>
-                          <TableCell align="left">{cuisine_name}</TableCell>
+                          <TableCell align="left">{CapitalizeFirstLetter(cuisine_name)}</TableCell>
                           <TableCell align="left"> 
                             <Avatar  variant="square" style={{width : "70px"}} src= {image} />
                           </TableCell>

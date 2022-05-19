@@ -142,6 +142,13 @@ function applySortFilter(array, comparator, query) {
   return stabilizedThis.map((el) => el[0]);
 }
 
+
+function CapitalizeFirstLetter (s){
+  if (typeof s !== 'string') return ''
+  return s.charAt(0).toUpperCase() + s.slice(1)
+}
+
+
 export default function Withdrawal() {
   const [page, setPage] = useState(1);
   const [order, setOrder] = useState('desc');
@@ -245,9 +252,9 @@ export default function Withdrawal() {
                           <TableCell align="left">
                              <Avatar  variant="square" style={{width : "70px"}} src= {customer?.profile_image} />
                           </TableCell>
-                          <TableCell align="left">{customer?.email}</TableCell>
+                          <TableCell align="left">{CapitalizeFirstLetter(customer?.email)}</TableCell>
                           <TableCell align="left">{customer?.phone}</TableCell>
-                          <TableCell align="left">{store_bank?.holder_name}</TableCell>
+                          <TableCell align="left">{CapitalizeFirstLetter(store_bank?.holder_name)}</TableCell>
                           <TableCell align="left">{store_bank?.bank.name}</TableCell>
                           <TableCell align="left">{store_bank?.account_number}</TableCell>
                           <TableCell align="left">{amount}</TableCell>

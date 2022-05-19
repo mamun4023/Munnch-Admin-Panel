@@ -192,6 +192,11 @@ function applySortFilter(array, comparator, query) {
   return stabilizedThis.map((el) => el[0]);
 }
 
+function CapitalizeFirstLetter (s){
+  if (typeof s !== 'string') return ''
+  return s.charAt(0).toUpperCase() + s.slice(1)
+}
+
 export default function Coupon() {
   const [page, setPage] = useState(1);
   const [order, setOrder] = useState('desc');
@@ -332,7 +337,7 @@ export default function Coupon() {
                         >
                           <TableCell align="left">{id}</TableCell>
                           {/* <TableCell align="left">{user_id}</TableCell> */}
-                          <TableCell align="left">{code}</TableCell>
+                          <TableCell align="left">{code.toUpperCase()}</TableCell>
                           <TableCell align="left">{coupon_type == 1 ? "Fixed" : "Percentage"}</TableCell>
                           {/* <TableCell align="left">{discount_type_name}</TableCell> */}
                           <TableCell align="left">{coupon_type == 1? amount : "--"}</TableCell>
@@ -360,7 +365,7 @@ export default function Coupon() {
                         
                           <TableCell align="left"> {is_expired? "Yes" : "--"} </TableCell>
                           <TableCell align="left">{is_exhausted?"Yes": "--"}</TableCell> 
-                          <TableCell align="left">{ReduceDescription(description?description : "--")}</TableCell> 
+                          <TableCell align="left">{CapitalizeFirstLetter(ReduceDescription(description?description : "--"))}</TableCell> 
                           <TableCell align="left">
                             <Moment format="DD-MM-YYYY hh:mm a" >{updated_at}</Moment>
                           </TableCell>

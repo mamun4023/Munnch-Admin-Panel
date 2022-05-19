@@ -177,7 +177,7 @@ const removeFields = (index) => {
       categories : null,
       image : null,
       food_item_type  : '',
-      food_item_estimate_days : '',
+      food_item_estimate_days : 0,
       restaurant_id : '',
       addons : '',
       variationHalf : '',
@@ -348,11 +348,11 @@ const removeFields = (index) => {
                             helperText={touched.food_item_type && errors.food_item_type}
                         >    
                             <MenuItem value= "1">Food Item</MenuItem>
-                            <MenuItem value= "2">Pre Order Item</MenuItem>
+                            <MenuItem value= "2">Pre-Order Item</MenuItem>
                         </TextField>
 
-    
-                      
+                      {
+                         values.food_item_type === 2 || values.food_item_type ==="2"? 
 
                         <TextField
                             fullWidth
@@ -362,6 +362,9 @@ const removeFields = (index) => {
                             error={Boolean(touched.food_item_estimate_days && errors.food_item_estimate_days)}
                             helperText={touched.food_item_estimate_days && errors.food_item_estimate_days}
                         /> 
+
+                        : null
+                      }
 
                         {/* <TextField
                             fullWidth

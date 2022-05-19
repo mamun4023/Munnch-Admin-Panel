@@ -88,6 +88,11 @@ function applySortFilter(array, comparator, query) {
   return stabilizedThis.map((el) => el[0]);
 }
 
+function CapitalizeFirstLetter (s){
+  if (typeof s !== 'string') return ''
+  return s.charAt(0).toUpperCase() + s.slice(1)
+}
+
 export default function Food() {
   const [page, setPage] = useState(1);
   const dispatch = useDispatch();
@@ -169,7 +174,7 @@ export default function Food() {
                           key={id}
                         >
                           <TableCell align="left">{id}</TableCell>
-                          <TableCell align="left">{food_type_name}</TableCell>
+                          <TableCell align="left">{CapitalizeFirstLetter(food_type_name)}</TableCell>
                           <TableCell> 
                             <Avatar  variant="square" style={{width : "70px"}} src= {image} />
                           </TableCell>

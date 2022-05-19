@@ -103,8 +103,9 @@ function ReduceMessage(data){
   return message
 }
 
-function capitalizeFirstLetter(str) {
-  return str[0].toUpperCase() + str.slice(1);
+function CapitalizeFirstLetter (s){
+  if (typeof s !== 'string') return ''
+  return s.charAt(0).toUpperCase() + s.slice(1)
 }
 
 export default function Notification() {
@@ -187,10 +188,10 @@ export default function Notification() {
                           key={id}
                         >
                           <TableCell align="left">{id}</TableCell>
-                          <TableCell align="left">{title}</TableCell>
-                          <TableCell align="left">{ capitalizeFirstLetter(user_type_name)}</TableCell>
+                          <TableCell align="left">{CapitalizeFirstLetter(title)}</TableCell>
+                          <TableCell align="left">{CapitalizeFirstLetter(user_type_name)}</TableCell>
                           <TableCell align="left" sx={{ maxWidth: 300 }}>
-                             {message}
+                             {CapitalizeFirstLetter(message)}
                           </TableCell>
                           <TableCell align="left">
                             <Moment format="DD-MM-YYYY HH:mm a" >{created_at}</Moment>

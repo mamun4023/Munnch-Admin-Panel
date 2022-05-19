@@ -391,6 +391,10 @@ const removeFields = (index) => {
                         </TextField> 
 
 
+
+                        {
+                        values.food_item_type ==="2"? 
+
                         <TextField
                             fullWidth
                             InputLabelProps={{
@@ -402,6 +406,22 @@ const removeFields = (index) => {
                             error={Boolean(touched.food_item_estimate_days && errors.food_item_estimate_days)}
                             helperText={touched.food_item_estimate_days && errors.food_item_estimate_days}
                         /> 
+
+                        : null
+                      }
+
+
+                        {/* <TextField
+                            fullWidth
+                            InputLabelProps={{
+                              shrink : true                                
+                           }}
+                            type="number"
+                            label="food Item Estimate Days"
+                            {...getFieldProps('food_item_estimate_days')}
+                            error={Boolean(touched.food_item_estimate_days && errors.food_item_estimate_days)}
+                            helperText={touched.food_item_estimate_days && errors.food_item_estimate_days}
+                        />  */}
 
                         {/* <TextField
                             fullWidth

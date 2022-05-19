@@ -104,6 +104,11 @@ function applySortFilter(array, comparator, query) {
   return stabilizedThis.map((el) => el[0]);
 }
 
+function CapitalizeFirstLetter (s){
+  if (typeof s !== 'string') return ''
+  return s.charAt(0).toUpperCase() + s.slice(1)
+}
+
 export default function Banner() {
   const [page, setPage] = useState(1);
   const [order, setOrder] = useState('desc');
@@ -231,7 +236,7 @@ export default function Banner() {
                           aria-checked={isItemSelected}
                         >
                           <TableCell align="left">{id}</TableCell>
-                          <TableCell align="left">{name}</TableCell>
+                          <TableCell align="left">{CapitalizeFirstLetter(name)}</TableCell>
                           <TableCell align="left">
                             <Avatar  variant="square" style={{width : "70px"}} src= {image} />
                           </TableCell>

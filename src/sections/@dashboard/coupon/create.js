@@ -66,7 +66,7 @@ export default function Create() {
       console.log("values", values)
 
       const data  = {
-          code : values.code,
+          code : values.code.toUpperCase(),
           discount_type: values.discount_type,
           amount : values.amount,
           max_discount : values.max_discount,

@@ -1,10 +1,13 @@
 import { filter } from 'lodash';
 import { sentenceCase } from 'change-case';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import { IconButton , Button, Switch} from '@mui/material';
 import Tooltip from '@mui/material/Tooltip';
+import { alpha } from '@mui/material/styles';
 import {useDispatch, useSelector} from 'react-redux';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import MenuPopover from '../components/MenuPopover';
 import Moment from 'react-moment';
 // material
 import {
@@ -12,12 +15,17 @@ import {
   Table,
   Stack,
   TableRow,
+  TextField,
   TableBody,
   TableCell,
   Container,
   Typography,
   TableContainer,
-  TablePagination
+  TablePagination,
+  Box,
+  MenuItem,
+  ListItemIcon,
+  ListItemText
 } from '@mui/material';
 // components
 import Page from '../components/Page';
@@ -31,6 +39,44 @@ import {CancleOrder} from '../redux/order/cancelToggler/actions';
 import Spinner from 'src/components/Spinner';
 // ----------------------------------------------------------------------
 
+
+const LANGS = [
+  {
+    value: 'PENDING',
+    label: 'Pending',
+  },
+  {
+    value: 'ASSIGNING_DRIVER',
+    label: 'Assigning Driver',
+  },
+  {
+    value: 'EXPIRED',
+    label: 'Expired',
+  },
+  {
+    value: 'CANCELED',
+    label: 'Cancelled',
+  },
+  {
+    value: 'REJECTED',
+    label: 'Rejected',
+  },
+  
+  {
+    value: 'ON_GOING',
+    label: 'On Going',
+  },
+  {
+    value: 'PICKED_UP',
+    label: 'Picked Up',
+  },
+  {
+    value: 'COMPLETED',
+    label: 'Completed',
+  },
+
+  
+];
 
 const TABLE_HEAD = [
   { 
@@ -111,6 +157,10 @@ function applySortFilter(array, comparator, query) {
   return stabilizedThis.map((el) => el[0]);
 }
 
+function CapitalizeFirstLetter (s){
+  if (typeof s !== 'string') return ''
+  return s.charAt(0).toUpperCase() + s.slice(1)
+}
 
 export default function Order() {
   const [page, setPage] = useState(1);
@@ -132,9 +182,7 @@ export default function Order() {
 
   const OrderList = useSelector(state => state.OrderList.data);
 
-
   console.log("Order Data", OrderList);
-
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -158,10 +206,21 @@ export default function Order() {
   const filteredUsers = applySortFilter(OrderList, getComparator(order, orderBy), filterName);
   const isUserNotFound = filteredUsers.length === 0;
 
-
   const CanclerHandler = (id)=>{
     dispatch(CancleOrder(id))
   }
+
+
+  const anchorRef = useRef(null);
+  const [open, setOpen] = useState(false);
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
   
 
   return (
@@ -173,71 +232,49 @@ export default function Order() {
           </Typography>
         </Stack>
         <Card>
-
-          <div style={{ display:"flex", flexWrap:"wrap", justifyContent:"space-between"}}>
+              <div style={{ display:"flex", flexWrap:"wrap", justifyContent:"space-between"}}>
                 <OrderListToolbar
                   numSelected={selected.length}
                   filterName={filterName}
                   onFilterName={handleFilterByName}
                 />
                 <div style={{ marginTop : "25px" }} >
-                  <Button
-                      variant= {orderStatus === "PENDING"? "contained": null}
-                      onClick = {()=> setOrderStatus("PENDING")}
-                      disableElevation
-                  >Pending</Button>
 
-                  <Button
-                    variant= {orderStatus === "ASSIGNING_DRIVER"? "contained": null}
-                    onClick = {()=> setOrderStatus("ASSIGNING_DRIVER")}
-                    disableElevation
-                  >Assigning Driver</Button>
-
-                
-                  <Button
-                    variant= {orderStatus === "CANCELED"? "contained": null}
-                    onClick = {()=> setOrderStatus("CANCELED")}
-                    disableElevation
-                  >Cancelled</Button>
-
-
- 
-
-                   <Button
-                    variant= {orderStatus === "EXPIRED"? "contained": null}
-                    onClick = {()=> setOrderStatus("EXPIRED")}
-                    disableElevation
-                  >Expired</Button>
-
-                   <Button
-                    variant= {orderStatus === "REJECTED"? "contained": null}
-                    onClick = {()=> setOrderStatus("REJECTED")}
-                    disableElevation
-                  >Rejected </Button>
-
-                  <Button
-                    variant= {orderStatus === "ON_GOING"? "contained": null}
-                    onClick = {()=> setOrderStatus("ON_GOING")}
-                    disableElevation
-                  >On Going </Button>
-
-                  <Button
-                    variant= {orderStatus === "PICKED_UP"? "contained": null}
-                    onClick = {()=> setOrderStatus("PICKED_UP")}
-                    disableElevation
-                  >Picked Up  </Button>
-
-                  <Button
-                    variant= {orderStatus === "COMPLETED"? "contained": null}
-                    onClick = {()=> setOrderStatus("COMPLETED")}
-                    disableElevation
-                  >Completed  </Button>
+                <Stack
+                   sx={{
+                    marginRight : 5,
+                    padding : 0,
+                   }}
+  
+                > 
+                 <TextField
+                    fullWidth
+                    select
+                    size='small'
+                    // label="Coupon Type"
+                    variant="outlined"
+                    
+                    value={orderStatus}
+                    onChange = {(e)=>setOrderStatus(e.target.value)}
+                    >    
+                      <MenuItem value= "PENDING"> Pending </MenuItem>
+                      <MenuItem value= "ASSIGNING_DRIVER">Assigning Driver </MenuItem>
+                      <MenuItem value= "CANCELED"> Cancelled </MenuItem>
+                      <MenuItem value= "EXPIRED"> Expired </MenuItem>
+                      <MenuItem value= "REJECTED"> Rejected </MenuItem>
+                      <MenuItem value= "ON_GOING"> On Going </MenuItem>
+                      <MenuItem value= "PICKED_UP"> Picked Up </MenuItem>
+                      <MenuItem value= "COMPLETED"> Completed </MenuItem>
+                      
+                  </TextField>
+                </Stack>
+      
                 </div>
-            </div>
+          </div>
 
           {loading? <Spinner/> : <> 
           <Scrollbar>
-            <TableContainer sx={{ minWidth: 1200 }}>
+            <TableContainer sx={{ minWidth: 1400 }}>
               <Table>
                 <OrderListHead
                   order={order}
@@ -258,10 +295,10 @@ export default function Order() {
                           key={id}
                         > 
                           <TableCell align="left">{id}</TableCell>
-                          <TableCell align="left">{customer?.name}</TableCell>
+                          <TableCell align="left">{CapitalizeFirstLetter(customer?.name)}</TableCell>
                           <TableCell align="left">{customer?.email}</TableCell>
                           <TableCell align="left">{customer?.phone}</TableCell>
-                          <TableCell align="left">{address}</TableCell>
+                          <TableCell style={{maxWidth : "250px"}} align="left">{address}</TableCell>
                           <TableCell align="left">{paid_price}</TableCell> 
                           <TableCell align="left">{status}</TableCell> 
                           <TableCell align="left">
@@ -317,7 +354,8 @@ export default function Order() {
             }
           />
         </>}
-        </Card>
+
+      </Card>
       </Container>
     </Page>
   );

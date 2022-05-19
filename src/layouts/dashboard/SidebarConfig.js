@@ -78,17 +78,17 @@ const sidebarConfig = [
     path: '/dashboard/settings',
     icon: getIcon('clarity:settings-solid')
   },
-  {
-    title: 'Loyalty',
-    path: '/dashboard/loyalty',
-    icon: getIcon('ic:baseline-loyalty')
-  },
+  // {
+  //   title: 'Loyalty',
+  //   path: '/dashboard/loyalty',
+  //   icon: getIcon('ic:baseline-loyalty')
+  // },
   
-  {
-    title: 'Report',
-    path: '/dashboard/report',
-    icon: getIcon('carbon:analytics')
-  },
+  // {
+  //   title: 'Report',
+  //   path: '/dashboard/report',
+  //   icon: getIcon('carbon:analytics')
+  // },
 
   // {
   //   title: 'Delivery Fee',

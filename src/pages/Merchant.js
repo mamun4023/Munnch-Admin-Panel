@@ -96,6 +96,11 @@ function applySortFilter(array, comparator, query) {
   return stabilizedThis.map((el) => el[0]);
 }
 
+function CapitalizeFirstLetter (s){
+  if (typeof s !== 'string') return ''
+  return s.charAt(0).toUpperCase() + s.slice(1)
+}
+
 export default function Merchant() {
   const dispatch = useDispatch();
   const [page, setPage] = useState(1);
@@ -215,7 +220,7 @@ export default function Merchant() {
                           key={id}
                         >
                           <TableCell align="left">{id}</TableCell>
-                          <TableCell align="left">{personal_name}</TableCell>
+                          <TableCell align="left">{CapitalizeFirstLetter(personal_name)}</TableCell>
                           <TableCell align="left">{email}</TableCell>
                           <TableCell align="left">{phone}</TableCell>
                           <TableCell align="left">
