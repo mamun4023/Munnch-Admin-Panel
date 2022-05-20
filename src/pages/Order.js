@@ -85,28 +85,47 @@ const TABLE_HEAD = [
     alignRight: false 
   },
   { 
-    label: 'NAME', 
-    id: 'name', 
+    label: 'USER NAME', 
+    id: 'userName', 
     alignRight: false 
   },
   { 
-    label: 'EMAIL', 
-    id: 'email', 
+    label: 'MERCHANT NAME', 
+    id: 'merchantName', 
+    alignRight: false 
+  },
+
+  { 
+    label: 'RIDER NAME', 
+    id: 'riderName', 
+    alignRight: false 
+  },
+
+ 
+
+  // { 
+  //   label: 'EMAIL', 
+  //   id: 'email', 
+  //   alignRight: false 
+  // },
+  // { 
+  //   label: 'PHONE NUMBER', 
+  //   id: 'phone', 
+  //   alignRight: false 
+  // },
+  // { 
+  //   label: 'ADDRESS', 
+  //   id: 'address', 
+  //   alignRight: false 
+  // },
+  { 
+    label: 'TOTAL PRICE', 
+    id: 'totalPrice',
     alignRight: false 
   },
   { 
-    label: 'PHONE NUMBER', 
-    id: 'phone', 
-    alignRight: false 
-  },
-  { 
-    label: 'ADDRESS', 
-    id: 'address', 
-    alignRight: false 
-  },
-  { 
-    label: 'PRICE', 
-    id: 'orderPrice',
+    label: 'FOOD TYPE', 
+    id: 'foodType',
     alignRight: false 
   },
   { 
@@ -174,7 +193,6 @@ export default function Order() {
   const dispatch = useDispatch();
   const loading = useSelector(state => state.OrderList.loading);
 
-
   useEffect(()=>{
     // FetchOrder(orderStatus
     dispatch(FetchOrderList(page, rowsPerPage, order, orderStatus, filterName))
@@ -210,7 +228,6 @@ export default function Order() {
     dispatch(CancleOrder(id))
   }
 
-
   const anchorRef = useRef(null);
   const [open, setOpen] = useState(false);
 
@@ -222,7 +239,6 @@ export default function Order() {
     setOpen(false);
   };
   
-
   return (
     <Page title="Munchh | Order">
       <Container>
@@ -239,13 +255,11 @@ export default function Order() {
                   onFilterName={handleFilterByName}
                 />
                 <div style={{ marginTop : "25px" }} >
-
                 <Stack
                    sx={{
                     marginRight : 5,
                     padding : 0,
                    }}
-  
                 > 
                  <TextField
                     fullWidth
@@ -253,7 +267,6 @@ export default function Order() {
                     size='small'
                     // label="Coupon Type"
                     variant="outlined"
-                    
                     value={orderStatus}
                     onChange = {(e)=>setOrderStatus(e.target.value)}
                     >    
@@ -265,13 +278,10 @@ export default function Order() {
                       <MenuItem value= "ON_GOING"> On Going </MenuItem>
                       <MenuItem value= "PICKED_UP"> Picked Up </MenuItem>
                       <MenuItem value= "COMPLETED"> Completed </MenuItem>
-                      
                   </TextField>
                 </Stack>
-      
-                </div>
+              </div>
           </div>
-
           {loading? <Spinner/> : <> 
           <Scrollbar>
             <TableContainer sx={{ minWidth: 1400 }}>
@@ -280,15 +290,12 @@ export default function Order() {
                   order={order}
                   orderBy={orderBy}
                   headLabel={TABLE_HEAD}
-                  // rowCount={Data.length}
-                  // numSelected={selected.length}
                   onRequestSort={handleRequestSort}
-                  // onSelectAllClick={handleSelectAllClick}
                 />
                 <TableBody>
                   {filteredUsers
                     .map((row) => {
-                      const { id,  paid_price, customer, merchantName, address, status, created_at } = row;
+                      const { id,  paid_price, customer, store, address, status, created_at } = row;
                       return (
                         <TableRow
                           hover
@@ -296,10 +303,14 @@ export default function Order() {
                         > 
                           <TableCell align="left">{id}</TableCell>
                           <TableCell align="left">{CapitalizeFirstLetter(customer?.name)}</TableCell>
-                          <TableCell align="left">{customer?.email}</TableCell>
-                          <TableCell align="left">{customer?.phone}</TableCell>
-                          <TableCell style={{maxWidth : "250px"}} align="left">{address}</TableCell>
+
+                          {/* <TableCell align="left">{customer?.email}</TableCell>
+                          <TableCell align="left">{customer?.phone}</TableCell> */}
+                          <TableCell align="left">{CapitalizeFirstLetter(store?.restaurant_name)}</TableCell>
+                          <TableCell align="left">{CapitalizeFirstLetter("Rider Name")}</TableCell>
+                          {/* <TableCell style={{maxWidth : "250px"}} align="left">{address}</TableCell> */}
                           <TableCell align="left">{paid_price}</TableCell> 
+                          {/* <TableCell align="left">{restaurant?.is_preorder === 1? "Pre-Order Item": "Delivery Item"}</TableCell>  */}
                           <TableCell align="left">{status}</TableCell> 
                           <TableCell align="left">
                             <Switch 
@@ -307,7 +318,6 @@ export default function Order() {
                               onChange={()=>CanclerHandler(id)}
                               defaultChecked = {status == "CANCELED"? true: false}
                             />
-
                           </TableCell>
                           <TableCell align="left">
                             <Moment format="DD-MM-YYYY HH:mm a" >{created_at}</Moment>
@@ -316,12 +326,11 @@ export default function Order() {
                             {/* <Tooltip title = "View Order" > 
                             
                              </Tooltip> */}
-                            {/* <MerchantMoreMenu /> */}
+                             <OrderMoreMenu id = {id} /> 
                           </TableCell>
                         </TableRow>
                       );
                     })}
-
                 </TableBody>
                 {isUserNotFound && (
                   <TableBody>
@@ -354,7 +363,6 @@ export default function Order() {
             }
           />
         </>}
-
       </Card>
       </Container>
     </Page>

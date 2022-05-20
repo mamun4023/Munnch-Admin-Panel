@@ -28,7 +28,7 @@ export const FetchWithdrawalList = (page, limit, order)=>{
         axios.get(`${URL}/api/v1/admin/order/list?&page=${page}&limit =${limit}&order=${order}`, AuthConfig)
             .then(res =>{
                 const response = res.data.data;
-                // console.log(response);
+                console.log( "order Item data", response);
                 dispatch(FetchWithdrawalListSuccess(response));
             })
             .catch((err)=>{

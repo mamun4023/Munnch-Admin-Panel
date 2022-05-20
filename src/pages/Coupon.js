@@ -142,7 +142,6 @@ const TABLE_HEAD = [
 
 // ----------------------------------------------------------------------
 
-
 function ReduceDescription(data){
   let arr = data.split('');
   let reducer , message;
@@ -156,12 +155,9 @@ function ReduceDescription(data){
   return message
 }
 
-
 function SeperatedByComma(data){
-
   return data.join(', ')
 }
-
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -275,7 +271,6 @@ export default function Coupon() {
           </Button>
         </Stack>
         <Card>
-
         <div style={{ display:"flex", flexWrap:"wrap", justifyContent:"space-between"}}>
             <CouponListToolbar
                 numSelected={selected.length}
@@ -294,8 +289,7 @@ export default function Coupon() {
                    disableElevation
                 >Inactive</Button> 
               </div>
-          </div>
-          
+          </div> 
         {loading ? <Spinner/> : <Box> 
           <Scrollbar>
             <TableContainer sx={{ minWidth: 3500 }}>
@@ -343,15 +337,13 @@ export default function Coupon() {
                           <TableCell align="left">{coupon_type == 1? amount : "--"}</TableCell>
                           <TableCell align="left">{coupon_type == 2? amount : "--"}</TableCell>
                           <TableCell align="left">{max_discount== 0? "--":max_discount}</TableCell>
-                          
                           <TableCell align="left">
-                            <Moment format="DD-MM-YYYY hh:mm a" >{start_date}</Moment>
+                            <Moment format="DD-MM-YYYY" >{start_date}</Moment>
                           </TableCell>
                           <TableCell align="left">
-                            <Moment format="DD-MM-YYYY hh:mm a" >{end_date}</Moment>
+                            <Moment format="DD-MM-YYYY" >{end_date}</Moment>
                           </TableCell>
                           <TableCell align="left"> { SeperatedByComma(days?days: ['empty'])}  </TableCell>
-
                           <TableCell align="left">
                             <Switch
                               onClick={()=>StatusToggleHandler(id)}
@@ -362,7 +354,6 @@ export default function Coupon() {
                           <TableCell align="left">{minimum_spend}</TableCell>
                           <TableCell align="left">{maximum_spend}</TableCell>
                           <TableCell align="left">{maximum_usage_limit}</TableCell>
-                        
                           <TableCell align="left"> {is_expired? "Yes" : "--"} </TableCell>
                           <TableCell align="left">{is_exhausted?"Yes": "--"}</TableCell> 
                           <TableCell align="left">{CapitalizeFirstLetter(ReduceDescription(description?description : "--"))}</TableCell> 

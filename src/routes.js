@@ -87,9 +87,8 @@ export default function Router() {
         { path: 'merchant/menu/image', element : <UploadImage/>},
         { path: 'merchant/menu/update/:id', element : <UpdateItem/>},
         
-
         { path: 'order', element : <Order/>},
-        { path: 'order/view', element : <ViewOrder/>},
+        { path: 'order/view/:id', element : <ViewOrder/>},
         { path: 'banner', element : <Banner/>},
         { path: 'coupon', element : <Coupon/>},
         { path: 'coupon/create', element : <CreateCoupon/>},
