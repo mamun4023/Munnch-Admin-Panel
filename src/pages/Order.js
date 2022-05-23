@@ -40,44 +40,6 @@ import Spinner from 'src/components/Spinner';
 // ----------------------------------------------------------------------
 
 
-const LANGS = [
-  {
-    value: 'PENDING',
-    label: 'Pending',
-  },
-  {
-    value: 'ASSIGNING_DRIVER',
-    label: 'Assigning Driver',
-  },
-  {
-    value: 'EXPIRED',
-    label: 'Expired',
-  },
-  {
-    value: 'CANCELED',
-    label: 'Cancelled',
-  },
-  {
-    value: 'REJECTED',
-    label: 'Rejected',
-  },
-  
-  {
-    value: 'ON_GOING',
-    label: 'On Going',
-  },
-  {
-    value: 'PICKED_UP',
-    label: 'Picked Up',
-  },
-  {
-    value: 'COMPLETED',
-    label: 'Completed',
-  },
-
-  
-];
-
 const TABLE_HEAD = [
   { 
     label: 'ID',

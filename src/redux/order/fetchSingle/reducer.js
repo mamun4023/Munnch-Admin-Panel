@@ -8,18 +8,18 @@ const InitialState = {
 
 const Reducer = (state = InitialState, action)=>{
     switch(action.type){
-        case Types.FETCH_WITHDRAWAL_LIST_REQUEST:
+        case Types.FETCH_SINGLE_ORDER_REQUEST:
             return{
                 ...state,
                 loading : true
             }
-        case Types.FETCH_WITHDRAWAL_LIST_SUCCESS:
+        case Types.FETCH_SINGLE_ORDER_SUCCESS:
             return{
                 ...state,
                 data : action.payload,
                 loading : false
             }
-        case Types.FETCH_WITHDRAWAL_LIST_FAILED:
+        case Types.FETCH_SINGLE_ORDER_FAILED:
             return{
                 ...state,
                 loading : false

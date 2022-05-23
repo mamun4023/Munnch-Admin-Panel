@@ -39,7 +39,7 @@ const sidebarConfig = [
   {
     title: 'Order',
     path: '/dashboard/order',
-    icon: getIcon('mdi:order-numeric-ascending')
+    icon: getIcon('entypo:shopping-cart')
   },
   {
     title: 'Strings',

@@ -1,185 +1,185 @@
-import * as React from 'react';
+import React, {useEffect} from 'react';
 import Card from '@mui/material/Card';
-import {Link as RouterLink} from 'react-router-dom';
+import {Link as RouterLink, useParams} from 'react-router-dom';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import { Stack, Box, IconButton, Grid } from '@mui/material';
+import { Stack, Box, IconButton, Grid, Table, TableBody,TableRow, TableCell } from '@mui/material';
 import Iconify from '../../../components/Iconify';
+import {useDispatch, useSelector} from 'react-redux';
+import {FetchSingleOrder} from '../../../redux/order/fetchSingle/action';
+import { makeStyles } from "@mui/styles";
+import Moment from 'react-moment'
 
+const useStyles = makeStyles({
+    tableRow: {
+      height: 20
+    },
+    tableCell: {
+      padding: "5px 5px"
+    }
+  });
 
 function View() {
-  return(
+    const {id} = useParams();
+    const dispatch = useDispatch();
+
+    useEffect(()=>{
+        dispatch(FetchSingleOrder(id))
+    },[])
+
+    const orderedData = useSelector(state => state.SingleOrder.data)
+    console.log("Ordered data", orderedData)
+    
+    const {order, address, order_remarks, created_at, updated_at} = orderedData;
+    const classes = useStyles();
+    return(
             <>
                 <Typography variant="h4" gutterBottom>
                     Order Details
                 </Typography>
                 <Grid container spacing={2}>
                     <Grid item xs={8}>
-                      
-                      
-                        <Card style={{ marginTop : "10px" }}   > 
+
+                     {order?.cart_items.length > 0? <> 
+                        {order.cart_items.map(data => <> 
+                            <Card style={{ marginTop : "10px" }}   > 
                             <Grid container spacing={2}>
-                                <Grid 
-                                    item 
+                                <Grid item 
                                     paddingLeft={10}
                                     style = {{background : "#eee"}} 
-
                                 >
                                     <Box 
                                         sx={{ textAlign: 'center' }}
                                         style = {{ width : "100px" }}
-
                                     >
-                                        <h1 style={{fontSize : "50px" }}>1</h1> 
+                                        <h1 style={{fontSize : "50px" }}> {orderedData?.id} </h1> 
                                     </Box>
-                                    
+
                                 </Grid>
-                                <Grid item >
+
+                                <Grid item sx={{ margin : 2 }} >
                                     <CardMedia
                                         component="img"
                                         alt="green iguana"
-                                        height="140"
-                                        style={{ width : "200px", height : "100px" }}
-                                        image="https://previews.123rf.com/images/cokemomo/cokemomo1411/cokemomo141100052/33911511-nasi-lemak-arroz-con-leche-de-coco-cocina-malaya-aislado-en-fondo-blanco.jpg"
+                                        // height="140"
+                                        style={{ width : "150px", height : "100px" }}
+                                        image= {data?.image}
                                     />
                                 </Grid>
+
+                                
                                 <Grid item 
-                                    style={{ paddingLeft : "80px" }}
+                                    style={{ paddingLeft : "100px" }}
                                 > 
                                     <CardContent textAlign = "right" >
                                         <Typography gutterBottom variant="h5" component="div">
-                                            Nasi Lemak
+                                            {data?.store_menu_item_name}
                                         </Typography>
                                         <Typography variant="body2" color="text.secondary">
-                                            <h4> Quantity  &ensp; : &ensp; 1 P </h4>
-                                            <h4> Price &ensp;&ensp;&ensp; &ensp; : &ensp; 100 RM </h4>
+                                            <h4> Quantity  &ensp; : &ensp; {data?.quantity} </h4>
+                                            <h4> Price &ensp;&ensp;&ensp; &ensp; : &ensp; {data?.total_price} </h4>
                                         </Typography>
                                     </CardContent>
-
                                 </Grid>
                             </Grid>
                         </Card>
 
+                        </>)}
 
-                        <Card style={{ marginTop : "10px" }}   > 
-                            <Grid container spacing={2}>
-                                <Grid 
-                                    item 
-                                    paddingLeft={10}
-                                    style = {{background : "#eee"}} 
-
-                                >
-                                    <Box 
-                                        sx={{ textAlign: 'center' }}
-                                        style = {{ width : "100px" }}
-                                    >
-                                        <h1 style={{fontSize : "50px" }}>2</h1> 
-                                    </Box>
-                                    
-                                </Grid>
-                                <Grid item >
-                                    <CardMedia
-                                        component="img"
-                                        alt="green iguana"
-                                        height="140"
-                                        style={{ width : "200px", height : "100px" }}
-                                        image="https://www.pngplay.com/wp-content/uploads/8/Sushi-Transparent-File.png"
-                                    />
-                                </Grid>
-                                <Grid item 
-                                     style={{ paddingLeft : "80px" }}
-                                > 
-                                    <CardContent>
-                                        <Typography gutterBottom variant="h5" component="div">
-                                            Sushi
-                                        </Typography>
-                                        <Typography variant="body2" color="text.secondary">
-                                            <h4> Quantity  &ensp; : &ensp; 1 P </h4>
-                                            <h4> Price &ensp;&ensp;&ensp; &ensp; : &ensp; 100 RM </h4>
-
-                                        </Typography>
-                                    </CardContent>
-
-                                </Grid>
-                            </Grid>
-                        </Card>
-
-
-
-                        <Card style={{ marginTop : "10px" }}   > 
-                            <Grid container spacing={2}>
-                                <Grid 
-                                    item 
-                                    paddingLeft={10}
-                                    style = {{background : "#eee"}} 
-
-                                >
-                                    <Box 
-                                        sx={{ textAlign: 'center' }}
-                                        style = {{ width : "100px" }}
-                                    >
-                                        <h1 style={{fontSize : "50px" }} >3</h1> 
-                                    </Box>
-                                    
-                                </Grid>
-                                <Grid item >
-                                    <CardMedia
-                                        component="img"
-                                        alt="green iguana"
-                                        height="140"
-                                        style={{ width : "200px", height : "100px" }}
-                                        image="https://media.istockphoto.com/photos/cheeseburger-isolated-on-white-picture-id1157515115?k=20&m=1157515115&s=612x612&w=0&h=1-tuF1ovimw3DuivpApekSjJXN5-vc97-qBY5EBOUts="
-                                    />
-                                </Grid>
-                                <Grid item 
-                                     style={{ paddingLeft : "80px" }}
-                                > 
-                                    <CardContent>
-                                        <Typography gutterBottom variant="h5" component="div">
-                                            Hamburger
-                                        </Typography>
-                                        <Typography variant="body2" color="text.secondary">
-                                            <h4> Quantity  &ensp; : &ensp; 1 P </h4>
-                                            <h4> Price &ensp;&ensp;&ensp; &ensp; : &ensp; 100 RM </h4>
-
-                                        </Typography>
-                                    </CardContent>
-
-                                </Grid>
-                            </Grid>
-                        </Card>
-
+                     </>  : "No order Found"}   
+                      
                     </Grid>
                     <Grid item xs={4}>
                         <Card>
                             <CardContent>
-                                {/* <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-                                Word of the Day
-                                </Typography> */}
-                                <Typography variant="h6" component="div">
-                                    Total Items &ensp; : &ensp; 3
+                                <Typography sx={{ fontSize: 14 }} color="text.primary" gutterBottom>
+                                   <h4> Payment Information </h4> 
                                 </Typography>
-                                <Typography variant="h6" component="div">
-                                    Total Price&ensp;&ensp; : &ensp; 200 RM
-                                    
-                                </Typography>
+                                <Table>
+                                    <TableBody>
+                                        <TableRow className={classes.tableRow}>
+                                            <TableCell className={classes.tableCell} align="left">Total Price</TableCell>
+                                            <TableCell className={classes.tableCell} align="left"> {order?.bill_details.item_total} </TableCell>
+                                        </TableRow>
+
+                                        <TableRow className={classes.tableRow}>
+                                            <TableCell className={classes.tableCell}  align="left">Delivery Fee</TableCell>
+                                            <TableCell className={classes.tableCell} align="left">  {order?.bill_details.delivery_fee} </TableCell>
+                                        </TableRow>
+
+                                        <TableRow className={classes.tableRow}>
+                                            <TableCell className={classes.tableCell}  align="left">Discount </TableCell>
+                                            <TableCell className={classes.tableCell} align="left">  {order?.bill_details.coupon_discount} </TableCell>
+                                        </TableRow>
+
+                                        <TableRow className={classes.tableRow}>
+                                            <TableCell className={classes.tableCell}  align="left">Total Payment </TableCell>
+                                            <TableCell className={classes.tableCell} align="left">  {order?.bill_details.to_pay} </TableCell>
+                                        </TableRow>
+                                    </TableBody>
+                                </Table>
                                 <Typography sx={{ mb: 1.5 }} color="text.secondary">
                                 </Typography>
-                                <h4> User Address</h4>
+                                <h4> Delivery Address</h4>
                                 <Typography variant="body2">
                                    <Box 
                                         sx={{ py: 1}}
                                    >
-                                       SegWitz Sdn Bhd (1367921-K)
+                                       {address}
+                                    </Box>
+                                </Typography>
+                            </CardContent>
+                        </Card>
+                        <Card sx={{ marginTop: 2 }}>
+                            <CardContent>
+                                <Typography sx={{ fontSize: 14 }} color="text.primary" gutterBottom>
+                                   <h4> Order Information </h4> 
+                                </Typography>
 
-                                            Room 4, Lot 10-2,
-                                            Jalan Puteri 1/4,
-                                            Bandar Puteri,
-                                            47100 Puchong.
+                                <Table>
+                                    <TableBody>
+                                        <TableRow className={classes.tableRow}>
+                                            <TableCell className={classes.tableCell} align="left"> Deliveried </TableCell>
+                                            <TableCell className={classes.tableCell} align="left"> {order?.is_delivery == 1? "Yes" : "No"} </TableCell>
+                                        </TableRow>
 
+                                    {/* 
+                                        <TableRow className={classes.tableRow}>
+                                            <TableCell className={classes.tableCell}  align="left">Delivery Fee</TableCell>
+                                            <TableCell className={classes.tableCell} align="left">  {order?.bill_details.delivery_fee} </TableCell>
+                                        </TableRow> */}
+
+                                        {/* <TableRow className={classes.tableRow}>
+                                            <TableCell className={classes.tableCell}  align="left">Discount </TableCell>
+                                            <TableCell className={classes.tableCell} align="left">  {order?.bill_details.coupon_discount} </TableCell>
+                                        </TableRow> */}
+
+                                        <TableRow className={classes.tableRow}>
+                                            <TableCell className={classes.tableCell}  align="left"> Update At </TableCell>
+                                            <TableCell className={classes.tableCell} align="left">  <Moment format="DD-MM-YYYY hh:mm a" >{updated_at}</Moment>  </TableCell>
+                                        </TableRow>
+
+                                        <TableRow className={classes.tableRow}>
+                                            <TableCell className={classes.tableCell}  align="left"> Create At </TableCell>
+                                            <TableCell className={classes.tableCell} align="left"> <Moment format="DD-MM-YYYY hh:mm a" >{created_at}</Moment> </TableCell>
+                                        </TableRow>
+                                        <TableRow className={classes.tableRow}>
+                                            <TableCell className={classes.tableCell} align="left"> Estimated Delivery Days </TableCell>
+                                            <TableCell className={classes.tableCell} align="left"> {order?.estimated_delivery_days} </TableCell>
+                                        </TableRow>
+                                    </TableBody>
+                                </Table>
+                                <Typography sx={{ mb: 1.5 }} color="text.secondary">
+                                </Typography>
+                                <h4> Ramark</h4>
+                                <Typography variant="body2">
+                                   <Box 
+                                        sx={{ py: 1}}
+                                   >
+                                       {order_remarks == null? order_remarks : "empty"}
                                     </Box>
                                 </Typography>
                             </CardContent>

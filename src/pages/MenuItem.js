@@ -119,6 +119,12 @@ function applySortFilter(array, comparator, query) {
   return stabilizedThis.map((el) => el[0]);
 }
 
+function CapitalizeFirstLetter (s){
+  if (typeof s !== 'string') return ''
+  return s.charAt(0).toUpperCase() + s.slice(1)
+}
+
+
 export default function MenuItem() {
   const {id} = useParams();
   const storeId = id;
@@ -161,7 +167,6 @@ export default function MenuItem() {
 
   const filteredUsers = applySortFilter(MenuList, getComparator(order, orderBy), filterName);
   const isUserNotFound = filteredUsers.length === 0;
-
 
   const StockTogglerHandler =(id)=>{
       dispatch(StockToggler(id))
@@ -210,7 +215,7 @@ export default function MenuItem() {
 
         {loading? <Spinner/> : <Box>  
           <Scrollbar>
-            <TableContainer sx={{ minWidth: 800 }}>
+            <TableContainer sx={{ minWidth: 1500 }}>
               <Table>
                 <MenuListHead
                   order={order}
@@ -231,13 +236,16 @@ export default function MenuItem() {
                           key={id}
                         >
                           <TableCell align="left">{id}</TableCell>
-                          <TableCell align="left">{name}</TableCell>
+                          <TableCell align="left">{CapitalizeFirstLetter(name)}</TableCell>
                           <TableCell align="left">
                             <Avatar  variant="square" style={{width : "70px"}} src= {image} />
                           </TableCell>
                           
-                          <TableCell align="left">{price} RM </TableCell>
-                          <TableCell align="left">{description} </TableCell>
+                          <TableCell align="left">{price} </TableCell>
+                          
+                          <TableCell align="left" sx={{ maxWidth: 300 }}>
+                             {CapitalizeFirstLetter(description)}
+                          </TableCell>
                           <TableCell align="left">
                             <Moment format="DD-MM-YYYY HH:mm a" >{created_at}</Moment> 
                           </TableCell>

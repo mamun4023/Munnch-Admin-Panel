@@ -393,7 +393,7 @@ const removeFields = (index) => {
 
 
                         {
-                        values.food_item_type ==="2"? 
+                        values.food_item_type ==="2" || values.food_item_type === 2? 
 
                         <TextField
                             fullWidth
@@ -406,10 +406,8 @@ const removeFields = (index) => {
                             error={Boolean(touched.food_item_estimate_days && errors.food_item_estimate_days)}
                             helperText={touched.food_item_estimate_days && errors.food_item_estimate_days}
                         /> 
-
                         : null
                       }
-
 
                         {/* <TextField
                             fullWidth

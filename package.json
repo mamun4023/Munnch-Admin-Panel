@@ -43,6 +43,7 @@
     "@mui/icons-material": "^5.5.0",
     "@mui/lab": "^5.0.0-alpha.69",
     "@mui/material": "^5.4.2",
+    "@mui/styles": "^5.8.0",
     "@mui/utils": "^5.4.2",
     "@mui/x-date-pickers": "^5.0.0-alpha.1",
     "@testing-library/jest-dom": "^5.16.2",

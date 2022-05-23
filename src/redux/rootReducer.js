@@ -60,6 +60,7 @@ import FetchSingleCoupon from './coupon/fetchSingle/reducer';
 import FetchWithdrawal from './withdraw/fetchAll/reducer';
 
 import OrderListReducer from './order/FetchAllOrder/reducer';
+import SingleOrderReducer from './order/fetchSingle/reducer';
 
 const RootReducer = combineReducers({
     SignIn : SignInReducer,
@@ -115,6 +116,8 @@ const RootReducer = combineReducers({
 
     Withdrawal : FetchWithdrawal,
     OrderList : OrderListReducer,
+    SingleOrder : SingleOrderReducer,
+
 
 
 })
