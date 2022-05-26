@@ -257,7 +257,7 @@ export default function Order() {
                 <TableBody>
                   {filteredUsers
                     .map((row) => {
-                      const { id,  paid_price, customer, store, address, status, created_at } = row;
+                      const { id,  paid_price, customer, store, order, address, status, created_at } = row;
                       return (
                         <TableRow
                           hover
@@ -272,6 +272,8 @@ export default function Order() {
                           <TableCell align="left">{CapitalizeFirstLetter("Rider Name")}</TableCell>
                           {/* <TableCell style={{maxWidth : "250px"}} align="left">{address}</TableCell> */}
                           <TableCell align="left">{paid_price}</TableCell> 
+                          <TableCell align="left">{order?.cart_items.food_type}</TableCell> 
+                          
                           {/* <TableCell align="left">{restaurant?.is_preorder === 1? "Pre-Order Item": "Delivery Item"}</TableCell>  */}
                           <TableCell align="left">{status}</TableCell> 
                           <TableCell align="left">

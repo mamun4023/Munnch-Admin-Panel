@@ -52,7 +52,7 @@ export default function Login() {
         <Typography variant="h3" sx={{ px: 5, mt: 10, mb: 5 }}>
           Hi, Welcome To Munchh
         </Typography>
-        <img src="/static/illustrations/illustration_login.png" alt="login" />
+        <img style={{ tintColor: 'gray' }} src="/static/illustrations/illustration_login.png" alt="login" />
       </SectionStyle>
 
       <Container maxWidth="sm">

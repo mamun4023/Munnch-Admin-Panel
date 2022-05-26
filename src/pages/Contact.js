@@ -108,7 +108,7 @@ export default function Contact() {
     FetchCusineList();
   },[])
 
-  console.log("Cuisine list", cuisineList)
+  console.log("Withdrawal list", cuisineList)
 
 
   const handleRequestSort = (event, property) => {
@@ -135,7 +135,7 @@ export default function Contact() {
   const isUserNotFound = filteredUsers.length === 0;
 
   return (
-    <Page title="Munchh | Cuisine">
+    <Page title="Munchh | Contact">
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={1}>
           <Typography variant="h4" gutterBottom>

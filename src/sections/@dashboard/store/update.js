@@ -37,6 +37,7 @@ function Update() {
   const {id} = useParams();
   const dispatch = useDispatch();
   const[loading, setLoading] = useState(false);
+  const[SingleStoreData, setSingleStoreData] = useState([])
 
   //loading list data variable
   const[foodList, setFoodList] = useState([]);
@@ -57,18 +58,33 @@ function Update() {
       }) 
   }
   
+
+  const FetchStoreData =(id)=>{
+    FetchSingleStore(id)
+      .then(res =>{
+        const response = res.data.data;
+        setSingleStoreData(response);
+        setOperationalHours(response);
+      })
+  }
+
+
   useEffect(()=>{
-    dispatch(FetchSingleStore(id));
+    FetchStoreData(id);
     LoadListData();
   },[])
 
-  const SingleStoreData = useSelector(state => state.SingleStore.data);
+
+
+  console.log("Store data", operationalHours)
+
+
 
 
   // geo location
-  const [address, setAddress] = useState(SingleStoreData.location?SingleStoreData.location.address: "");
+  const [address, setAddress] = useState(SingleStoreData.location?.address);
     // latLot data
-  const[latllogAddress, setLatllogAddress] = useState(SingleStoreData.location?SingleStoreData.location.address: ""); // set default address
+  const[latllogAddress, setLatllogAddress] = useState(SingleStoreData.location?.address); // set default address
   const[location , setLocation] = useState();
   const[lat, setLat] = useState(SingleStoreData.location?SingleStoreData.location.latitude: "");
   const[lng, setLng] = useState(SingleStoreData.location?SingleStoreData.location.longitude: "");
@@ -91,45 +107,88 @@ function Update() {
 
   // start operational hours hooks
 
-  var [operationalHours, setOperationalHours]  = useState([]);
+  let Sunday = {
+    "day": "Sunday",
+    "start_time": "10:00:00",
+    "no_of_hours": 3,
+    "is_open": false
+  }
+
+  let Monday = {
+    "day": "Monday",
+    "start_time": "10:00:00",
+    "no_of_hours": 3,
+    "is_open": false
+  }
+
+  let Tuesday = {
+    "day": "Tuesday",
+    "start_time": "10:00:00",
+    "no_of_hours": 3,
+    "is_open": false
+  }
+
+
+  let Wednesday = {
+    "day": "Wednesday",
+    "start_time": "10:00:00",
+    "no_of_hours": 3,
+    "is_open": false
+  }
+
+
+
+  let Thursday = {
+    "day": "Thursday",
+    "start_time": "10:00:00",
+    "no_of_hours": 3,
+    "is_open": false
+  }
+
+
+  let Friday = {
+    "day": "Friday",
+    "start_time": "10:00:00",
+    "no_of_hours": 3,
+    "is_open": false
+  }
+
+  let Saturday = {
+    "day": "Saturday",
+    "start_time": "10:00:00",
+    "no_of_hours": 3,
+    "is_open": false
+  }
+
+
+
+  var [operationalHours, setOperationalHours] = useState([]);
 
   const [sundayStart, setSundayStart] = useState();
   const [sundayClose, setSundayClose] = useState();
 
-  const [sundayIsOpen, setSundayIsOpen] = useState(SingleStoreData.operational_hours[0]?.is_open);
-  const [mondayIsopen, setMondayIsOpen] = useState(SingleStoreData.operational_hours[1]?.is_open);
-  const [tuesdayIsOpen, setTuesdayIsOpen] = useState(SingleStoreData.operational_hours[2]?.is_open);
-  const [wednesdayIsOpen, setWednesdayIsOpen] = useState(SingleStoreData.operational_hours[3]?.is_open);
-  const [thursdayIsOpen, setThursdayIsOpen] = useState(SingleStoreData.operational_hours[4]?.is_open);
-  const [fridayIsOpen, setFridayIsOpen] = useState(SingleStoreData.operational_hours[5]?.is_open);
-  const [saturdayIsOpen, setSaturdayIsOpen] = useState(SingleStoreData.operational_hours[6]?.is_open);
+  const [sundayIsOpen, setSundayIsOpen] = useState();
+  const [mondayIsopen, setMondayIsOpen] = useState();
+  const [tuesdayIsOpen, setTuesdayIsOpen] = useState();
+  const [wednesdayIsOpen, setWednesdayIsOpen] = useState();
+  const [thursdayIsOpen, setThursdayIsOpen] = useState();
+  const [fridayIsOpen, setFridayIsOpen] = useState();
+  const [saturdayIsOpen, setSaturdayIsOpen] = useState();
 
   
 
   // operational hours days objects
-  // const Sunday = {
-  //   sundayStart : "10:10 AM",
-  //   sundayClose : "12:00 PM",
-  //   sunday_is_open : true,
-  //   sunday_no_of_hours : 4
-  // }
-
-
-  // const Monday = {
-  //   sundayStart : "10:10 AM",
-  //   sundayClose : "12:00 PM",
-  //   sunday_is_open : true,
-  //   sunday_no_of_hours : 4
-  // }
 
 
   const SundayTogglerHandeler = (data)=>{
     let result;
-    if(data === 0){
+    if(data === 0 || data === "0"){
       result = 1;
+      setOperationalHours([...operationalHours, Sunday])
     }
-    if(data === 1){
+    if(data === 1 || data === "1"){
       result = 0
+      setOperationalHours(operationalHours.filter(data => data.day !== "Sunday"));
     }
     setSundayIsOpen(result);
   }
@@ -139,9 +198,11 @@ function Update() {
     let result;
     if(data === 0){
       result = 1;
+      setOperationalHours([...operationalHours, Monday])
     }
     if(data === 1){
       result = 0
+      setOperationalHours(operationalHours.filter(data => data.day !== "Monday"));
     }
     setMondayIsOpen(result);
  
@@ -149,11 +210,13 @@ function Update() {
 
   const TuesdayTogglerHandeler = (data)=>{
     let result;
-    if(data === 0){
+    if(data === 0 || data === "0"){
       result = 1;
+      setOperationalHours([...operationalHours, Tuesday])
     }
-    if(data === 1){
+    if(data === 1 || data === "1" ){
       result = 0
+      setOperationalHours(operationalHours.filter(data => data.day !== "Tuesday"));
     }
     setTuesdayIsOpen(result);
   }
@@ -162,9 +225,11 @@ function Update() {
     let result;
     if(data === 0){
       result = 1;
+      setOperationalHours([...operationalHours, Wednesday])
     }
     if(data === 1){
       result = 0
+      setOperationalHours(operationalHours.filter(data => data.day !== "Wednesday"));
     }
     setWednesdayIsOpen(result);
   }
@@ -173,42 +238,45 @@ function Update() {
     let result;
     if(data === 0){
       result = 1;
+      setOperationalHours([...operationalHours, Thursday])
     }
     if(data === 1){
       result = 0
+      setOperationalHours(operationalHours.filter(data => data.day !== "Thursday"));
     }
     setThursdayIsOpen(result);
   }
-
 
   const FridayTogglerHandeler = (data)=>{
     let result;
     if(data === 0){
       result = 1;
+      setOperationalHours([...operationalHours, Friday])
     }
     if(data === 1){
       result = 0
+      setOperationalHours(operationalHours.filter(data => data.day !== "Friday"));
     }
     setFridayIsOpen(result);
   }
 
-  
   const SaturdayTogglerHandeler = (data)=>{
     let result;
     if(data === 0){
       result = 1;
+      setOperationalHours([...operationalHours, Saturday])
     }
     if(data === 1){
       result = 0
+      setOperationalHours(operationalHours.filter(data => data.day !== "Saturday"));
     }
     setSaturdayIsOpen(result);
   }
-
  
   // const FoodList = useSelector(state => state.FetchFoodList.data);
   // const CusineList = useSelector(state => state.FetchCuisineList.data)
 
-  //  console.log("SingleStoreData " , SingleStoreData.operational_hours[0].is_open);
+  //  console.log("operationalHours " , operationalHours);
   
 
   
@@ -223,26 +291,26 @@ function Update() {
     cuisines : Yup.array().required("Cusine is required").nullable(),
     foodType : Yup.array().required("Food Type is required").nullable(),
 
-    saturday_start_time : Yup.string().required("Start Time is required"),
-    saturday_close_time : Yup.string().required("Close Time is required"),
+    // saturday_start_time : Yup.string().required("Start Time is required"),
+    // saturday_close_time : Yup.string().required("Close Time is required"),
   
-    sunday_start_time : Yup.string().required("Start Time is required"),
-    sunday_close_time : Yup.string().required("Close Time is required"),
+    // sunday_start_time : Yup.string().required("Start Time is required"),
+    // sunday_close_time : Yup.string().required("Close Time is required"),
 
-    monday_start_time : Yup.string().required("Start Time is required"),
-    monday_close_time : Yup.string().required("Close Time is required"),
+    // monday_start_time : Yup.string().required("Start Time is required"),
+    // monday_close_time : Yup.string().required("Close Time is required"),
 
-    tuesday_start_time : Yup.string().required("Start Time is required"),
-    tuesday_close_time : Yup.string().required("Close Time is required"),
+    // tuesday_start_time : Yup.string().required("Start Time is required"),
+    // tuesday_close_time : Yup.string().required("Close Time is required"),
 
-    wednesday_start_time : Yup.string().required("Start Time is required"),
-    wednesday_close_time : Yup.string().required("Close Time is required"),
+    // wednesday_start_time : Yup.string().required("Start Time is required"),
+    // wednesday_close_time : Yup.string().required("Close Time is required"),
 
-    thursday_start_time : Yup.string().required("Start Time is required"),
-    thursday_close_time : Yup.string().required("Close Time is required"),
+    // thursday_start_time : Yup.string().required("Start Time is required"),
+    // thursday_close_time : Yup.string().required("Close Time is required"),
 
-    friday_start_time : Yup.string().required("Start Time is required"),
-    friday_close_time : Yup.string().required("Close Time is required"),
+    // friday_start_time : Yup.string().required("Start Time is required"),
+    // friday_close_time : Yup.string().required("Close Time is required"),
 
   });
 
@@ -261,40 +329,40 @@ function Update() {
 
       // oprational hours
    
-      sunday_start_time : SingleStoreData.operational_hours[0]? moment(SingleStoreData.operational_hours[0].start_time,  'hh:mm:ss').format('hh:mm:ss') : "",
-      sunday_close_time : SingleStoreData.operational_hours[0]? moment(SingleStoreData.operational_hours[0].closing_time,  'hh:mm:ss').format('hh:mm:ss') : "",
-      sunday_is_open : SingleStoreData.operational_hours[0]? SingleStoreData.operational_hours[0].is_open : 0,
-      sunday_no_of_hours :  "",
+      // sunday_start_time : moment(SingleStoreData?.operational_hours.find(data => data.day === "Sunday")?.start_time, 'hh:mm:ss').format('hh:mm:ss'),
+      // sunday_close_time : moment(SingleStoreData?.operational_hours.find(data => data.day === "Sunday")?.closing_time, 'hh:mm:ss').format('hh:mm:ss'),
+      // sunday_is_open : SingleStoreData?.operational_hours.find(data => data.day === "Sunday")?.is_open,
+      // sunday_no_of_hours : "",
 
-      monday_start_time : SingleStoreData.operational_hours[1]? moment(SingleStoreData.operational_hours[1].start_time,  'hh:mm:ss').format('hh:mm:ss') : "",
-      monday_close_time : SingleStoreData.operational_hours[1]? moment(SingleStoreData.operational_hours[1].closing_time,  'hh:mm:ss').format('hh:mm:ss') : "",
-      monday_is_open : SingleStoreData.operational_hours[1]? SingleStoreData.operational_hours[1].is_open : 0,
-      monday_no_of_hours : '',
+      // monday_start_time : moment(SingleStoreData?.operational_hours.find(data => data.day === "Monday")?.start_time, 'hh:mm:ss').format('hh:mm:ss'),
+      // monday_close_time : moment(SingleStoreData?.operational_hours.find(data => data.day === "Monday")?.closing_time, 'hh:mm:ss').format('hh:mm:ss'),
+      // monday_is_open : SingleStoreData?.operational_hours.find(data => data.day === "Monday")?.is_open,
+      // monday_no_of_hours : '',
       
-      tuesday_start_time : SingleStoreData.operational_hours[2]? moment(SingleStoreData.operational_hours[2].start_time,  'hh:mm:ss').format('hh:mm:ss') : "",
-      tuesday_close_time : SingleStoreData.operational_hours[2]? moment(SingleStoreData.operational_hours[2].closing_time,  'hh:mm:ss').format('hh:mm:ss') : "",
-      tuesday_is_open : SingleStoreData.operational_hours[2]? SingleStoreData.operational_hours[2].is_open : 0,
-      tuesday_no_of_hours : '',
+      // tuesday_start_time : moment(SingleStoreData?.operational_hours.find(data => data.day === "Tuesday")?.start_time, 'hh:mm:ss').format('hh:mm:ss'),
+      // tuesday_close_time :moment(SingleStoreData?.operational_hours.find(data => data.day === "Tuesday")?.closing_time, 'hh:mm:ss').format('hh:mm:ss'),
+      // tuesday_is_open : SingleStoreData?.operational_hours.find(data => data.day === "Tuesday")?.is_open,
+      // tuesday_no_of_hours : '',
 
-      wednesday_start_time :  SingleStoreData.operational_hours[3]? moment(SingleStoreData.operational_hours[3].start_time,  'hh:mm:ss').format('hh:mm:ss') : "",
-      wednesday_close_time :  SingleStoreData.operational_hours[3]? moment(SingleStoreData.operational_hours[3].closing_time,  'hh:mm:ss').format('hh:mm:ss') : "",
-      wednesday_is_open : SingleStoreData.operational_hours[3]? SingleStoreData.operational_hours[3].is_open : 0,
-      wednesday_no_of_hours : '',
+      // wednesday_start_time : moment(SingleStoreData?.operational_hours.find(data => data.day === "Wednesday")?.start_time, 'hh:mm:ss').format('hh:mm:ss'),
+      // wednesday_close_time : moment(SingleStoreData?.operational_hours.find(data => data.day === "Wednesday")?.closing_time, 'hh:mm:ss').format('hh:mm:ss'),
+      // wednesday_is_open : SingleStoreData?.operational_hours.find(data => data.day === "Wednesday")?.is_open,
+      // wednesday_no_of_hours : '',
 
-      thursday_start_time :  SingleStoreData.operational_hours[4]? moment(SingleStoreData.operational_hours[4].start_time,  'hh:mm:ss').format('hh:mm:ss') : "",
-      thursday_close_time :  SingleStoreData.operational_hours[4]? moment(SingleStoreData.operational_hours[4].closing_time,  'hh:mm:ss').format('hh:mm:ss') : "",
-      thursday_is_open : SingleStoreData.operational_hours[4]?SingleStoreData.operational_hours[3].is_open: 0,
-      thursday_no_of_hours : '',
+      // thursday_start_time :  moment(SingleStoreData?.operational_hours.find(data => data.day === "Thursday")?.start_time, 'hh:mm:ss').format('hh:mm:ss'),
+      // thursday_close_time :  moment(SingleStoreData?.operational_hours.find(data => data.day === "Thursday")?.closing_time, 'hh:mm:ss').format('hh:mm:ss'),
+      // thursday_is_open : SingleStoreData?.operational_hours.find(data => data.day === "Thursday")?.is_open,
+      // thursday_no_of_hours : '',
 
-      friday_start_time : SingleStoreData.operational_hours[5]? moment(SingleStoreData.operational_hours[5].start_time,  'hh:mm:ss').format('hh:mm:ss') : "",
-      friday_close_time : SingleStoreData.operational_hours[5]? moment(SingleStoreData.operational_hours[5].closing_time,  'hh:mm:ss').format('hh:mm:ss') : "",
-      friday_is_open : SingleStoreData.operational_hours[5]? SingleStoreData.operational_hours[5].is_open : 0,
-      friday_no_of_hours : '',
+      // friday_start_time : moment(SingleStoreData?.operational_hours.find(data => data.day === "Friday")?.start_time, 'hh:mm:ss').format('hh:mm:ss'),
+      // friday_close_time : moment(SingleStoreData?.operational_hours.find(data => data.day === "Friday")?.closing_time, 'hh:mm:ss').format('hh:mm:ss'),
+      // friday_is_open : SingleStoreData?.operational_hours.find(data => data.day === "Friday")?.is_open,
+      // friday_no_of_hours : '',
 
-      saturday_start_time :  SingleStoreData.operational_hours[6]? moment(SingleStoreData.operational_hours[6].start_time,  'hh:mm:ss').format('hh:mm:ss') : "",
-      saturday_close_time :  SingleStoreData.operational_hours[6]? moment(SingleStoreData.operational_hours[6].closing_time,  'hh:mm:ss').format('hh:mm:ss') : "",
-      saturday_is_open : SingleStoreData.operational_hours[6]? SingleStoreData.operational_hours[6].is_open : 0,
-      saturday_no_of_hours : '',
+      // saturday_start_time :  moment(SingleStoreData?.operational_hours.find(data => data.day === "Saturday")?.start_time, 'hh:mm:ss').format('hh:mm:ss'),
+      // saturday_close_time :  moment(SingleStoreData?.operational_hours.find(data => data.day === "Saturday")?.closing_time, 'hh:mm:ss').format('hh:mm:ss'),
+      // saturday_is_open : SingleStoreData?.operational_hours.find(data => data.day === "Saturday")?.is_open,
+      // saturday_no_of_hours : '',
 
       // social media
       website : SingleStoreData.social_links?SingleStoreData.social_links.website : "" ,
@@ -305,7 +373,7 @@ function Update() {
     validationSchema: StoreSchema,
     onSubmit: (values) => {
 
-      console.log(values.cuisines)
+      // console.log(values.cuisines)
 
       const CuisineIds = [];
       const FoodIds = [];
@@ -340,50 +408,7 @@ function Update() {
                 "latitude" : lat,
                 "longitude": lng
             },
-        "operational_hours" : [
-            {
-                "day" : "Sunday",
-                "start_time":  moment(values.sunday_start_time,'hh:mm:ss').format('hh:mm:ss') ,
-                "no_of_hours": Math.abs(moment(values.sunday_start_time, "hh").format('hh') - moment(values.sunday_close_time, "hh").format('hh')),
-                "is_open" : sundayIsOpen,
-            },
-            {
-                "day" : "Monday",
-                "start_time":  moment(values.monday_start_time, 'hh:mm:ss').format('hh:mm:ss'),
-                "no_of_hours":  Math.abs(moment(values.monday_start_time, "hh").format('hh') - moment(values.monday_close_time, "hh").format('hh')),
-                "is_open" : mondayIsopen,
-            },
-            {
-                "day" : "Tuesday",
-                "start_time": moment(values.tuesday_start_time, 'hh:mm:ss').format('hh:mm:ss'),
-                "no_of_hours":  Math.abs(moment(values.tuesday_start_time, "hh").format('hh') - moment(values.tuesday_close_time, "hh").format('hh')),
-                "is_open" : tuesdayIsOpen,
-            },
-            {
-              "day" : "Wednesday",
-              "start_time": moment(values.wednesday_start_time, 'hh:mm:ss').format('hh:mm:ss'),
-              "no_of_hours": Math.abs(moment(values.wednesday_start_time, "hh").format('hh') - moment(values.wednesday_close_time, "hh").format('hh')),
-              "is_open" : wednesdayIsOpen,
-          },
-            {
-                "day" : "Thursday",
-                "start_time": moment(values.thursday_start_time, 'hh:mm:ss').format('hh:mm:ss'),
-                "no_of_hours":  Math.abs(moment(values.thursday_start_time, "hh").format('hh') - moment(values.thursday_close_time, "hh").format('hh')),
-                "is_open" : thursdayIsOpen
-            },
-            {
-                "day" : "Friday",
-                "start_time":  moment(values.friday_start_time, 'hh:mm:ss').format('hh:mm:ss'),
-                "no_of_hours":  Math.abs(moment(values.friday_start_time, "hh").format('hh') - moment(values.friday_close_time, "hh").format('hh')),
-                "is_open" : fridayIsOpen,
-            },
-            {
-              "day" : "Saturday",
-              "start_time": moment(values.saturday_start_time, 'hh:mm:ss').format('hh:mm:ss') ,
-              "no_of_hours":  Math.abs(moment(values.saturday_start_time, "hh").format('hh') - moment(values.saturday_close_time, "hh").format('hh')),
-              "is_open" : saturdayIsOpen,
-            }
-        ],
+        "operational_hours" : operationalHours,
         "social_links" : {
             "website" : values.website,
             "instagram" : values.instagram,
@@ -395,25 +420,31 @@ function Update() {
 
     console.log("data", data);
 
-    setLoading(true);
-    UpdateStore(id, data)
-      .then(res =>{
-        setLoading(false);
-        const response = res.data.message;
-        navigate(`/dashboard/merchant/store/${id}`, { replace: true });
-        toast.dark(response);
-      })
-      .catch((err)=>{
-        setLoading(false);
-        const response = err.response.data.errors.cuisine_name[0];
-        toast.dark(response);
+    // setLoading(true);
+    // UpdateStore(id, data)
+    //   .then(res =>{
+    //     setLoading(false);
+    //     const response = res.data.message;
+    //     navigate(`/dashboard/merchant/store/${id}`, { replace: true });
+    //     toast.dark(response);
+    //   })
+    //   .catch((err)=>{
+    //     setLoading(false);
+    //     const response = err.response.data.errors.cuisine_name[0];
+    //     toast.dark(response);
         
-      }) 
+    //   }) 
+
     }
 });
 
+
+  // console.log("Index of", operationalHours.findIndex(data => data.day === "Monday" ))
+
   const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = formik;
 
+
+  console.log("monday isopen", values?.tuesday_is_open)
 
   return(
         <>
@@ -510,7 +541,7 @@ function Update() {
                                 <div>
                                     <TextField 
                                       fullWidth
-                                      value={"dhaka"}
+                                     
                                       // {...getFieldProps('location')}
                                       // error={Boolean(touched.location && errors.location)}
                                       // helperText={touched.location && errors.location}

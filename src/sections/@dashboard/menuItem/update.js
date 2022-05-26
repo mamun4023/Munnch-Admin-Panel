@@ -179,7 +179,7 @@ const removeFields = (index) => {
     categories: Yup.mixed().required('Category is required').nullable(),
     food_item_type: Yup.string().required('Food Item Type is required'),
     food_item_estimate_days :Yup.string().required('Estimate Days are required'),
-    image : Yup.mixed().required('Image is required')
+    image : Yup.mixed()
   });
 
   const formik = useFormik({
@@ -222,18 +222,35 @@ const removeFields = (index) => {
       // }
 
       const data = new FormData();
-      data.append('name', values.name);
-      data.append('price', values.price);
-      data.append('description', values.description);
-      data.append('food_type_id', values.food_types.id);
-      data.append("cuisine_id", values.cuisine_types.id);
-      data.append("category_id", values.categories.id)
-      data.append("food_item_type",  values.food_item_type);
-      data.append("food_item_estimate_days", values.food_item_estimate_days);
-      data.append("restaurant_id", values.restaurant_id);
-      data.append(inputFields, "food_addons");
-      data.append([{"full" : values.variationFull, "half" : values.variationHalf }], 'food_variations')
-      data.append('image', values.image);
+
+      if(values.image == null){
+        data.append('name', values.name);
+        data.append('price', values.price);
+        data.append('description', values.description);
+        data.append('food_type_id', values.food_types.id);
+        data.append("cuisine_id", values.cuisine_types.id);
+        data.append("category_id", values.categories.id)
+        data.append("food_item_type",  values.food_item_type);
+        data.append("food_item_estimate_days", values.food_item_estimate_days);
+        data.append("restaurant_id", values.restaurant_id);
+        data.append(inputFields, "food_addons");
+        data.append([{"full" : values.variationFull, "half" : values.variationHalf }], 'food_variations')
+
+      }else{
+        data.append('name', values.name);
+        data.append('price', values.price);
+        data.append('description', values.description);
+        data.append('food_type_id', values.food_types.id);
+        data.append("cuisine_id", values.cuisine_types.id);
+        data.append("category_id", values.categories.id)
+        data.append("food_item_type",  values.food_item_type);
+        data.append("food_item_estimate_days", values.food_item_estimate_days);
+        data.append("restaurant_id", values.restaurant_id);
+        data.append(inputFields, "food_addons");
+        data.append([{"full" : values.variationFull, "half" : values.variationHalf }], 'food_variations')
+        data.append('image', values.image);
+      }
+
 
       // console.log(data)
 

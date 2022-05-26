@@ -185,7 +185,7 @@ export default function Merchant() {
   }
 
   return (
-    <Page title="Munchh | Merchant">
+    <Page title="Munchh | Transaction">
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={1}>
           <Typography variant="h4" gutterBottom>

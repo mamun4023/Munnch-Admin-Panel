@@ -30,6 +30,7 @@ import {
   ImageListItem
 
 } from '@mui/material';
+import { withStyles, makeStyles } from "@mui/styles";
 // components
 import Page from '../components/Page';
 import Scrollbar from '../components/Scrollbar';
@@ -51,11 +52,24 @@ const Input = styled('input')({
 });
 
 
+const useStyles = makeStyles({
+  table: {
+    minWidth: 650
+  },
+  tableRow: {
+    height: 30
+  },
+  tableCell: {
+    padding: "0px 16px",
+    fontSize : "16px"
+  }
+});
+
 export default function Store() {
   const {id} = useParams();
   const dispatch = useDispatch();
-  const loading = useSelector(state => state.SingleStore.loading);
   const [image, setImage] = useState();
+  const [StoreData, setStoreData] = useState([]);
 
   const UploadHandler = (e)=>{
     const data = new FormData();
@@ -72,18 +86,24 @@ export default function Store() {
     setTimeout(()=>{
       dispatch(FetchSingleStore(id))
     },1000)
-    
+  }
+
+
+  const FetchStore = (id)=>{
+    FetchSingleStore(id)
+      .then((res)=>{
+        const response =  res.data.data;
+        setStoreData(response);
+      })
   }
 
   useEffect(()=>{
-    dispatch(FetchSingleStore(id))
+      FetchStore(id)
   },[])
 
-  const StoreData = useSelector(state => state.SingleStore.data);
 
   // console.log("Store data", StoreData)
-
-
+  const classes = useStyles();
   return (
     <Page title="Munchh | Food">
       <Container>
@@ -240,35 +260,33 @@ export default function Store() {
                     <Grid item xs={5}>
                         <Card>
                             <CardContent>
-                                <Typography variant="h5" component="div">
-                                   Store Name &emsp;&ensp;: &ensp; {StoreData.store_name?StoreData.store_name : "empty"}
-                                </Typography>
-                                <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                                    <Box 
-                                        sx={{ py: 1}}
-                                    >
-                                       
-                                        <h4> Max Delivery KM &emsp;: &ensp; {StoreData.max_delivery_km?StoreData.max_delivery_km: "empty"} </h4>
-                                        <h4> Business Contact Number &ensp;&ensp; : &ensp;  {StoreData.contact_no?StoreData.contact_no: "empty" }  </h4>
-                                        {/* <h4> Delivery Charge &ensp; &ensp; : &ensp; {StoreData.delivery_charge? StoreData.delivery_charge: "empty" }  </h4>
-                                        <h4> Minimum Order&ensp;&ensp; &ensp; : &ensp;  {StoreData.minimum_order? StoreData.minimum_order : "empty" }  </h4>
-                                        */}
-                                    </Box> 
-                                </Typography>
+                              <Table> 
+                                <TableRow className={classes.tableRow}>
+                                   <TableCell align="left"  className={classes.tableCell}> Store Name </TableCell>
+                                   <TableCell align="left" className={classes.tableCell}>{StoreData.store_name?StoreData.store_name : "empty"}</TableCell>
+                                </TableRow>
+                                <TableRow className={classes.tableRow}>
+                                   <TableCell align="left" className={classes.tableCell}> Max Delivery KM </TableCell>
+                                   <TableCell align="left" className={classes.tableCell}>{StoreData.max_delivery_km?StoreData.max_delivery_km: "empty"}</TableCell>
+                                </TableRow>
+                                <TableRow className={classes.tableRow}>
+                                   <TableCell align="left" className={classes.tableCell}> Business Contact Number</TableCell>
+                                   <TableCell align="left" className={classes.tableCell}>{StoreData.contact_no?StoreData.contact_no: "empty"}</TableCell>
+                                </TableRow>
+                              </Table>             
                             </CardContent>
                         </Card>
                         <Card style={{ marginTop  : "10px" }} >
                           <CardContent style={{ display:'flex', justifyContent:'center' }} >
                             <IconButton  size='large' > <Iconify icon= "entypo:location-pin" /></IconButton> <br/>
                              {StoreData.location? StoreData.location.address : "empty"}
-
                           </CardContent>
                         </Card>
                         <Card style={{ marginTop  : "10px" }} >
                           <CardContent style={{ display:'flex', justifyContent:'center' }} >
-                             <IconButton href= {StoreData.social_links?StoreData.social_links.website : null} size='large'> <Iconify icon= "mdi:web-box" /></IconButton>
-                             <IconButton href= {StoreData.social_links?StoreData.social_links.facebook : null} size='large'> <Iconify icon= "fa6-brands:facebook-square" /></IconButton>
-                             <IconButton href= {StoreData.social_links?StoreData.social_links.instagram: null} size='large'> <Iconify icon= "fa6-brands:instagram-square" /></IconButton>
+                             <IconButton  target="_blank" href= {StoreData.social_links?StoreData.social_links.website : null} size='large'> <Iconify icon= "mdi:web-box" /></IconButton>
+                             <IconButton  target="_blank" href= {StoreData.social_links?StoreData.social_links.facebook : null} size='large'> <Iconify icon= "fa6-brands:facebook-square" /></IconButton>
+                             <IconButton  target="_blank" href= {StoreData.social_links?StoreData.social_links.instagram: null} size='large'> <Iconify icon= "fa6-brands:instagram-square" /></IconButton>
                           </CardContent>
                         </Card>
                     </Grid>

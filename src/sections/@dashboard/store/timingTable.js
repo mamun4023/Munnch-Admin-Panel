@@ -31,15 +31,16 @@ export default function BasicTable({timing}) {
                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                  >
                    <TableCell component="th" scope="row"> {data.day} </TableCell>
-                   <TableCell align="right"> {data.start_time} </TableCell>
                    <TableCell align="right"> 
-                      
-                     
                       {
-                       moment(data.closing_time, "HH:mm:ss").format("hh:mm A")
+                        moment(data.start_time, "HH:mm:ss").format("hh:mm A")
                       }
-                      {/* <Moment format="mm:ss" >{data.closing_time}</Moment>  */}
-                    
+
+                   </TableCell>
+                   <TableCell align="right"> 
+                      {
+                        moment(data.closing_time, "HH:mm:ss").format("hh:mm A")
+                      }
                     </TableCell> 
                  </TableRow>
            )}

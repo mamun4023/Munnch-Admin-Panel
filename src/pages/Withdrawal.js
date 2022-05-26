@@ -12,10 +12,9 @@ const RootStyle = styled(Page)(({ theme }) => ({
 
 export default function Withdraw() {
 
-
   return (
      <>
-      <RootStyle title="Munchh | Strings"> </RootStyle>
+      <RootStyle title="Munchh | Withdrawal"> </RootStyle>
           <Typography  variant="h4" gutterBottom>
                 Withdrawal Management
           </Typography>

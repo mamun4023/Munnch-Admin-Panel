@@ -50,6 +50,17 @@ const MenuProps = {
   },
 };
 
+
+function createFormData(formData, key, data) {
+  if (data === Object(data) || Array.isArray(data)) {
+      for (var i in data) {
+          createFormData(formData, key + '[' + i + ']', data[i]);
+      }
+  } else {
+      formData.append(key, data);
+  }
+}
+
 // function getStyles(name, personName, theme) {
 //   return {
 //     fontWeight:
@@ -69,7 +80,7 @@ export default function Create() {
     { name: '', price: '' },
   ])
 
-  console.log(inputFields)
+  // console.log(inputFields)
 
   const handleFormChange = (index, event) => {
     let data = [...inputFields];
@@ -77,7 +88,7 @@ export default function Create() {
     setInputFields(data);
  }
 
-  console.log(inputFields)
+  // console.log(inputFields)
   const addFields = (e) => {
     e.preventDefault();
     let newfield = { name: '', price: '' }
@@ -190,37 +201,47 @@ const removeFields = (index) => {
       //  const FormData = new FormData();
       //  FormData.append('image', values.image);
 
-      // const data = {
-      //   name : values.name,
-      //   price : values.price,
-      //   description : values.description,
-      //   food_type_id : values.food_types.id,
-      //   cuisine_id : values.cuisine_types.id,
-      //   category_id : values.categories.id,
-      //   food_item_type : values.food_item_type,
-      //   food_item_estimate_days : values.food_item_estimate_days,
-      //   restaurant_id : id,
-      //   food_addons : inputFields,
-      //   food_variations : {
-      //       "full" : values.variationFull,
-      //       "half" : values.variationHalf
-      //     },
-      //   image : values.image
-      // }
+      const data = {
+        name : values.name,
+        price : values.price,
+        description : values.description,
+        food_type_id : values.food_types.id,
+        cuisine_id : values.cuisine_types.id,
+        category_id : values.categories.id,
+        food_item_type : values.food_item_type,
+        food_item_estimate_days : values.food_item_estimate_days,
+        restaurant_id : id,
+        food_addons : inputFields,
+        food_variations : [{
+            "full" : values.variationFull,
+            "half" : values.variationHalf
+          }],
+      }
 
-      const data = new FormData();
-      data.append('name', values.name);
-      data.append('price', values.price);
-      data.append('description', values.description);
-      data.append('food_type_id', values.food_types.id);
-      data.append("cuisine_id", values.cuisine_types.id);
-      data.append("category_id", values.categories.id)
-      data.append("food_item_type",  values.food_item_type);
-      data.append("food_item_estimate_days", values.food_item_estimate_days);
-      data.append("restaurant_id", id);
-      data.append(inputFields, "food_addons");
-      data.append([{"full" : values.variationFull, "half" : values.variationHalf }], 'food_variations')
-      data.append('image', values.image);
+      // const data = new FormData();
+      // data.append('name', values.name);
+      // data.append('price', values.price);
+      // data.append('description', values.description);
+      // data.append('food_type_id', values.food_types.id);
+      // data.append("cuisine_id", values.cuisine_types.id);
+      // data.append("category_id", values.categories.id)
+      // data.append("food_item_type",  values.food_item_type);
+      // data.append("food_item_estimate_days", values.food_item_estimate_days);
+      // data.append("restaurant_id", id);
+
+      // // for (let i=0; i< inputFields.length; i++){
+      // //   data.append('food_addons', inputFields[i]);
+      // // }
+
+      // data.append(inputFields, "food_addons");
+      // data.append([{"full" : values.variationFull, "half" : values.variationHalf }], 'food_variations')
+      // data.append('image', values.image);
+
+
+    // var formData = new FormData();
+    // createFormData(formData, 'data', data);
+   
+      console.log("data",data)
 
       setLoading(true);
       AddMenu(data)
@@ -228,7 +249,7 @@ const removeFields = (index) => {
           const response = res.data.message;
           setLoading(false);
           toast.dark(response)
-          navigate(`/dashboard/merchant/menu/${id}`, { replace: true });
+          // navigate(`/dashboard/merchant/menu/${id}`, { replace: true });
         })
         .catch((err)=>{
           setLoading(false);
