@@ -77,15 +77,14 @@ export default function Store() {
     AddImage(id, data);
 
     setTimeout(()=>{
-      dispatch(FetchSingleStore(id))
+      FetchStore(id)
     },1000)
   }
 
   const ImageDeleteHandler = (storeId, imageId)=>{
     dispatch(RemoveImage(storeId, imageId));
-    setTimeout(()=>{
-      dispatch(FetchSingleStore(id))
-    },1000)
+ 
+    FetchStore(id);
   }
 
 

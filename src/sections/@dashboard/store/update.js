@@ -5,9 +5,6 @@ import { Link as RouterLink, useNavigate, useParams } from 'react-router-dom';
 import { Grid,Autocomplete, Switch, Box, MenuItem, Select, InputLabel, FormControl, Typography } from '@mui/material';
 import { useFormik, Form, FormikProvider } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
-import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import { toast } from 'material-react-toastify';
 
 // material
@@ -18,7 +15,9 @@ import {
   TextField,
   IconButton,
   InputAdornment,
-  FormControlLabel
+  FormControlLabel,
+  ToggleButtonGroup,
+  ToggleButton
 } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 // component
@@ -31,18 +30,17 @@ import Moment from 'react-moment';
 import moment from 'moment';
 // ----------------------------------------------------------------------
 
-
 function Update() {
   const navigate = useNavigate();
   const {id} = useParams();
   const dispatch = useDispatch();
   const[loading, setLoading] = useState(false);
   const[SingleStoreData, setSingleStoreData] = useState([])
+  var [operationalHours, setOperationalHours] = useState([]);
 
   //loading list data variable
   const[foodList, setFoodList] = useState([]);
   const[cuisineList, setCuisineList] = useState([]);
-
   
   const LoadListData = ()=>{
     FetchCuisineTypeList()
@@ -57,34 +55,123 @@ function Update() {
         setFoodList(response);
       }) 
   }
-  
+
+  // operational hours arry manipulation
+  const OperationHoursFiltering = (Hours)=>{
+    for(let i =0; i<Hours.length; i++){
+      // Hours[i].no_of_hours = moment(Hours[i].start_time , "HH:mm:ss").diff(moment(Hours[i].closing_time , "HH:mm:ss"), "hh");
+      Hours[i].no_of_hours = moment.utc(moment(Hours[i].closing_time,"HH:mm:ss").diff(moment(Hours[i].start_time ,"HH:mm:ss"))).format("HH")
+      delete Hours[i].closing_time;
+    }
+    return Hours;
+  }
+
+
+
+    // shop timing data
+  // const [newHours, setNewHours] = useState([]);
+
+  // sunday hooks
+  const [sundayStartTime, setSundayStartTime] = useState();
+  const [sundayCloseTime, setSundayCloseTime] = useState();
+  const [sundayIsOpen, setSundayIsOpen] = useState();
+
+  // monday hooks
+  const [mondayStartTime, setMondayStartTime]  = useState();
+  const [mondayCloseTime, setMondayCloseTime] = useState();
+  const [mondayIsopen, setMondayIsOpen] = useState();
+
+  // tuesday hooks
+  const[tuesdayStartTime, setTuesdayStartTime] = useState();
+  const[tuesdayCloseTime, setTuesdayCloseTime] = useState();
+  const[tuesdayIsOpen, setTuesdayIsOpen] = useState();
+
+
+  //wednessday hooks
+  const [wednesdayStartTime, setWednesdayStartTime] = useState();
+  const [wednesdayCloseTime, setWednesdayCloseTime] = useState();
+  const [wednesdayIsOpen, setWednesdayIsOpen] = useState();
+
+  //thursday hooks
+  const [thursdayStartTime, setThursdayStartTime] = useState();
+  const [thursdayCloseTime, setThursdayCloseTime] = useState();
+  const [thursdayIsOpen, setThursdayIsOpen] = useState();
+
+  //friday hooks
+  const [fridayStartTime, setFridayStartTime] = useState();
+  const [fridayCloseTime, setFridayCloseTime] = useState();
+  const [fridayIsOpen, setFridayIsOpen] = useState();
+
+  // saturday hooks
+  const [saturdayStartTime, setSaturdayStartTime] = useState();
+  const [saturdayCloseTime, setSaturdayCloseTime] = useState();
+  const [saturdayIsOpen, setSaturdayIsOpen] = useState();
+
 
   const FetchStoreData =(id)=>{
     FetchSingleStore(id)
       .then(res =>{
         const response = res.data.data;
         setSingleStoreData(response);
-        setOperationalHours(response);
+        setOperationalHours(response?.operational_hours);
+        setLatllogAddress(response?.location.address)
+        setAddress(response?.location.address);
+        
+        //Sunday data initialize
+        setSundayStartTime(response?.operational_hours?.find(data => data.day === "Sunday")?.start_time)
+        setSundayCloseTime(response?.operational_hours?.find(data => data.day === "Sunday")?.closing_time)
+        setSundayIsOpen(response?.operational_hours?.find(data => data.day === "Sunday")?.is_open?1:0)
+        
+        //Monday data initialize
+        setMondayStartTime(response?.operational_hours?.find(data => data.day === "Monday")?.start_time)
+        setMondayCloseTime(response?.operational_hours?.find(data => data.day === "Monday")?.closing_time)
+        setMondayIsOpen(response?.operational_hours?.find(data => data.day === "Monday")?.is_open?1:0)
+        
+        //Tuesday data initialize
+        setTuesdayStartTime(response?.operational_hours?.find(data => data.day === "Tuesday")?.start_time)
+        setTuesdayCloseTime(response?.operational_hours?.find(data => data.day === "Tuesday")?.closing_time)
+        setTuesdayIsOpen(response?.operational_hours?.find(data => data.day === "Tuesday")?.is_open?1:0)
+        
+         //Wednesday data initialize
+         setWednesdayStartTime(response?.operational_hours?.find(data => data.day === "Wednesday")?.start_time)
+         setWednesdayCloseTime(response?.operational_hours?.find(data => data.day === "Wednesday")?.closing_time)
+         setWednesdayIsOpen(response?.operational_hours?.find(data => data.day === "Wednesday")?.is_open?1:0)
+         
+
+        //Thursday data initialize
+         setThursdayStartTime(response?.operational_hours?.find(data => data.day === "Thursday")?.start_time)
+         setThursdayCloseTime(response?.operational_hours?.find(data => data.day === "Thursday")?.closing_time)
+         setThursdayIsOpen(response?.operational_hours?.find(data => data.day === "Thursday")?.is_open?1:0)
+         
+        //Friday data initialize
+         setFridayStartTime(response?.operational_hours?.find(data => data.day === "Friday")?.start_time)
+         setFridayCloseTime(response?.operational_hours?.find(data => data.day === "Friday")?.closing_time)
+         setFridayIsOpen(response?.operational_hours?.find(data => data.day === "Friday")?.is_open?1:0)
+         
+         //Saturday data initialize
+         setSaturdayStartTime(response?.operational_hours?.find(data => data.day === "Saturday")?.start_time)
+         setSaturdayCloseTime(response?.operational_hours?.find(data => data.day === "Saturday")?.closing_time)
+         setSaturdayIsOpen(response?.operational_hours?.find(data => data.day === "Saturday")?.is_open?1:0)
+         
+        // fetch shop status
+        // setSundayIsOpen(response.operational_hours?.find(data => data.day === "Sunday")?.is_open) 
       })
   }
-
 
   useEffect(()=>{
     FetchStoreData(id);
     LoadListData();
+    setAddress()
   },[])
 
 
-
-  console.log("Store data", operationalHours)
-
-
+  // console.log("Closing time", sundayCloseTime)
 
 
   // geo location
-  const [address, setAddress] = useState(SingleStoreData.location?.address);
+  const [address, setAddress] = useState();
     // latLot data
-  const[latllogAddress, setLatllogAddress] = useState(SingleStoreData.location?.address); // set default address
+  const[latllogAddress, setLatllogAddress] = useState(); // set default address
   const[location , setLocation] = useState();
   const[lat, setLat] = useState(SingleStoreData.location?SingleStoreData.location.latitude: "");
   const[lng, setLng] = useState(SingleStoreData.location?SingleStoreData.location.longitude: "");
@@ -102,95 +189,101 @@ function Update() {
   };
 
   // console.log(lat+","+lng)
-  // console.log(address);
+  // console.log(address)
+
+
 
 
   // start operational hours hooks
 
   let Sunday = {
     "day": "Sunday",
-    "start_time": "10:00:00",
-    "no_of_hours": 3,
-    "is_open": false
+    "start_time": sundayStartTime,
+    "closing_time": sundayCloseTime,
+    "is_open": sundayIsOpen
   }
 
   let Monday = {
     "day": "Monday",
-    "start_time": "10:00:00",
-    "no_of_hours": 3,
-    "is_open": false
+    "start_time": mondayStartTime,
+    "closing_time": mondayCloseTime,
+    "is_open": tuesdayIsOpen
   }
 
   let Tuesday = {
     "day": "Tuesday",
-    "start_time": "10:00:00",
-    "no_of_hours": 3,
-    "is_open": false
+    "start_time": tuesdayStartTime,
+    "closing_time": tuesdayCloseTime,
+    "is_open": tuesdayIsOpen
   }
 
 
   let Wednesday = {
     "day": "Wednesday",
-    "start_time": "10:00:00",
-    "no_of_hours": 3,
-    "is_open": false
+    "start_time": wednesdayStartTime,
+    "closing_time": wednesdayCloseTime,
+    "is_open": wednesdayIsOpen
   }
-
-
 
   let Thursday = {
     "day": "Thursday",
-    "start_time": "10:00:00",
-    "no_of_hours": 3,
-    "is_open": false
+    "start_time": thursdayStartTime,
+    "closing_time": thursdayCloseTime,
+    "is_open": thursdayIsOpen
   }
-
 
   let Friday = {
     "day": "Friday",
-    "start_time": "10:00:00",
-    "no_of_hours": 3,
-    "is_open": false
+    "start_time": fridayStartTime,
+    "closing_time": fridayCloseTime,
+    "is_open": fridayIsOpen
   }
 
   let Saturday = {
     "day": "Saturday",
-    "start_time": "10:00:00",
-    "no_of_hours": 3,
-    "is_open": false
+    "start_time": saturdayStartTime,
+    "no_of_hours": saturdayCloseTime,
+    "is_open": saturdayIsOpen,
   }
 
+  // update operational hours
 
-
-  var [operationalHours, setOperationalHours] = useState([]);
-
-  const [sundayStart, setSundayStart] = useState();
-  const [sundayClose, setSundayClose] = useState();
-
-  const [sundayIsOpen, setSundayIsOpen] = useState();
-  const [mondayIsopen, setMondayIsOpen] = useState();
-  const [tuesdayIsOpen, setTuesdayIsOpen] = useState();
-  const [wednesdayIsOpen, setWednesdayIsOpen] = useState();
-  const [thursdayIsOpen, setThursdayIsOpen] = useState();
-  const [fridayIsOpen, setFridayIsOpen] = useState();
-  const [saturdayIsOpen, setSaturdayIsOpen] = useState();
-
-  
 
   // operational hours days objects
 
+  // Sunday configuration functions
+
+  const SundayStartTimeHandler =(e)=>{
+    setSundayStartTime(e.target.value);
+  }
+
+  const SundayCloseTimeHandler =(e)=>{
+    setSundayCloseTime(e.target.value);
+  }
 
   const SundayTogglerHandeler = (data)=>{
     let result;
     if(data === 0 || data === "0"){
       result = 1;
       setOperationalHours([...operationalHours, Sunday])
+     
     }
     if(data === 1 || data === "1"){
       result = 0
       setOperationalHours(operationalHours.filter(data => data.day !== "Sunday"));
     }
     setSundayIsOpen(result);
+    return 0;
+  }
+
+
+  // monday handler
+  const MondayStartTimeHandler  = (e)=>{
+    setMondayStartTime(e.target.value)
+  }
+
+  const MondayCloseTimeHandler  = (e)=>{
+    setMondayCloseTime(e.target.value)
   }
 
 
@@ -205,7 +298,15 @@ function Update() {
       setOperationalHours(operationalHours.filter(data => data.day !== "Monday"));
     }
     setMondayIsOpen(result);
- 
+  }
+
+  // Tuesday handler
+  const TuesdayStartTimeHandler  = (e)=>{
+    setTuesdayStartTime(e.target.value)
+  }
+
+  const TuesdayCloseimeHandler  = (e)=>{
+    setTuesdayCloseTime(e.target.value)
   }
 
   const TuesdayTogglerHandeler = (data)=>{
@@ -221,6 +322,15 @@ function Update() {
     setTuesdayIsOpen(result);
   }
 
+  // Wednesday handler
+  const WednesdayStartTimeHandler  = (e)=>{
+    setWednesdayStartTime(e.target.value)
+  }
+
+  const WednesdayCloseTimeHandler  = (e)=>{
+    setWednesdayCloseTime(e.target.value)
+  }
+
   const WednesdayTogglerHandeler = (data)=>{
     let result;
     if(data === 0){
@@ -232,6 +342,16 @@ function Update() {
       setOperationalHours(operationalHours.filter(data => data.day !== "Wednesday"));
     }
     setWednesdayIsOpen(result);
+  }
+
+
+   // Wednesday handler
+   const ThursdayStartTimeHandler  = (e)=>{
+    setThursdayStartTime(e.target.value)
+  }
+
+  const ThursdayCloseTimeHandler  = (e)=>{
+    setThursdayCloseTime(e.target.value)
   }
 
   const ThursdayTogglerHandeler = (data)=>{
@@ -247,6 +367,16 @@ function Update() {
     setThursdayIsOpen(result);
   }
 
+
+    // Friday handler
+    const FridayStartTimeHandler  = (e)=>{
+      setFridayStartTime(e.target.value)
+    }
+  
+    const FridayCloseTimeHandler  = (e)=>{
+      setFridayCloseTime(e.target.value)
+    }
+
   const FridayTogglerHandeler = (data)=>{
     let result;
     if(data === 0){
@@ -259,6 +389,15 @@ function Update() {
     }
     setFridayIsOpen(result);
   }
+
+    // Saturdasy handler
+    const SaturdayStartTimeHandler  = (e)=>{
+      setSaturdayStartTime(e.target.value)
+    }
+  
+    const SaturdayCloseTimeHandler  = (e)=>{
+      setSaturdayCloseTime(e.target.value)
+    }
 
   const SaturdayTogglerHandeler = (data)=>{
     let result;
@@ -278,7 +417,6 @@ function Update() {
 
   //  console.log("operationalHours " , operationalHours);
   
-
   
   const StoreSchema = Yup.object().shape({
     store_name: Yup.string().required('Store Name is required'),
@@ -329,39 +467,39 @@ function Update() {
 
       // oprational hours
    
-      // sunday_start_time : moment(SingleStoreData?.operational_hours.find(data => data.day === "Sunday")?.start_time, 'hh:mm:ss').format('hh:mm:ss'),
-      // sunday_close_time : moment(SingleStoreData?.operational_hours.find(data => data.day === "Sunday")?.closing_time, 'hh:mm:ss').format('hh:mm:ss'),
-      // sunday_is_open : SingleStoreData?.operational_hours.find(data => data.day === "Sunday")?.is_open,
+      // sunday_start_time : moment(SingleStoreData?.operational_hours?.find(data => data.day === "Sunday")?.start_time, 'hh:mm:ss').format('hh:mm:ss'),
+      // sunday_close_time : moment(SingleStoreData?.operational_hours?.find(data => data.day === "Sunday")?.closing_time, 'hh:mm:ss').format('hh:mm:ss'),
+      // sunday_is_open : SingleStoreData?.operational_hours?.find(data => data.day === "Sunday")?.is_open,
       // sunday_no_of_hours : "",
 
-      // monday_start_time : moment(SingleStoreData?.operational_hours.find(data => data.day === "Monday")?.start_time, 'hh:mm:ss').format('hh:mm:ss'),
-      // monday_close_time : moment(SingleStoreData?.operational_hours.find(data => data.day === "Monday")?.closing_time, 'hh:mm:ss').format('hh:mm:ss'),
-      // monday_is_open : SingleStoreData?.operational_hours.find(data => data.day === "Monday")?.is_open,
+      // monday_start_time : moment(SingleStoreData?.operational_hours?.find(data => data.day === "Monday")?.start_time, 'hh:mm:ss').format('hh:mm:ss'),
+      // monday_close_time : moment(SingleStoreData?.operational_hours?.find(data => data.day === "Monday")?.closing_time, 'hh:mm:ss').format('hh:mm:ss'),
+      // monday_is_open : SingleStoreData?.operational_hours?.find(data => data.day === "Monday")?.is_open,
       // monday_no_of_hours : '',
       
-      // tuesday_start_time : moment(SingleStoreData?.operational_hours.find(data => data.day === "Tuesday")?.start_time, 'hh:mm:ss').format('hh:mm:ss'),
-      // tuesday_close_time :moment(SingleStoreData?.operational_hours.find(data => data.day === "Tuesday")?.closing_time, 'hh:mm:ss').format('hh:mm:ss'),
-      // tuesday_is_open : SingleStoreData?.operational_hours.find(data => data.day === "Tuesday")?.is_open,
+      // tuesday_start_time : moment(SingleStoreData?.operational_hours?.find(data => data.day === "Tuesday")?.start_time, 'hh:mm:ss').format('hh:mm:ss'),
+      // tuesday_close_time :moment(SingleStoreData?.operational_hours?.find(data => data.day === "Tuesday")?.closing_time, 'hh:mm:ss').format('hh:mm:ss'),
+      // tuesday_is_open : SingleStoreData?.operational_hours?.find(data => data.day === "Tuesday")?.is_open,
       // tuesday_no_of_hours : '',
 
-      // wednesday_start_time : moment(SingleStoreData?.operational_hours.find(data => data.day === "Wednesday")?.start_time, 'hh:mm:ss').format('hh:mm:ss'),
-      // wednesday_close_time : moment(SingleStoreData?.operational_hours.find(data => data.day === "Wednesday")?.closing_time, 'hh:mm:ss').format('hh:mm:ss'),
-      // wednesday_is_open : SingleStoreData?.operational_hours.find(data => data.day === "Wednesday")?.is_open,
+      // wednesday_start_time : moment(SingleStoreData?.operational_hours?.find(data => data.day === "Wednesday")?.start_time, 'hh:mm:ss').format('hh:mm:ss'),
+      // wednesday_close_time : moment(SingleStoreData?.operational_hours?.find(data => data.day === "Wednesday")?.closing_time, 'hh:mm:ss').format('hh:mm:ss'),
+      // wednesday_is_open : SingleStoreData?.operational_hours?.find(data => data.day === "Wednesday")?.is_open,
       // wednesday_no_of_hours : '',
 
-      // thursday_start_time :  moment(SingleStoreData?.operational_hours.find(data => data.day === "Thursday")?.start_time, 'hh:mm:ss').format('hh:mm:ss'),
-      // thursday_close_time :  moment(SingleStoreData?.operational_hours.find(data => data.day === "Thursday")?.closing_time, 'hh:mm:ss').format('hh:mm:ss'),
-      // thursday_is_open : SingleStoreData?.operational_hours.find(data => data.day === "Thursday")?.is_open,
+      // thursday_start_time :  moment(SingleStoreData?.operational_hours?.find(data => data.day === "Thursday")?.start_time, 'hh:mm:ss').format('hh:mm:ss'),
+      // thursday_close_time :  moment(SingleStoreData?.operational_hours?.find(data => data.day === "Thursday")?.closing_time, 'hh:mm:ss').format('hh:mm:ss'),
+      // thursday_is_open : SingleStoreData?.operational_hours?.find(data => data.day === "Thursday")?.is_open,
       // thursday_no_of_hours : '',
 
-      // friday_start_time : moment(SingleStoreData?.operational_hours.find(data => data.day === "Friday")?.start_time, 'hh:mm:ss').format('hh:mm:ss'),
-      // friday_close_time : moment(SingleStoreData?.operational_hours.find(data => data.day === "Friday")?.closing_time, 'hh:mm:ss').format('hh:mm:ss'),
-      // friday_is_open : SingleStoreData?.operational_hours.find(data => data.day === "Friday")?.is_open,
+      // friday_start_time : moment(SingleStoreData?.operational_hours?.find(data => data.day === "Friday")?.start_time, 'hh:mm:ss').format('hh:mm:ss'),
+      // friday_close_time : moment(SingleStoreData?.operational_hours?.find(data => data.day === "Friday")?.closing_time, 'hh:mm:ss').format('hh:mm:ss'),
+      // friday_is_open : SingleStoreData?.operational_hours?.find(data => data.day === "Friday")?.is_open,
       // friday_no_of_hours : '',
 
-      // saturday_start_time :  moment(SingleStoreData?.operational_hours.find(data => data.day === "Saturday")?.start_time, 'hh:mm:ss').format('hh:mm:ss'),
-      // saturday_close_time :  moment(SingleStoreData?.operational_hours.find(data => data.day === "Saturday")?.closing_time, 'hh:mm:ss').format('hh:mm:ss'),
-      // saturday_is_open : SingleStoreData?.operational_hours.find(data => data.day === "Saturday")?.is_open,
+      // saturday_start_time :  moment(SingleStoreData?.operational_hours?.find(data => data.day === "Saturday")?.start_time, 'hh:mm:ss').format('hh:mm:ss'),
+      // saturday_close_time :  moment(SingleStoreData?.operational_hours?.find(data => data.day === "Saturday")?.closing_time, 'hh:mm:ss').format('hh:mm:ss'),
+      // saturday_is_open : SingleStoreData?.operational_hours?.find(data => data.day === "Saturday")?.is_open,
       // saturday_no_of_hours : '',
 
       // social media
@@ -393,7 +531,12 @@ function Update() {
         }
         FoodIds.push(obj)
       }
-  
+
+      // OperationHoursFiltering(operationalHours);
+
+
+      
+
       const data = {
         "restaurant_name" : values.store_name,
         "description" : values.description,
@@ -430,7 +573,7 @@ function Update() {
     //   })
     //   .catch((err)=>{
     //     setLoading(false);
-    //     const response = err.response.data.errors.cuisine_name[0];
+    //     const response = err.response.data.errors
     //     toast.dark(response);
         
     //   }) 
@@ -444,7 +587,7 @@ function Update() {
   const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = formik;
 
 
-  console.log("monday isopen", values?.tuesday_is_open)
+  console.log("wednesday_is_open", values?.wednesday_is_open)
 
   return(
         <>
@@ -571,8 +714,77 @@ function Update() {
                             alignItems="flex-start"
                             margin={0}
                         >
-                            <label> Sunday</label> 
-                            <label> Open <Switch onChange={()=>SundayTogglerHandeler(values.sunday_is_open)} defaultChecked  = {values.sunday_is_open === 1? true : false}  /></label> 
+                            <label> Sunday {sundayIsOpen} </label> 
+                            {/* <label> Open  </label> <Switch onClick={()=>SundayTogglerHandeler(values.sunday_is_open)} defaultChecked = {sundayIsOpen == 1?true:false } /> */}
+                            
+
+
+                            <ToggleButtonGroup
+                                size='small'
+                                value={sundayIsOpen==1?"ON":"OFF"}
+                                exclusive
+                                onChange={()=> SundayTogglerHandeler(sundayIsOpen)}
+                            >
+                                <ToggleButton value="ON">ON</ToggleButton>
+                                <ToggleButton value="OFF">OFF</ToggleButton>
+                            </ToggleButtonGroup>
+
+                        </Stack>
+                        <Stack
+                            direction="row"
+                            justifyContent="space-between"
+                            alignItems="flex-start"
+                            margin={0}
+                            spacing={2}
+                        >
+                            <TextField
+                                fullWidth
+                                InputLabelProps={{
+                                  shrink: true,
+                                }}
+                                type= "time"
+                                label="Start Time"
+                                value = {sundayStartTime}
+                                onChange = {SundayStartTimeHandler}
+                                // {...getFieldProps('sunday_start_time')}
+                                // error={Boolean(touched.sunday_start_time && errors.sunday_start_time)}
+                                // helperText={touched.sunday_start_time && errors.sunday_start_time}
+                            />  
+
+                            <TextField
+                               fullWidth
+                               InputLabelProps={{
+                                 shrink: true,
+                               }}
+                               type= "time"
+                               label="Close Time"
+                               value = {sundayCloseTime}
+                               onChange = {SundayCloseTimeHandler}
+                                // {...getFieldProps('sunday_close_time')}
+                                // error={Boolean(touched.sunday_close_time && errors.sunday_close_time)}
+                                // helperText={touched.sunday_close_time && errors.sunday_close_time}
+                            />  
+                        </Stack>
+
+                        <Stack
+                            direction="row"
+                            justifyContent="space-between"
+                            alignItems="flex-start"
+                            margin={0}
+                        >
+                            <label> Monday {mondayIsopen}</label> 
+                            {/* <label> Open <Switch onChange={()=>MondayTogglerHandeler(values.monday_is_open)}  defaultChecked  = {values.monday_is_open == 1? true : false}  /></label>  */}
+                      
+                            <ToggleButtonGroup
+                                size='small'
+                                value={mondayIsopen==1?"ON":"OFF"}
+                                exclusive
+                                onChange={()=> MondayTogglerHandeler(mondayIsopen)}
+                            >
+                                <ToggleButton value="ON">ON</ToggleButton>
+                                <ToggleButton value="OFF">OFF</ToggleButton>
+                            </ToggleButtonGroup>  
+                        
                         </Stack>
 
                         <Stack
@@ -589,9 +801,12 @@ function Update() {
                                 }}
                                 type= "time"
                                 label="Start Time"
-                                {...getFieldProps('sunday_start_time')}
-                                error={Boolean(touched.sunday_start_time && errors.sunday_start_time)}
-                                helperText={touched.sunday_start_time && errors.sunday_start_time}
+                                value = {mondayStartTime}
+                                onChange = {MondayStartTimeHandler}
+                                
+                                // {...getFieldProps('monday_start_time')}
+                                // error={Boolean(touched.monday_start_time && errors.monday_start_time)}
+                                // helperText={touched.monday_start_time && errors.monday_start_time}
                             />  
 
                             <TextField
@@ -601,9 +816,11 @@ function Update() {
                                 }}
                                 type= "time"
                                 label="Close Time"
-                                {...getFieldProps('sunday_close_time')}
-                                error={Boolean(touched.sunday_close_time && errors.sunday_close_time)}
-                                helperText={touched.sunday_close_time && errors.sunday_close_time}
+                                value = {mondayCloseTime}
+                                onChange = {MondayCloseTimeHandler}
+                                // {...getFieldProps('monday_close_time')}
+                                // error={Boolean(touched.monday_close_time && errors.monday_close_time)}
+                                // helperText={touched.monday_close_time && errors.monday_close_time}
                             />  
                         </Stack>
 
@@ -613,8 +830,19 @@ function Update() {
                             alignItems="flex-start"
                             margin={0}
                         >
-                            <label> Monday</label> 
-                            <label> Open <Switch onChange={()=>MondayTogglerHandeler(values.monday_is_open)}  defaultChecked  = {values.monday_is_open === 1? true : false}  /></label> 
+                            <label> Tuesday {values.tuesday_is_open}</label> 
+                            {/* <label> Open <Switch onChange={()=>TuesdayTogglerHandeler(values.tuesday_is_open)} defaultChecked  = {values.tuesday_is_open == 1? true : false}  /></label>  */}
+                            
+                            <ToggleButtonGroup
+                                size='small'
+                                value={tuesdayIsOpen==1?"ON":"OFF"}
+                                exclusive
+                                onChange={()=> TuesdayTogglerHandeler(tuesdayIsOpen)}
+                            >
+                                <ToggleButton value="ON">ON</ToggleButton>
+                                <ToggleButton value="OFF">OFF</ToggleButton>
+                            </ToggleButtonGroup> 
+                        
                         </Stack>
 
                         <Stack
@@ -631,9 +859,11 @@ function Update() {
                                 }}
                                 type= "time"
                                 label="Start Time"
-                                {...getFieldProps('monday_start_time')}
-                                error={Boolean(touched.monday_start_time && errors.monday_start_time)}
-                                helperText={touched.monday_start_time && errors.monday_start_time}
+                                value = {tuesdayStartTime}
+                                onChange = {TuesdayStartTimeHandler}
+                                // {...getFieldProps('tuesday_start_time')}
+                                // error={Boolean(touched.tuesday_start_time && errors.tuesday_start_time)}
+                                // helperText={touched.tuesday_start_time && errors.tuesday_start_time}
                             />  
 
                             <TextField
@@ -643,9 +873,11 @@ function Update() {
                                 }}
                                 type= "time"
                                 label="Close Time"
-                                {...getFieldProps('monday_close_time')}
-                                error={Boolean(touched.monday_close_time && errors.monday_close_time)}
-                                helperText={touched.monday_close_time && errors.monday_close_time}
+                                value = {tuesdayCloseTime}
+                                onChange = {TuesdayCloseimeHandler}
+                                // {...getFieldProps('tuesday_close_time')}
+                                // error={Boolean(touched.tuesday_close_time && errors.tuesday_close_time)}
+                                // helperText={touched.tuesday_close_time && errors.tuesday_close_time}
                             />  
                         </Stack>
 
@@ -655,8 +887,20 @@ function Update() {
                             alignItems="flex-start"
                             margin={0}
                         >
-                            <label> Tuesday</label> 
-                            <label> Open <Switch onChange={()=>TuesdayTogglerHandeler(values.tuesday_is_open)} defaultChecked  = {values.tuesday_is_open === 1? true : false}  /></label> 
+                            <label> Wednesday {values.wednesday_is_open} </label> 
+                            {/* <label> Open <Switch onChange={()=>WednesdayTogglerHandeler(values.wednesday_is_open)}  defaultChecked  = {values.wednesday_is_open == "1"? true : false}  /></label>  */}
+                              
+                            <ToggleButtonGroup
+                                size='small'
+                                value={wednesdayIsOpen==1?"ON":"OFF"}
+                                exclusive
+                                onChange={()=> WednesdayTogglerHandeler(wednesdayIsOpen)}
+                            >
+                                <ToggleButton value="ON">ON</ToggleButton>
+                                <ToggleButton value="OFF">OFF</ToggleButton>
+                            </ToggleButtonGroup>  
+                        
+                        
                         </Stack>
 
                         <Stack
@@ -673,9 +917,11 @@ function Update() {
                                 }}
                                 type= "time"
                                 label="Start Time"
-                                {...getFieldProps('tuesday_start_time')}
-                                error={Boolean(touched.tuesday_start_time && errors.tuesday_start_time)}
-                                helperText={touched.tuesday_start_time && errors.tuesday_start_time}
+                                value = {wednesdayStartTime}
+                                onChange = {WednesdayStartTimeHandler}
+                                // {...getFieldProps('wednesday_start_time')}
+                                // error={Boolean(touched.wednesday_start_time && errors.wednesday_start_time)}
+                                // helperText={touched.wednesday_start_time && errors.wednesday_start_time}
                             />  
 
                             <TextField
@@ -685,9 +931,11 @@ function Update() {
                                 }}
                                 type= "time"
                                 label="Close Time"
-                                {...getFieldProps('tuesday_close_time')}
-                                error={Boolean(touched.tuesday_close_time && errors.tuesday_close_time)}
-                                helperText={touched.tuesday_close_time && errors.tuesday_close_time}
+                                value = {wednesdayCloseTime}
+                                onChange = {WednesdayCloseTimeHandler}
+                                // {...getFieldProps('wednesday_close_time')}
+                                // error={Boolean(touched.wednesday_close_time && errors.wednesday_close_time)}
+                                // helperText={touched.wednesday_close_time && errors.wednesday_close_time}
                             />  
                         </Stack>
 
@@ -697,8 +945,18 @@ function Update() {
                             alignItems="flex-start"
                             margin={0}
                         >
-                            <label> Wednesday</label> 
-                            <label> Open <Switch onChange={()=>WednesdayTogglerHandeler(values.wednesday_is_open)}  defaultChecked  = {values.wednesday_is_open === 1? true : false}  /></label> 
+                            <label> Thursday {values.thursday_is_open} </label> 
+                            {/* <label> Open <Switch onChange={()=>ThursdayTogglerHandeler(values.thursday_is_open)} defaultChecked  = {values.thursday_is_open == 1? true : false}  /></label>  */}
+                            <ToggleButtonGroup
+                                size='small'
+                                value={thursdayIsOpen==1?"ON":"OFF"}
+                                exclusive
+                                onChange={()=> ThursdayTogglerHandeler(thursdayIsOpen)}
+                            >
+                                <ToggleButton value="ON">ON</ToggleButton>
+                                <ToggleButton value="OFF">OFF</ToggleButton>
+                            </ToggleButtonGroup> 
+                        
                         </Stack>
 
                         <Stack
@@ -715,9 +973,11 @@ function Update() {
                                 }}
                                 type= "time"
                                 label="Start Time"
-                                {...getFieldProps('wednesday_start_time')}
-                                error={Boolean(touched.wednesday_start_time && errors.wednesday_start_time)}
-                                helperText={touched.wednesday_start_time && errors.wednesday_start_time}
+                                value = {thursdayStartTime}
+                                onChange = {ThursdayStartTimeHandler}
+                                // {...getFieldProps('thursday_start_time')}
+                                // error={Boolean(touched.thursday_start_time && errors.thursday_start_time)}
+                                // helperText={touched.thursday_start_time && errors.thursday_start_time}
                             />  
 
                             <TextField
@@ -727,51 +987,11 @@ function Update() {
                                 }}
                                 type= "time"
                                 label="Close Time"
-                                {...getFieldProps('wednesday_close_time')}
-                                error={Boolean(touched.wednesday_close_time && errors.wednesday_close_time)}
-                                helperText={touched.wednesday_close_time && errors.wednesday_close_time}
-                            />  
-                        </Stack>
-
-                        <Stack
-                            direction="row"
-                            justifyContent="space-between"
-                            alignItems="flex-start"
-                            margin={0}
-                        >
-                            <label> Thursday</label> 
-                            <label> Open <Switch onChange={()=>ThursdayTogglerHandeler(values.thursday_is_open)} defaultChecked  = {values.thursday_is_open === 1? true : false}  /></label> 
-                        </Stack>
-
-                        <Stack
-                            direction="row"
-                            justifyContent="space-between"
-                            alignItems="flex-start"
-                            margin={0}
-                            spacing={2}
-                        >
-                            <TextField
-                                fullWidth
-                                InputLabelProps={{
-                                  shrink: true,
-                                }}
-                                type= "time"
-                                label="Start Time"
-                                {...getFieldProps('thursday_start_time')}
-                                error={Boolean(touched.thursday_start_time && errors.thursday_start_time)}
-                                helperText={touched.thursday_start_time && errors.thursday_start_time}
-                            />  
-
-                            <TextField
-                                fullWidth
-                                InputLabelProps={{
-                                  shrink: true,
-                                }}
-                                type= "time"
-                                label="Close Time"
-                                {...getFieldProps('thursday_close_time')}
-                                error={Boolean(touched.thursday_close_time && errors.thursday_close_time)}
-                                helperText={touched.thursday_close_time && errors.thursday_close_time}
+                                value = {thursdayCloseTime}
+                                onChange = {ThursdayCloseTimeHandler}
+                                // {...getFieldProps('thursday_close_time')}
+                                // error={Boolean(touched.thursday_close_time && errors.thursday_close_time)}
+                                // helperText={touched.thursday_close_time && errors.thursday_close_time}
                             />  
                         </Stack>
 
@@ -783,8 +1003,19 @@ function Update() {
                             alignItems="flex-start"
                             margin={0}
                         >
-                            <label> Friday</label> 
-                            <label> Open <Switch onChange={()=>FridayTogglerHandeler(values.friday_is_open)} defaultChecked  = {values.friday_is_open === 1? true : false}  /></label> 
+                            <label> Friday {values.friday_is_open}</label> 
+                            {/* <label> Open <Switch onChange={()=>FridayTogglerHandeler(values.friday_is_open)} defaultChecked  = {values.friday_is_open == 1? true : false}  /></label>  */}
+                            
+                            <ToggleButtonGroup
+                                size='small'
+                                value={fridayIsOpen==1?"ON":"OFF"}
+                                exclusive
+                                onChange={()=> FridayTogglerHandeler(fridayIsOpen)}
+                            >
+                                <ToggleButton value="ON">ON</ToggleButton>
+                                <ToggleButton value="OFF">OFF</ToggleButton>
+                            </ToggleButtonGroup> 
+                       
                         </Stack>
 
                         <Stack
@@ -801,9 +1032,11 @@ function Update() {
                                 }}
                                 type= "time"
                                 label="Start Time"
-                                {...getFieldProps('friday_start_time')}
-                                error={Boolean(touched.friday_start_time && errors.friday_start_time)}
-                                helperText={touched.friday_start_time && errors.friday_start_time}
+                                value = {fridayStartTime}
+                                onChange = {FridayStartTimeHandler}
+                                // {...getFieldProps('friday_start_time')}
+                                // error={Boolean(touched.friday_start_time && errors.friday_start_time)}
+                                // helperText={touched.friday_start_time && errors.friday_start_time}
                             />  
 
                             <TextField
@@ -813,9 +1046,11 @@ function Update() {
                                 }}
                                 type= "time"
                                 label="Start Time"
-                                {...getFieldProps('friday_close_time')}
-                                error={Boolean(touched.friday_close_time && errors.friday_close_time)}
-                                helperText={touched.friday_close_time && errors.friday_close_time}
+                                value = {fridayCloseTime}
+                                onChange = {FridayCloseTimeHandler}
+                                // {...getFieldProps('friday_close_time')}
+                                // error={Boolean(touched.friday_close_time && errors.friday_close_time)}
+                                // helperText={touched.friday_close_time && errors.friday_close_time}
                             />  
                         </Stack>
                         
@@ -826,8 +1061,18 @@ function Update() {
                             alignItems="flex-start"
                             margin={0}
                         >
-                            <label> Saturday</label> 
-                            <label> Open <Switch onChange={()=>SaturdayTogglerHandeler(values.sunday_is_open)} defaultChecked  = {values.saturday_is_open === 1? true : false}  /></label> 
+                            <label> Saturday {values.saturday_is_open}</label> 
+                            {/* <label> Open <Switch onChange={()=>SaturdayTogglerHandeler(values.saturday_is_open)} defaultChecked  = {values.saturday_is_open == 1? true : false}  /></label>  */}
+                            <ToggleButtonGroup
+                                size='small'
+                                value={saturdayIsOpen==1?"ON":"OFF"}
+                                exclusive
+                                onChange={()=> SaturdayTogglerHandeler(saturdayIsOpen)}
+                            >
+                                <ToggleButton value="ON">ON</ToggleButton>
+                                <ToggleButton value="OFF">OFF</ToggleButton>
+                            </ToggleButtonGroup> 
+                        
                         </Stack>
 
                         <Stack
@@ -844,9 +1089,11 @@ function Update() {
                                 }}
                                 type= "time"
                                 label="Start Time"
-                                {...getFieldProps('saturday_start_time')}
-                                error={Boolean(touched.saturday_start_time && errors.saturday_start_time)}
-                                helperText={touched.saturday_start_time && errors.saturday_start_time}
+                                value = {saturdayStartTime}
+                                onChange = {SaturdayStartTimeHandler}
+                                // {...getFieldProps('saturday_start_time')}
+                                // error={Boolean(touched.saturday_start_time && errors.saturday_start_time)}
+                                // helperText={touched.saturday_start_time && errors.saturday_start_time}
                             />  
 
                             <TextField
@@ -856,9 +1103,11 @@ function Update() {
                                 }}
                                 type= "time"
                                 label="Close Time"
-                                {...getFieldProps('saturday_close_time')}
-                                error={Boolean(touched.saturday_close_time && errors.saturday_close_time)}
-                                helperText={touched.saturday_close_time && errors.saturday_close_time}
+                                value = {saturdayCloseTime}
+                                onChange = {SaturdayCloseTimeHandler}
+                                // {...getFieldProps('saturday_close_time')}
+                                // error={Boolean(touched.saturday_close_time && errors.saturday_close_time)}
+                                // helperText={touched.saturday_close_time && errors.saturday_close_time}
                             />  
                         </Stack>       
               
