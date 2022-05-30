@@ -235,7 +235,7 @@ export default function Banner() {
                           </TableCell>
                           <TableCell align="left">{email}</TableCell>
                           <TableCell align="left">{phone}</TableCell>
-                          <TableCell align="left">{wallet_data? wallet_data.balance : "empty"}</TableCell>
+                          <TableCell align="left">{wallet_data? wallet_data?.balance +" RM" : "empty"}</TableCell>
                           <TableCell align="left">
                             <Moment format="DD-MM-YYYY hh:mm a" >{created_at}</Moment>
                           </TableCell>

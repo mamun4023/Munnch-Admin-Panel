@@ -255,9 +255,9 @@ export default function Withdrawal() {
                           <TableCell align="left">{CapitalizeFirstLetter(customer?.email)}</TableCell>
                           <TableCell align="left">{customer?.phone}</TableCell>
                           <TableCell align="left">{CapitalizeFirstLetter(store_bank?.holder_name)}</TableCell>
-                          <TableCell align="left">{store_bank?.bank.name}</TableCell>
+                          <TableCell align="left">{store_bank?.bank?.name}</TableCell>
                           <TableCell align="left">{store_bank?.account_number}</TableCell>
-                          <TableCell align="left">{amount}</TableCell>
+                          <TableCell align="left">{amount} RM</TableCell>
                           <TableCell align="left">
                             <Moment format="DD-MM-YYYY hh:mm a" >{customer?.created_at}</Moment> 
                           </TableCell>   
@@ -265,9 +265,7 @@ export default function Withdrawal() {
                               <Switch 
                                 onChange={()=> StatusChangeHandler(id)}
                                 defaultChecked = {is_withdrawn === 1? true: false}
-
                               />
-
                             </TableCell>
                           <TableCell align="right">
                             {/* <MerchantMoreMenu /> */}
@@ -306,7 +304,7 @@ export default function Withdrawal() {
               filteredUsers.length === 0 || filteredUsers.length < rowsPerPage? {disabled: true} : undefined
             }
           />
-
+          
         </Box>}  
         </Card>
       </Container>

@@ -255,11 +255,10 @@ export default function Withdrawal() {
                           </TableCell>
                           <TableCell align="left">{store?.email}</TableCell>
                           <TableCell align="left">{store?.contact_no}</TableCell>
-                          
                           <TableCell align="left">{CapitalizeFirstLetter(store_bank?.holder_name)}</TableCell>
                           <TableCell align="left">{store_bank?.bank?.name}</TableCell>
                           <TableCell align="left">{store_bank?.account_number}</TableCell>
-                          <TableCell align="left">{amount}</TableCell>
+                          <TableCell align="left">{amount} RM</TableCell>
                           <TableCell align="left">
                             <Moment format="DD-MM-YYYY hh:mm a" >{created_at}</Moment> 
                           </TableCell>   

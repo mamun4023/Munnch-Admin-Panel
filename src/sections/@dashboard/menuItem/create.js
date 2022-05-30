@@ -201,41 +201,43 @@ const removeFields = (index) => {
       //  const FormData = new FormData();
       //  FormData.append('image', values.image);
 
-      const data = {
-        name : values.name,
-        price : values.price,
-        description : values.description,
-        food_type_id : values.food_types.id,
-        cuisine_id : values.cuisine_types.id,
-        category_id : values.categories.id,
-        food_item_type : values.food_item_type,
-        food_item_estimate_days : values.food_item_estimate_days,
-        restaurant_id : id,
-        food_addons : inputFields,
-        food_variations : [{
-            "full" : values.variationFull,
-            "half" : values.variationHalf
-          }],
-      }
+      // const data = {
+      //   name : values.name,
+      //   price : values.price,
+      //   description : values.description,
+      //   food_type_id : values.food_types.id,
+      //   cuisine_id : values.cuisine_types.id,
+      //   category_id : values.categories.id,
+      //   food_item_type : values.food_item_type,
+      //   food_item_estimate_days : values.food_item_estimate_days,
+      //   restaurant_id : id,
+      //   food_addons : inputFields,
+      //   food_variations : [{
+      //       "full" : values.variationFull,
+      //       "half" : values.variationHalf
+      //     }],
+      // }
 
-      // const data = new FormData();
-      // data.append('name', values.name);
-      // data.append('price', values.price);
-      // data.append('description', values.description);
-      // data.append('food_type_id', values.food_types.id);
-      // data.append("cuisine_id", values.cuisine_types.id);
-      // data.append("category_id", values.categories.id)
-      // data.append("food_item_type",  values.food_item_type);
-      // data.append("food_item_estimate_days", values.food_item_estimate_days);
-      // data.append("restaurant_id", id);
+      const data = new FormData();
+      data.append('name', values.name);
+      data.append('price', values.price);
+      data.append('description', values.description);
+      data.append('food_type_id', values.food_types.id);
+      data.append("cuisine_id", values.cuisine_types.id);
+      data.append("category_id", values.categories.id)
+      data.append("food_item_type",  values.food_item_type);
+      data.append("food_item_estimate_days", values.food_item_estimate_days);
+      data.append("restaurant_id", id);
 
-      // // for (let i=0; i< inputFields.length; i++){
-      // //   data.append('food_addons', inputFields[i]);
-      // // }
+      // for (let i=0; i< inputFields.length; i++){
+      //   data.append('food_addons', inputFields[i]);
+      // }
+
+      inputFields.forEach(item => data.append("food_addons[]", item))
 
       // data.append(inputFields, "food_addons");
       // data.append([{"full" : values.variationFull, "half" : values.variationHalf }], 'food_variations')
-      // data.append('image', values.image);
+      data.append('image', values.image);
 
 
     // var formData = new FormData();

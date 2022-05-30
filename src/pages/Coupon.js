@@ -334,9 +334,9 @@ export default function Coupon() {
                           <TableCell align="left">{code.toUpperCase()}</TableCell>
                           <TableCell align="left">{coupon_type == 1 ? "Fixed" : "Percentage"}</TableCell>
                           {/* <TableCell align="left">{discount_type_name}</TableCell> */}
-                          <TableCell align="left">{coupon_type == 1? amount : "--"}</TableCell>
+                          <TableCell align="left">{coupon_type == 1? amount + " RM" : "--"}</TableCell>
                           <TableCell align="left">{coupon_type == 2? amount : "--"}</TableCell>
-                          <TableCell align="left">{max_discount== 0? "--":max_discount}</TableCell>
+                          <TableCell align="left">{max_discount== 0? "--":max_discount+" RM"}</TableCell>
                           <TableCell align="left">
                             <Moment format="DD-MM-YYYY" >{start_date}</Moment>
                           </TableCell>
@@ -350,10 +350,10 @@ export default function Coupon() {
                               defaultChecked = {is_active? is_active : is_active}
                             />  
                           </TableCell>
-                          <TableCell align="left">{usage_per_user}</TableCell>
-                          <TableCell align="left">{minimum_spend}</TableCell>
-                          <TableCell align="left">{maximum_spend}</TableCell>
-                          <TableCell align="left">{maximum_usage_limit}</TableCell>
+                          <TableCell align="left">{usage_per_user} Time</TableCell>
+                          <TableCell align="left">{minimum_spend} RM</TableCell>
+                          <TableCell align="left">{maximum_spend} RM</TableCell>
+                          <TableCell align="left">{maximum_usage_limit} Time</TableCell>
                           <TableCell align="left"> {is_expired? "Yes" : "--"} </TableCell>
                           <TableCell align="left">{is_exhausted?"Yes": "--"}</TableCell> 
                           <TableCell align="left">{CapitalizeFirstLetter(ReduceDescription(description?description : "--"))}</TableCell> 
