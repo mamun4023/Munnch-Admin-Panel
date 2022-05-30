@@ -6,13 +6,18 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { Box } from '@mui/material';
-import Moment from 'react-moment';
 import moment from 'moment';
 
 export default function BasicTable({timing}) {
 
-  // console.log("TImming is", timing)
+  // sorting days
+  const map = {
+    'Sunday': 1,'Monday': 2,'Tuesday': 3,'Wednesday': 4,'Thursday': 5,'Friday': 6,
+    'Saturday': 7
+  };
+  timing.sort((a, b) => {
+    return map[a.day] - map[b.day];
+  });
 
   return (
     <TableContainer component={Paper}>
@@ -35,7 +40,6 @@ export default function BasicTable({timing}) {
                       {
                         moment(data.start_time, "HH:mm:ss").format("hh:mm A")
                       }
-
                    </TableCell>
                    <TableCell align="right"> 
                       {

@@ -257,7 +257,7 @@ export default function Withdrawal() {
                           <TableCell align="left">{store?.contact_no}</TableCell>
                           
                           <TableCell align="left">{CapitalizeFirstLetter(store_bank?.holder_name)}</TableCell>
-                          <TableCell align="left">{store_bank?.bank.name}</TableCell>
+                          <TableCell align="left">{store_bank?.bank?.name}</TableCell>
                           <TableCell align="left">{store_bank?.account_number}</TableCell>
                           <TableCell align="left">{amount}</TableCell>
                           <TableCell align="left">
