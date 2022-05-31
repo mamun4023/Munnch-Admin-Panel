@@ -1,5 +1,3 @@
-
-
 import * as Yup from 'yup';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
@@ -36,12 +34,6 @@ import {UpdateMenu} from '../../../redux/menu/update/action';
 
 // ----------------------------------------------------------------------
 
-// const FoodType = ['Burgers', 'Nasi Lemak', 'Ice Latte', 'Sushi', 'Fried Chicken'];
-// const Cuisines = ['Asian', 'Western', 'Arabian', 'Russian'];
-// const Category = ['Category 1', 'Category 2', "Category 3"];
-// const Addons = ['Addon 1','Addon 2','Addon 3','Addon 4','Addon 5'];
-// const Variations = ['Variation 1', 'Variation 2','Variation 3','Variation 4', 'Variation 5']
-
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
 const MenuProps = {
@@ -53,32 +45,31 @@ const MenuProps = {
   },
 };
 
-// function getStyles(name, personName, theme) {
-//   return {
-//     fontWeight:
-//       personName.indexOf(name) === -1
-//         ? theme.typography.fontWeightRegular
-//         : theme.typography.fontWeightMedium,
-//   };
-// }
 
-export default function Create() {
+function AddonsFilter(data){
+  for(let i = 0; i<data.length; i++){
+    delete data[i].created_at;
+    delete data[i].store_menu_item_id;
+    delete data[i].updated_at;
+  }
+  return data;
+}
+
+export default function Update() {
   const {id} = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   const [SingleMenu, setSingleMenu] = useState([]);
 
-  const [inputFields, setInputFields] = useState([
-    { name: '', price: '' },
-  ])
-
+  const [inputFields, setInputFields] = useState([])
 
   const FetchMenu = (id)=>{
     FetchSingleMenu(id)
       .then((res)=>{
           const response = res.data.data;
           setSingleMenu(response)
+          setInputFields(AddonsFilter(response?.menu_item_addons))
       })
   }
 
@@ -93,8 +84,8 @@ export default function Create() {
     data[index][event.target.name] = event.target.value;
     setInputFields(data);
  }
-
   // console.log(inputFields)
+
   const addFields = (e) => {
     e.preventDefault();
     let newfield = { name: '', price: '' }
@@ -114,10 +105,6 @@ const removeFields = (index) => {
   const[selectedCuisine, setSelectedCuisineList] = useState();
   const[categoryList, setCategoryList] = useState([]);
   const[selectedCategory, setSelectedCategoryList] = useState();
-
-
-      // console.log("selectedFoodList", selectedFoodList)
- 
 
   const LoadListData = ()=>{
     FetchCuisineTypeList()
@@ -142,33 +129,6 @@ const removeFields = (index) => {
   useEffect(()=>{
     LoadListData();
   },[])
-
- 
-  // // const theme = useTheme()
-  // const [addons, setAddons] = useState([]);
-  // const [variations, setVariations] = useState([]);
-
-
-  // const handleAddonsChange = (event) => {
-  //   const {
-  //     target: { value },
-  //   } = event;
-  //   setAddons(
-  //     // On autofill we get a stringified value.
-  //     typeof value === 'string' ? value.split(',') : value,
-  //   );
-  // };
-
-
-  // const handleVariationsChange = (event) => {
-  //   const {
-  //     target: { value },
-  //   } = event;
-  //   setVariations(
-  //     // On autofill we get a stringified value.
-  //     typeof value === 'string' ? value.split(',') : value,
-  //   );
-  // };
 
   const MenuItemSchema = Yup.object().shape({
     name: Yup.string().required('Name is required'),
@@ -196,66 +156,36 @@ const removeFields = (index) => {
       food_item_estimate_days : SingleMenu?.food_item_estimate_days,
       restaurant_id : SingleMenu.store?.id,
       addons : '',
-      variationHalf : '',
-      variationFull : ''
+      variationHalf : SingleMenu?.menu_item_variations?.[0]?.half_price,
+      variationFull : SingleMenu?.menu_item_variations?.[0]?.full_price
     },
 
     validationSchema: MenuItemSchema,
     onSubmit: (values) => {
- 
-      // const data = {
-      //   name : values.name,
-      //   price : values.price,
-      //   description : values.description,
-      //   food_type_id : values.food_types.id,
-      //   cuisine_id : values.cuisine_types.id,
-      //   category_id : values.categories.id,
-      //   food_item_type : values.food_item_type,
-      //   food_item_estimate_days : values.food_item_estimate_days,
-      //   restaurant_id : id,
-      //   food_addons : inputFields,
-      //   food_variations : {
-      //       "full" : values.variationFull,
-      //       "half" : values.variationHalf
-      //     },
-      //   image : "",
-      // }
-
-      const data = new FormData();
-
-      if(values.image == null){
-        data.append('name', values.name);
-        data.append('price', values.price);
-        data.append('description', values.description);
-        data.append('food_type_id', values.food_types.id);
-        data.append("cuisine_id", values.cuisine_types.id);
-        data.append("category_id", values.categories.id)
-        data.append("food_item_type",  values.food_item_type);
-        data.append("food_item_estimate_days", values.food_item_estimate_days);
-        data.append("restaurant_id", values.restaurant_id);
-        data.append(inputFields, "food_addons");
-        data.append([{"full" : values.variationFull, "half" : values.variationHalf }], 'food_variations')
-
-      }else{
-        data.append('name', values.name);
-        data.append('price', values.price);
-        data.append('description', values.description);
-        data.append('food_type_id', values.food_types.id);
-        data.append("cuisine_id", values.cuisine_types.id);
-        data.append("category_id", values.categories.id)
-        data.append("food_item_type",  values.food_item_type);
-        data.append("food_item_estimate_days", values.food_item_estimate_days);
-        data.append("restaurant_id", values.restaurant_id);
-        data.append(inputFields, "food_addons");
-        data.append([{"full" : values.variationFull, "half" : values.variationHalf }], 'food_variations')
-        data.append('image', values.image);
+      const form = new FormData();
+      form.append("name", values.name);
+      form.append("description", values.description);
+      form.append("price", values.price);
+      form.append("food_type_id", String(values.food_types.id));
+      form.append("cuisine_id", String(values.cuisine_types.id));
+      form.append("category_id", String(values.categories.id));
+      form.append("food_item_type", values.food_item_type)
+      if(values.image != null){
+        form.append("image", values.image);
+      }
+      form.append("food_variations[full]", values.variationFull);
+      form.append("food_variations[half]", values.variationHalf);
+      form.append("food_item_estimate_days", values.food_item_estimate_days);
+      form.append("restaurant_id", values.restaurant_id);
+      if (inputFields?.length) {
+        inputFields.forEach((item, index) => {
+          form.append(`food_addons[${index}][name]`, item?.name);
+          form.append(`food_addons[${index}][price]`, item?.price);
+        });
       }
 
-
-      // console.log(data)
-
       setLoading(true);
-      UpdateMenu(id, data)
+      UpdateMenu(id, form)
         .then(res =>{
           const response = res.data.message;
           setLoading(false);
@@ -281,7 +211,6 @@ const removeFields = (index) => {
             
         <Grid
             container
-            // item xs={8} 
             spacing={0}
             direction="column"
             alignItems="center"
@@ -298,14 +227,12 @@ const removeFields = (index) => {
                               InputLabelProps={{
                                  shrink : true                                
                               }}
-                              
                               type="text"
                               label="Name"
                               {...getFieldProps('name')}
                               error={Boolean(touched.name && errors.name)}
                               helperText={touched.name && errors.name}
                           />
-
                           <TextField
                               fullWidth
                               InputLabelProps={{
@@ -317,7 +244,6 @@ const removeFields = (index) => {
                               error={Boolean(touched.price && errors.price)}
                               helperText={touched.price && errors.price}
                           />
-
                             <TextField
                               fullWidth
                               InputLabelProps={{
@@ -331,7 +257,6 @@ const removeFields = (index) => {
                               error={Boolean(touched.description && errors.description)}
                               helperText={touched.description && errors.description}
                           />
-
                           {values.food_types? 
                           <Autocomplete
                               options={foodList}
@@ -349,7 +274,6 @@ const removeFields = (index) => {
                                   /> }
                           />  
                           : null}
-
                          {values.cuisine_types? 
                           <Autocomplete
                               // multiple
@@ -389,7 +313,6 @@ const removeFields = (index) => {
                                     helperText={touched.categories && errors.categories} 
                                     /> }
                           />
-
                           : null}
 
                           <TextField
@@ -407,10 +330,8 @@ const removeFields = (index) => {
                             <MenuItem value= "2">Pre Order Item</MenuItem>
                         </TextField> 
 
-
-
                         {
-                        values.food_item_type ==="2" || values.food_item_type === 2? 
+                          values.food_item_type ==="2" || values.food_item_type === 2? 
 
                         <TextField
                             fullWidth
@@ -426,38 +347,18 @@ const removeFields = (index) => {
                         : null
                       }
 
-                        {/* <TextField
-                            fullWidth
-                            InputLabelProps={{
-                              shrink : true                                
-                           }}
-                            type="number"
-                            label="food Item Estimate Days"
-                            {...getFieldProps('food_item_estimate_days')}
-                            error={Boolean(touched.food_item_estimate_days && errors.food_item_estimate_days)}
-                            helperText={touched.food_item_estimate_days && errors.food_item_estimate_days}
-                        />  */}
-
-                        {/* <TextField
-                            fullWidth
-                            type="number"
-                            label="Restaurant ID"
-                            {...getFieldProps('restaurant_id')}
-                            error={Boolean(touched.restaurant_id && errors.restaurant_id)}
-                            helperText={touched.restaurant_id && errors.restaurant_id}
-                        /> */}
-
-                          <h4 style={{ textAlign : "center" }} > Variation </h4>
-                         
+                        <h4 style={{ textAlign : "center" }} > Variation </h4>
                           <Stack
                             direction="row"
                             justifyContent="space-between"
                             alignItems="flex-start"
                             spacing={2}
                           >
-
                             <TextField
                               fullWidth
+                              InputLabelProps={{
+                                shrink : true                                
+                             }}
                               type="number"
                               label="Half"
                               {...getFieldProps('variationHalf')}
@@ -467,6 +368,9 @@ const removeFields = (index) => {
                             />
                             <TextField
                                 fullWidth
+                                InputLabelProps={{
+                                  shrink : true                                
+                               }}
                                 type="number"
                                 label="Full"
                                 {...getFieldProps('variationFull')}
@@ -523,10 +427,10 @@ const removeFields = (index) => {
                         </Stack>
 
                         <img 
-                          src= {SingleMenu.image}
+                            src= {values.image? URL.createObjectURL(values.image):SingleMenu.image}
+                            style = {{maxHeight : "300px"}}
                         />
 
-                          
                         <TextField
                             fullWidth
                             type="file"
@@ -534,8 +438,6 @@ const removeFields = (index) => {
                             error={Boolean(touched.image && errors.image)}
                             helperText={touched.image && errors.image}
                         /> 
-
-
                         <LoadingButton
                             fullWidth
                             size="large"

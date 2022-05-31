@@ -44,12 +44,6 @@ const TABLE_HEAD = [
     id: 'banerName', 
     alignRight: false 
   },
-  // { 
-  //   label: 'SWIFT CODE', 
-  //   id: 'swift_code', 
-  //   alignRight: false 
-  // },
-  
   { 
     label: 'BANK LOGO', 
     id: 'image', 
@@ -109,10 +103,9 @@ function CapitalizeFirstLetter (s){
   return s.charAt(0).toUpperCase() + s.slice(1)
 }
 
-export default function Banner() {
+export default function Bank() {
   const [page, setPage] = useState(1);
   const [order, setOrder] = useState('desc');
-  const [selected, setSelected] = useState([]);
   const [orderBy, setOrderBy] = useState('id');
   const [filterName, setFilterName] = useState('');
   const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -139,7 +132,7 @@ export default function Banner() {
   }, [bankStatus, filterName, page, rowsPerPage, order])
 
   const BankList = useSelector(state => state.FetchBankList.data)
-  // console.log("Banner Data", BankList);
+  // console.log("Bank List", BankList);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -160,8 +153,8 @@ export default function Banner() {
     setFilterName(event.target.value);
   };
 
-  const filteredUsers = applySortFilter(BankList, getComparator(order, orderBy), filterName);
-  const isUserNotFound = filteredUsers.length === 0;
+  const filteredBanks = applySortFilter(BankList, getComparator(order, orderBy), filterName);
+  const isUserNotFound = filteredBanks.length === 0;
 
 
   const StatusTogglerHandler = (id)=>{
@@ -194,7 +187,6 @@ export default function Banner() {
         <Card>
           <div style={{ display:"flex", flexWrap:"wrap", justifyContent:"space-between"}}>
               <BannerListToolbar
-                  numSelected={selected.length}
                   filterName={filterName}
                   onFilterName={handleFilterByName}
                 />
@@ -222,18 +214,14 @@ export default function Banner() {
                   onRequestSort={handleRequestSort}
                 />
                 <TableBody>
-                  {filteredUsers
+                  {filteredBanks
                     .map((row) => {
                       const { id, name, image, is_popular, is_enabled,created_at, updated_at } = row;
-                      const isItemSelected = selected.indexOf(name) !== -1;
                       return (
                         <TableRow
                           hover
                           key={id}
                           tabIndex={-1}
-                          role="checkbox"
-                          selected={isItemSelected}
-                          aria-checked={isItemSelected}
                         >
                           <TableCell align="left">{id}</TableCell>
                           <TableCell align="left">{CapitalizeFirstLetter(name)}</TableCell>
@@ -253,7 +241,6 @@ export default function Banner() {
                             <Switch 
                               onChange={()=> StatusTogglerHandler(id)}
                               defaultChecked = {is_enabled?is_enabled: is_enabled}
-                              
                             />  
                           </TableCell>
                           <TableCell align="right">
@@ -297,7 +284,7 @@ export default function Banner() {
               page == 1 ? {disabled: true} : undefined
             }
             nextIconButtonProps={
-              filteredUsers.length === 0 || filteredUsers.length < rowsPerPage? {disabled: true} : undefined
+              filteredBanks.length === 0 || filteredBanks.length < rowsPerPage? {disabled: true} : undefined
             }
           />
         </Box>}    

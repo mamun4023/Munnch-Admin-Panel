@@ -212,46 +212,70 @@ const removeFields = (index) => {
       //   food_item_estimate_days : values.food_item_estimate_days,
       //   restaurant_id : id,
       //   food_addons : inputFields,
-      //   food_variations : [{
+      //   food_variations : {
       //       "full" : values.variationFull,
       //       "half" : values.variationHalf
-      //     }],
+      //     },
       // }
 
-      const data = new FormData();
-      data.append('name', values.name);
-      data.append('price', values.price);
-      data.append('description', values.description);
-      data.append('food_type_id', values.food_types.id);
-      data.append("cuisine_id", values.cuisine_types.id);
-      data.append("category_id", values.categories.id)
-      data.append("food_item_type",  values.food_item_type);
-      data.append("food_item_estimate_days", values.food_item_estimate_days);
-      data.append("restaurant_id", id);
+      // const data = new FormData();
+      // data.append('name', values.name);
+      // data.append('price', values.price);
+      // data.append('description', values.description);
+      // data.append('food_type_id', values.food_types.id);
+      // data.append("cuisine_id", values.cuisine_types.id);
+      // data.append("category_id", values.categories.id)
+      // data.append("food_item_type",  values.food_item_type);
+      // data.append("food_item_estimate_days", values.food_item_estimate_days);
+      // data.append("restaurant_id", id);
 
       // for (let i=0; i< inputFields.length; i++){
-      //   data.append('food_addons', inputFields[i]);
+      //   data.append('food_addons[]', inputFields[i]);
       // }
 
-      inputFields.forEach(item => data.append("food_addons[]", item))
+      // inputFields.forEach(item => data.append("food_addons", item))
 
-      // data.append(inputFields, "food_addons");
-      // data.append([{"full" : values.variationFull, "half" : values.variationHalf }], 'food_variations')
-      data.append('image', values.image);
+    //   barArray.forEach(function (element) {
+    //     data.append('foo[][item]', element.item);
+    // })
 
+      // data.append("food_addons[]", JSON.stringify(inputFields));
+      // data.append('food_variations{}',  JSON.stringify({"full" : values.variationFull, "half" : values.variationHalf }))
+      // data.append('image', values.image);
 
     // var formData = new FormData();
     // createFormData(formData, 'data', data);
    
-      console.log("data",data)
+      // console.log("data",data)
+
+
+    const form = new FormData();
+    form.append("name", values.name);
+    form.append("description", values.description);
+    form.append("price", values.price);
+    form.append("food_type_id", String(values.food_types.id));
+    form.append("cuisine_id", String(values.cuisine_types.id));
+    form.append("category_id", String(values.categories.id));
+    form.append("food_item_type", values.food_item_type)
+    form.append("image", values.image);
+    form.append("food_variations[full]", values.variationFull);
+    form.append("food_variations[half]", values.variationHalf);
+    form.append("food_item_estimate_days", values.food_item_estimate_days);
+    form.append("restaurant_id", id);
+    if (inputFields?.length) {
+      inputFields.forEach((item, index) => {
+        form.append(`food_addons[${index}][name]`, item?.name);
+        form.append(`food_addons[${index}][price]`, item?.price);
+      });
+    }
 
       setLoading(true);
-      AddMenu(data)
+      AddMenu(form)
         .then(res =>{
           const response = res.data.message;
           setLoading(false);
           toast.dark(response)
-          // navigate(`/dashboard/merchant/menu/${id}`, { replace: true });
+          navigate(`/dashboard/merchant/menu/${id}`, { replace: true });
         })
         .catch((err)=>{
           setLoading(false);
@@ -328,7 +352,6 @@ const removeFields = (index) => {
                                       helperText={touched.food_types && errors.food_types}
                                   /> }
                           />  
-
                           <Autocomplete
                               // multiple
                               fullWidth

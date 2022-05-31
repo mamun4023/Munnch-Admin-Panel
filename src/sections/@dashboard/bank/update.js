@@ -1,26 +1,20 @@
 import * as Yup from 'yup';
 import { useEffect, useState } from 'react';
 import { Link as RouterLink, useNavigate, useParams } from 'react-router-dom';
-import { Grid, MenuItem, Select, InputLabel, FormControl, Typography } from '@mui/material';
 import { useFormik, Form, FormikProvider } from 'formik';
 import { toast } from 'material-react-toastify';
 import {useDispatch, useSelector} from 'react-redux';
 // material
 import {
-  Link,
   Stack,
-  Checkbox,
   TextField,
-  IconButton,
-  InputAdornment,
-  FormControlLabel
+  Grid,
+  MenuItem, 
+  Typography 
 } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
-// component
-import Iconify from '../../../components/Iconify';
 import {FetchSingleBank} from '../../../redux/bank/fetchSingle/action';
 import {UpdateBank} from '../../../redux/bank/update/action';
-
 
 // ----------------------------------------------------------------------
 
@@ -37,8 +31,6 @@ export default function Update() {
 
   const SingleBank = useSelector(state => state.FetchSingleBank.data);
 
-  console.log("Single bank", SingleBank)
-
   const BankSchema = Yup.object().shape({
     name : Yup.string().required('Bank Name is required'),
     is_popular: Yup.string().required('Popularity is required'),
@@ -52,11 +44,12 @@ export default function Update() {
     },
     validationSchema: BankSchema,
     onSubmit: (values) => {
-
       const data = new FormData();
       data.append('name', values.name);
       data.append('is_popular', values.is_popular);
-      data.append('image', image);
+      if(image != undefined){
+        data.append('image', image);
+      }
       data.append('_method', 'PUT')
 
       setLoading(true)
@@ -102,7 +95,6 @@ export default function Update() {
                             error={Boolean(touched.name && errors.name)}
                             helperText={touched.name && errors.name}
                         />
-
                         <TextField
                             fullWidth
                             select
@@ -114,9 +106,10 @@ export default function Update() {
                             <MenuItem value= "1">Yes</MenuItem>
                             <MenuItem value= "0">No</MenuItem>
                         </TextField> 
-
+                        
                         <img 
-                          src= {SingleBank.image}
+                          src= { image?(URL.createObjectURL(image)):SingleBank?.image}
+                          style = {{ maxHeight : "300px"}}
                         />
 
                         <TextField

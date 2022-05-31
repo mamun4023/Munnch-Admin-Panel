@@ -17,7 +17,6 @@ import FetchSingleFoodListReducer from './food/fetchSingle/reducer';
 // cusine Reducer 
 import FetchCuisineListReducer from './cuisine/fetchAll/reducer';
 import FetchSingleReducer from './cuisine/fetchSingle/reducer';
-import UpdateCuisineReducer from './cuisine/update/reducer';
 
 
 // Merchant Reducer 
@@ -71,7 +70,6 @@ const RootReducer = combineReducers({
     //Cuisine Reducer
     FetchCuisineList : FetchCuisineListReducer,
     FetchSingleCusineList : FetchSingleReducer,
-    UpdateCuisine : UpdateCuisineReducer,
 
     //Merchant Reducer 
     FetchMerchantList : FetchMerchantListReducer,

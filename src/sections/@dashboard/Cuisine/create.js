@@ -13,7 +13,6 @@ import {
 } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 // component
-import Iconify from '../../../components/Iconify';
 import {AddCuisine} from '../../../redux/cuisine/add/action';
 // ----------------------------------------------------------------------
 
@@ -25,18 +24,21 @@ export default function Create() {
   
   const CuisineSchema = Yup.object().shape({
     cuisine_name: Yup.string().required('Name is required'),
+    image : Yup.mixed().required("Cuisine Image is required").nullable(),
   });
 
   const formik = useFormik({
     initialValues: {
       cuisine_name : '',
+      image : null,
     },
     validationSchema: CuisineSchema,
     
     onSubmit: (values) => {
       const data = new FormData();
       data.append('cuisine_name', values.cuisine_name);
-      data.append('image', image)
+      data.append('image', values.image);
+
       setLoading(true)
       AddCuisine(data)
         .then(res =>{
@@ -80,11 +82,18 @@ export default function Create() {
                             error={Boolean(touched.cuisine_name && errors.cuisine_name)}
                             helperText={touched.cuisine_name && errors.cuisine_name}
                         />
-                          <TextField
+                        <TextField
                             fullWidth
+                            InputLabelProps={{
+                              shrink : true                                
+                            }}
                             type="file"
-                            onChange={(e)=>setImage(e.target.files[0])}
+                            label="Cuisine Image"
+                            onChange = {e => {formik.setFieldValue('image', e.target.files[0])}} 
+                            error={Boolean(touched.image && errors.image)}
+                            helperText={touched.image && errors.image}
                         />
+          
                         <LoadingButton
                             fullWidth
                             size="large"

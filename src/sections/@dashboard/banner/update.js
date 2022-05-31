@@ -7,7 +7,6 @@ import {
   Stack,
   TextField,
   Grid,
-  MenuItem,
   Typography
 } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
@@ -17,21 +16,19 @@ import { useDispatch, useSelector } from 'react-redux';
 
 // ----------------------------------------------------------------------
 
- function Update() {
-   const {id} = useParams();
-   const dispatch = useDispatch();
+export default function Update() {
+  const {id} = useParams();
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [image, setImage] = useState();
   const loading = useSelector(state => state.UpdateBanner.loading)
 
   useEffect(()=>{
     dispatch(FetchSingleBanner(id))
-
   },[])
 
   const HandlerChange =(e)=>{
     setImage(e.target.files[0])
-
   }
 
   const SingleBanner = useSelector(state=> state.FetchSingleBanner.data);
@@ -52,10 +49,12 @@ import { useDispatch, useSelector } from 'react-redux';
 
       const data = new FormData();
       data.append('title', values.title);
-      data.append('_method', values._method)
-      data.append('image', image);
+      data.append('_method', "PUT");
+      if(image != undefined){
+        data.append('image', image);
+      }
       data.append('url', values.url);
-      dispatch(UpdateBanner(id, data))
+      dispatch(UpdateBanner(id, data));
       navigate('/dashboard/banner', { replace: true });
     }
   });
@@ -94,7 +93,8 @@ import { useDispatch, useSelector } from 'react-redux';
                             {...getFieldProps('url')}
                         />
                         <img 
-                          src= {SingleBanner.image}
+                            src= { image?URL.createObjectURL(image) : SingleBanner?.image}
+                            style = {{ maxHeight : "300px" }}
                         />
                         <TextField
                             fullWidth
@@ -119,6 +119,3 @@ import { useDispatch, useSelector } from 'react-redux';
     </> 
   );
 }
-
-
-export default Update;

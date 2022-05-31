@@ -30,7 +30,7 @@ import Banner from './pages/Banner';
 import BannerCreate from './sections/@dashboard/banner/create';
 import BannerView from './sections/@dashboard/banner/view';
 import BannerUpdate from './sections/@dashboard/banner/update';
-import BannerImage from './sections/@dashboard/banner/image';
+
 import Food from './pages/Food';
 import CreateFood from './sections/@dashboard/Food/create';
 import UpdateFood from './sections/@dashboard/Food/update';
@@ -51,7 +51,6 @@ import UpdateLoyalty from './sections/@dashboard/loyalty/update';
 import Bank from './pages/Bank';
 import AddBank from './sections/@dashboard/bank/create';
 import UpdateBank from './sections/@dashboard/bank/update';
-import UploadLogo from './sections/@dashboard/bank/image';
 import TransactionHistory from './pages/TransactionHistory';
 import Report from './pages/Report';
 import DeliveryFee from './pages/DeliveryFee';
@@ -105,11 +104,9 @@ export default function Router() {
         { path: "profile", element : <Profile/>},
         { path: "settings", element : <Settings/>},
         { path: "settings/update", element : <UpdateSettings/>},
-        
         { path: 'banner/create', element : <BannerCreate/>},
         { path: 'banner/view/:id', element : <BannerView/>},
         { path: 'banner/update/:id', element : <BannerUpdate/>},
-        { path: 'banner/image', element : <BannerImage/>},
         { path: 'food', element : <Food/>},
         { path: 'food/create', element : <CreateFood/>},
         { path: 'food/update/:id', element : <UpdateFood/>},
@@ -122,7 +119,6 @@ export default function Router() {
         { path: 'bank', element : <Bank/>},
         { path: 'bank/add', element : <AddBank/>},
         { path: 'bank/update/:id', element : <UpdateBank/>},
-        { path: 'bank/logo', element : <UploadLogo/>},
         { path: 'transaction_history', element : <TransactionHistory/>},
         { path: 'report', element : <Report/>},
         { path: 'delivery_fee', element : <DeliveryFee/>},

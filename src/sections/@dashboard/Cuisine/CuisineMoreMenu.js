@@ -15,12 +15,10 @@ export default function UserMoreMenu({id, filter, page, limit, order}) {
   const dispatch = useDispatch();
 
   const RemoveHandler =(id)=>{
-  
     dispatch(RemoveCuisine(id))
     setTimeout(()=>{
       dispatch(FetchCuisineList(filter, page, limit, order))
     },1000)
-    
   }
 
   return (
@@ -46,7 +44,6 @@ export default function UserMoreMenu({id, filter, page, limit, order}) {
           </ListItemIcon>
           <ListItemText primary="Edit" primaryTypographyProps={{ variant: 'body2' }} />
         </MenuItem>
-
         <MenuItem sx={{ color: 'text.secondary' }}
           onClick = {()=> RemoveHandler(id)}
         >

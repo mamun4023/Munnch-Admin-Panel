@@ -19,7 +19,7 @@ export default function View() {
     },[])
 
     const singleBanner = useSelector(state=> state.FetchSingleBanner.data);
-    console.log("single banner",singleBanner )
+    // console.log("single banner",singleBanner)
  
     return(
             <>
@@ -45,20 +45,14 @@ export default function View() {
                     <Grid item xs={4}>
                         <Card>
                             <CardContent>
-                                {/* <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-                                Word of the Day
-                                </Typography> */}
+ 
                                 <Typography variant="h5" component="div">
-                                   {singleBanner.title}  Banner
+                                   {singleBanner.title}
                                 </Typography>
-                                {/* <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                                   120 RM    
-                                </Typography> */}
                                 <Typography sx={{ mb: 1.5 }} color="text.secondary">
                                     <Box 
                                         sx={{ py: 1}}
                                     >
-                                        {/* <h4> Type&ensp;&ensp;&ensp; : &ensp; {singleBanner.type_name}  </h4> */}
                                         <h4> Status &ensp; : &ensp; {singleBanner.is_enabled? "Active":"Inactive"}  </h4>
                                     </Box> 
                                 </Typography>

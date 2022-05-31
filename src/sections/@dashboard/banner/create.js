@@ -1,43 +1,41 @@
 import * as Yup from 'yup';
 import { useState } from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
-import { Grid, MenuItem, Select, InputLabel, FormControl, Typography } from '@mui/material';
 import { useFormik, Form, FormikProvider } from 'formik';
-import {useDispatch, useSelector} from 'react-redux';
 import { toast } from 'material-react-toastify';
 // material
 import {
   Stack,
   TextField,
+  Grid, 
+  Typography 
 } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 // component
-import Iconify from '../../../components/Iconify';
 import {AddBanner} from '../../../redux/banner/add/action';
 
 // ----------------------------------------------------------------------
 
-function Create() {
+export default function Create(){
   const navigate = useNavigate();
-  const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
-  const [imageFile, setImage] = useState([]);
 
   const BannerSchema = Yup.object().shape({
     title: Yup.string().required('Title is required'),
+    image : Yup.mixed().required("Image is required").nullable()
   });
 
   const formik = useFormik({
     initialValues: {
       title: '',
       url : '',
+      image : null,
     },
     validationSchema: BannerSchema,
     onSubmit: (values) => {
-      // console.log(values)
       let data = new FormData();
       data.append('title', values.title);
-      data.append('image', imageFile);
+      data.append('image', values.image);
       data.append('url', values.url);
 
       setLoading(true)
@@ -53,7 +51,7 @@ function Create() {
           toast.error(response)
           setLoading(false)
         })
-    }
+      }
   });
 
   const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = formik;
@@ -88,13 +86,17 @@ function Create() {
                             type="text"
                             label="URL (Optional)"
                             {...getFieldProps('url')}
-            
                         />
-                       
                         <TextField
                             fullWidth
+                            InputLabelProps={{
+                              shrink : true                                
+                            }}
                             type="file"
-                            onChange={(e)=> setImage(e.target.files[0])}
+                            label="Banner Image"
+                            onChange={ev=>{ formik.setFieldValue("image",ev.target.files[0]) }} 
+                            error={Boolean(touched.image && errors.image)}
+                            helperText={touched.image && errors.image}
                         />
                         <LoadingButton
                             fullWidth
@@ -113,5 +115,3 @@ function Create() {
     </> 
   );
 }
-
-export default Create;

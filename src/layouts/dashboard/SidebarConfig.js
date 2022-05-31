@@ -51,12 +51,6 @@ const sidebarConfig = [
     path: '/dashboard/bank',
     icon: getIcon('bxs:bank')
   },
-  
-  {
-    title: 'Transaction',
-    path: '/dashboard/transaction_history',
-    icon: getIcon('eva:file-text-fill')
-  },
   {
     title: 'Coupon',
     path: '/dashboard/coupon',
@@ -67,7 +61,11 @@ const sidebarConfig = [
     path: '/dashboard/withdrawal',
     icon: getIcon('bx:money-withdraw')
   },
-
+  {
+    title: 'Transaction',
+    path: '/dashboard/transaction_history',
+    icon: getIcon('eva:file-text-fill')
+  },
   {
     title: 'Notify',
     path: '/dashboard/notify',

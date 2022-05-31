@@ -1,40 +1,31 @@
 import * as Yup from 'yup';
 import { useState } from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
-import { Grid, MenuItem, Select, InputLabel, FormControl, Typography } from '@mui/material';
 import { useFormik, Form, FormikProvider } from 'formik';
 import { toast } from 'material-react-toastify';
 // material
 import {
-  Link,
   Stack,
-  Checkbox,
   TextField,
-  IconButton,
-  InputAdornment,
-  FormControlLabel
+  Grid,
+  MenuItem, 
+  Typography
 } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 // component
-import Iconify from '../../../components/Iconify';
 import {AddBank} from '../../../redux/bank/add/action';
 
 // ----------------------------------------------------------------------
 
-function Create() {
+export default function Create(){
   const navigate = useNavigate();
-  const[image, setImage] = useState();
   const [loading, setLoading] = useState(false);
-  const [fileValidation, setFileValidation] = useState(false);
-
-  console.log("image file", image)
 
   const BankSchema = Yup.object().shape({
     name : Yup.string().required('Bank Name is required'),
     is_popular: Yup.string().required('Popularity is required'),
     image : Yup.mixed().required("Image is required")
   });
-
 
   const formik = useFormik({
     initialValues: {
@@ -45,8 +36,6 @@ function Create() {
     validationSchema: BankSchema,
 
     onSubmit: (values) => {
-      console.log(values)
-
       const data = new FormData();
       data.append('name', values.name);
       data.append('is_popular', values.is_popular);
@@ -107,7 +96,6 @@ function Create() {
                             <MenuItem value= "1">Yes</MenuItem>
                             <MenuItem value= "0">No</MenuItem>
                         </TextField> 
-
                         <TextField
                             fullWidth
                             type="file"
@@ -132,5 +120,3 @@ function Create() {
     </> 
   );
 }
-
-export default Create;

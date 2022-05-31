@@ -17,26 +17,24 @@ import { AddFood } from 'src/redux/food/add/action';
 export default function Create() {
   const navigate = useNavigate();
   const [loading, setLoading] =  useState(false);
-  const [image, setImage] = useState();
-
 
   const FoodSchema = Yup.object().shape({
     food_name: Yup.string().required('Food Name is required'),
+    image : Yup.mixed().required("Food Image is required").nullable()
   });
 
   const formik = useFormik({
     enableReinitialize : true,
     initialValues: {
       food_name: '',
+      image : null
     },
 
     validationSchema: FoodSchema,
     onSubmit: (values) => {
-
       const data = new FormData();
       data.append('food_name', values.food_name);
-      data.append('image', image)
-
+      data.append('image', values.image);
       setLoading(true)
       AddFood(data)
         .then(res =>{
@@ -83,9 +81,14 @@ export default function Create() {
                         />
                         <TextField
                             fullWidth
+                            InputLabelProps={{
+                              shrink : true                                
+                            }}
                             type="file"
-                            onChange={(e)=> setImage(e.target.files[0])}
-                          
+                            label="Food Image"
+                            onChange = {e => {formik.setFieldValue('image', e.target.files[0])}} 
+                            error={Boolean(touched.image && errors.image)}
+                            helperText={touched.image && errors.image}
                         />
                         <LoadingButton
                             fullWidth

@@ -352,7 +352,7 @@ function Update() {
     store_name: Yup.string().required('Store Name is required'),
     description: Yup.string().required('Description is required').max(150, "Maximum 150 Characters "),
     max_delivery_km : Yup.string().required("Delivery KM is required"),
-    contact_no : Yup.string().required("Contact Number is required").min(9,"Minimum 9 Digit").max(11,"Maximum 11 Digit"),
+    contact_no : Yup.string().required("Contact Number is required").min(9,"Minimum 9 Digit").max(10,"Maximum 10 Digit"),
     additional_info : Yup.string().required('Additional Information is required'),
     country : Yup.string().required('Country is required').nullable(),
     city : Yup.string().required('City is required').nullable(),

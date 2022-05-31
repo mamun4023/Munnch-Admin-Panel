@@ -2,11 +2,8 @@ import { filter } from 'lodash';
 import { sentenceCase } from 'change-case';
 import { useEffect, useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
-import { IconButton, Switch } from '@mui/material';
 import {Box} from '@mui/material';
 import Spinner from 'src/components/Spinner';
-import PersonAddDisabledIcon from '@mui/icons-material/PersonAddDisabled';
-import Tooltip from '@mui/material/Tooltip';
 import {useDispatch, useSelector} from 'react-redux';
 import Moment from 'react-moment';
 
@@ -15,9 +12,8 @@ import {
   Card,
   Table,
   Stack,
-  Avatar,
+  Switch,
   Button,
-  Checkbox,
   TableRow,
   TableBody,
   TableCell,
@@ -28,7 +24,6 @@ import {
 } from '@mui/material';
 // components
 import Page from '../components/Page';
-import Label from '../components/Label';
 import Scrollbar from '../components/Scrollbar';
 import Iconify from '../components/Iconify';
 import SearchNotFound from '../components/SearchNotFound';
@@ -43,11 +38,6 @@ const TABLE_HEAD = [
     id: 'id', 
     alignRight: false 
   },
-  // { 
-  //   label: 'USER ID',
-  //   id: 'userId', 
-  //   alignRight: false 
-  // },
   { 
     label: 'CODE', 
     id: 'code', 
@@ -150,7 +140,6 @@ function ReduceDescription(data){
     message = reducer.join('');
     return message+" ...";
   }
-  // reducer = arr.slice(1, 30);
   message = arr.join('');
   return message
 }
@@ -196,7 +185,6 @@ function CapitalizeFirstLetter (s){
 export default function Coupon() {
   const [page, setPage] = useState(1);
   const [order, setOrder] = useState('desc');
-  const [selected, setSelected] = useState([]);
   const [orderBy, setOrderBy] = useState('id');
   const [filterName, setFilterName] = useState('');
   const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -244,8 +232,8 @@ export default function Coupon() {
     setFilterName(event.target.value);
   };
 
-  const filteredUsers = applySortFilter(CouponList, getComparator(order, orderBy), filterName);
-  const isUserNotFound = filteredUsers.length === 0;
+  const filteredCoupons = applySortFilter(CouponList, getComparator(order, orderBy), filterName);
+  const isUserNotFound = filteredCoupons.length === 0;
 
   const StatusToggleHandler = (id)=>{
      dispatch(StatusToggler(id));
@@ -273,7 +261,6 @@ export default function Coupon() {
         <Card>
         <div style={{ display:"flex", flexWrap:"wrap", justifyContent:"space-between"}}>
             <CouponListToolbar
-                numSelected={selected.length}
                 filterName={filterName}
                 onFilterName={handleFilterByName}
               />
@@ -301,7 +288,7 @@ export default function Coupon() {
                   onRequestSort={handleRequestSort}
                 />
                 <TableBody>
-                  {filteredUsers
+                  {filteredCoupons
                     .map((row) => {
                       const { id, 
                         user_id,
@@ -330,13 +317,11 @@ export default function Coupon() {
                           key={id}
                         >
                           <TableCell align="left">{id}</TableCell>
-                          {/* <TableCell align="left">{user_id}</TableCell> */}
                           <TableCell align="left">{code.toUpperCase()}</TableCell>
                           <TableCell align="left">{coupon_type == 1 ? "Fixed" : "Percentage"}</TableCell>
-                          {/* <TableCell align="left">{discount_type_name}</TableCell> */}
-                          <TableCell align="left">{coupon_type == 1? amount + " RM" : "--"}</TableCell>
+                          <TableCell align="left">{coupon_type == 1? "RM "+ amount: "--"}</TableCell>
                           <TableCell align="left">{coupon_type == 2? amount : "--"}</TableCell>
-                          <TableCell align="left">{max_discount== 0? "--":max_discount+" RM"}</TableCell>
+                          <TableCell align="left">{max_discount== 0? "--":"RM "+ max_discount}</TableCell>
                           <TableCell align="left">
                             <Moment format="DD-MM-YYYY" >{start_date}</Moment>
                           </TableCell>
@@ -351,8 +336,8 @@ export default function Coupon() {
                             />  
                           </TableCell>
                           <TableCell align="left">{usage_per_user} Time</TableCell>
-                          <TableCell align="left">{minimum_spend} RM</TableCell>
-                          <TableCell align="left">{maximum_spend} RM</TableCell>
+                          <TableCell align="left">RM {minimum_spend}</TableCell>
+                          <TableCell align="left">RM {maximum_spend}</TableCell>
                           <TableCell align="left">{maximum_usage_limit} Time</TableCell>
                           <TableCell align="left"> {is_expired? "Yes" : "--"} </TableCell>
                           <TableCell align="left">{is_exhausted?"Yes": "--"}</TableCell> 
@@ -404,7 +389,7 @@ export default function Coupon() {
               page == 1 ? {disabled: true} : undefined
             }
             nextIconButtonProps={
-              filteredUsers.length === 0 || filteredUsers.length < rowsPerPage? {disabled: true} : undefined
+              filteredCoupons.length === 0 || filteredCoupons.length < rowsPerPage? {disabled: true} : undefined
             }
           />
         </Box>}   

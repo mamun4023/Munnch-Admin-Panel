@@ -131,8 +131,8 @@ export default function Cuisine() {
     setFilterName(event.target.value);
   };
 
-const filteredUsers = applySortFilter(CuisineList, getComparator(order, orderBy), filterName);
-const isUserNotFound = filteredUsers.length === 0;
+const filteredCuisine = applySortFilter(CuisineList, getComparator(order, orderBy), filterName);
+const isUserNotFound = filteredCuisine.length === 0;
 
 const PopularToggleHandler = (id)=>{
   dispatch(Toggler(id))
@@ -174,7 +174,7 @@ const PopularToggleHandler = (id)=>{
                   onRequestSort={handleRequestSort}
                 />
                 <TableBody>
-                  {filteredUsers
+                  {filteredCuisine
                     .map((row) => {
                       const { id, cuisine_name, image, created_at, is_popular } = row;
                       return (
@@ -237,7 +237,7 @@ const PopularToggleHandler = (id)=>{
               page == 1 ? {disabled: true} : undefined
             }
             nextIconButtonProps={
-              filteredUsers.length === 0 || filteredUsers.length < rowsPerPage? {disabled: true} : undefined
+              filteredCuisine.length === 0 || filteredCuisine.length < rowsPerPage? {disabled: true} : undefined
             }
           />
         </Box>} 

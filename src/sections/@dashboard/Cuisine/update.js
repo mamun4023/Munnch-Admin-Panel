@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { Link as RouterLink, useNavigate, useParams } from 'react-router-dom';
 import { useFormik, Form, FormikProvider } from 'formik';
 import {useDispatch, useSelector} from  'react-redux';
+import { toast } from 'material-react-toastify';
 // material
 import {
   Stack,
@@ -12,7 +13,6 @@ import {
 } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 // component
-import Iconify from '../../../components/Iconify';
 import {UpdateCuisine} from '../../../redux/cuisine/update/action';
 import {FetchSingleList} from '../../../redux/cuisine/fetchSingle/action';
 // ----------------------------------------------------------------------
@@ -21,14 +21,12 @@ export default function Update() {
   const {id} = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const loading = useSelector(state => state.UpdateCuisine.loading);
+  const [loading, setLoading] = useState(false);
   const [image, setImage] = useState();
 
   useEffect(()=>{
     dispatch(FetchSingleList(id))
   },[])
-
-  console.log(image == undefined)
 
   const SingleCuisine = useSelector(state => state.FetchSingleCusineList.data)
 
@@ -43,24 +41,24 @@ export default function Update() {
     },
     validationSchema: CuisineSchema,
     onSubmit: (values) => {
-      // console.log(values)
       const data = new FormData();
-      
-      if(image == undefined){
-          data.append('cuisine_name', values.cuisine_name);
-          data.append('_method', 'PUT')
-      }else{
-          data.append('cuisine_name', values.cuisine_name);
-          data.append('_method', 'PUT');
-          data.append('image', image);
+      data.append('cuisine_name', values.cuisine_name);
+      if(image != undefined){
+        data.append('image', image);
       }
-     
-
-      // console.log(data);
-
-      dispatch(UpdateCuisine(id, data))
-      navigate('/dashboard/cuisine', { replace: true });
-    }
+      data.append('_method', 'PUT')     
+      UpdateCuisine(id, data)
+        .then(res =>{
+          const response = res.data.message;
+          console.log(response);
+          toast.dark(response);
+          navigate('/dashboard/cuisine', { replace: true });
+        })
+        .catch((err)=>{
+          const response = err.response;
+          toast.error(response)
+        })
+      }
   });
 
   const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = formik;
@@ -90,10 +88,10 @@ export default function Update() {
                             error={Boolean(touched.cuisine_name && errors.cuisine_name)}
                             helperText={touched.cuisine_name && errors.cuisine_name}
                         />
-                        
-                          <img  src= {SingleCuisine.image} />
-                        
-
+                        <img  
+                          src= {image?URL.createObjectURL(image):SingleCuisine.image} 
+                          style = {{ maxHeight : "300px" }}
+                        />
                         <TextField 
                           type= "file"
                           onChange={(e)=> setImage(e.target.files[0])}

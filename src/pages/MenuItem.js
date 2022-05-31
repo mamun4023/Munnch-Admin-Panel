@@ -1,9 +1,6 @@
 import { filter } from 'lodash';
 import { useState, useEffect } from 'react';
 import { Link as RouterLink, useParams } from 'react-router-dom';
-import { IconButton, Switch } from '@mui/material';
-import PersonAddDisabledIcon from '@mui/icons-material/PersonAddDisabled';
-import Tooltip from '@mui/material/Tooltip';
 import {useDispatch, useSelector} from 'react-redux';
 import Moment from 'react-moment';
 
@@ -22,7 +19,9 @@ import {
   Box,
   Typography,
   TableContainer,
-  TablePagination
+  TablePagination,
+  IconButton,
+  Switch 
 } from '@mui/material';
 
 // components
@@ -36,8 +35,8 @@ import {FetchMenuList} from '../redux/menu/fetchAll/action';
 import {StockToggler} from '../redux/menu/stockToggler/action';
 import {BestSellerToggler} from '../redux/menu/bestSellerToggler/action';
 import Spinner from 'src/components/Spinner';
-// ----------------------------------------------------------------------
 
+// ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
   { 
@@ -165,8 +164,8 @@ export default function MenuItem() {
     setFilterName(event.target.value);
   };
 
-  const filteredUsers = applySortFilter(MenuList, getComparator(order, orderBy), filterName);
-  const isUserNotFound = filteredUsers.length === 0;
+  const filteredItems = applySortFilter(MenuList, getComparator(order, orderBy), filterName);
+  const isUserNotFound = filteredItems.length === 0;
 
   const StockTogglerHandler =(id)=>{
       dispatch(StockToggler(id))
@@ -177,7 +176,7 @@ export default function MenuItem() {
   }
 
   return (
-    <Page title="Munchh | Banner">
+    <Page title="Munchh | Menu Item">
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
@@ -221,13 +220,10 @@ export default function MenuItem() {
                   order={order}
                   orderBy={orderBy}
                   headLabel={TABLE_HEAD}
-                  // rowCount={Data.length}
-                  // numSelected={selected.length}
                   onRequestSort={handleRequestSort}
-                  // onSelectAllClick={handleSelectAllClick}
                 />
                 <TableBody>
-                  {filteredUsers
+                  {filteredItems
                     .map((row) => {
                       const { id, name, image, price, food_item_type, in_stock, description, best_seller, created_at} = row;
                       return (
@@ -241,7 +237,7 @@ export default function MenuItem() {
                             <Avatar  variant="square" style={{width : "70px"}} src= {image} />
                           </TableCell>
                           
-                          <TableCell align="left">{price} RM </TableCell>
+                          <TableCell align="left">RM {price}  </TableCell>
                           
                           <TableCell align="left" sx={{ maxWidth: 300 }}>
                              {CapitalizeFirstLetter(description)}
@@ -303,7 +299,7 @@ export default function MenuItem() {
               page == 1 ? {disabled: true} : undefined
             }
             nextIconButtonProps={
-              filteredUsers.length === 0 || filteredUsers.length < rowsPerPage? {disabled: true} : undefined
+              filteredItems.length === 0 || filteredItems.length < rowsPerPage? {disabled: true} : undefined
             }
           />
       </Box>} 

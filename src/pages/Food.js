@@ -45,11 +45,6 @@ const TABLE_HEAD = [
     id: 'image', 
     alignRight: false 
   },
-  // { 
-  //   label: 'UPDATED AT', 
-  //   id: 'updateAt', 
-  //   alignRight: false 
-  // },
   { 
     label: 'CREATED AT', 
     id: 'createAt', 
@@ -129,9 +124,8 @@ export default function Food() {
     setFilterName(event.target.value);
   };
 
-  // const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - FoodList.length) : 0;
-  const filteredUsers = applySortFilter(FoodList, getComparator(order, orderBy), filterName);
-  const isUserNotFound = filteredUsers.length === 0;
+  const filteredFood = applySortFilter(FoodList, getComparator(order, orderBy), filterName);
+  const isUserNotFound = filteredFood.length === 0;
 
   return (
     <Page title="Munchh | Food">
@@ -165,7 +159,7 @@ export default function Food() {
                   onRequestSort={handleRequestSort}
                 />
                 <TableBody>
-                  {filteredUsers
+                  {filteredFood
                     .map((row) => {
                       const { id, food_type_name, image, created_at,  updated_at } = row;
                       return (
@@ -181,9 +175,6 @@ export default function Food() {
                           <TableCell align="left">
                             <Moment format="DD-MM-YYYY hh:mm a" >{created_at}</Moment> 
                           </TableCell>
-                          {/* <TableCell align="left">
-                            <Moment format="DD-MM-YYYY hh:mm a" >{updated_at}</Moment> 
-                          </TableCell>    */}
                           <TableCell align="right">
                             <FoodMoreMenu 
                               id = {id} 
@@ -224,7 +215,7 @@ export default function Food() {
               page == 1 ? {disabled: true} : undefined
             }
             nextIconButtonProps={
-              filteredUsers.length === 0 || filteredUsers.length < rowsPerPage? {disabled: true} : undefined
+              filteredFood.length === 0 || filteredFood.length < rowsPerPage? {disabled: true} : undefined
             }
           />
         </Box>}

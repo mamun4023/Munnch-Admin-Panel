@@ -10,7 +10,6 @@ import {
   Stack,
   Avatar,
   Button,
-  Checkbox,
   TableRow,
   TableBody,
   TableCell,
@@ -146,8 +145,8 @@ export default function Banner() {
     setFilterName(event.target.value);
   };
 
-  const filteredUsers = applySortFilter(BannerList, getComparator(order, orderBy), filterName);
-  const isUserNotFound = filteredUsers.length === 0;
+  const filteredBanners = applySortFilter(BannerList, getComparator(order, orderBy), filterName);
+  const isUserNotFound = filteredBanners.length === 0;
 
   const StatusToggleHandler = (id)=>{
     dispatch(StatusToggler(id))
@@ -204,7 +203,7 @@ export default function Banner() {
                   onRequestSort={handleRequestSort}
                 />
                 <TableBody>
-                  {filteredUsers
+                  {filteredBanners
                     .map((row) => {
                       const { id, title, image, is_enabled, created_at } = row;
                       return (
@@ -220,7 +219,6 @@ export default function Banner() {
                           <TableCell align="left">
                             <Moment format="DD-MM-YYYY hh:mm a" >{created_at}</Moment>
                           </TableCell>
-                          
                           <TableCell align="left">
                              <Switch 
                               onClick={()=> StatusToggleHandler(id)}
@@ -268,7 +266,7 @@ export default function Banner() {
               page == 1 ? {disabled: true} : undefined
             }
             nextIconButtonProps={
-              filteredUsers.length === 0 || filteredUsers.length < rowsPerPage? {disabled: true} : undefined
+              filteredBanners.length === 0 || filteredBanners.length < rowsPerPage? {disabled: true} : undefined
             }
           />
         </Box>}  

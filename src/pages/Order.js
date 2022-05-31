@@ -257,7 +257,7 @@ export default function Order() {
                 <TableBody>
                   {filteredUsers
                     .map((row) => {
-                      const { id,  paid_price, customer, store, order, address, status, created_at } = row;
+                      const { id,  paid_price, customer, store, order, rider_data, address, status, created_at } = row;
                       return (
                         <TableRow
                           hover
@@ -269,9 +269,9 @@ export default function Order() {
                           {/* <TableCell align="left">{customer?.email}</TableCell>
                           <TableCell align="left">{customer?.phone}</TableCell> */}
                           <TableCell align="left">{CapitalizeFirstLetter(store?.restaurant_name)}</TableCell>
-                          <TableCell align="left">{CapitalizeFirstLetter("Rider Name")}</TableCell>
+                          <TableCell align="left">{rider_data?.rider_details?.name}</TableCell>
                           {/* <TableCell style={{maxWidth : "250px"}} align="left">{address}</TableCell> */}
-                          <TableCell align="left">{paid_price + " "} RM</TableCell> 
+                          <TableCell align="left">RM {paid_price}</TableCell> 
                           <TableCell align="left">{order?.cart_items?.food_type}</TableCell> 
                           
                           {/* <TableCell align="left">{restaurant?.is_preorder === 1? "Pre-Order Item": "Delivery Item"}</TableCell>  */}

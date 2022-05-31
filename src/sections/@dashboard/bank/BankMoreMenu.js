@@ -15,7 +15,6 @@ export default function UserMoreMenu({id, status, filter, page, limit, order}) {
   const dispatch = useDispatch();
   const [isOpen, setIsOpen] = useState(false);
 
-
   const RemoveHandler =(id)=>{
     dispatch(RemoveBank(id))
     setTimeout(()=>{

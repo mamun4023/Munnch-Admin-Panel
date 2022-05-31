@@ -31,8 +31,7 @@ import {UpdateFood} from '../../../redux/food/update/action';
   }, [id])
 
   const FoodData = useSelector(state => state.FetchSingleFoodList.data);
-
-  console.log("food list", FoodData)
+  // console.log("food list", FoodData)
 
   const FoodSchema = Yup.object().shape({
     food_type_name: Yup.string().required('Food Name is required'),
@@ -45,18 +44,12 @@ import {UpdateFood} from '../../../redux/food/update/action';
     },
     validationSchema: FoodSchema,
     onSubmit: (values) => {
-
       const data = new FormData();
-      
-      if(image == undefined){
-        data.append('food_name', values.food_type_name);
-        data.append('_method', 'PUT');
-      }else{
-        data.append('food_name', values.food_type_name);
+      data.append('food_name', values.food_type_name);
+      if(image != undefined){
         data.append('image', image);
-        data.append('_method', 'PUT');
       }
-      
+      data.append('_method', 'PUT');
 
       setLoading(true)
       UpdateFood(id, data)
@@ -71,7 +64,7 @@ import {UpdateFood} from '../../../redux/food/update/action';
                 toast.dark(response)
                 setLoading(false)
             })
-    }
+      }
   });
 
   const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = formik;
@@ -81,7 +74,6 @@ import {UpdateFood} from '../../../redux/food/update/action';
         <Typography variant="h4" gutterBottom>
           Update Food
         </Typography>
-            
         <Grid
             container
             spacing={0}
@@ -90,7 +82,6 @@ import {UpdateFood} from '../../../redux/food/update/action';
             justifyContent="center"
             style={{ minHeight: '60vh' }}
         >
-
             <Grid item xs={6} >
                 <FormikProvider value={formik}>
                     <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
@@ -104,21 +95,15 @@ import {UpdateFood} from '../../../redux/food/update/action';
                             error={Boolean(touched.food_type_name && errors.food_type_name)}
                             helperText={touched.food_type_name && errors.food_type_name}
                         />
-
                         <img 
-                          src= {FoodData.image}
+                            src= {image?URL.createObjectURL(image):FoodData?.image}
+                            style = {{ maxHeight : "300px" }}
                         />
-
                         <TextField
                             fullWidth
                             type="file"
                             onChange={(e)=> setImage(e.target.files[0])}
-                            
                         />
-
-                        
-
-
                         <LoadingButton
                             fullWidth
                             size="large"
@@ -130,7 +115,6 @@ import {UpdateFood} from '../../../redux/food/update/action';
                         </LoadingButton>
                         </Stack>
                     </Form>
-                    
                 </FormikProvider>
             </Grid>   
          </Grid>
