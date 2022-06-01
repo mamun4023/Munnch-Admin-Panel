@@ -174,7 +174,7 @@ export default function Banner() {
   }
 
   return (
-    <Page title="Munchh | Banner">
+    <Page title="Munchh | Users">
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={1}>
           <Typography variant="h4" gutterBottom>

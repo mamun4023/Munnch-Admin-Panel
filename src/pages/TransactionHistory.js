@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import { filter } from 'lodash';
 import {toast} from 'material-react-toastify';
 import {Link as RouterLink } from 'react-router-dom';
+import {useDispatch, useSelector} from 'react-redux';
+import Moment from 'react-moment';
 
 // material
 import {
@@ -21,49 +23,12 @@ import {
 import Page from '../components/Page';
 import Scrollbar from '../components/Scrollbar';
 import SearchNotFound from '../components/SearchNotFound';
+import Spinner from 'src/components/Spinner';
 import { TransactionListHead, TransactionToolbar } from '../sections/@dashboard/transactionHistory';
-import Iconify from '../components/Iconify';
+import {FetchTransactionList} from '../redux/transaction/fetch/action';
+import { Box } from '@mui/system';
+
 // ----------------------------------------------------------------------
-
-const Data = [
-  { 
-    "id" : "1",
-    "Orderid" : "1045112214",
-    "referenceNumber" : "45512254788",
-    "paymentStatus" : true,
-    "paymentMode" : "online",
-    "paymentFailed" : "No",
-    "createAt" : "3/4/2022"
-  },
-  { 
-    "id" : "2",
-    "Orderid" : "1045112214",
-    "referenceNumber" : "45512254788",
-    "paymentStatus" : true,
-    "paymentMode" : "online",
-    "paymentFailed" : "No",
-    "createAt" : "3/4/2022"
-  },
-  { 
-    "id" : "3",
-    "Orderid" : "1045112214",
-    "referenceNumber" : "45512254788",
-    "paymentStatus" : true,
-    "paymentMode" : "online",
-    "paymentFailed" : "No",
-    "createAt" : "3/4/2022"
-  },
-  { 
-    "id" : "4",
-    "Orderid" : "1045112214",
-    "referenceNumber" : "45512254788",
-    "paymentStatus" : false,
-    "paymentMode" : "online",
-    "paymentFailed" : "No",
-    "createAt" : "3/4/2022"
-  }
-]
-
 
 const TABLE_HEAD = [
   { 
@@ -72,34 +37,27 @@ const TABLE_HEAD = [
     alignRight: false 
   },
   { 
-    label: 'Order ID', 
+    label: 'ORDER ID', 
     id: 'orderId', 
     alignRight: false 
   },
   { 
-    label: 'Reference Number', 
-    id: 'name', 
-    alignRight: false 
-  },
-
-
-  { 
-    label: 'Payment mode', 
-    id: 'paymentMode', 
+    label: 'REFERENCE NUMBER', 
+    id: 'referenceNumber', 
     alignRight: false 
   },
   { 
-    label: 'Payment Status', 
+    label: 'AMOUNT', 
+    id: 'amount', 
+    alignRight: false 
+  },
+  { 
+    label: 'PAYMENT STATUS', 
     id: 'paymentStatus', 
     alignRight: false 
   },
-  // { 
-  //   label: 'Payment Failed', 
-  //   id: 'paymentFailed', 
-  //   alignRight: false 
-  // },
   { 
-    label: 'Created', 
+    label: 'CREATED AT', 
     id: 'createAt', 
     alignRight: false 
   },
@@ -136,26 +94,22 @@ function applySortFilter(array, comparator, query) {
   return stabilizedThis.map((el) => el[0]);
 }
 
-export default function Merchant() {
-  const [page, setPage] = useState(0);
+export default function Transactions() {
+  const [page, setPage] = useState(1);
   const [order, setOrder] = useState('desc');
-  const [selected, setSelected] = useState([]);
   const [orderBy, setOrderBy] = useState('id');
   const [filterName, setFilterName] = useState('');
   const [rowsPerPage, setRowsPerPage] = useState(5);
-  const [merchantData, setMerchantData] = useState([]);
-  const [merchantStatus, setMerchantStatus] = useState("active")
-
-  const FetchMerchant = (merchantStatus)=>{
-     // return data from API
-     setMerchantData(Data);
-  }
+  const [userType, setUserType] = useState("1");
+  const dispatch = useDispatch();
+  const loading = useSelector(state => state.Transaction.loading);
 
   useEffect(()=>{
-    FetchMerchant();
-  },[merchantStatus])
+    dispatch(FetchTransactionList(userType, filterName, page, rowsPerPage, order))
+  },[userType, filterName, page, rowsPerPage, order])
 
-  console.log("Merchant Data", merchantData);
+  const TransactionList = useSelector(state => state.Transaction.data)
+  // console.log("TransactionList Data", TransactionList);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -176,8 +130,7 @@ export default function Merchant() {
     setFilterName(event.target.value);
   };
 
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - Data.length) : 0;
-  const filteredUsers = applySortFilter(Data, getComparator(order, orderBy), filterName);
+  const filteredUsers = applySortFilter(TransactionList, getComparator(order, orderBy), filterName);
   const isUserNotFound = filteredUsers.length === 0;
 
   const ToggleHandler = () => {
@@ -185,32 +138,32 @@ export default function Merchant() {
   }
 
   return (
-    <Page title="Munchh | Transaction">
+    <Page title="Munchh | Transactions">
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={1}>
           <Typography variant="h4" gutterBottom>
-            Transaction History Management
+            Transactions History
           </Typography>
         </Stack>
         <Card>
         <div style={{ display:"flex", flexWrap:"wrap", justifyContent:"space-between"}}>
               <TransactionToolbar
-                  numSelected={selected.length}
                   filterName={filterName}
                   onFilterName={handleFilterByName}
                 />
               <div style={{ marginTop : "25px" }} > 
-                {/* <Button
-                    variant= {merchantStatus === "active"? "contained": null}
-                    onClick = {()=> setMerchantStatus("active")}
-                    disableElevation
-                >Active</Button>
                 <Button
-                    variant= {merchantStatus === "inactive"? "contained": null}
-                    onClick = {()=> setMerchantStatus("inactive")}
-                >Inactive</Button>  */}
+                    variant= {userType === "1"? "contained": null}
+                    onClick = {()=> setUserType("1")}
+                    disableElevation
+                >User</Button>
+                <Button
+                    variant= {userType === "2"? "contained": null}
+                    onClick = {()=> setUserType("2")}
+                >Merchant</Button> 
               </div>
           </div>
+          {loading?<Spinner/>: <Box> 
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
               <Table>
@@ -218,32 +171,28 @@ export default function Merchant() {
                   order={order}
                   orderBy={orderBy}
                   headLabel={TABLE_HEAD}
-                  // rowCount={Data.length}
-                  // numSelected={selected.length}
                   onRequestSort={handleRequestSort}
-                  // onSelectAllClick={handleSelectAllClick}
                 />
                 <TableBody>
                   {filteredUsers
-                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     .map((row) => {
-                      const {id, Orderid, referenceNumber, paymentStatus, paymentMode, createAt } = row;
-                      const isItemSelected = selected.indexOf(Orderid) !== -1;
+                      const {id, customer, order, amount } = row;
                       return (
                         <TableRow
                           hover
                           key={id}
-                          // tabIndex={-1}
-                          // role="checkbox"
-                          selected={isItemSelected}
-                          aria-checked={isItemSelected}
                         >
                           <TableCell align="left">{id}</TableCell>
-                          <TableCell align="left">{Orderid}</TableCell>
-                           <TableCell align="left">{referenceNumber}</TableCell>
-                          <TableCell align="left">{paymentMode}</TableCell>
-                          <TableCell align="left">   {paymentStatus?<Button color='success'> Approved</Button>: <Button color='error' > Pending </Button>} </TableCell>
-                          <TableCell align="left">{createAt}</TableCell>
+                          <TableCell align="left">{order?.id}</TableCell>
+                          <TableCell align="left">{"Transaction Id"}</TableCell>
+                        
+                          
+                          <TableCell align="left">{amount}</TableCell>
+                          <TableCell align="left"> {order?.status} </TableCell>
+
+                          <TableCell align="left">
+                            <Moment format="DD-MM-YYYY hh:mm a" >{order?.created_at}</Moment>
+                          </TableCell>
                           <TableCell align="right">
                              {/* <Tooltip title = "Disable Merchant" > 
                               <IconButton
@@ -258,11 +207,6 @@ export default function Merchant() {
                         </TableRow>
                       );
                     })}
-                  {emptyRows > 0 && (
-                    <TableRow style={{ height: 53 * emptyRows }}>
-                      <TableCell colSpan={6} />
-                    </TableRow>
-                  )}
                 </TableBody>
                 {isUserNotFound && (
                   <TableBody>
@@ -276,14 +220,25 @@ export default function Merchant() {
               </Table>
             </TableContainer>
           </Scrollbar>
+
+          </Box>}
           <TablePagination
             rowsPerPageOptions={[5, 10, 25]}
             component="div"
-            count={Data.length}
+            count={-1}
             rowsPerPage={rowsPerPage}
             page={page}
             onPageChange={handleChangePage}
             onRowsPerPageChange={handleChangeRowsPerPage}
+            labelDisplayedRows={({ page }) => {
+              return `Page: ${page}`;
+            }}
+            backIconButtonProps={
+              page == 1 ? {disabled: true} : undefined
+            }
+            nextIconButtonProps={
+              filteredUsers.length === 0 || filteredUsers.length < rowsPerPage? {disabled: true} : undefined
+            }
           />
         </Card>
       </Container>

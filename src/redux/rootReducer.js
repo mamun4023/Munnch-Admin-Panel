@@ -8,16 +8,13 @@ import ChangePasswordReducer from './auth/profile/changePassword/reducer';
 // user reducer
 import FetchUserRedcuer from './user/fetch/reducer';
 
-
 // food Reducers
 import FetchAllFoodListReducer from './food/fetchAll/reducer';
 import FetchSingleFoodListReducer from './food/fetchSingle/reducer';
 
-
 // cusine Reducer 
 import FetchCuisineListReducer from './cuisine/fetchAll/reducer';
 import FetchSingleReducer from './cuisine/fetchSingle/reducer';
-
 
 // Merchant Reducer 
 import FetchMerchantListReducer from './merchant/fetchAll/reducer';
@@ -30,21 +27,17 @@ import FetchBannerListReducer from './banner/fetchAll/reducer';
 import FetchSingleBannerReducer from './banner/fetchSingle/reducer';
 import UpdateBannerReducer from './banner/update/reducer';
 
-
 // notification
 import FetchNotificationListReducer from './notify/fetchAll/reducer';
-
 
 // merchant menu
 import FetchAllMenuReducer from './menu/fetchAll/reducer';
 import FetchSingleMenuReducer from './menu/fetchSingle/reducer';
 import AddMenuReducer from './menu/add/reducer';
 
-
 // Bank
 import FetchBankListReducer from './bank/fetchAll/reducer';
 import FetchSingleBankReducer from './bank/fetchSingle/reducer';
-
 
 import FetchDeliveryFeeListReducer from './deliveryFee/fetchAll/reducer';
 import FetchSingleFeeReducer from './deliveryFee/fetchSingle/reducer';
@@ -53,6 +46,8 @@ import FetchCouponListReducer from './coupon/fetchAll/reducer';
 import FetchSingleCoupon from './coupon/fetchSingle/reducer';
 
 import FetchWithdrawal from './withdraw/fetchAll/reducer';
+import TransactionHistory from './transaction/fetch/reducer';
+import ContactListReducer from './contact/fetchList/reducer';
 
 import OrderListReducer from './order/FetchAllOrder/reducer';
 import SingleOrderReducer from './order/fetchSingle/reducer';
@@ -77,8 +72,6 @@ const RootReducer = combineReducers({
     AddMerchant  : AddMerchantReducer,
     UpdateMerchant : UpdateMerchantReducer,
 
-
-
     //Merchant Reducer 
     FetchBannerList : FetchBannerListReducer,
     FetchSingleBanner : FetchSingleBannerReducer,
@@ -92,10 +85,8 @@ const RootReducer = combineReducers({
      FetchSingle : FetchSingleMenuReducer,
      AddMenu : AddMenuReducer,
 
-
      FetchBankList : FetchBankListReducer,
      FetchSingleBank : FetchSingleBankReducer,
-
 
     DeliveryFee : FetchDeliveryFeeListReducer,
     singleFee : FetchSingleFeeReducer,
@@ -103,12 +94,12 @@ const RootReducer = combineReducers({
     CouponList : FetchCouponListReducer,
     SingleCoupon : FetchSingleCoupon,
 
-
     Withdrawal : FetchWithdrawal,
+    Transaction : TransactionHistory,
+    ContactList : ContactListReducer,
+
     OrderList : OrderListReducer,
     SingleOrder : SingleOrderReducer,
-
-
 
 })
 
