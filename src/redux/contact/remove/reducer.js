@@ -1,34 +1,31 @@
 import * as Types from './types';
 
 const InitialState = {
-    data : {},
+    data : [],
     errors : '',
     loading : false
 }
 
 const Reducer = (state = InitialState, action)=>{
     switch(action.type){
-        case Types.GET_PROFILE_REQUEST:
+        case Types.REMOVE_FOOD_REQUEST:
             return{
                 ...state,
                 loading : true
             }
-        case Types.GET_PROFILE_SUCCESS:
+        case Types.REMOVE_FOOD_SUCCESS:
             return{
                 ...state,
-                data : action.paylaod,
-                errors : "",
+                data : action.payload,
                 loading : false
             }
-        case Types.GET_PROFILE_FAILED:
+        case Types.REMOVE_FOOD_FAILED:
             return{
                 ...state,
-                errors : action.paylaod,
-                data : [],
                 loading : false
             }
         default:
-            return state;
+            return state
     }
 }
 

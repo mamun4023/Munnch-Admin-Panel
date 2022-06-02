@@ -57,7 +57,6 @@ import DeliveryFee from './pages/DeliveryFee';
 import AddRange from './sections/@dashboard/deliveryFee/create';
 import UpdateRange from './sections/@dashboard/deliveryFee/update';
 import ContactUs from './pages/Contact';
-import ViewContact from './sections/@dashboard/contact/view';
 import Store from './pages/store';
 import UpdateStore from './sections/@dashboard/store/update'
 
@@ -125,9 +124,7 @@ export default function Router() {
         { path: 'delivery_fee/add', element : <AddRange/>},
         { path: 'delivery_fee/update/:id', element : <UpdateRange/>},
         { path: 'contact', element : <ContactUs/>},
-        { path: 'contact/view', element : <ViewContact/>},  
       
-
       ],
     }:
     {

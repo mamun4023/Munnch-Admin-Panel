@@ -1,61 +1,111 @@
-import React, {useState} from 'react';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import { CardActionArea, Grid, Avatar } from '@mui/material';
-import { Stack } from '@mui/material';
-import { styled } from '@mui/material/styles';
-import IconButton from '@mui/material/IconButton';
-import PhotoCamera from '@mui/icons-material/PhotoCamera';
+import * as Yup from 'yup';
+import { useEffect, useState } from 'react';
+import { Link as RouterLink, useNavigate, useParams } from 'react-router-dom';
+import { useFormik, Form, FormikProvider } from 'formik';
+// material
+import {
+  Stack,
+  TextField,
+  Grid,
+  Typography
+} from '@mui/material';
+import { LoadingButton } from '@mui/lab';
+import {FetchProfileData} from '../../redux/auth/profile/profile/action';
+import {UpdateProfileImage} from '../../redux/auth/profile/getProfile/action';
+import { useDispatch, useSelector } from 'react-redux';
+import { toast } from 'material-react-toastify';
 
-export default function ActionAreaCard() {
-    const[image, setImage] = useState()
-    const Input = styled('input')({
-        display: 'none',
-      });
-    
-    const onImageChange = (event) => {
-        if (event.target.files && event.target.files[0]) {
-          let reader = new FileReader();
-          reader.onload = (e) => {
-            setImage(e.target.result);
-          };
-          reader.readAsDataURL(event.target.files[0]);
-        }
-      }
+// ----------------------------------------------------------------------
 
-    return (
-            <Grid
-                container
-                // item xs={8} 
-                spacing={0}
-                direction="column"
-                alignItems="center"
-                justifyContent="center"
-                style={{ minHeight: '60vh' }}
-            >
+export default function ProfileImageUpdate() {
+  const dispatch = useDispatch();
+  const [loading, setLoading] = useState(false);
 
-                <Card sx={{ maxWidth: 345 }}>
-                    <CardActionArea>
-                        <Avatar 
-                            alt="Remy Sharp" 
-                            src="/static/images/avatar/1.jpg"
-                            style={{ height : "300px", width : "300px" }}
+  useEffect(()=>{
+    dispatch(FetchProfileData())
+  },[])
+
+  const ProfileData = useSelector(state=> state.Profile.data);
+
+  const ProfileSchema = Yup.object().shape({
+    image : Yup.mixed().required("Choose new picture").nullable()
+  });
+
+  const formik = useFormik({
+    enableReinitialize : true,
+    initialValues: {
+      image : null,
+      url : ProfileData.url? ProfileData.url : ""
+    },
+    validationSchema: ProfileSchema,
+    onSubmit: (values) => {
+      const data = new FormData();
+      data.append('image', values.image);
+
+      setLoading(true);
+      UpdateProfileImage(data)
+        .then(res =>{
+            const response = res.data.message;
+            toast.dark(response);
+            dispatch(FetchProfileData())
+            setLoading(false);
+        })
+        .catch(err =>{
+            setLoading(true);
+            const errors = err.response.message;
+            toast.error(errors)
+        })
+    }
+  });
+
+  const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = formik;
+
+  return(
+        <>
+        <Typography variant="h4" gutterBottom>
+          
+        </Typography>
+        <Grid
+            container
+            spacing={0}
+            direction="column"
+            alignItems="center"
+            justifyContent="center"
+            style={{ minHeight: '60vh' }}
+        >
+            <Grid item xs={6} >
+                <FormikProvider value={formik}>
+                    <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
+                        <Stack style={{ width : "450px" }} spacing={3}>
+                        <img 
+                            src= { values.image?URL.createObjectURL(values.image) : ProfileData?.url}
+                            style = {{ maxHeight : "300px" }}
                         />
-                        <CardContent>
-                            <Stack alignItems= "center" >
-                                <Stack direction="row" alignItems="center" >
-                                <label htmlFor="icon-button-file">
-                                <Input onChange={onImageChange} accept="image/*" id="icon-button-file" type="file" />
-                                    <IconButton      
-                                        color="primary" aria-label="upload picture" component="span">
-                                        <PhotoCamera style={{ fontSize : "100px"}} />
-                                        </IconButton>
-                                    </label>
-                                </Stack>
-                            </Stack>    
-                        </CardContent>
-                    </CardActionArea>
-                </Card>
-            </Grid>
-    );
+                        <TextField
+                            fullWidth
+                            InputLabelProps={{
+                              shrink : true                                
+                            }}
+                            type="file"
+                            label="Profile Picture"
+                            onChange={ev=>{ formik.setFieldValue("image",ev.target.files[0]) }} 
+                            error={Boolean(touched.image && errors.image)}
+                            helperText={touched.image && errors.image}
+                        />
+                        <LoadingButton
+                          fullWidth
+                          size="large"
+                          type="submit"
+                          variant="contained"
+                          loading={loading}
+                        >
+                            Save
+                        </LoadingButton>
+                        </Stack>
+                    </Form>
+                </FormikProvider>
+            </Grid>   
+         </Grid>
+    </> 
+  );
 }

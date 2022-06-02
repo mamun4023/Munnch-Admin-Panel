@@ -2,7 +2,7 @@ import {combineReducers} from 'redux';
 
 // auth Reducers
 import SignInReducer from './auth/signIn/reducer';
-import ProfileReducer from './auth/profile/getProfile/reducer';
+import ProfileReducer from './auth/profile/profile/reducer';
 import ChangePasswordReducer from './auth/profile/changePassword/reducer';
 
 // user reducer
@@ -47,7 +47,7 @@ import FetchSingleCoupon from './coupon/fetchSingle/reducer';
 
 import FetchWithdrawal from './withdraw/fetchAll/reducer';
 import TransactionHistory from './transaction/fetch/reducer';
-import ContactListReducer from './contact/fetchList/reducer';
+import ContactListReducer from './contact/fetchAll/reducer';
 
 import OrderListReducer from './order/FetchAllOrder/reducer';
 import SingleOrderReducer from './order/fetchSingle/reducer';
@@ -96,10 +96,10 @@ const RootReducer = combineReducers({
 
     Withdrawal : FetchWithdrawal,
     Transaction : TransactionHistory,
-    ContactList : ContactListReducer,
 
     OrderList : OrderListReducer,
     SingleOrder : SingleOrderReducer,
+    ContactList : ContactListReducer,
 
 })
 

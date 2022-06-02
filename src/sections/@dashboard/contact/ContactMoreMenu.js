@@ -4,12 +4,23 @@ import { Link as RouterLink } from 'react-router-dom';
 import { Menu, MenuItem, IconButton, ListItemIcon, ListItemText } from '@mui/material';
 // component
 import Iconify from '../../../components/Iconify';
+import {useDispatch} from 'react-redux';
+import {RemoveBanner} from '../../../redux/contact/remove/action';
+import {FetchContactList} from '../../../redux/contact/fetchAll/action';
 
 // ----------------------------------------------------------------------
 
-export default function UserMoreMenu() {
+export default function UserMoreMenu({id, status, filter, page, limit, order}) {
   const ref = useRef(null);
+  const dispatch = useDispatch();
   const [isOpen, setIsOpen] = useState(false);
+
+  const RemoveHandler = (id)=>{
+    dispatch(RemoveBanner(id))
+    setTimeout(()=>{
+      dispatch(FetchContactList(status, filter, page, limit, order));
+    }, 1000)
+  }
 
   return (
     <>
@@ -27,18 +38,9 @@ export default function UserMoreMenu() {
         anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
         transformOrigin={{ vertical: 'top', horizontal: 'right' }}
       >
-         
-        <MenuItem component={RouterLink} to="/dashboard/contact/view" sx={{ color: 'text.secondary' }}>
-          <ListItemIcon>
-            <Iconify icon="carbon:view-filled" width={24} height={24} />
-          </ListItemIcon>
-          <ListItemText primary="View" primaryTypographyProps={{ variant: 'body2' }} />
-        </MenuItem>
-
- 
-
-     
-        <MenuItem sx={{ color: 'text.secondary' }}>
+        <MenuItem sx={{ color: 'text.secondary' }}
+          onClick = {()=> RemoveHandler(id)}
+        >
           <ListItemIcon>
             <Iconify icon="ant-design:delete-filled" width={24} height={24} />
           </ListItemIcon>

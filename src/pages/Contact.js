@@ -1,14 +1,34 @@
 import { useState, useEffect } from 'react';
 import { filter } from 'lodash';
 import { Link as RouterLink } from 'react-router-dom';
-import {useDispatch, useSelector} from 'react-redux';
-import {Card, Table, Stack, Button, TableRow, TableBody, TableCell, Container, Typography, TableContainer, TablePagination } from '@mui/material';
+import {useSelector, useDispatch} from 'react-redux';
+import Moment from 'react-moment';
+// material
+import {
+  Card,
+  Table,
+  Stack,
+  Avatar,
+  Button,
+  TableRow,
+  TableBody,
+  TableCell,
+  Container,
+  Typography,
+  TableContainer,
+  TablePagination,
+  Box,
+  Switch
+} from '@mui/material';
 // components
 import Page from '../components/Page';
 import Scrollbar from '../components/Scrollbar';
 import SearchNotFound from '../components/SearchNotFound';
 import { ContactListHead, ContactListToolbar, ContactMoreMenu } from '../sections/@dashboard/contact';
-import {FetchContactList} from '../redux/contact/fetchList/action';
+import {FetchContactList} from '../redux/contact/fetchAll/action';
+import {StatusToggler} from '../redux/contact/statusToggler/action';
+import Spinner from 'src/components/Spinner';
+// ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
   { 
@@ -17,33 +37,33 @@ const TABLE_HEAD = [
     alignRight: false 
   },
   { 
-    label: 'CUSTOMER ID', 
-    id: 'customerId', 
+    label: 'ADMIN ID', 
+    id: 'banerName', 
     alignRight: false 
   },
   { 
-    label: 'USER TYPE ', 
-    id: 'userType', 
+    label: 'USER ID', 
+    id: 'userId', 
     alignRight: false 
   },
   { 
-    label: 'EMAIL', 
-    id: 'email', 
-    alignRight: false 
-  },
-  { 
-    label: 'MESSAGE ', 
+    label: 'MESSAGE', 
     id: 'message', 
     alignRight: false 
   },
   { 
     label: 'UPDATED AT', 
-    id: 'createAt', 
+    id: 'updatedAt', 
     alignRight: false 
   },
   { 
     label: 'CREATED AT', 
-    id: 'updateAt', 
+    id: 'createdAt', 
+    alignRight: false 
+  },
+  { 
+    label: 'STATUS', 
+    id: 'status', 
     alignRight: false 
   },
 ];
@@ -74,9 +94,14 @@ function applySortFilter(array, comparator, query) {
     return a[1] - b[1];
   });
   if (query) {
-    return filter(array, (_user) => _user.name.toLowerCase().indexOf(query.toLowerCase()) !== -1);
+    return filter(array, (_user) => _user.message.toLowerCase().indexOf(query.toLowerCase()) !== -1);
   }
   return stabilizedThis.map((el) => el[0]);
+}
+
+function CapitalizeFirstLetter (s){
+  if (typeof s !== 'string') return ''
+  return s.charAt(0).toUpperCase() + s.slice(1)
 }
 
 export default function Contact() {
@@ -87,15 +112,7 @@ export default function Contact() {
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [contactStatus, setContactStatus] = useState("1");
   const dispatch = useDispatch();
-
-
-  useEffect(()=>{
-    dispatch(FetchContactList(contactStatus, filterName, page, rowsPerPage, order))
-  },[contactStatus, filterName, rowsPerPage, page, order])
-
-  const ContactList = useSelector(state => state.ContactList);
-
-  console.log("Contact list", ContactList)
+  const loading = useSelector(state => state.ContactList.loading)
 
   const ActiveStatusHandler = ()=>{
     setContactStatus("1");
@@ -110,6 +127,13 @@ export default function Contact() {
     setRowsPerPage(5);
     setOrder('desc')
   }
+
+  useEffect(()=>{
+    dispatch(FetchContactList(contactStatus,filterName, page, rowsPerPage, order))
+  }, [contactStatus, filterName, page, rowsPerPage, order])
+
+  const ContactList = useSelector(state=> state.ContactList.data);
+  // console.log("ContactList Data", ContactList);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -133,22 +157,28 @@ export default function Contact() {
   const filteredContact = applySortFilter(ContactList, getComparator(order, orderBy), filterName);
   const isUserNotFound = filteredContact.length === 0;
 
+  const StatusToggleHandler = (id)=>{
+    dispatch(StatusToggler(id))
+
+    setTimeout(()=>{
+      dispatch(FetchContactList(contactStatus, filterName, page, rowsPerPage))
+    },1000)
+  }
+
   return (
     <Page title="Munchh | Contact">
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={1}>
           <Typography variant="h4" gutterBottom>
-            Contact Us Management
-          </Typography>
+            Contact US Management
+          </Typography>  
         </Stack>
         <Card>
-
-
-        <div style={{ display:"flex", flexWrap:"wrap", justifyContent:"space-between"}}>
-                <ContactListToolbar
+          <div style={{ display:"flex", flexWrap:"wrap", justifyContent:"space-between"}}>
+              <ContactListToolbar
                   filterName={filterName}
                   onFilterName={handleFilterByName}
-                  />
+                />
               <div style={{ marginTop : "25px" }} >
                 <Button
                     variant= {contactStatus === "1"? "contained": null}
@@ -162,7 +192,7 @@ export default function Contact() {
                 >Inactive</Button> 
               </div>
           </div>
-
+         {loading? <Spinner/> : <Box>  
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
               <Table>
@@ -175,24 +205,43 @@ export default function Contact() {
                 <TableBody>
                   {filteredContact
                     .map((row) => {
-                      const { id, userName, userType, email, message, created_at,  updated_at } = row;
+                      const { id, admin_id, customer_id, is_enabled, message, status, updated_at, created_at } = row;
                       return (
                         <TableRow
                           hover
                           key={id}
                         >
                           <TableCell align="left">{id}</TableCell>
-                          <TableCell align="left">{userName}</TableCell>
-                          <TableCell align="left">{message}</TableCell>
-                          <TableCell align="left">{updated_at}</TableCell>
-                          <TableCell align="left">{created_at}</TableCell>   
+                          <TableCell align="left">{admin_id != null?admin_id: "--"}</TableCell>
+                          <TableCell align="left">{customer_id}</TableCell>
+                          <TableCell align="left" sx={{ maxWidth: 300 }}>
+                            {CapitalizeFirstLetter(message)}
+                          </TableCell>
+                          <TableCell align="left">
+                            <Moment format="DD-MM-YYYY hh:mm a" >{updated_at}</Moment>
+                          </TableCell>
+                          <TableCell align="left">
+                            <Moment format="DD-MM-YYYY hh:mm a" >{created_at}</Moment>
+                          </TableCell>
+                          <TableCell align="left">
+                             <Switch 
+                              onClick={()=> StatusToggleHandler(id)}
+                              defaultChecked = {status}
+                            />
+                            </TableCell>
                           <TableCell align="right">
-                            <ContactMoreMenu />
+                            <ContactMoreMenu 
+                              id = {id}
+                              status = {contactStatus}
+                              filter = {filterName}
+                              page = {page}
+                              limit = {rowsPerPage}
+                              order = {order} 
+                            />
                           </TableCell>
                         </TableRow>
                       );
                     })}
-
                 </TableBody>
                 {isUserNotFound && (
                   <TableBody>
@@ -224,6 +273,7 @@ export default function Contact() {
               filteredContact.length === 0 || filteredContact.length < rowsPerPage? {disabled: true} : undefined
             }
           />
+        </Box>}  
         </Card>
       </Container>
     </Page>

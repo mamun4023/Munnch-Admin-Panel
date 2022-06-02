@@ -1,13 +1,17 @@
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { Link as RouterLink, useNavigate, Navigate } from 'react-router-dom';
+import {useDispatch, useSelector} from 'react-redux';
+
 // material
 import { alpha } from '@mui/material/styles';
 import { Button, Box, Divider, MenuItem, Typography, Avatar, IconButton } from '@mui/material';
+
 // components
 import Iconify from '../../components/Iconify';
 import MenuPopover from '../../components/MenuPopover';
 //
 import account from '../../_mocks_/account';
+import {FetchProfileData} from '../../redux/auth/profile/profile/action';
 
 // ----------------------------------------------------------------------
 
@@ -34,7 +38,7 @@ const MENU_OPTIONS = [
 export default function AccountPopover() {
   const anchorRef = useRef(null);
   const [open, setOpen] = useState(false);
-  const navigate = useNavigate();
+  const dispatch  = useDispatch();
 
   const handleOpen = () => {
     setOpen(true);
@@ -44,10 +48,20 @@ export default function AccountPopover() {
   };
 
 
+  useEffect(()=>{
+    dispatch(FetchProfileData())
+  },[])
+
+
+  const Data = useSelector(state => state.Profile.data);
+
+  console.log("profile  dd ddd data", Data)
+
+
+
   const LogoutHandler = ()=>{
     localStorage.removeItem('token');
     window.location.replace("/login");
-    
   }
 
   return (
@@ -72,7 +86,7 @@ export default function AccountPopover() {
           })
         }}
       >
-        <Avatar src={account.photoURL} alt="photoURL" />
+        <Avatar src={Data.url} alt="photoURL" />
       </IconButton>
 
       <MenuPopover
