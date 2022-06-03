@@ -116,7 +116,7 @@ const palette = {
     focus: GREY[500_24],
     hoverOpacity: 0.08,
     disabledOpacity: 0.48
-  }
+  },
 };
 
 export default palette;

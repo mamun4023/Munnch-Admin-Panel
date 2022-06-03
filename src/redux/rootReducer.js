@@ -46,7 +46,8 @@ import FetchCouponListReducer from './coupon/fetchAll/reducer';
 import FetchSingleCoupon from './coupon/fetchSingle/reducer';
 
 import FetchWithdrawal from './withdraw/fetchAll/reducer';
-import TransactionHistory from './transaction/fetch/reducer';
+import UserTransactionHistory from './transactionHistory/User/reducer';
+import MerchantTransactionHistory from './transactionHistory/merchant/reducer';
 import ContactListReducer from './contact/fetchAll/reducer';
 
 import OrderListReducer from './order/FetchAllOrder/reducer';
@@ -95,7 +96,8 @@ const RootReducer = combineReducers({
     SingleCoupon : FetchSingleCoupon,
 
     Withdrawal : FetchWithdrawal,
-    Transaction : TransactionHistory,
+    UserTransaction : UserTransactionHistory,
+    MerchantTransaction : MerchantTransactionHistory,
 
     OrderList : OrderListReducer,
     SingleOrder : SingleOrderReducer,

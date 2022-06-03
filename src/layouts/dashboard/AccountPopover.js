@@ -47,17 +47,13 @@ export default function AccountPopover() {
     setOpen(false);
   };
 
-
   useEffect(()=>{
     dispatch(FetchProfileData())
   },[])
 
-
   const Data = useSelector(state => state.Profile.data);
 
-  console.log("profile  dd ddd data", Data)
-
-
+  // console.log("profile  dd ddd data", Data)
 
   const LogoutHandler = ()=>{
     localStorage.removeItem('token');
@@ -86,7 +82,7 @@ export default function AccountPopover() {
           })
         }}
       >
-        <Avatar src={Data.url} alt="photoURL" />
+        <Avatar src={Data.url} alt="Profile Pic" />
       </IconButton>
 
       <MenuPopover

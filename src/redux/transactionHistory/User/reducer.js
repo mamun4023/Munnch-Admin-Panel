@@ -8,18 +8,18 @@ const InitialState = {
 
 const Reducer = (state = InitialState, action)=>{
     switch(action.type){
-        case Types.FETCH_TRANSACTION_REQUEST:
+        case Types.FETCH_TRANSACTION_LIST_REQUEST:
             return{
                 ...state,
                 loading : true
             }
-        case Types.FETCH_TRANSACTION_SUCCESS:
+        case Types.FETCH_TRANSACTION_LIST_SUCCESS:
             return{
                 ...state,
                 data : action.payload,
                 loading : false
             }
-        case Types.FETCH_TRANSACTION_FAILED:
+        case Types.FETCH_TRANSACTION_LIST_FAILED:
             return{
                 ...state,
                 loading : false

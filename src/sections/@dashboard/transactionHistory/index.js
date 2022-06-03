@@ -1,3 +1,3 @@
-export { default as TransactionListHead } from './TransactionListHead';
-export { default as TransactionToolbar } from './TransactionToolbar';
-export { default as TransactionMoreMenu } from './TransactionMoreMenu';
+export { default as WithdrawalListHead } from './WithdrawalListHead';
+export { default as WithdrawalListToolbar } from './WithdrawalToolbar';
+export { default as WithdrawalMoreMenu } from './WithdrawalMoreMenu';

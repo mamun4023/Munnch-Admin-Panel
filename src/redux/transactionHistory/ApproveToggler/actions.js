@@ -2,6 +2,7 @@ import axios from 'axios';
 import {AuthConfig, URL} from '../../../config/config';
 import { toast } from 'material-react-toastify';
 
+
 export const MerchantStatusToggler = (id)=>{
     return ()=>{
         axios.post(`${URL}/api/v1/admin/withdraw/status/${id}`,{}, AuthConfig)
@@ -9,6 +10,7 @@ export const MerchantStatusToggler = (id)=>{
                 const response = res.data.message;
                 console.log(response);
                 toast.dark(response)
+                
             })
             .catch((err)=>{
                 console.log(err)

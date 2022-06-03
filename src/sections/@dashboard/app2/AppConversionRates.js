@@ -1,7 +1,6 @@
 import React from "react";
 import ReactApexChart from 'react-apexcharts'
 
-
     const data = {
     
       series: [{
@@ -28,7 +27,7 @@ import ReactApexChart from 'react-apexcharts'
           categories: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November","December"],
         }
       },
-  
+
     };
 
 

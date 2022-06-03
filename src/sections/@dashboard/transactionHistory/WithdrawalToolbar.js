@@ -52,19 +52,17 @@ export default function UserListToolbar({ numSelected, filterName, onFilterName 
         })
       }}
     >
-       
         <SearchStyle
           style={{ height : "50px"}}
           value={filterName}
           onChange={onFilterName}
-          placeholder="Search By Order ID..."
+          placeholder="Search By Name..."
           startAdornment={
             <InputAdornment position="start">
               <Iconify icon="eva:search-fill" sx={{ color: 'text.disabled' }} />
             </InputAdornment>
           }
         />
-     
     </RootStyle>
   );
 }

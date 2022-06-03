@@ -7,7 +7,7 @@ import Iconify from '../../../components/Iconify';
 
 // ----------------------------------------------------------------------
 
-export default function UserMoreMenu({verified}) {
+export default function UserMoreMenu() {
   const ref = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -27,29 +27,18 @@ export default function UserMoreMenu({verified}) {
         anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
         transformOrigin={{ vertical: 'top', horizontal: 'right' }}
       >
-
-        {verified? 
-           <MenuItem sx={{ color: 'text.secondary' }}>
-             <ListItemIcon>
-               <Iconify icon="fontisto:toggle-off" width={24} height={24} />
-             </ListItemIcon>
-             <ListItemText primary="Unapprove" primaryTypographyProps={{ variant: 'body2' }} />
-           </MenuItem>
-        
-        :  <MenuItem sx={{ color: 'text.secondary' }}>
+        <MenuItem sx={{ color: 'text.secondary' }}>
           <ListItemIcon>
-            
-            <Iconify icon="fontisto:toggle-on" width={24} height={24} />
+            <Iconify icon="eva:trash-2-outline" width={24} height={24} />
           </ListItemIcon>
-          <ListItemText primary="Approve" primaryTypographyProps={{ variant: 'body2' }} />
+          <ListItemText primary="Delete" primaryTypographyProps={{ variant: 'body2' }} />
         </MenuItem>
-        }
-       
-        <MenuItem component={RouterLink} to="/dashboard/merchant/menu" sx={{ color: 'text.secondary' }}>
+
+        <MenuItem component={RouterLink} to="#" sx={{ color: 'text.secondary' }}>
           <ListItemIcon>
-            <Iconify icon="bxs:food-menu" width={24} height={24} />
+            <Iconify icon="eva:edit-fill" width={24} height={24} />
           </ListItemIcon>
-          <ListItemText primary="Menu" primaryTypographyProps={{ variant: 'body2' }} />
+          <ListItemText primary="Edit" primaryTypographyProps={{ variant: 'body2' }} />
         </MenuItem>
       </Menu>
     </>

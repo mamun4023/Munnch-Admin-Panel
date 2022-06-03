@@ -82,11 +82,11 @@ const sidebarConfig = [
   //   icon: getIcon('ic:baseline-loyalty')
   // },
   
-  // {
-  //   title: 'Report',
-  //   path: '/dashboard/report',
-  //   icon: getIcon('carbon:analytics')
-  // },
+  {
+    title: 'Report',
+    path: '/dashboard/report',
+    icon: getIcon('carbon:analytics')
+  },
 
   // {
   //   title: 'Delivery Fee',

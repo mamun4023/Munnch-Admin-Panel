@@ -52,6 +52,8 @@ import Bank from './pages/Bank';
 import AddBank from './sections/@dashboard/bank/create';
 import UpdateBank from './sections/@dashboard/bank/update';
 import TransactionHistory from './pages/TransactionHistory';
+import UserTransactionHistory from './sections/@dashboard/transactionHistory/user';
+import MerchantTransactionHistory from './sections/@dashboard/transactionHistory/merchant';
 import Report from './pages/Report';
 import DeliveryFee from './pages/DeliveryFee';
 import AddRange from './sections/@dashboard/deliveryFee/create';
@@ -119,6 +121,8 @@ export default function Router() {
         { path: 'bank/add', element : <AddBank/>},
         { path: 'bank/update/:id', element : <UpdateBank/>},
         { path: 'transaction_history', element : <TransactionHistory/>},
+        { path: 'transaction_history/user', element : <UserTransactionHistory/>},
+        { path: 'transaction_history/merchant', element : <MerchantTransactionHistory/>},
         { path: 'report', element : <Report/>},
         { path: 'delivery_fee', element : <DeliveryFee/>},
         { path: 'delivery_fee/add', element : <AddRange/>},

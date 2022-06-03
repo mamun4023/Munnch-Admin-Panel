@@ -8,7 +8,7 @@ import {
   Stack,
   TextField,
   Grid, 
-  Typography 
+  Typography,
 } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 // component
@@ -94,10 +94,13 @@ export default function Create(){
                             }}
                             type="file"
                             label="Banner Image"
+                            // style={{ display: 'none' }}
+                            // id="raised-button-file"
                             onChange={ev=>{ formik.setFieldValue("image",ev.target.files[0]) }} 
                             error={Boolean(touched.image && errors.image)}
                             helperText={touched.image && errors.image}
                         />
+
                         <LoadingButton
                             fullWidth
                             size="large"
