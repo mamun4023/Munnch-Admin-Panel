@@ -187,19 +187,19 @@ export default function Store() {
                         {StoreData.cuisines?               
                           <ImageList >
                               {StoreData.cuisines.map((item) => (
-                                <ImageListItem key={item.img}>
+                                <ImageListItem key={item?.img}>
                                   <img
                                     style={{ maxHeight : "250px"}}
-                                    src= {item.image}
+                                    src= {item?.image}
                                   />
                                   <ImageListItemBar
-                                    title={item.cuisine_name}
-                                    subtitle = {item.status ==1 ? "Active" : "Inactive"}
+                                    title={item?.cuisine_name}
+                                    subtitle = {item?.status ==1 ? "Active" : "Inactive"}
 
                                     actionIcon={
                                       <IconButton
                                         sx={{ color: 'rgba(255, 255, 255, 0.54)' }}
-                                        aria-label={`info about ${item.title}`}
+                                        aria-label={`info about ${item?.title}`}
                                       >
                                         <Info />
                                       </IconButton>

@@ -79,8 +79,8 @@ function View() {
                                             {data?.store_menu_item_name}
                                         </Typography>
                                         <Typography variant="body2" color="text.secondary">
-                                            <h4> Quantity  &ensp; : &ensp; {data?.quantity} </h4>
-                                            <h4> Price &ensp;&ensp;&ensp; &ensp; : &ensp; {data?.total_price} </h4>
+                                            <h4> Quantity  &ensp; : &ensp; {data?.quantity}</h4>
+                                            <h4> Price &ensp;&ensp;&ensp; &ensp; : &ensp; RM {data?.total_price} </h4>
                                         </Typography>
                                     </CardContent>
                                 </Grid>
@@ -102,22 +102,22 @@ function View() {
                                     <TableBody>
                                         <TableRow className={classes.tableRow}>
                                             <TableCell className={classes.tableCell} align="left">Total Price</TableCell>
-                                            <TableCell className={classes.tableCell} align="left"> {order?.bill_details.item_total} </TableCell>
+                                            <TableCell className={classes.tableCell} align="left"> RM {order?.bill_details.item_total} </TableCell>
                                         </TableRow>
 
                                         <TableRow className={classes.tableRow}>
                                             <TableCell className={classes.tableCell}  align="left">Delivery Fee</TableCell>
-                                            <TableCell className={classes.tableCell} align="left">  {order?.bill_details.delivery_fee} </TableCell>
+                                            <TableCell className={classes.tableCell} align="left">  RM {order?.bill_details.delivery_fee} </TableCell>
                                         </TableRow>
 
                                         <TableRow className={classes.tableRow}>
                                             <TableCell className={classes.tableCell}  align="left">Discount </TableCell>
-                                            <TableCell className={classes.tableCell} align="left">  {order?.bill_details.coupon_discount} </TableCell>
+                                            <TableCell className={classes.tableCell} align="left">  RM {order?.bill_details.coupon_discount} </TableCell>
                                         </TableRow>
 
                                         <TableRow className={classes.tableRow}>
                                             <TableCell className={classes.tableCell}  align="left">Total Payment </TableCell>
-                                            <TableCell className={classes.tableCell} align="left">  {order?.bill_details.to_pay} </TableCell>
+                                            <TableCell className={classes.tableCell} align="left">  RM {order?.bill_details.to_pay} </TableCell>
                                         </TableRow>
                                     </TableBody>
                                 </Table>

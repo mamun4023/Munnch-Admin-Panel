@@ -1,12 +1,17 @@
-export { default as AppBugReports } from './TotalMenu';
-export { default as AppConversionRates } from './AppConversionRates';
+export { default as TotalUser } from './TotalUser';
+export { default as TotalMerchant } from './TotalMerchant';
+export { default as TotalCuisine } from './TotalCuisine';
+export { default as TotalMenu } from './TotalMenu';
+export { default as Growth } from './growth';
+
+export { default as OrderGrowth } from './OrderGrowth';
 export { default as AppCurrentSubject } from './AppCurrentSubject';
-export { default as AppCurrentVisits } from './AppCurrentVisits';
-export { default as AppItemOrders } from './TotalCuisine';
+export { default as Top5Cuisine } from './Top5Cuisine';
+
 export { default as AppNewsUpdate } from './AppNewsUpdate';
-export { default as AppNewUsers } from './TotalMerchat';
-export { default as AppOrderTimeline } from './AppOrderTimeline';
+
+export { default as OrderTimeline } from './OrderTimeline';
 export { default as AppTasks } from './AppTasks';
 export { default as AppTrafficBySite } from './AppTrafficBySite';
-export { default as AppWebsiteVisits } from './AppWebsiteVisits';
-export { default as AppWeeklySales } from './TotalUser';
+
+

@@ -35,17 +35,16 @@ const IconWrapperStyle = styled('div')(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
-const TOTAL = 1723315;
 
 export default function AppItemOrders() {
   return (
     <RootStyle>
       <IconWrapperStyle>
-        <Iconify icon="ant-design:windows-filled" width={24} height={24} />
+        <Iconify icon="dashicons:food" width={50} height={50} />
       </IconWrapperStyle>
       <Typography variant="h3">{500}</Typography>
       <Typography variant="subtitle2" sx={{ opacity: 0.72 }}>
-        Total Cuisine
+        Total Cuisines
       </Typography>
     </RootStyle>
   );

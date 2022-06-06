@@ -17,28 +17,28 @@ import { fDateTime } from '../../../utils/formatTime';
 
 const TIMELINES = [
   {
-    title: '1983, orders, $4220',
-    time: faker.date.past(),
+    title: 'Placed Order',
+    order : 233,
     type: 'order1'
   },
   {
-    title: '12 Invoices have been paid',
-    time: faker.date.past(),
+    title: 'Deliverd Order',
+    order : 10,
     type: 'order2'
   },
   {
-    title: 'Order #37745 from September',
-    time: faker.date.past(),
+    title: 'Processing Order',
+    order : 10,
     type: 'order3'
   },
   {
-    title: 'New order placed #XF-2356',
-    time: faker.date.past(),
+    title: 'Shipping Order',
+    order : 110,
     type: 'order4'
   },
   {
-    title: 'New order placed #XF-2346',
-    time: faker.date.past(),
+    title: 'Rejected Order',
+    order : 23,
     type: 'order5'
   }
 ];
@@ -51,7 +51,7 @@ OrderItem.propTypes = {
 };
 
 function OrderItem({ item, isLast }) {
-  const { type, title, time } = item;
+  const { type, title, order } = item;
   return (
     <TimelineItem>
       <TimelineSeparator>
@@ -70,7 +70,8 @@ function OrderItem({ item, isLast }) {
       <TimelineContent>
         <Typography variant="subtitle2">{title}</Typography>
         <Typography variant="caption" sx={{ color: 'text.secondary' }}>
-          {fDateTime(time)}
+          {/* {fDateTime(time)} */}
+          {order}
         </Typography>
       </TimelineContent>
     </TimelineItem>

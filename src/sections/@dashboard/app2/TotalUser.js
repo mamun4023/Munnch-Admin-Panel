@@ -44,7 +44,7 @@ export default function TotalUsers() {
       </IconWrapperStyle>
       <Typography variant="h3">{300}</Typography>
       <Typography sx={{ opacity: 0.72 }}>
-        Total Users
+        Total Customers
       </Typography>
     </RootStyle>
   );

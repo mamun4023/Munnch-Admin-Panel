@@ -34,17 +34,15 @@ const IconWrapperStyle = styled('div')(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
-const TOTAL = 234;
-
 export default function AppBugReports() {
   return (
     <RootStyle>
       <IconWrapperStyle>
-        <Iconify icon="ant-design:bug-filled" width={24} height={24} />
+        <Iconify icon="bxs:food-menu" width={50} height={50} />
       </IconWrapperStyle>
-      <Typography variant="h3">{fShortenNumber(TOTAL)}</Typography>
+      <Typography variant="h3">{300}</Typography>
       <Typography variant="subtitle2" sx={{ opacity: 0.72 }}>
-        Total Menu
+        Total Menu Items
       </Typography>
     </RootStyle>
   );

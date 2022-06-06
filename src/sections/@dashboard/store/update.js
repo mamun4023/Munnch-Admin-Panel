@@ -917,8 +917,8 @@ function Update() {
                               multiple
                               options={cuisineList}
                               defaultValue = {values.cuisines}
-                              getOptionSelected={(option, value) => option.cuisine_name === values.cuisine_name}
-                              getOptionLabel = {(option)=> option.cuisine_name}
+                              getOptionSelected={(option, value) => option?.cuisine_name === values?.cuisine_name}
+                              getOptionLabel = {(option)=> option?.cuisine_name}
                               renderInput = {(option)=> <TextField {...option} label ="Cuisine Type" /> }
                               // onChange = {(event, value)=> setSelectedCuisineList(value) }
                               onChange = {(event, value)=>  formik.setFieldValue("cuisines", value) } 
@@ -930,9 +930,9 @@ function Update() {
                               multiple
                               options={foodList}
                               defaultValue = {values.foodType}
-                              getOptionSelected={(option, value) => option.food_type_name === values.food_type_name}
+                              getOptionSelected={(option, value) => option?.food_type_name === values?.food_type_name}
 
-                              getOptionLabel = {(option)=> option.food_type_name}
+                              getOptionLabel = {(option)=> option?.food_type_name}
                               renderInput = {(option)=> <TextField {...option} label ="Food Type" /> }
                               // onChange = {(event, value)=> setSelectedFoodList(value) }
                               onChange = {(event, value)=>  formik.setFieldValue("foodType", value) } 
@@ -964,7 +964,6 @@ function Update() {
                             helperText={touched.facebook && errors.facebook}
                           />
 
-
                           {/* <Autocomplete
                              fullWidth
                               multiple
@@ -978,7 +977,6 @@ function Update() {
                               )}
                               sx={{ width: '500px' }}
                           /> */}
-
                           {/* <Autocomplete
                              fullWidth
                               multiple
