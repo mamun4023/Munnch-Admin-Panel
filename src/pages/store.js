@@ -44,13 +44,13 @@ import { Box } from '@mui/system';
 import Spinner from 'src/components/Spinner';
 import {FetchSingleStore} from '../redux/merchantStore/fetchSingle/action';
 import {RemoveImage} from '../redux/merchantStore/remove/action'
-import {AddImage} from '../redux/merchantStore/upload/action'
+import {AddImage} from '../redux/merchantStore/upload/action';
+
 // ----------------------------------------------------------------------
 
 const Input = styled('input')({
   display: 'none',
 });
-
 
 const useStyles = makeStyles({
   table: {
@@ -83,10 +83,8 @@ export default function Store() {
 
   const ImageDeleteHandler = (storeId, imageId)=>{
     dispatch(RemoveImage(storeId, imageId));
- 
     FetchStore(id);
   }
-
 
   const FetchStore = (id)=>{
     FetchSingleStore(id)
@@ -95,16 +93,14 @@ export default function Store() {
         setStoreData(response);
       })
   }
-
   useEffect(()=>{
       FetchStore(id)
   },[])
 
-
   // console.log("Store data", StoreData)
   const classes = useStyles();
   return (
-    <Page title="Munchh | Food">
+    <Page title="Munchh | Store">
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={1}>
           <Typography variant="h4" gutterBottom>
@@ -131,7 +127,6 @@ export default function Store() {
                         <Typography style={{ background : "#eee" }}  padding={2} textAlign= "center" variant="h6" component="div">
                             Description
                         </Typography>
-                        
                         <Typography sx={{ mb: 1.5 }} color="text.secondary">
                           {StoreData.description? StoreData.description : <div  style={{ textAlign : "center"}} > empty </div> }
                         </Typography>
@@ -145,12 +140,10 @@ export default function Store() {
                           {StoreData.additional_info? StoreData.additional_info : <div  style={{ textAlign : "center"}} > empty </div> }
                         </Typography>
                     </Card>
-
                     <Card> 
                         <Typography  marginTop = {3} style={{ background : "#eee" }}  padding={2} textAlign= "center" variant="h6" component="div">
                             Food Type 
                         </Typography>
-                    
                           {StoreData.food_types?
                             <ImageList >
                               {StoreData.food_types.map((item) => (
@@ -158,7 +151,6 @@ export default function Store() {
                                   <img
                                     src= {item.image}
                                     style={{ maxHeight : "250px"}}
-                                    
                                   />
                                   <ImageListItemBar
                                     title={item.food_type_name}
@@ -167,7 +159,6 @@ export default function Store() {
                                     actionIcon={
                                       <IconButton
                                         sx={{ color: 'rgba(255, 255, 255, 0.54)' }}
-                                        
                                       >
                                         <Info />
                                       </IconButton>
@@ -177,7 +168,6 @@ export default function Store() {
                               ))}
                             </ImageList>
                           :null} 
-
                     </Card>
                     <Card marginTop = {5}> 
                         <Typography  marginTop = {3} style={{ background : "#eee" }}  padding={2} textAlign= "center" variant="h6" component="div">
@@ -208,7 +198,6 @@ export default function Store() {
                                 </ImageListItem>
                               ))}
                             </ImageList>
-
                           : "Empty" }  
                     </Card>
                     <Card> 
@@ -254,7 +243,6 @@ export default function Store() {
                         </ImageList>
                          </>: "empty"}
                     </Card>
-
                     </Grid>
                     <Grid item xs={5}>
                         <Card>
@@ -283,9 +271,37 @@ export default function Store() {
                         </Card>
                         <Card style={{ marginTop  : "10px" }} >
                           <CardContent style={{ display:'flex', justifyContent:'center' }} >
-                             <IconButton  target="_blank" href= {StoreData.social_links?StoreData.social_links.website : null} size='large'> <Iconify icon= "mdi:web-box" /></IconButton>
+                             {/* <IconButton  target="_blank" href= {StoreData.social_links?StoreData.social_links.website : null} size='large'> <Iconify icon= "mdi:web-box" /></IconButton>
                              <IconButton  target="_blank" href= {StoreData.social_links?StoreData.social_links.facebook : null} size='large'> <Iconify icon= "fa6-brands:facebook-square" /></IconButton>
                              <IconButton  target="_blank" href= {StoreData.social_links?StoreData.social_links.instagram: null} size='large'> <Iconify icon= "fa6-brands:instagram-square" /></IconButton>
+                           */}
+
+                             <Table> 
+                                <TableRow className={classes.tableRow}>
+                                   <TableCell align="right"  className={classes.tableCell}> 
+                                      <IconButton size='large'> 
+                                        <Iconify icon= "mdi:web-box" />
+                                      </IconButton>
+                                   </TableCell>
+                                   <TableCell align="left" className={classes.tableCell}>{StoreData?.social_links?.website}</TableCell>
+                                </TableRow>
+                                <TableRow className={classes.tableRow}>
+                                   <TableCell align="right" className={classes.tableCell}>
+                                      <IconButton size='large'> 
+                                        <Iconify icon= "fa6-brands:facebook-square" /> 
+                                      </IconButton>
+                                   </TableCell>
+                                   <TableCell align="left" className={classes.tableCell}>{ StoreData?.social_links?.facebook }</TableCell>
+                                </TableRow>
+                                <TableRow className={classes.tableRow}>
+                                   <TableCell align="right" className={classes.tableCell}> 
+                                      <IconButton size='large'> 
+                                        <Iconify icon= "fa6-brands:instagram-square" /> 
+                                      </IconButton>
+                                   </TableCell>
+                                   <TableCell align="left" className={classes.tableCell}>{ StoreData?.social_links?.instagram}</TableCell>
+                                </TableRow>
+                              </Table> 
                           </CardContent>
                         </Card>
                     </Grid>

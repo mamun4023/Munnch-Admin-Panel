@@ -31,7 +31,7 @@ const ChartWrapperStyle = styled('div')(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
-const CHART_DATA = [4344, 5435, 1443, 4443];
+const CHART_DATA = [30, 40, 10, 20, 20];
 
 export default function AppCurrentVisits() {
   const theme = useTheme();
@@ -43,7 +43,7 @@ export default function AppCurrentVisits() {
       theme.palette.warning.main,
       theme.palette.error.main
     ],
-    labels: ['Indian', 'Malasyian', 'European', 'African'],
+    labels: ['Indian', 'Malasyian', 'European', 'African',"Chineese"],
     stroke: { colors: [theme.palette.background.paper] },
     legend: { floating: true, horizontalAlign: 'center' },
     dataLabels: { enabled: true, dropShadow: { enabled: false } },

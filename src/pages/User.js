@@ -112,7 +112,7 @@ function CapitalizeFirstLetter (s){
   return s.charAt(0).toUpperCase() + s.slice(1)
 }
 
-export default function Banner() {
+export default function User() {
   const [page, setPage] = useState(1);
   const [order, setOrder] = useState('desc');
   const [orderBy, setOrderBy] = useState('id');

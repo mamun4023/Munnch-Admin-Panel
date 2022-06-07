@@ -12,26 +12,22 @@ const RootStyle = styled(Page)(({ theme }) => ({
 }));
 
 export default function MyEditor() {
-  const[editorState, onEditorStateChange] = useState();
-
-  console.log(editorState)
-
+  
   return (
      <>
       <RootStyle title="Munchh | Strings"> </RootStyle>
           <Typography  variant="h4" gutterBottom>
                 Strings Management
           </Typography>
-
-        <Grid
-            container
-            // item xs={8} 
-            spacing={0}
-            direction="column"
-            alignItems="center"
-            justifyContent="center"
-            style={{ minHeight: '60vh' }}
-        >
+            <Grid
+                container
+                // item xs={8} 
+                spacing={0}
+                direction="column"
+                alignItems="center"
+                justifyContent="center"
+                style={{ minHeight: '60vh' }}
+            >
             <Grid item xs={6} >
                   <Stack style={{ width : "450px" }} spacing={3}>
                     <Button

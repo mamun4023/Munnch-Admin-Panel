@@ -45,24 +45,8 @@ const TABLE_HEAD = [
     alignRight: false 
   },
   { 
-    label: 'PROFILE IMAGE', 
-    id: 'profile_image', 
-    alignRight: false 
-  },
-
-  { 
-    label: 'EMAIL',
-    id: 'email', 
-    alignRight: false 
-  },
-  { 
-    label: 'PHONE NUMBER',
-    id: 'phone_number', 
-    alignRight: false 
-  },
-  { 
-    label: 'ACCOUNT NUMBER', 
-    id: 'account_number',
+    label: 'ACCOUNT NUMBER',
+    id: 'accountNumber', 
     alignRight: false 
   },
   { 
@@ -73,11 +57,6 @@ const TABLE_HEAD = [
   { 
     label: 'DATE', 
     id: 'date', 
-    alignRight: false 
-  },
-  { 
-    label: 'APRROVAL', 
-    id: 'approval', 
     alignRight: false 
   },
 ];
@@ -193,7 +172,7 @@ export default function Withdrawal() {
           </div>
           {loading? <Spinner/> :  <Box> 
           <Scrollbar>
-            <TableContainer sx={{ minWidth: 1800 }}>
+            <TableContainer sx={{ minWidth: 1000 }}>
               <Table>
                 <WithdrawalListHead
                   order={order}
@@ -204,7 +183,7 @@ export default function Withdrawal() {
                 <TableBody>
                   {filteredTransaction
                     .map((row) => {
-                      const { id, store, accountNumber, amount, store_bank, is_withdrawn, created_at } = row;
+                      const { id, store_withdraw, amount } = row;
                       return (
                         <TableRow
                           hover
@@ -213,28 +192,12 @@ export default function Withdrawal() {
                           role="checkbox"
                         >
                           <TableCell align="left">{id}</TableCell>
-                          <TableCell align="left">{CapitalizeFirstLetter(store?.restaurant_name)}</TableCell>
-                          <TableCell align="left">
-                             <Avatar  variant="square" style={{width : "70px"}} src= {store?.images[0].image} />
-                          </TableCell>
-                          <TableCell align="left">{store?.email}</TableCell>
-                          <TableCell align="left">{store?.contact_no}</TableCell>
-                          <TableCell align="left">{CapitalizeFirstLetter(store_bank?.holder_name)}</TableCell>
-                          <TableCell align="left">{store_bank?.bank?.name}</TableCell>
-                          <TableCell align="left">{store_bank?.account_number}</TableCell>
+                          <TableCell align="left">{CapitalizeFirstLetter(store_withdraw?.store_bank?.holder_name)}</TableCell>
+                          <TableCell align="left">{store_withdraw?.store_bank?.account_number}</TableCell>
                           <TableCell align="left">RM {amount}</TableCell>
                           <TableCell align="left">
-                            <Moment format="DD-MM-YYYY hh:mm a" >{created_at}</Moment> 
+                            <Moment format="DD-MM-YYYY hh:mm a" >{store_withdraw?.store_bank?.created_at}</Moment> 
                           </TableCell>   
-                          <TableCell align="left">
-                              <Switch 
-                                onChange={()=> StatusChangeHandler(id)}
-                                defaultChecked = {is_withdrawn === 1? true: false}
-                              />
-                            </TableCell>
-                          <TableCell align="right">
-                            {/* <MerchantMoreMenu /> */}
-                          </TableCell>
                         </TableRow>
                       );
                     })}

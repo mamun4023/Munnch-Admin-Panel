@@ -3,23 +3,15 @@ import { Box, Grid, Container, Typography } from '@mui/material';
 // components
 import Page from '../components/Page';
 import {
-  
   TotalUser,
   TotalMerchant,
   TotalCuisine,
   TotalMenu,
   Growth,
   OrderGrowth,
-  AppBugReports,
   Top5Cuisine,
-  AppNewsUpdate,
-  AppWeeklySales,
   OrderTimeline,
-  AppCurrentVisits,
-  AppWebsiteVisits,
   AppTrafficBySite,
-  AppCurrentSubject,
-  AppConversionRates
 } from '../sections/@dashboard/app2';
 
 // ----------------------------------------------------------------------
@@ -28,9 +20,9 @@ export default function Report() {
   return (
     <Page title="Munchh | Report ">
       <Container maxWidth="xl">
-        <Box sx={{ pb: 5 }}>
+        {/* <Box sx={{ pb: 5 }}>
           <Typography variant="h4">Report</Typography>
-        </Box>
+        </Box> */}
         <Grid container spacing={3}>
           <Grid item xs={12} sm={6} md={3}>
             <TotalUser />

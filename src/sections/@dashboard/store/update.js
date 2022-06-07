@@ -389,13 +389,13 @@ function Update() {
 
       for( let i in  cuisineData){
         let obj = {
-          cuisine_id : cuisineData[i].id
+          cuisine_id : cuisineData[i]?.id
         }
         CuisineIds.push(obj)
       }
       for( let i in  FoodData){
         let obj = {
-          food_type_id : FoodData[i].id
+          food_type_id : FoodData[i]?.id
         }
         FoodIds.push(obj)
       }

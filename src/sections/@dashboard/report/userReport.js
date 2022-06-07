@@ -1,7 +1,6 @@
 import React from  'react';
 import {Bar, Line,  Doughnut} from 'react-chartjs-2';
 
-
 function Chart(){
         
    var data = {

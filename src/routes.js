@@ -6,7 +6,6 @@ import NotFound from './pages/Page404';
 // pages
 import Login from './pages/Login';
 import Register from './pages/Register';
-import DashboardApp from './pages/DashboardApp';
 import User from './pages/User';
 import Merchant from './pages/Merchant';
 import CreateMerchant from './sections/@dashboard/merchant/create';
@@ -30,7 +29,6 @@ import Banner from './pages/Banner';
 import BannerCreate from './sections/@dashboard/banner/create';
 import BannerView from './sections/@dashboard/banner/view';
 import BannerUpdate from './sections/@dashboard/banner/update';
-
 import Food from './pages/Food';
 import CreateFood from './sections/@dashboard/Food/create';
 import UpdateFood from './sections/@dashboard/Food/update';
@@ -72,7 +70,6 @@ export default function Router() {
     {
       path: '/dashboard', element: <DashboardLayout />,
       children: [
-        { path: 'app', element: <DashboardApp /> },
         { path: 'user', element: <User /> },
         { path: 'merchant', element : <Merchant/>},
         { path: 'merchant/create', element : <CreateMerchant/>},
@@ -80,13 +77,11 @@ export default function Router() {
         { path: 'merchant/update/:id', element : <UpdateMerchant/>},
         { path: 'merchant/store/:id', element : <Store/>}, 
         { path: 'merchant/store/update/:id', element : <UpdateStore/>}, 
-
         { path: 'merchant/menu/:id', element : <MenuItem/>},
         { path: 'merchant/menu/create/:id', element : <CreateMenuItem/>},
         { path: 'merchant/menu/view/:id', element : <ViewMenuItem/>},
         { path: 'merchant/menu/image', element : <UploadImage/>},
         { path: 'merchant/menu/update/:id', element : <UpdateItem/>},
-        
         { path: 'order', element : <Order/>},
         { path: 'order/view/:id', element : <ViewOrder/>},
         { path: 'banner', element : <Banner/>},
@@ -128,7 +123,6 @@ export default function Router() {
         { path: 'delivery_fee/add', element : <AddRange/>},
         { path: 'delivery_fee/update/:id', element : <UpdateRange/>},
         { path: 'contact', element : <ContactUs/>},
-      
       ],
     }:
     {

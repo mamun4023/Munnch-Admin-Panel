@@ -89,7 +89,6 @@ function applySortFilter(array, comparator, query) {
   return stabilizedThis.map((el) => el[0]);
 }
 
-
 function ReduceMessage(data){
   let arr = data.split('');
   let reducer , message;
@@ -170,7 +169,7 @@ export default function Notification() {
           />
         {loading? <Spinner/> : <Box> 
           <Scrollbar>
-            <TableContainer sx={{ minWidth: 1500 }}>
+            <TableContainer sx={{ minWidth: 1200 }}>
               <Table>
                 <NotifyListHead
                   order={order}
