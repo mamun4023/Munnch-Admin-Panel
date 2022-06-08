@@ -60,6 +60,8 @@ import ContactUs from './pages/Contact';
 import Store from './pages/store';
 import UpdateStore from './sections/@dashboard/store/update'
 
+import Management from './pages/Signup';
+
 // ----------------------------------------------------------------------
 
 const token = localStorage.getItem('token');
@@ -123,6 +125,8 @@ export default function Router() {
         { path: 'delivery_fee/add', element : <AddRange/>},
         { path: 'delivery_fee/update/:id', element : <UpdateRange/>},
         { path: 'contact', element : <ContactUs/>},
+        { path: 'management', element : <Management/>},
+        
       ],
     }:
     {

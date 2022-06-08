@@ -1,6 +1,7 @@
 // material
 import { alpha, styled } from '@mui/material/styles';
 import { Card, Typography } from '@mui/material';
+import {useSelector} from 'react-redux';
 // utils
 import { fShortenNumber } from '../../../utils/formatNumber';
 //
@@ -35,12 +36,13 @@ const IconWrapperStyle = styled('div')(({ theme }) => ({
 // ----------------------------------------------------------------------
 
 export default function AppBugReports() {
+  const TotalData = useSelector(state => state.Total.data);
   return (
     <RootStyle>
       <IconWrapperStyle>
         <Iconify icon="bxs:food-menu" width={50} height={50} />
       </IconWrapperStyle>
-      <Typography variant="h3">{300}</Typography>
+      <Typography variant="h3">{TotalData?.totalMenuItems}</Typography>
       <Typography variant="subtitle2" sx={{ opacity: 0.72 }}>
         Total Menu Items
       </Typography>

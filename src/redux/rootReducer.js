@@ -53,6 +53,10 @@ import ContactListReducer from './contact/fetchAll/reducer';
 import OrderListReducer from './order/FetchAllOrder/reducer';
 import SingleOrderReducer from './order/fetchSingle/reducer';
 
+import TotalReducer from './report/fetchTotal/reducer';
+import Top5CuisineReducer from './report/fetchTopCuisine/reducer';
+import GrowthChartReducer from './report/fetchGrowth/reducer';
+
 const RootReducer = combineReducers({
     SignIn : SignInReducer,
     Profile : ProfileReducer,
@@ -102,6 +106,9 @@ const RootReducer = combineReducers({
     OrderList : OrderListReducer,
     SingleOrder : SingleOrderReducer,
     ContactList : ContactListReducer,
+    Total : TotalReducer,
+    Top5Cuisine : Top5CuisineReducer,
+    GrowthChart : GrowthChartReducer,
 
 })
 

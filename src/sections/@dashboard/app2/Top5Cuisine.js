@@ -1,5 +1,7 @@
+import { useEffect } from 'react';
 import { merge } from 'lodash';
 import ReactApexChart from 'react-apexcharts';
+import {useDispatch, useSelector} from 'react-redux';
 // material
 import { useTheme, styled } from '@mui/material/styles';
 import { Card, CardHeader } from '@mui/material';
@@ -7,6 +9,7 @@ import { Card, CardHeader } from '@mui/material';
 import { fNumber } from '../../../utils/formatNumber';
 //
 import { BaseOptionChart } from '../../../components/charts';
+import {FetchTopCuisine} from '../../../redux/report/fetchTopCuisine/action';
 
 // ----------------------------------------------------------------------
 
@@ -31,9 +34,32 @@ const ChartWrapperStyle = styled('div')(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
-const CHART_DATA = [30, 40, 10, 20, 20];
+export default function TopCuisines() {
 
-export default function AppCurrentVisits() {
+  const dispatch = useDispatch();
+
+  useEffect(()=>{
+    dispatch(FetchTopCuisine());
+  },[dispatch])
+
+  const ChartData = useSelector(state =>state.Top5Cuisine.data);
+
+  const ChartNumber = [
+    ChartData[0]?.total,
+    ChartData[1]?.total,
+    ChartData[2]?.total,
+    ChartData[3]?.total,
+    ChartData[4]?.total,
+  ]
+
+  const ChartLevels = [
+    ChartData[0]?.cuisine_name,
+    ChartData[1]?.cuisine_name,
+    ChartData[2]?.cuisine_name,
+    ChartData[3]?.cuisine_name,
+    ChartData[4]?.cuisine_name,
+  ]
+
   const theme = useTheme();
 
   const chartOptions = merge(BaseOptionChart(), {
@@ -43,7 +69,7 @@ export default function AppCurrentVisits() {
       theme.palette.warning.main,
       theme.palette.error.main
     ],
-    labels: ['Indian', 'Malasyian', 'European', 'African',"Chineese"],
+    labels: ChartLevels,
     stroke: { colors: [theme.palette.background.paper] },
     legend: { floating: true, horizontalAlign: 'center' },
     dataLabels: { enabled: true, dropShadow: { enabled: false } },
@@ -65,7 +91,7 @@ export default function AppCurrentVisits() {
     <Card>
       <CardHeader title="Top 5 Popular Cuisine" />
       <ChartWrapperStyle dir="ltr">
-        <ReactApexChart type="pie" series={CHART_DATA} options={chartOptions} height={280} />
+        <ReactApexChart type="pie" series={ChartNumber} options={chartOptions} height={280} />
       </ChartWrapperStyle>
     </Card>
   );

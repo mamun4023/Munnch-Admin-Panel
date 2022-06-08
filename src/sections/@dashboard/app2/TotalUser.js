@@ -1,10 +1,13 @@
 // material
 import { alpha, styled } from '@mui/material/styles';
 import { Card, Typography } from '@mui/material';
+import {useDispatch, useSelector} from 'react-redux';
 // utils
 import { fShortenNumber } from '../../../utils/formatNumber';
 // component
 import Iconify from '../../../components/Iconify';
+import {FetchTotal} from '../../../redux/report/fetchTotal/action';
+import { useEffect } from 'react';
 
 // ----------------------------------------------------------------------
 
@@ -37,12 +40,22 @@ const IconWrapperStyle = styled('div')(({ theme }) => ({
 const TOTAL = 714000;
 
 export default function TotalUsers() {
+  const dispatch = useDispatch();
+
+  useEffect(()=>{
+    dispatch(FetchTotal())
+  },[dispatch])
+
+  const TotalData = useSelector(state => state.Total.data);
+
+  // console.log("TOtal data", TotalData)
+
   return (
     <RootStyle>
       <IconWrapperStyle>
         <Iconify  icon="fa6-solid:users" width={50} height={50} />
       </IconWrapperStyle>
-      <Typography variant="h3">{300}</Typography>
+      <Typography variant="h3">{TotalData?.totalCustomers}</Typography>
       <Typography sx={{ opacity: 0.72 }}>
         Total Customers
       </Typography>

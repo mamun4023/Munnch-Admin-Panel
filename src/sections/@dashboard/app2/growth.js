@@ -1,50 +1,71 @@
 import { merge } from 'lodash';
 import ReactApexChart from 'react-apexcharts';
+import {useDispatch, useSelector} from 'react-redux';
 // material
 import { Card, CardHeader, Box, MenuItem, Stack, TextField} from '@mui/material';
 //
 import { BaseOptionChart } from '../../../components/charts';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import {FetchGrowth} from '../../../redux/report/fetchGrowth/action';
 
 // ----------------------------------------------------------------------
 
-const CHART_DATA = [
-  {
-    name: 'Customers ',
-    type: 'column',
-    data: [23, 11, 22, 27, 13, 22, 37, 21, 44, 22, 30, 40]
-  },
-  {
-    name: 'Merchants',
-    type: 'area',
-    data: [44, 55, 41, 67, 22, 43, 21, 41, 56, 27, 43, 20]
-  },
-  {
-    name: 'Riders',
-    type: 'line',
-    data: [30, 25, 36, 30, 45, 35, 64, 52, 59, 36, 39, 30]
-  }
-];
 
-export default function AppWebsiteVisits() {
+
+export default function UserGrowth() {
+  const dispatch = useDispatch();
   const [year, setYear] = useState("2022");
+
+  useEffect(()=>{
+    dispatch(FetchGrowth(year))
+  }, [year])
+
+  const GrowthData = useSelector(state =>state.GrowthChart.data)
+
+  console.log("Customer ", GrowthData?.customers)
+  console.log("merchant ", GrowthData?.vendors)
+
+
+  const CHART_DATA = [
+    {
+      name: 'Customers ',
+      type: 'column',
+      data: [
+        10,
+        20,
+        30, 
+        
+       ]
+    },
+    {
+      name: 'Merchants',
+      type: 'area',
+      data: [44, 55, 41, 67, 22, 43, 21, 41, 56, 27, 43, 20]
+    },
+    {
+      name: 'Riders',
+      type: 'line',
+      data: [30, 25, 36, 30, 45, 35, 64, 52, 59, 36, 39, 30]
+    }
+  ];
+
   const chartOptions = merge(BaseOptionChart(), {
     stroke: { width: [0, 2, 3] },
     plotOptions: { bar: { columnWidth: '11%', borderRadius: 4 } },
     fill: { type: ['solid', 'gradient', 'solid'] },
     labels: [
-      '01/01/2022',
-      '02/01/2022',
-      '03/01/2022',
-      '04/01/2022',
-      '05/01/2022',
-      '06/01/2022',
-      '07/01/2022',
-      '08/01/2022',
-      '09/01/2022',
-      '10/01/2022',
-      '11/01/2022',
-      '12/01/2022'
+      `01/01/${year}`,
+      `02/01/${year}`,
+      `03/01/${year}`,
+      `04/01/${year}`,
+      `05/01/${year}`,
+      `06/01/${year}`,
+      `07/01/${year}`,
+      `08/01/${year}`,
+      `09/01/${year}`,
+      `10/01/${year}`,
+      `11/01/${year}`,
+      `12/01/${year}`
     ],
     xaxis: { type: 'datetime' },
     tooltip: {
@@ -85,12 +106,12 @@ export default function AppWebsiteVisits() {
                       <MenuItem value= "2022"> 2022 </MenuItem>
                       <MenuItem value= "2023"> 2023 </MenuItem>
                       <MenuItem value= "2024"> 2024 </MenuItem>
-                      <MenuItem value= "2024"> 2025 </MenuItem>
-                      <MenuItem value= "2024"> 2026 </MenuItem>
-                      <MenuItem value= "2024"> 2027 </MenuItem>
-                      <MenuItem value= "2024"> 2028 </MenuItem>
-                      <MenuItem value= "2024"> 2029 </MenuItem>
-                      <MenuItem value= "2024"> 2030 </MenuItem>
+                      <MenuItem value= "2025"> 2025 </MenuItem>
+                      <MenuItem value= "2026"> 2026 </MenuItem>
+                      <MenuItem value= "2027"> 2027 </MenuItem>
+                      <MenuItem value= "2028"> 2028 </MenuItem>
+                      <MenuItem value= "2029"> 2029 </MenuItem>
+                      <MenuItem value= "2030"> 2030 </MenuItem>
                       {/* <MenuItem value= "2024"> 2031 </MenuItem>
                       <MenuItem value= "2024"> 2032 </MenuItem>
                       <MenuItem value= "2024"> 2033 </MenuItem>
