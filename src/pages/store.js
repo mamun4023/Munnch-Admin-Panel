@@ -283,7 +283,7 @@ export default function Store() {
                                         <Iconify icon= "mdi:web-box" />
                                       </IconButton>
                                    </TableCell>
-                                   <TableCell align="left" className={classes.tableCell}>{StoreData?.social_links?.website}</TableCell>
+                                   <TableCell align="left" className={classes.tableCell}>{(StoreData?.social_links?.website)?(StoreData?.social_links?.website) : "No link"}</TableCell>
                                 </TableRow>
                                 <TableRow className={classes.tableRow}>
                                    <TableCell align="right" className={classes.tableCell}>
@@ -291,7 +291,7 @@ export default function Store() {
                                         <Iconify icon= "fa6-brands:facebook-square" /> 
                                       </IconButton>
                                    </TableCell>
-                                   <TableCell align="left" className={classes.tableCell}>{ StoreData?.social_links?.facebook }</TableCell>
+                                   <TableCell align="left" className={classes.tableCell}>{ (StoreData?.social_links?.facebook)?(StoreData?.social_links?.facebook) : "No link"}</TableCell>
                                 </TableRow>
                                 <TableRow className={classes.tableRow}>
                                    <TableCell align="right" className={classes.tableCell}> 
@@ -299,7 +299,7 @@ export default function Store() {
                                         <Iconify icon= "fa6-brands:instagram-square" /> 
                                       </IconButton>
                                    </TableCell>
-                                   <TableCell align="left" className={classes.tableCell}>{ StoreData?.social_links?.instagram}</TableCell>
+                                   <TableCell align="left" className={classes.tableCell}>{ (StoreData?.social_links?.instagram)?(StoreData?.social_links?.instagram): "No link"}</TableCell>
                                 </TableRow>
                               </Table> 
                           </CardContent>

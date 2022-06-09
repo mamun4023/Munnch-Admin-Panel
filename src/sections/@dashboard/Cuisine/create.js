@@ -82,6 +82,10 @@ export default function Create() {
                             error={Boolean(touched.cuisine_name && errors.cuisine_name)}
                             helperText={touched.cuisine_name && errors.cuisine_name}
                         />
+                        <img  
+                          src= {values.image?URL.createObjectURL(values.image):null} 
+                          style = {{ maxHeight : "300px" }}
+                        />
                         <TextField
                             fullWidth
                             InputLabelProps={{

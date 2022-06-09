@@ -28,7 +28,7 @@ export const FetchTopCuisine = ()=>{
         axios.get(`${URL}/api/v1/admin/dashboard/pie-chart`, AuthConfig)
             .then(res =>{
                 const response = res.data.data;
-                console.log(response);
+                // console.log(response);
                 dispatch(FetchTopCuisineSuccess(response));
             })
             .catch((err)=>{

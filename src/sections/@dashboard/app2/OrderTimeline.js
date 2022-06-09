@@ -1,5 +1,6 @@
 import { faker } from '@faker-js/faker';
 import PropTypes from 'prop-types';
+import {useDispatch, useSelector} from 'react-redux';
 // material
 import { Card, Typography, CardHeader, CardContent } from '@mui/material';
 import {
@@ -12,36 +13,11 @@ import {
 } from '@mui/lab';
 // utils
 import { fDateTime } from '../../../utils/formatTime';
+import { useEffect } from 'react';
+import {FetchOrderTimeLine} from '../../../redux/report/fetchOrderTimeline/action';
 
 // ----------------------------------------------------------------------
 
-const TIMELINES = [
-  {
-    title: 'Placed Order',
-    order : 233,
-    type: 'order1'
-  },
-  {
-    title: 'Deliverd Order',
-    order : 10,
-    type: 'order2'
-  },
-  {
-    title: 'Processing Order',
-    order : 10,
-    type: 'order3'
-  },
-  {
-    title: 'Shipping Order',
-    order : 110,
-    type: 'order4'
-  },
-  {
-    title: 'Rejected Order',
-    order : 23,
-    type: 'order5'
-  }
-];
 
 // ----------------------------------------------------------------------
 
@@ -51,7 +27,7 @@ OrderItem.propTypes = {
 };
 
 function OrderItem({ item, isLast }) {
-  const { type, title, order } = item;
+ const { type, title, order } = item;
   return (
     <TimelineItem>
       <TimelineSeparator>
@@ -79,6 +55,53 @@ function OrderItem({ item, isLast }) {
 }
 
 export default function AppOrderTimeline() {
+
+  const dispatch = useDispatch();
+
+  useEffect(()=>{
+    dispatch(FetchOrderTimeLine())
+  }, [dispatch])
+
+  const OrderTimeLineData = useSelector(state => state.OrderTimeline.data);
+
+  console.log("order time line data", OrderTimeLineData)
+
+
+  const TIMELINES = [
+    {
+      title: 'Total Placed Order',
+      order : OrderTimeLineData[5]?.total,
+      type: 'order1'
+    },
+
+
+    {
+      title: 'Total Delivered Order',
+      order : OrderTimeLineData[2]?.total,
+      type: 'order2'
+    },
+
+    // {
+    //   title: 'Total Processed Order',
+    //   order : OrderTimeLineData[5]?.total,
+    //   type: 'order3'
+    // },
+    // {
+    //   title: 'Shipping Order',
+    //   order : OrderTimeLineData[0]?.total,
+    //   type: 'order4'
+    // },
+
+    {
+      title: 'Total Rejected Order',
+      order : OrderTimeLineData[1]?.total,
+      type: 'order5'
+    }
+  ];
+
+
+
+
   return (
     <Card
       sx={{

@@ -126,7 +126,6 @@ export default function Router() {
         { path: 'delivery_fee/update/:id', element : <UpdateRange/>},
         { path: 'contact', element : <ContactUs/>},
         { path: 'management', element : <Management/>},
-        
       ],
     }:
     {

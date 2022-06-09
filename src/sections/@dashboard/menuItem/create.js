@@ -496,6 +496,11 @@ const removeFields = (index) => {
                           }
                         </Stack>
 
+                        <img 
+                           src= {values.image?URL.createObjectURL(values.image): null}
+                           style = {{maxHeight : "300px"}}
+                        />
+
                         <TextField
                             fullWidth
                             type="file"

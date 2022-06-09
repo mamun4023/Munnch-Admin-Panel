@@ -96,6 +96,10 @@ export default function Create(){
                             <MenuItem value= "1">Yes</MenuItem>
                             <MenuItem value= "0">No</MenuItem>
                         </TextField> 
+                        <img 
+                          src= { values.image?(URL.createObjectURL(values.image)): null}
+                          style = {{ maxHeight : "300px"}}
+                        />
                         <TextField
                             fullWidth
                             type="file"

@@ -56,6 +56,8 @@ import SingleOrderReducer from './order/fetchSingle/reducer';
 import TotalReducer from './report/fetchTotal/reducer';
 import Top5CuisineReducer from './report/fetchTopCuisine/reducer';
 import GrowthChartReducer from './report/fetchGrowth/reducer';
+import OrderTimelineReducer from './report/fetchOrderTimeline/reducer';
+import OrderGrowthReducer from './report/fetchOrderGrowth/reducer';
 
 const RootReducer = combineReducers({
     SignIn : SignInReducer,
@@ -83,15 +85,15 @@ const RootReducer = combineReducers({
     UpdateBanner : UpdateBannerReducer,
 
      //Notify Reducer 
-     FetchNotificationList : FetchNotificationListReducer,
+    FetchNotificationList : FetchNotificationListReducer,
 
      // menu 
-     FetchAllMenu : FetchAllMenuReducer,
-     FetchSingle : FetchSingleMenuReducer,
-     AddMenu : AddMenuReducer,
+    FetchAllMenu : FetchAllMenuReducer,
+    FetchSingle : FetchSingleMenuReducer,
+    AddMenu : AddMenuReducer,
 
-     FetchBankList : FetchBankListReducer,
-     FetchSingleBank : FetchSingleBankReducer,
+    FetchBankList : FetchBankListReducer,
+    FetchSingleBank : FetchSingleBankReducer,
 
     DeliveryFee : FetchDeliveryFeeListReducer,
     singleFee : FetchSingleFeeReducer,
@@ -109,7 +111,8 @@ const RootReducer = combineReducers({
     Total : TotalReducer,
     Top5Cuisine : Top5CuisineReducer,
     GrowthChart : GrowthChartReducer,
-
+    OrderTimeline : OrderTimelineReducer,
+    OrderGrowth: OrderGrowthReducer,
 })
 
 export default RootReducer;

@@ -1,4 +1,4 @@
-import { merge } from 'lodash';
+import { forEach, merge } from 'lodash';
 import ReactApexChart from 'react-apexcharts';
 import {useDispatch, useSelector} from 'react-redux';
 // material
@@ -10,8 +10,6 @@ import {FetchGrowth} from '../../../redux/report/fetchGrowth/action';
 
 // ----------------------------------------------------------------------
 
-
-
 export default function UserGrowth() {
   const dispatch = useDispatch();
   const [year, setYear] = useState("2022");
@@ -22,31 +20,32 @@ export default function UserGrowth() {
 
   const GrowthData = useSelector(state =>state.GrowthChart.data)
 
-  console.log("Customer ", GrowthData?.customers)
-  console.log("merchant ", GrowthData?.vendors)
+  // console.log("Customer ", GrowthData?.customers)
+  // console.log("merchant ", GrowthData?.vendors)
+  
+  const customerData = [];
+  const merchantData = [];
 
+  // initialize data
+  GrowthData?.customers?.forEach(data =>{
+    customerData.push(data.total)
+  })
+
+  GrowthData?.vendors?.forEach(data =>{
+    merchantData.push(data.total)
+  })
 
   const CHART_DATA = [
     {
       name: 'Customers ',
       type: 'column',
-      data: [
-        10,
-        20,
-        30, 
-        
-       ]
+      data: customerData
     },
     {
       name: 'Merchants',
       type: 'area',
-      data: [44, 55, 41, 67, 22, 43, 21, 41, 56, 27, 43, 20]
+      data: merchantData
     },
-    {
-      name: 'Riders',
-      type: 'line',
-      data: [30, 25, 36, 30, 45, 35, 64, 52, 59, 36, 39, 30]
-    }
   ];
 
   const chartOptions = merge(BaseOptionChart(), {
@@ -132,11 +131,10 @@ export default function UserGrowth() {
                       <MenuItem value= "2024"> 2048 </MenuItem>
                       <MenuItem value= "2024"> 2049 </MenuItem>
                       <MenuItem value= "2024"> 2050 </MenuItem> */}
-
                   </TextField>
                 </Stack>
               </div>  
-
+              
       <Box sx={{ p: 3, pb: 1 }} dir="ltr">
         <ReactApexChart type="line" series={CHART_DATA} options={chartOptions} height={364} />
       </Box>

@@ -51,7 +51,7 @@ export default function Report() {
           </Grid>
           <Grid item xs={12} md={6} lg={8}>
             {/* <AppNewsUpdate /> */}
-            <AppTrafficBySite />
+            {/* <AppTrafficBySite /> */}
           </Grid>
           <Grid item xs={12} md={6} lg={4}>
             {/* <AppOrderTimeline /> */}

@@ -4,13 +4,15 @@ import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { useFormik, Form, FormikProvider } from 'formik';
 import { toast } from 'material-react-toastify';
 import   {PhotoCamera} from '@mui/icons-material';
+
 // material
 import {
   Stack,
   TextField,
   Grid, 
   Typography,
-  IconButton
+  IconButton,
+  LinearProgress
 } from '@mui/material';
 import ImageIcon from '@mui/icons-material/Image';
 import { LoadingButton } from '@mui/lab';
@@ -90,6 +92,12 @@ export default function Create(){
                             label="URL (Optional)"
                             {...getFieldProps('url')}
                         />
+
+                        <img 
+                           src= {values.image?URL.createObjectURL(values.image): null}
+                           style = {{maxHeight : "300px"}}
+                        />
+
                         <TextField
                             fullWidth
                             InputLabelProps={{
@@ -101,6 +109,10 @@ export default function Create(){
                             error={Boolean(touched.image && errors.image)}
                             helperText={touched.image && errors.image}
                         />
+                         
+                        
+
+                        
                         
                         <LoadingButton
                             fullWidth
