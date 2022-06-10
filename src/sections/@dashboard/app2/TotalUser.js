@@ -48,8 +48,6 @@ export default function TotalUsers() {
 
   const TotalData = useSelector(state => state.Total.data);
 
-  // console.log("TOtal data", TotalData)
-
   return (
     <RootStyle>
       <IconWrapperStyle>

@@ -29,7 +29,6 @@ export const RemoveMenu = (id)=>{
         axios.delete(`${URL}/api/v1/admin/store/menu-item/delete/${id}`, AuthConfig)
             .then(res =>{
                 const response = res.data.message;
-                console.log(response);
                 toast.dark(response)
                 dispatch(RemoveMenuSuccess(response));
             })

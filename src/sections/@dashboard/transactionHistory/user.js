@@ -126,8 +126,6 @@ export default function Withdrawal() {
 
   const TransactionList = useSelector(state => state.UserTransaction.data);
 
-  console.log("TransactionList Data", TransactionList)
-
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');

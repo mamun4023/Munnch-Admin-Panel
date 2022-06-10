@@ -29,13 +29,11 @@ export const ChangePassword = (data)=>{
         dispatch(ChangePasswordRequest());
         axios.post(`${URL}/api/v1/admin/auth/change-password`, data, AuthConfig )
             .then(res =>{
-                // console.log(res.data)
                 const message = res.data.message;
                 toast.dark(message)
                 dispatch(ChangePasswordSuccess(message))   
             })
             .catch((err)=>{
-                // console.log("errro message",err.response.data.message)
                 const message = err.response.data.message;
                 toast.error(message)
                 dispatch(ChangePasswordFailed(message));

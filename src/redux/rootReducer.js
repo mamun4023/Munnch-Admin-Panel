@@ -19,7 +19,6 @@ import FetchSingleReducer from './cuisine/fetchSingle/reducer';
 // Merchant Reducer 
 import FetchMerchantListReducer from './merchant/fetchAll/reducer';
 import FetchSingleMerchantReducer from './merchant/fetchSingle/reducer';
-import AddMerchantReducer from './merchant/add/reducer';
 import UpdateMerchantReducer from './merchant/update/reducer';
 
 // Banner Reducer 
@@ -76,7 +75,6 @@ const RootReducer = combineReducers({
     //Merchant Reducer 
     FetchMerchantList : FetchMerchantListReducer,
     FetchSingleMerchant : FetchSingleMerchantReducer,
-    AddMerchant  : AddMerchantReducer,
     UpdateMerchant : UpdateMerchantReducer,
 
     //Merchant Reducer 

@@ -12,5 +12,3 @@ export const GetLoyaltyData = ()=>{
 export const UpdateData = (data)=>{
     return axios.post(`${URL}/api/v1/admin/merchant-variable/store`,data, AuthConfig)
 }
-
-

@@ -7,11 +7,10 @@ export const PopularToggler = (id)=>{
         axios.post(`${URL}/api/v1/admin/bank/popular/${id}`,{}, AuthConfig)
             .then(res =>{
                 const response = res.data.message;
-                console.log(response);
                 toast.dark(response)
             })
             .catch((err)=>{
-                console.log(err)
+                toast.error("Check Internet!")
             })
     }
 }

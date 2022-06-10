@@ -168,8 +168,6 @@ export default function Withdrawal() {
 
   const WithdrawList = useSelector(state => state.Withdrawal.data);
 
-  console.log("withdrawal Data", WithdrawList)
-
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');

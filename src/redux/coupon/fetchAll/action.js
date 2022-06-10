@@ -28,7 +28,6 @@ export const FetchCouponList = (status, filter, page, limit, order)=>{
         axios.get(`${URL}/api/v1/admin/coupon/list?status=${status}&keyword=${filter}&page=${page}&limit=${limit}&sortBy=${order}`, AuthConfig)
             .then(res =>{
                 const response = res.data.data.coupons_list;
-                // console.log(response);
                 dispatch(FetchCouponListSuccess(response));
             })
             .catch((err)=>{

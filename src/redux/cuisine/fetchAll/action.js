@@ -28,7 +28,6 @@ export const FetchCuisineList = (search, page, limit, order)=>{
         axios.get(`${URL}/api/v1/admin/cuisine/list?keyword=${search}&page=${page}&limit=${limit}&sortOrder=${order}`, AuthConfig)
             .then(res =>{
                 const response = res.data.data.cuisine_list;
-                // console.log(response);
                 dispatch(FetchCuisineListSuccess(response));
             })
             .catch((err)=>{

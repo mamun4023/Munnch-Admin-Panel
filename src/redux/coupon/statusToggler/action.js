@@ -9,7 +9,6 @@ export const StatusToggler = (id)=>{
                 const response = res.data.message;
                 console.log(response);
                 toast.dark(response)
-                
             })
             .catch((err)=>{
                 console.log(err)

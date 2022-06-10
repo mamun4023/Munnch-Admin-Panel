@@ -131,7 +131,7 @@ export default function Merchant() {
 
   const MerchantList = useSelector(state => state.FetchMerchantList.data)
   const loading = useSelector(state => state.FetchMerchantList.loading);
-  console.log("Merchant Data", MerchantList);
+
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';

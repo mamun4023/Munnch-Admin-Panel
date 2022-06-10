@@ -28,7 +28,6 @@ export const FetchSingleBank = (id)=>{
         axios.get(`${URL}/api/v1/admin/bank/single/${id}`, AuthConfig)
             .then(res =>{
                 const response = res.data.data;
-                // console.log(response);
                 dispatch(FetchSingleBankSuccess(response));
             })
             .catch((err)=>{

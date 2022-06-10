@@ -5,7 +5,7 @@ import LogoOnlyLayout from './layouts/LogoOnlyLayout';
 import NotFound from './pages/Page404';
 // pages
 import Login from './pages/Login';
-import Register from './pages/Register';
+// import Register from './pages/Register';
 import User from './pages/User';
 import Merchant from './pages/Merchant';
 import CreateMerchant from './sections/@dashboard/merchant/create';
@@ -58,13 +58,12 @@ import AddRange from './sections/@dashboard/deliveryFee/create';
 import UpdateRange from './sections/@dashboard/deliveryFee/update';
 import ContactUs from './pages/Contact';
 import Store from './pages/store';
-import UpdateStore from './sections/@dashboard/store/update'
-
-import Management from './pages/Signup';
+import UpdateStore from './sections/@dashboard/store/update';
 
 // ----------------------------------------------------------------------
 
-const token = localStorage.getItem('token');
+// const token = localStorage.getItem('token');
+const token = localStorage.getItem(process.env.REACT_APP_TOKEN);
 
 export default function Router() {
   return useRoutes([
@@ -125,7 +124,6 @@ export default function Router() {
         { path: 'delivery_fee/add', element : <AddRange/>},
         { path: 'delivery_fee/update/:id', element : <UpdateRange/>},
         { path: 'contact', element : <ContactUs/>},
-        { path: 'management', element : <Management/>},
       ],
     }:
     {

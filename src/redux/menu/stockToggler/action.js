@@ -7,7 +7,6 @@ export const StockToggler = (id)=>{
         axios.post(`${URL}/api/v1/admin/store/menu-item/change-instock/${id}`,{}, AuthConfig)
             .then(res =>{
                 const response = res.data.message;
-                console.log(response);
                 toast.dark(response)
             })
             .catch((err)=>{

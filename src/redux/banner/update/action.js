@@ -29,7 +29,6 @@ export const UpdateBanner = (id, data)=>{
         axios.post(`${URL}/api/v1/admin/banner/update/${id}`, data, AuthConfig)
             .then(res =>{
                 const response = res.data.message;
-                // console.log(response);
                 toast.dark(response);
                 dispatch(UpdateBannerSuccess(response));
             })

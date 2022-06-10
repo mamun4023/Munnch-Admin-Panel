@@ -40,7 +40,6 @@ export default function LoginForm() {
     },
     validationSchema: LoginSchema,
     onSubmit: (values) => {
-      console.log("auth value", values)
       dispatch(AdminSignIn(values));
     }
   });

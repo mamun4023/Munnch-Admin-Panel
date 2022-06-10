@@ -28,7 +28,6 @@ export const FetchMerchantTransactionList = (filterName, page, limit, order)=>{
         axios.get(`${URL}/api/v1/admin/transactions/list?type=2&keyword=${filterName}&page=${page}&limit=${limit}&order=${order}`, AuthConfig)
             .then(res =>{
                 const response = res.data.data;
-                // console.log(response);
                 dispatch(FetchTransactionListSuccess(response));
             })
             .catch((err)=>{

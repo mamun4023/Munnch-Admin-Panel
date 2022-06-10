@@ -1,11 +1,9 @@
 import { useRef, useState, useEffect } from 'react';
 import { Link as RouterLink, useNavigate, Navigate } from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
-
 // material
 import { alpha } from '@mui/material/styles';
 import { Button, Box, Divider, MenuItem, Typography, Avatar, IconButton } from '@mui/material';
-
 // components
 import Iconify from '../../components/Iconify';
 import MenuPopover from '../../components/MenuPopover';
@@ -53,10 +51,8 @@ export default function AccountPopover() {
 
   const Data = useSelector(state => state.Profile.data);
 
-  // console.log("profile  dd ddd data", Data)
-
   const LogoutHandler = ()=>{
-    localStorage.removeItem('token');
+    localStorage.removeItem(process.env.REACT_APP_TOKEN);
     window.location.replace("/login");
   }
 
@@ -118,11 +114,9 @@ export default function AccountPopover() {
                 height: 24
               }}
             />
-
             {option.label}
           </MenuItem>
         ))}
-
         <Box sx={{ p: 2, pt: 1.5 }}>
           <Button onClick={LogoutHandler} fullWidth color="inherit" variant="outlined">
             Logout

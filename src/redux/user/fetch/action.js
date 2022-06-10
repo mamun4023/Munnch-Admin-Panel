@@ -28,7 +28,6 @@ export const FetchUserList = (status, search, page, limit, sortOrder)=>{
         axios.get(`${URL}/api/v1/admin/customer/list?status=${status}&keyword= ${search}&page=${page}&limit=${limit}&sortOrder=${sortOrder}`, AuthConfig)
             .then(res =>{
                 const response = res.data.data.customers;
-                console.log(response);
                 dispatch(FetchUserSuccess(response));
             })
             .catch((err)=>{

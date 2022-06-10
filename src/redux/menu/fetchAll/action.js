@@ -28,7 +28,6 @@ export const FetchMenuList = (storeId, search, page, limit, order)=>{
         axios.get(`${URL}/api/v1/admin/store/menu-item/list?store_id=${storeId}&keyword=${search}&page=${page}&limit=${limit}&sortOrder=${order}`, AuthConfig)
             .then(res =>{
                 const response = res.data.data.menu_items;
-                // console.log("data ",response);
                 dispatch(FetchMenutListSuccess(response));
             })
             .catch((err)=>{

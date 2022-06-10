@@ -28,7 +28,6 @@ export const FetchContactList = (status,search, page, limit, order)=>{
         axios.get(`${URL}/api/v1/admin/contact-us/customer/list?status=${status}&keyword=${search}&page=${page}&limit=${limit}&sortOrder=${order}`, AuthConfig)
             .then(res =>{
                 const response = res.data.data;
-                // console.log(response);
                 dispatch(FetchContactListSuccess(response));
             })
             .catch((err)=>{

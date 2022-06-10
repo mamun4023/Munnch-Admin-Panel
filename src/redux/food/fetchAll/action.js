@@ -28,7 +28,6 @@ export const FetchFoodList = (search, page, limit, order)=>{
         axios.get(`${URL}/api/v1/admin/food/list?keyword=${search}&page=${page}&limit=${limit}&sortOrder=${order}`, AuthConfig)
             .then(res =>{
                 const response = res.data.data.food_list;
-                // console.log(response);
                 dispatch(FetchFoodListSuccess(response));
             })
             .catch((err)=>{

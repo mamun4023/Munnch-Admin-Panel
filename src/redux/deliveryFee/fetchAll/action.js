@@ -28,7 +28,6 @@ export const DeliveryFeeList = (filter, page, rowsPerPage, order)=>{
         axios.get(`${URL}/api/v1/admin/delivery-fee/list?limit= ${rowsPerPage}&keyword=${filter}&page=${page}&sortOrder=${order}`, AuthConfig)
             .then(res =>{
                 const response = res.data.data.delivery_fees_list;
-                // console.log(response);
                 dispatch(FetchDeliveryFeeListSuccess(response));
             })
             .catch((err)=>{

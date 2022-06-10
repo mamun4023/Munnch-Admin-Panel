@@ -19,7 +19,6 @@ const Reducer = (state = InitialState, action)=>{
                 data : action.paylaod,
                 loading : false
             }
-        
         case Types.CHANGE_PASSWORD_FAILED:
             return{
                 ...state,

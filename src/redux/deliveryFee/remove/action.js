@@ -30,7 +30,6 @@ export const RemoveDeliveryFee = (id)=>{
             .then(res =>{
                 const response = res.data.message;
                 toast.dark(response);
-                // console.log(response);
                 dispatch(RemoveSuccess(response));
             })
             .catch((err)=>{

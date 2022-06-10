@@ -64,9 +64,6 @@ export default function AppOrderTimeline() {
 
   const OrderTimeLineData = useSelector(state => state.OrderTimeline.data);
 
-  console.log("order time line data", OrderTimeLineData)
-
-
   const TIMELINES = [
     {
       title: 'Total Placed Order',

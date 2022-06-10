@@ -162,8 +162,6 @@ export default function Order() {
 
   const OrderList = useSelector(state => state.OrderList.data);
 
-  console.log("Order Data", OrderList);
-
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');

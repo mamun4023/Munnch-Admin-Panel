@@ -124,7 +124,6 @@ export default function Banner() {
   }, [bannerStatus, filterName, page, rowsPerPage, order])
 
   const BannerList = useSelector(state=> state.FetchBannerList.data);
-  console.log("Banner Data", BannerList);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';

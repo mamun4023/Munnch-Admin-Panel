@@ -28,14 +28,14 @@ export const AdminSignIn = (data)=>{
         dispatch(SignInREquest())
         axios.post(`${URL}/api/v1/admin/login`, data)
             .then(res=>{
-                localStorage.setItem('token', res.data.token);
+                 localStorage.setItem(process.env.REACT_APP_TOKEN, res.data.token);
                 window.location.replace("dashboard/user") 
                 dispatch(SignInSuccess(res))
             })
             .catch((err)=>{
-                console.log(err)
-                toast.error("Check Internet Connection !")
-                dispatch(SignInFailed())
+                const errros = err.response.data.message;
+                toast.error(errros)
+                dispatch(SignInFailed(errros))
             })
     }
 }

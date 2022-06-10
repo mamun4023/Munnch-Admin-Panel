@@ -28,7 +28,6 @@ export const FetchFeeList = (id)=>{
         axios.get(`${URL}/api/v1/admin/delivery-fee/single/${id}`, AuthConfig)
             .then(res =>{
                 const response = res.data.data;
-                // console.log(response);
                 dispatch(FetchSingleSuccess(response));
             })
             .catch((err)=>{

@@ -211,7 +211,6 @@ export default function Coupon() {
   }, [couponStatus, filterName, page, rowsPerPage, order])
 
   const CouponList = useSelector(state => state.CouponList.data);
-  console.log("coupon list", CouponList)
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';

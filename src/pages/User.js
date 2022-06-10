@@ -141,7 +141,6 @@ export default function User() {
   }, [userStatus, filterName, page, rowsPerPage, order])
 
   const userList = useSelector(state=> state.FetchUsers.data);
-  console.log("user Data", userList);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
