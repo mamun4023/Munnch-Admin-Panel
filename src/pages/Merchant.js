@@ -17,7 +17,9 @@ import {
   TableContainer,
   TablePagination,
   Switch,
-  Box
+  Box,
+  Avatar,
+  Rating
 } from '@mui/material';
 // components
 import Page from '../components/Page';
@@ -44,6 +46,16 @@ const TABLE_HEAD = [
     alignRight: false 
   },
   { 
+    label: 'PROFILE IMAGE', 
+    id: 'profileImage', 
+    alignRight: false 
+  },
+  { 
+    label: 'IC NUMBER', 
+    id: 'icNumber', 
+    alignRight: false 
+  },
+  { 
     label: 'EMAIL', 
     id: 'email',
     alignRight: false 
@@ -51,6 +63,16 @@ const TABLE_HEAD = [
   { 
     label: 'PHONE', 
     id: 'phone',
+    alignRight: false 
+  },
+  { 
+    label: 'WALLET BALANCE', 
+    id: 'walletBalance',
+    alignRight: false 
+  },
+  { 
+    label: 'RATING', 
+    id: 'ratting',
     alignRight: false 
   },
   { 
@@ -202,7 +224,7 @@ export default function Merchant() {
           </div>
         {loading?<Spinner/> : <Box> 
           <Scrollbar>
-            <TableContainer sx={{ minWidth: 800 }}>
+            <TableContainer sx={{ minWidth: 1600 }}>
               <Table>
                 <MerchantListHead
                   order={order}
@@ -213,7 +235,7 @@ export default function Merchant() {
                 <TableBody>
                   {filteredUsers
                     .map((row) => {
-                      const { id, personal_name, email, phone, status, is_verified, is_approved } = row;
+                      const { id, personal_name, profile_pic, ic_number, email, phone, status, is_verified, is_approved } = row;
                       return (
                         <TableRow
                           hover
@@ -221,8 +243,17 @@ export default function Merchant() {
                         >
                           <TableCell align="left">{id}</TableCell>
                           <TableCell align="left">{CapitalizeFirstLetter(personal_name)}</TableCell>
+                          <TableCell> 
+                            <Avatar  variant="circle" style={{width : "70px"}} src= {profile_pic} />
+                          </TableCell>
+                          <TableCell align="left">{ic_number}</TableCell>
+                          
                           <TableCell align="left">{email}</TableCell>
                           <TableCell align="left">{phone}</TableCell>
+                          <TableCell align="left"> API missing </TableCell>
+                          <TableCell align="left"> 
+                            <Rating name="read-only" value={3} readOnly />
+                          </TableCell>
                           <TableCell align="left">
                             <Switch 
                                onClick={()=> StatusToggleHandler(id)}

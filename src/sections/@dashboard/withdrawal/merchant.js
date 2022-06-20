@@ -226,7 +226,7 @@ export default function Withdrawal() {
           
           {loading? <Spinner/> :  <Box> 
           <Scrollbar>
-            <TableContainer sx={{ minWidth: 1800 }}>
+            <TableContainer sx={{ minWidth: 2200 }}>
               <Table>
                 <WithdrawalListHead
                   order={order}
@@ -249,7 +249,7 @@ export default function Withdrawal() {
                           <TableCell align="left">{id}</TableCell>
                           <TableCell align="left">{CapitalizeFirstLetter(store?.restaurant_name)}</TableCell>
                           <TableCell align="left">
-                             <Avatar  variant="square" style={{width : "70px"}} src= {store?.images[0].image} />
+                             <Avatar  variant="square" style={{width : "70px"}} src= {store?.images[0]?.image} />
                           </TableCell>
                           <TableCell align="left">{store?.email}</TableCell>
                           <TableCell align="left">{store?.contact_no}</TableCell>

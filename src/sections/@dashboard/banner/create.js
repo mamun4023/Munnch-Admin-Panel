@@ -52,8 +52,15 @@ export default function Create(){
           navigate('/dashboard/banner', { replace: true });
         })
         .catch((err)=>{
-          const response = err.response.data.message
-          toast.error(response)
+          const errors = err.response.data.errors
+
+          if(errors.url?errors.url[0]:false){ 
+            toast.error(errors?.url[0])
+          }
+
+          if(errors.title?errors.title[0]:false){ 
+            toast.error(errors?.title[0])
+          }
           setLoading(false)
         })
       }

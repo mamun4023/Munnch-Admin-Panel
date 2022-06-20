@@ -263,31 +263,21 @@ export default function Order() {
                         > 
                           <TableCell align="left">{id}</TableCell>
                           <TableCell align="left">{CapitalizeFirstLetter(customer?.name)}</TableCell>
-
-                          {/* <TableCell align="left">{customer?.email}</TableCell>
-                          <TableCell align="left">{customer?.phone}</TableCell> */}
                           <TableCell align="left">{CapitalizeFirstLetter(store?.restaurant_name)}</TableCell>
-                          <TableCell align="left">{rider_data?.rider_details?.name}</TableCell>
-                          {/* <TableCell style={{maxWidth : "250px"}} align="left">{address}</TableCell> */}
+                          <TableCell align="left">{(rider_data?.rider_details?.name)?rider_data?.rider_details?.name: "--"}</TableCell>
                           <TableCell align="left">RM {paid_price}</TableCell> 
-                          <TableCell align="left">{order?.cart_items?.food_type}</TableCell> 
-                          
-                          {/* <TableCell align="left">{restaurant?.is_preorder === 1? "Pre-Order Item": "Delivery Item"}</TableCell>  */}
+                          <TableCell align="left">{(order?.cart_items?.food_type)?order?.cart_items?.food_type : "--"}</TableCell> 
                           <TableCell align="left">{status}</TableCell> 
                           <TableCell align="left">
                             <Switch 
-                              disabled ={status === "CANCELED"?true:false}
                               onChange={()=>CanclerHandler(id)}
-                              defaultChecked = {status == "CANCELED"? true: false}
+                              defaultChecked = {status === "CANCELED"?true:false}
                             />
                           </TableCell>
                           <TableCell align="left">
                             <Moment format="DD-MM-YYYY HH:mm a" >{created_at}</Moment>
                           </TableCell>   
                           <TableCell align="right">
-                            {/* <Tooltip title = "View Order" > 
-                            
-                             </Tooltip> */}
                              <OrderMoreMenu id = {id} /> 
                           </TableCell>
                         </TableRow>

@@ -31,6 +31,7 @@ function View() {
     },[])
 
     const orderedData = useSelector(state => state.SingleOrder.data)
+    
     console.log("Ordered data", orderedData)
     
     const {order, address, order_remarks, created_at, updated_at} = orderedData;

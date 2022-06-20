@@ -22,7 +22,7 @@ import Iconify from '../../../components/Iconify';
 import {FetchSingleCoupon} from '../../../redux/coupon/fetchSingle/action';
 import {UpdateCoupon} from '../../../redux/coupon/update/action';
 
-const Days = ["All Days", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" ]
+const Days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" ]
 
 // ----------------------------------------------------------------------
 
@@ -275,7 +275,7 @@ export default function Update() {
                             defaultValue={values.days}
                             options={Days}
                             disableCloseOnSelect
-                            getOptionSelected={(option, value) => option === "All Days"}
+                            // getOptionSelected={(option, value) => option === "All Days"}
                             // filterOptions={Days => Days.filter(opt => opt.fieldType)}
                             disabledItemsFocusable
                             // limitTags = {1}

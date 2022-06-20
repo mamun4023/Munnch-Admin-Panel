@@ -118,13 +118,13 @@ export default function Store() {
         <Grid container spacing={2}>
                     <Grid item xs={7}>
                     <Card> 
-                         <Typography padding={3} style={{background : "#eee" }}  textAlign="center" variant="h6" component="div">
+                         <Typography padding={1} style={{background : "#eee" }}  textAlign="center" variant="h6" component="div">
                             Store Operational Hours
                         </Typography>
                         {StoreData.operational_hours? <TimingTable timing = {StoreData.operational_hours} />: "Empty"} 
                     </Card>
                     <Card> 
-                        <Typography style={{ background : "#eee" }}  padding={2} textAlign= "center" variant="h6" component="div">
+                        <Typography style={{ background : "#eee" }}  padding={1} textAlign= "center" variant="h6" component="div">
                             Description
                         </Typography>
                         <Typography sx={{ mb: 1.5 }} color="text.secondary">
@@ -132,7 +132,7 @@ export default function Store() {
                         </Typography>
                     </Card>
                     <Card> 
-                        <Typography style={{ background : "#eee" }}  padding={2} textAlign= "center" variant="h6" component="div">
+                        <Typography style={{ background : "#eee" }}  padding={1} textAlign= "center" variant="h6" component="div">
                             Additional Information
                         </Typography>
                         
@@ -141,7 +141,7 @@ export default function Store() {
                         </Typography>
                     </Card>
                     <Card> 
-                        <Typography  marginTop = {3} style={{ background : "#eee" }}  padding={2} textAlign= "center" variant="h6" component="div">
+                        <Typography  marginTop = {3} style={{ background : "#eee" }}  padding={1} textAlign= "center" variant="h6" component="div">
                             Food Type 
                         </Typography>
                           {StoreData.food_types?
@@ -170,7 +170,7 @@ export default function Store() {
                           :null} 
                     </Card>
                     <Card marginTop = {5}> 
-                        <Typography  marginTop = {3} style={{ background : "#eee" }}  padding={2} textAlign= "center" variant="h6" component="div">
+                        <Typography  marginTop = {3} style={{ background : "#eee" }}  padding={1} textAlign= "center" variant="h6" component="div">
                             Cuisine Type 
                         </Typography>
 
@@ -201,7 +201,7 @@ export default function Store() {
                           : "Empty" }  
                     </Card>
                     <Card> 
-                        <Typography  marginTop = {3} padding={2} style={{background : "#eee" }}  textAlign="center" variant="h6" component="div">
+                        <Typography  marginTop = {3} padding={1} style={{background : "#eee" }}  textAlign="center" variant="h6" component="div">
                             Store Images
                         </Typography>
                         {StoreData.images ? <>

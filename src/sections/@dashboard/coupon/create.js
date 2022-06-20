@@ -22,7 +22,7 @@ import {AddCoupon} from '../../../redux/coupon/add/action';
 
 // ----------------------------------------------------------------------
 
-const Days = ["All Days", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" ]
+const Days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" ]
 
 
 export default function Create() {
@@ -193,13 +193,8 @@ export default function Create() {
                         helperText={touched.max_discount && errors.max_discount}
                         />
                  
-
-                 </> 
+                      </> 
                         :  null}
-
-
-
-
 
                         <TextField
                             fullWidth
@@ -264,14 +259,13 @@ export default function Create() {
                             helperText={touched.maximum_usage_limit && errors.maximum_usage_limit}
                         />
             
-
                         <Autocomplete
                             multiple
                             fullWidth
                             id="combo-box-demo"
                             options={Days}
                             disableCloseOnSelect
-                            getOptionSelected={(option, value) => option === "All Days"}
+                            // getOptionSelected={(option, value) => option === "All Days"}
                             // filterOptions={Days => Days.filter(opt => opt.fieldType)}
                             disabledItemsFocusable
                             // limitTags = {1}

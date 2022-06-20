@@ -6,4 +6,3 @@ export { default as Growth } from './growth';
 export { default as OrderGrowth } from './OrderGrowth';
 export { default as Top5Cuisine } from './Top5Cuisine';
 export { default as OrderTimeline } from './OrderTimeline';
-

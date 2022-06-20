@@ -32,7 +32,6 @@ import Spinner from 'src/components/Spinner';
 
 // ----------------------------------------------------------------------
 
-
 const TABLE_HEAD = [
   { 
     label: 'ID',
@@ -60,9 +59,6 @@ const TABLE_HEAD = [
     id: 'phone_number', 
     alignRight: false 
   },
-
-
-
   { 
     label: 'ACCOUNT HOLDER NAME', 
     id: 'account_holder_name', 
@@ -80,15 +76,11 @@ const TABLE_HEAD = [
 //     id: 'email', 
 //     alignRight: false 
 //   },
-
-
   { 
     label: 'BANK NAME', 
     id: 'bank_name', 
     alignRight: false 
   },
-
-
   { 
     label: 'ACCOUNT NUMBER', 
     id: 'account_number',
@@ -142,12 +134,10 @@ function applySortFilter(array, comparator, query) {
   return stabilizedThis.map((el) => el[0]);
 }
 
-
 function CapitalizeFirstLetter (s){
   if (typeof s !== 'string') return ''
   return s.charAt(0).toUpperCase() + s.slice(1)
 }
-
 
 export default function Withdrawal() {
   const [page, setPage] = useState(1);
@@ -225,7 +215,7 @@ export default function Withdrawal() {
           
           {loading? <Spinner/> :  <Box> 
           <Scrollbar>
-            <TableContainer sx={{ minWidth: 1500 }}>
+            <TableContainer sx={{ minWidth: 1800 }}>
               <Table>
                 <WithdrawalListHead
                   order={order}

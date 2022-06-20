@@ -2,7 +2,7 @@ import * as Yup from 'yup';
 import { useEffect, useState } from 'react';
 import PlacesAutocomplete, {geocodeByAddress, getLatLng} from "react-places-autocomplete";
 import { Link as RouterLink, useNavigate, useParams } from 'react-router-dom';
-import { } from '@mui/material';
+import { Switch } from '@mui/material';
 import { useFormik, Form, FormikProvider } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'material-react-toastify';
@@ -171,9 +171,6 @@ function Update() {
 
   // console.log(lat+","+lng)
   // console.log(address)
-
-
-
 
   // Sunday Handler
 
@@ -460,7 +457,6 @@ function Update() {
             
         <Grid
             container
-            // item xs={8} 
             spacing={0}
             direction="column"
             alignItems="center"
@@ -568,7 +564,6 @@ function Update() {
                                     </div>
                                 </div>}
                           </PlacesAutocomplete>
-
 
                         <h4 style={{textAlign : "center"}}> Operational Hours </h4>
                         <Stack
@@ -872,6 +867,7 @@ function Update() {
                         >
                             <label> Saturday </label> 
                             {saturdayIsOpen ==1?<label> Try edit after turn off</label>: null}
+                        
                             <ToggleButtonGroup
                                 size='small'
                                 value={saturdayIsOpen==1?"ON":"OFF"}
@@ -881,6 +877,7 @@ function Update() {
                                 <ToggleButton value="OFF">OFF</ToggleButton>
                                 <ToggleButton value="ON">ON</ToggleButton>
                             </ToggleButtonGroup> 
+
                         </Stack>
                         <Stack
                             direction="row"
@@ -963,33 +960,6 @@ function Update() {
                             error={Boolean(touched.facebook && errors.facebook)}
                             helperText={touched.facebook && errors.facebook}
                           />
-
-                          {/* <Autocomplete
-                             fullWidth
-                              multiple
-                              limitTags={2}
-                              id="multiple-limit-tags"
-                              options={FoodList}
-                              getOptionLabel={(option) => option.food_name}
-                              // defaultValue={[top100Films[13], top100Films[12], top100Films[11]]}
-                              renderInput={(params) => (
-                                <TextField {...params} label="Food Types" placeholder="Favorites" />
-                              )}
-                              sx={{ width: '500px' }}
-                          /> */}
-                          {/* <Autocomplete
-                             fullWidth
-                              multiple
-                              limitTags={2}
-                              id="multiple-limit-tags"
-                              options={CusineList}
-                              getOptionLabel={(option) => option.cuisine_name}
-                              // defaultValue={[top100Films[13], top100Films[12], top100Films[11]]}
-                              renderInput={(params) => (
-                                <TextField {...params} label="Cuisines" placeholder="Favorites" />
-                              )}
-                              sx={{ width: '500px' }}
-                          /> */}
 
                         <LoadingButton
                             fullWidth

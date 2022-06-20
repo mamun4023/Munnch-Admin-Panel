@@ -25,8 +25,8 @@ export default function BasicTable({timing}) {
         <TableHead>
           <TableRow >
             <TableCell> Days  </TableCell>
-            <TableCell align="right">Open At</TableCell>
-            <TableCell align="right">Close At</TableCell>
+            <TableCell align="left">Opening Time</TableCell>
+            <TableCell align="left">Closing Time</TableCell>
           </TableRow>
         </TableHead>
         {timing.length == 0? <TableCell align="right" colSpan={2} >  </TableCell> : <>
@@ -36,12 +36,12 @@ export default function BasicTable({timing}) {
                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                  >
                    <TableCell component="th" scope="row"> {data.day} </TableCell>
-                   <TableCell align="right"> 
+                   <TableCell align="left"> 
                       {
                         moment(data.start_time, "HH:mm:ss").format("hh:mm A")
                       }
                    </TableCell>
-                   <TableCell align="right"> 
+                   <TableCell align="left"> 
                       {
                         moment(data.closing_time, "HH:mm:ss").format("hh:mm A")
                       }
