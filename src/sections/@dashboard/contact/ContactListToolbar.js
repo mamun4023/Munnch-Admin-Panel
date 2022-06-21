@@ -52,7 +52,6 @@ export default function UserListToolbar({ numSelected, filterName, onFilterName 
         })
       }}
     >
-  
         <SearchStyle
           style={{ height : "50px" }}
           value={filterName}

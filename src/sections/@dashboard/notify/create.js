@@ -26,7 +26,7 @@ function Create() {
 
   const NotifySchema = Yup.object().shape({
     title: Yup.string().required('Title is required'),
-    message: Yup.string().required('Message is required'),
+    message: Yup.string().required('Message is required').max(150, "150 characters are maximum"),
     user_type: Yup.string().required('Send-To is required'),
   });
 

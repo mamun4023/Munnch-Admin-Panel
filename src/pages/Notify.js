@@ -114,15 +114,15 @@ export default function Notification() {
   const [filterName, setFilterName] = useState('');
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const dispatch = useDispatch();
-  const loading = useSelector(state =>state.FetchNotificationList.loading)
+  const loading = useSelector(state =>state.NotificationList.loading)
 
   useEffect(()=>{
     dispatch(FetchNotification(filterName, page, rowsPerPage, order))
   },[filterName, page, rowsPerPage, order])
 
-  const NotificationList = useSelector(state => state.FetchNotificationList.data)
+  const NotificationList = useSelector(state => state.NotificationList.data)
 
-  // console.log("Notification Data", NotificationList);
+  console.log("Notification Data", NotificationList);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -189,7 +189,7 @@ export default function Notification() {
                           <TableCell align="left">{id}</TableCell>
                           <TableCell align="left">{CapitalizeFirstLetter(title)}</TableCell>
                           <TableCell align="left">{CapitalizeFirstLetter(user_type_name)}</TableCell>
-                          <TableCell align="left" sx={{ maxWidth: 300 }}>
+                          <TableCell align="left" sx={{ maxWidth: 300, wordBreak : "break-all" }}>
                              {CapitalizeFirstLetter(message)}
                           </TableCell>
                           <TableCell align="left">

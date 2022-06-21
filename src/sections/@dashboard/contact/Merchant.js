@@ -24,8 +24,8 @@ import {
 import Page from '../../../components/Page';
 import Scrollbar from '../../../components/Scrollbar';
 import SearchNotFound from '../../../components/SearchNotFound';
-import { ContactListHead, ContactListToolbar, ContactMoreMenu } from './index';
-import {FetchContactList} from '../../../redux/contact/fetchAll/action';
+import { ContactListHead, ContactListToolbar, MerchantContactMoreMenu } from './index';
+import {FetchContactList} from '../../../redux/contact/merchant/fetchAll/action';
 import {StatusToggler} from '../../../redux/contact/statusToggler/action';
 import Spinner from 'src/components/Spinner';
 // ----------------------------------------------------------------------
@@ -37,13 +37,13 @@ const TABLE_HEAD = [
     alignRight: false 
   },
   { 
-    label: 'ADMIN ID', 
-    id: 'banerName', 
+    label: 'MERCHANT NAME', 
+    id: 'merchantName', 
     alignRight: false 
   },
   { 
-    label: 'USER ID', 
-    id: 'userId', 
+    label: 'EMAIL', 
+    id: 'email', 
     alignRight: false 
   },
   { 
@@ -112,7 +112,7 @@ export default function Contact() {
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [contactStatus, setContactStatus] = useState("1");
   const dispatch = useDispatch();
-  const loading = useSelector(state => state.ContactList.loading)
+  const loading = useSelector(state => state.MerchantContactList.loading)
 
   const ActiveStatusHandler = ()=>{
     setContactStatus("1");
@@ -132,7 +132,7 @@ export default function Contact() {
     dispatch(FetchContactList(contactStatus,filterName, page, rowsPerPage, order))
   }, [contactStatus, filterName, page, rowsPerPage, order])
 
-  const ContactList = useSelector(state=> state.ContactList.data);
+  const ContactList = useSelector(state=> state.MerchantContactList.data);
   // console.log("ContactList Data", ContactList);
 
   const handleRequestSort = (event, property) => {
@@ -194,7 +194,7 @@ export default function Contact() {
           </div>
          {loading? <Spinner/> : <Box>  
           <Scrollbar>
-            <TableContainer sx={{ minWidth: 800 }}>
+            <TableContainer sx={{ minWidth: 1200 }}>
               <Table>
                 <ContactListHead
                   order={order}
@@ -205,15 +205,15 @@ export default function Contact() {
                 <TableBody>
                   {filteredContact
                     .map((row) => {
-                      const { id, admin_id, customer_id, is_enabled, message, status, updated_at, created_at } = row;
+                      const { id, vendor, message, status, updated_at, created_at } = row;
                       return (
                         <TableRow
                           hover
                           key={id}
                         >
                           <TableCell align="left">{id}</TableCell>
-                          <TableCell align="left">{admin_id != null?admin_id: "--"}</TableCell>
-                          <TableCell align="left">{customer_id}</TableCell>
+                          <TableCell align="left">{vendor?.personal_name}</TableCell>
+                          <TableCell align="left">{vendor?.email}</TableCell>
                           <TableCell align="left" sx={{ maxWidth: 300 }}>
                             {CapitalizeFirstLetter(message)}
                           </TableCell>
@@ -230,7 +230,7 @@ export default function Contact() {
                             />
                             </TableCell>
                           <TableCell align="right">
-                            <ContactMoreMenu 
+                            <MerchantContactMoreMenu 
                               id = {id}
                               status = {contactStatus}
                               filter = {filterName}

@@ -47,7 +47,8 @@ import FetchSingleCoupon from './coupon/fetchSingle/reducer';
 import FetchWithdrawal from './withdraw/fetchAll/reducer';
 import UserTransactionHistory from './transactionHistory/User/reducer';
 import MerchantTransactionHistory from './transactionHistory/merchant/reducer';
-import ContactListReducer from './contact/fetchAll/reducer';
+import UserContactListReducer from './contact/user/fetchAll/reducer';
+import MerchantContactListReducer from './contact/merchant/fetchAll/reducer';
 
 import OrderListReducer from './order/FetchAllOrder/reducer';
 import SingleOrderReducer from './order/fetchSingle/reducer';
@@ -83,7 +84,7 @@ const RootReducer = combineReducers({
     UpdateBanner : UpdateBannerReducer,
 
      //Notify Reducer 
-    FetchNotificationList : FetchNotificationListReducer,
+    NotificationList : FetchNotificationListReducer,
 
      // menu 
     FetchAllMenu : FetchAllMenuReducer,
@@ -105,7 +106,8 @@ const RootReducer = combineReducers({
 
     OrderList : OrderListReducer,
     SingleOrder : SingleOrderReducer,
-    ContactList : ContactListReducer,
+    UserContactList : UserContactListReducer,
+    MerchantContactList : MerchantContactListReducer,
     Total : TotalReducer,
     Top5Cuisine : Top5CuisineReducer,
     GrowthChart : GrowthChartReducer,
