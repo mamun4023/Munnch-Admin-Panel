@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react';
 import { filter } from 'lodash';
+import { CSVLink } from 'react-csv';
 import { IconButton, Button } from '@mui/material';
 import Tooltip from '@mui/material/Tooltip';
 import Moment from 'react-moment';
+import moment from 'moment';
 import { useDispatch, useSelector } from 'react-redux';
 // material
 import {
@@ -39,28 +41,23 @@ const TABLE_HEAD = [
     alignRight: false 
   },
   { 
-    label: 'NAME', 
-    id: 'name', 
+    label: 'ORDER ID',
+    id: 'orderID', 
     alignRight: false 
   },
   { 
-    label: 'PROFILE IMAGE', 
-    id: 'image', 
-    alignRight: false 
-  },
-  { 
-    label: 'EMAIL',
-    id: 'email', 
-    alignRight: false 
-  },
-  { 
-    label: 'PHONE NUMBER',
+    label: 'REFERENCE NUMBER',
     id: 'phone_number', 
     alignRight: false 
   },
   { 
-    label: 'AMOUNT', 
-    id: 'amount',
+    label: 'PAYMENT STATUS', 
+    id: 'paymentStatus',
+    alignRight: false 
+  },
+  { 
+    label: 'PAYMENT MODE', 
+    id: 'paymentMode',
     alignRight: false 
   },
   { 
@@ -101,12 +98,17 @@ function applySortFilter(array, comparator, query) {
   return stabilizedThis.map((el) => el[0]);
 }
 
-
 function CapitalizeFirstLetter (s){
   if (typeof s !== 'string') return ''
   return s.charAt(0).toUpperCase() + s.slice(1)
 }
 
+function LowerCase(s){
+  if (typeof s !== 'string') return ''
+  var removeUnderScore = s.replace(/_/g, "");
+  let makeLowerCase =  removeUnderScore.toLowerCase();
+  return makeLowerCase.charAt(0).toUpperCase() + makeLowerCase.slice(1)
+}
 
 export default function Withdrawal() {
   const [page, setPage] = useState(1);
@@ -125,6 +127,20 @@ export default function Withdrawal() {
   },[filterName, page, rowsPerPage, order])
 
   const TransactionList = useSelector(state => state.UserTransaction.data);
+
+  let csvDATA = [];
+  TransactionList?.forEach(data => {
+    let obj = {
+      id : data.id,
+      orderId : data.order?.id,
+      referenceNumber : data.bill_plz_payment?.bill_id,
+      paymentStatus : LowerCase(data.order?.status),
+      paymentMode : data.bill_plz_payment? "BillPlz" : "--",
+      date :  moment(data.order?.created_at, "DD-MM-YYYY hh:mm a").format("DD-MM-YYYY hh:mm a")
+    }
+    csvDATA.push(obj)
+  })
+
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -152,6 +168,15 @@ export default function Withdrawal() {
     dispatch(UserStatusToggler(id))
   }
 
+  const headers = [
+    { label: "ID", key: "id" },
+    { label: "ORDER ID", key: "orderId" },
+    { label: "REFERENCE NUMBER",  key: "referenceNumber" },
+    { label: "PAYMENT STATUS", key: "paymentStatus"},
+    { label: "PAYMENT MODE", key: "paymentMode" },
+    { label: "CREATED AT", key: "date" },
+  ];
+
   return (
     <Page title="Munchh | User Transaction">
       <Container>
@@ -167,19 +192,18 @@ export default function Withdrawal() {
                 filterName={filterName}
                 onFilterName={handleFilterByName}
               />
-            {/* <div style={{ marginTop : "25px" }}>
-              <Button
-                variant={withdrawalStatus === "requested" ? "contained" : null}
-                onClick={() => setWithdrawalStatus("requested")}
-                disableElevation
-              // style={ userStatus === "acitve"? { backgroundColor : "#636e72" }:null}
-              >Requested</Button>
-              <Button
-                variant={withdrawalStatus === "approved" ? "contained" : null}
-                onClick={() => setWithdrawalStatus("approved")}
-                disableElevation
-              >Approved</Button>
-            </div> */}
+
+            <div style={{ marginTop : "25px" }}>
+              <Button 
+                sx={{marginRight : 10}} 
+                color ="primary"
+              > 
+                <CSVLink
+                  headers={headers}
+                  filename="transactions.csv"
+                  data={csvDATA}>Download CSV</CSVLink>
+              </Button>
+            </div>
           </div>
           
           {loading? <Spinner/> :  <Box> 
@@ -195,7 +219,7 @@ export default function Withdrawal() {
                 <TableBody>
                   {filteredUsers
                     .map((row) => {
-                      const { id, customer, is_withdrawn, store_bank, amount, created_at } = row;
+                      const { id, customer, order, bill_plz_payment, is_withdrawn, store_bank, amount, created_at } = row;
       
                       return (
                         <TableRow
@@ -205,13 +229,10 @@ export default function Withdrawal() {
                           role="checkbox"
                         >
                           <TableCell align="left">{id}</TableCell>
-                          <TableCell align="left">{customer?.name}</TableCell>
-                          <TableCell align="left">
-                             <Avatar  variant="square" style={{width : "70px"}} src= {customer?.profile_image} />
-                          </TableCell>
-                          <TableCell align="left">{CapitalizeFirstLetter(customer?.email)}</TableCell>
-                          <TableCell align="left">{customer?.phone}</TableCell>
-                          <TableCell align="left">RM {amount}</TableCell>
+                          <TableCell align="left">{order?.id}</TableCell>
+                          <TableCell align="left">{bill_plz_payment?.bill_id}</TableCell>
+                          <TableCell align="left">{LowerCase(order?.status)}</TableCell>
+                          <TableCell align="left"> {bill_plz_payment?"BillPlz": "--"}</TableCell>
                           <TableCell align="left">
                             <Moment format="DD-MM-YYYY hh:mm a" >{customer?.created_at}</Moment> 
                           </TableCell>   

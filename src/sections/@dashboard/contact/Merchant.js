@@ -194,7 +194,7 @@ export default function Contact() {
           </div>
          {loading? <Spinner/> : <Box>  
           <Scrollbar>
-            <TableContainer sx={{ minWidth: 1200 }}>
+            <TableContainer sx={{ minWidth: 1400 }}>
               <Table>
                 <ContactListHead
                   order={order}

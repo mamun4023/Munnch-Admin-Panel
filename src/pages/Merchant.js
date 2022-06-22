@@ -235,7 +235,7 @@ export default function Merchant() {
                 <TableBody>
                   {filteredUsers
                     .map((row) => {
-                      const { id, personal_name, profile_pic, ic_number, email, phone, status, is_verified, is_approved } = row;
+                      const { id, personal_name, profile_pic, ic_number, email, phone,wallet,restaurants, status, is_verified, is_approved } = row;
                       return (
                         <TableRow
                           hover
@@ -250,9 +250,9 @@ export default function Merchant() {
                           
                           <TableCell align="left">{email}</TableCell>
                           <TableCell align="left">{phone}</TableCell>
-                          <TableCell align="left"> API missing </TableCell>
+                          <TableCell align="left"> RM {wallet?.balance} </TableCell>
                           <TableCell align="left"> 
-                            <Rating name="read-only" value={3} readOnly />
+                            <Rating name="read-only" value={ restaurants[0]?.average_rating} readOnly />
                           </TableCell>
                           <TableCell align="left">
                             <Switch 
