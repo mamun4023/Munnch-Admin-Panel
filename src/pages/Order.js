@@ -63,7 +63,6 @@ const TABLE_HEAD = [
     alignRight: false 
   },
 
- 
 
   // { 
   //   label: 'EMAIL', 
@@ -258,7 +257,7 @@ export default function Order() {
                 <TableBody>
                   {filteredUsers
                     .map((row) => {
-                      const { id,  paid_price, customer, store, order, rider_data, address, status, created_at } = row;
+                      const { id,  paid_price, customer, store, order, rider_data,store_menu_items, address, status, created_at } = row;
                       return (
                         <TableRow
                           hover
@@ -269,7 +268,11 @@ export default function Order() {
                           <TableCell align="left">{CapitalizeFirstLetter(store?.restaurant_name)}</TableCell>
                           <TableCell align="left">{(rider_data?.rider_details?.name)?rider_data?.rider_details?.name: "--"}</TableCell>
                           <TableCell align="left">RM {paid_price}</TableCell> 
-                          <TableCell align="left">{(order?.cart_items?.food_type)?order?.cart_items?.food_type : "--"}</TableCell> 
+                          {/* <TableCell align="left">{(order?.cart_items?.food_type)?order?.cart_items?.food_type : "--"}</TableCell>  */}
+                          <TableCell align="left">{store?.store_menu_items?.food_item_type}</TableCell> 
+                          
+
+                          
                           <TableCell align="left">{status}</TableCell> 
                           <TableCell align="left">
                             <Switch 

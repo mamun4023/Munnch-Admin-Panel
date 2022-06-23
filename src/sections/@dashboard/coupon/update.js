@@ -257,14 +257,14 @@ export default function Update() {
                             helperText={touched.maximum_usage_limit && errors.maximum_usage_limit}
                         />
                    
-                        <TextField
+                        {/* <TextField
                             fullWidth
                             type="text"
                             label="maximum_spend"
                             {...getFieldProps('maximum_spend')}
                             error={Boolean(touched.maximum_spend && errors.maximum_spend)}
                             helperText={touched.maximum_spend && errors.maximum_spend}
-                        />  
+                        />   */}
                       {
                         values.days? 
 

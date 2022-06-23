@@ -83,9 +83,8 @@ export default function UserGrowth() {
 
   return (
     <Card>
-
           <div style={{ display:"flex", flexWrap:"wrap", justifyContent:"space-between"}}> 
-              <CardHeader title="Growth" subheader="(+43%) than last year" />
+              <CardHeader title="Growth" />
                 <Stack
                    sx={{
                     marginRight : 5,
