@@ -186,6 +186,9 @@ export default function Order() {
 
   const CanclerHandler = (id)=>{
     dispatch(CancleOrder(id))
+    setTimeout(()=>{
+      dispatch(FetchOrderList(page, rowsPerPage, order, orderStatus, filterName))
+    }, 1000)
   }
 
   const anchorRef = useRef(null);
@@ -270,6 +273,7 @@ export default function Order() {
                           <TableCell align="left">{status}</TableCell> 
                           <TableCell align="left">
                             <Switch 
+                              disabled= {status === "CANCELED"?true:false}
                               onChange={()=>CanclerHandler(id)}
                               defaultChecked = {status === "CANCELED"?true:false}
                             />
