@@ -56,7 +56,7 @@ export default function UserListToolbar({ numSelected, filterName, onFilterName 
           style={{ height : "50px" }}
           value={filterName}
           onChange={onFilterName}
-          placeholder="Search By Message..."
+          placeholder="Search By Name..."
           startAdornment={
             <InputAdornment position="start">
               <Iconify icon="eva:search-fill" sx={{ color: 'text.disabled' }} />

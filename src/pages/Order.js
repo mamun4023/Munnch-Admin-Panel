@@ -39,7 +39,6 @@ import {CancleOrder} from '../redux/order/cancelToggler/actions';
 import Spinner from 'src/components/Spinner';
 // ----------------------------------------------------------------------
 
-
 const TABLE_HEAD = [
   { 
     label: 'ID',
@@ -56,14 +55,11 @@ const TABLE_HEAD = [
     id: 'merchantName', 
     alignRight: false 
   },
-
   { 
     label: 'RIDER NAME', 
     id: 'riderName', 
     alignRight: false 
   },
-
-
   // { 
   //   label: 'EMAIL', 
   //   id: 'email', 
@@ -140,6 +136,13 @@ function applySortFilter(array, comparator, query) {
 function CapitalizeFirstLetter (s){
   if (typeof s !== 'string') return ''
   return s.charAt(0).toUpperCase() + s.slice(1)
+}
+
+function LowerCase(s){
+  if (typeof s !== 'string') return ''
+  var removeUnderScore = s.replace(/_/g, " ");
+  let makeLowerCase =  removeUnderScore.toLowerCase();
+  return makeLowerCase.charAt(0).toUpperCase() + makeLowerCase.slice(1)
 }
 
 export default function Order() {
@@ -269,11 +272,8 @@ export default function Order() {
                           <TableCell align="left">{(rider_data?.rider_details?.name)?rider_data?.rider_details?.name: "--"}</TableCell>
                           <TableCell align="left">RM {paid_price}</TableCell> 
                           {/* <TableCell align="left">{(order?.cart_items?.food_type)?order?.cart_items?.food_type : "--"}</TableCell>  */}
-                          <TableCell align="left">{store?.store_menu_items?.food_item_type}</TableCell> 
-                          
-
-                          
-                          <TableCell align="left">{status}</TableCell> 
+                          <TableCell align="left">{store?.store_menu_items[0]?.food_item_type}</TableCell> 
+                          <TableCell align="left">{LowerCase(status)}</TableCell> 
                           <TableCell align="left">
                             <Switch 
                               disabled= {status === "CANCELED"?true:false}
