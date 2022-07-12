@@ -252,7 +252,7 @@ export default function Merchant() {
                           <TableCell align="left">{phone}</TableCell>
                           <TableCell align="left"> RM {wallet?.total_balance} </TableCell>
                           <TableCell align="left"> 
-                            <Rating name="read-only" value={ restaurants[0]?.average_rating} readOnly />
+                            <Rating style = {{color : "black"}} name="read-only" value={ restaurants[0]?.average_rating} readOnly />
                           </TableCell>
                           <TableCell align="left">
                             <Switch 

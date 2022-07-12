@@ -234,7 +234,7 @@ export default function User() {
                           </TableCell>
                           <TableCell align="left">{email}</TableCell>
                           <TableCell align="left">{phone}</TableCell>
-                          <TableCell align="left">RM {wallet_data? wallet_data?.balance : "0"}</TableCell>
+                          <TableCell align="left">RM {wallet_data? wallet_data?.total_balance : "0"}</TableCell>
                           <TableCell align="left">
                             <Moment format="DD-MM-YYYY hh:mm a" >{created_at}</Moment>
                           </TableCell>
@@ -246,8 +246,7 @@ export default function User() {
                               />
                             </Tooltip> 
                           </TableCell>
-                          
-                         
+                        
                           {/* <TableCell align="right">
                             <UserMoreMenu 
                               id = {id}
