@@ -67,14 +67,14 @@ export default function AppOrderTimeline() {
   const TIMELINES = [
     {
       title: 'Total Placed Order',
-      order : OrderTimeLineData[5]?.total,
+      order : OrderTimeLineData[1]?.total + OrderTimeLineData[4]?.total ,
       type: 'order1'
     },
 
 
     {
       title: 'Total Delivered Order',
-      order : OrderTimeLineData[2]?.total,
+      order : OrderTimeLineData[1]?.total,
       type: 'order2'
     },
 
@@ -91,7 +91,7 @@ export default function AppOrderTimeline() {
 
     {
       title: 'Total Rejected Order',
-      order : OrderTimeLineData[1]?.total,
+      order : OrderTimeLineData[4]?.total,
       type: 'order5'
     }
   ];

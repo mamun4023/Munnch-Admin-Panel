@@ -19,8 +19,9 @@ export default function OrderGrowth() {
   }, [year])
 
   const GrowthData = useSelector(state =>state.OrderGrowth.data)
-  
-  const orderData = [];
+
+
+  const orderData = [0, 0, 10, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 
   GrowthData?.forEach(data =>{
     orderData.push(data.total)
