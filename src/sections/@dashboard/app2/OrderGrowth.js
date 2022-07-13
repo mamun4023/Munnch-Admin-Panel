@@ -20,8 +20,6 @@ export default function OrderGrowth() {
 
   const GrowthData = useSelector(state =>state.OrderGrowth.data)
 
-
-
   const OrderedYear = [
     {
       "month": "January",
@@ -81,10 +79,6 @@ export default function OrderGrowth() {
         }
       })
    })
-
-
-
-   // sorting month
 
 
 // sorting month
