@@ -21,11 +21,98 @@ export default function OrderGrowth() {
   const GrowthData = useSelector(state =>state.OrderGrowth.data)
 
 
-  const orderData = [0, 0, 10, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 
-  GrowthData?.forEach(data =>{
+  const OrderedYear = [
+    {
+      "month": "January",
+      "total": 0
+    },
+    {
+      "month": "February",
+      "total": 0
+    },
+    {
+      "month": "March",
+      "total": 0
+    },
+    {
+      "month": "April",
+      "total": 0
+    },
+    {
+      "month": "May",
+      "total": 0
+    },
+    {
+      "month": "June",
+      "total": 0
+    },
+    {
+      "month": "July",
+      "total": 0
+    },
+    {
+      "month": "August",
+      "total": 0
+    },
+    {
+      "month": "September",
+      "total": 0
+    },
+    {
+      "month": "October",
+      "total": 0
+    },
+    {
+      "month": "November",
+      "total": 0
+    },
+    {
+      "month": "December",
+      "total": 0
+    }
+  ]
+
+    // filter order data
+    OrderedYear.forEach(data =>{
+      GrowthData?.forEach(d =>{
+        if(data.month == d.month) {
+          data.total = d.total
+        }
+      })
+   })
+
+
+
+   // sorting month
+
+
+// sorting month
+  const map = {
+    'January': 1,
+    'February': 2,
+    'March': 3,
+    'April': 4,
+    'May': 5,
+    'June': 6,
+    'July': 7,
+    'August' : 8,
+    'September' : 9,
+    'October' : 10,
+    'Novermber' : 11,
+    'December' : 12
+  };
+
+  OrderedYear.sort((a, b) => {
+    return map[a.day] - map[b.day];
+  });
+
+  const orderData = [];
+
+  OrderedYear.forEach(data =>{
     orderData.push(data.total)
   })
+
 
   const CHART_DATA = [
     {

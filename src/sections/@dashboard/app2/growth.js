@@ -20,21 +20,167 @@ export default function UserGrowth() {
 
   const GrowthData = useSelector(state =>state.GrowthChart.data)
 
-  // console.log("Customer ", GrowthData?.customers)
-  // console.log("merchant ", GrowthData?.vendors)
+  const CustomerYear = [
+    {
+      "month": "January",
+      "total": 0
+    },
+    {
+      "month": "February",
+      "total": 0
+    },
+    {
+      "month": "March",
+      "total": 0
+    },
+    {
+      "month": "April",
+      "total": 0
+    },
+    {
+      "month": "May",
+      "total": 0
+    },
+    {
+      "month": "June",
+      "total": 0
+    },
+    {
+      "month": "July",
+      "total": 0
+    },
+    {
+      "month": "August",
+      "total": 0
+    },
+    {
+      "month": "September",
+      "total": 0
+    },
+    {
+      "month": "October",
+      "total": 0
+    },
+    {
+      "month": "November",
+      "total": 0
+    },
+    {
+      "month": "December",
+      "total": 0
+    }
+  ]
+
+
+  const MerchantYear = [
+    {
+      "month": "January",
+      "total": 0
+    },
+    {
+      "month": "February",
+      "total": 0
+    },
+    {
+      "month": "March",
+      "total": 0
+    },
+    {
+      "month": "April",
+      "total": 0
+    },
+    {
+      "month": "May",
+      "total": 0
+    },
+    {
+      "month": "June",
+      "total": 0
+    },
+    {
+      "month": "July",
+      "total": 0
+    },
+    {
+      "month": "August",
+      "total": 0
+    },
+    {
+      "month": "September",
+      "total": 0
+    },
+    {
+      "month": "October",
+      "total": 0
+    },
+    {
+      "month": "November",
+      "total": 0
+    },
+    {
+      "month": "December",
+      "total": 0
+    }
+  ]
+
+  // filter customer data
+  CustomerYear.forEach(data =>{
+    GrowthData?.customers?.forEach(d =>{
+      if(data.month == d.month) {
+        data.total = d.total
+      }
+    })
+ })
+
+
+ // filter merchant data
+ MerchantYear.forEach(data =>{
+  GrowthData?.vendors?.forEach(d =>{
+    if(data.month == d.month) {
+      data.total = d.total
+    }
+  })
+})
+
+
+// sorting month
+  const map = {
+    'January': 1,
+    'February': 2,
+    'March': 3,
+    'April': 4,
+    'May': 5,
+    'June': 6,
+    'July': 7,
+    'August' : 8,
+    'September' : 9,
+    'October' : 10,
+    'Novermber' : 11,
+    'December' : 12
+  };
+  CustomerYear.sort((a, b) => {
+    return map[a.day] - map[b.day];
+  });
+
+
+  MerchantYear.sort((a, b) => {
+    return map[a.day] - map[b.day];
+  });
+
+ 
+ const customerData = [];
+ const merchantData = [];
+ 
+ CustomerYear.forEach(data =>{
+   customerData.push(data.total)
+ })
+
   
-  const customerData = [];
-  const merchantData = [];
+ MerchantYear.forEach(data =>{
+  merchantData.push(data.total)
+})
 
-  // initialize data
-  GrowthData?.customers?.forEach(data =>{
-    customerData.push(data.total)
-  })
-
-  GrowthData?.vendors?.forEach(data =>{
-    merchantData.push(data.total)
-  })
-
+  
   const CHART_DATA = [
     {
       name: 'Customers ',
@@ -84,7 +230,7 @@ export default function UserGrowth() {
   return (
     <Card>
           <div style={{ display:"flex", flexWrap:"wrap", justifyContent:"space-between"}}> 
-              <CardHeader title="Growth" />
+              <CardHeader title=" User Growth" />
                 <Stack
                    sx={{
                     marginRight : 5,
