@@ -174,9 +174,9 @@ export default function Store() {
                             Cuisine Type 
                         </Typography>
 
-                        {StoreData.cuisines?               
+                        {StoreData?.cuisines?               
                           <ImageList >
-                              {StoreData.cuisines.map((item) => (
+                              {StoreData?.cuisines?.map((item) => (
                                 <ImageListItem key={item?.img}>
                                   <img
                                     style={{ maxHeight : "250px"}}
@@ -204,13 +204,13 @@ export default function Store() {
                         <Typography  marginTop = {3} padding={1} style={{background : "#eee" }}  textAlign="center" variant="h6" component="div">
                             Store Images
                         </Typography>
-                        {StoreData.images ? <>
+                        {StoreData?.images ? <>
                         <ImageList >
-                          {StoreData.images.map((item) => ( 
+                          {StoreData?.images?.map((item) => ( 
                             <> 
-                            <ImageListItem key={item.id}>
+                            <ImageListItem key={item?.id}>
                               <img
-                                src={item.image}
+                                src={item?.image}
                                 // alt={item.title}
                                 loading="lazy"
                               />

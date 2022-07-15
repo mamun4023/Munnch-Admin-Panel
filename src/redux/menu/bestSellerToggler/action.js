@@ -11,7 +11,8 @@ export const BestSellerToggler = (id)=>{
                 toast.dark(response)
             })
             .catch((err)=>{
-                console.log(err)
+                const errors = err.response.data.message;
+                toast.error(errors)
             })
     }
 }

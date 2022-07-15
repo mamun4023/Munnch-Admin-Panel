@@ -33,12 +33,6 @@ import {FetchCuisineTypeList , FetchFoodTypeList, CategoryList} from '../../../r
 
 // ----------------------------------------------------------------------
 
-// const FoodType = ['Burgers', 'Nasi Lemak', 'Ice Latte', 'Sushi', 'Fried Chicken'];
-// const Cuisines = ['Asian', 'Western', 'Arabian', 'Russian'];
-// const Category = ['Category 1', 'Category 2', "Category 3"];
-// const Addons = ['Addon 1','Addon 2','Addon 3','Addon 4','Addon 5'];
-// const Variations = ['Variation 1', 'Variation 2','Variation 3','Variation 4', 'Variation 5']
-
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
 const MenuProps = {
@@ -61,14 +55,6 @@ function createFormData(formData, key, data) {
   }
 }
 
-// function getStyles(name, personName, theme) {
-//   return {
-//     fontWeight:
-//       personName.indexOf(name) === -1
-//         ? theme.typography.fontWeightRegular
-//         : theme.typography.fontWeightMedium,
-//   };
-// }
 
 export default function Create() {
   const {id} = useParams();
@@ -109,24 +95,22 @@ const removeFields = (index) => {
   const[categoryList, setCategoryList] = useState([]);
   const[selectedCategory, setSelectedCategoryList] = useState();
 
-
-      // console.log("selectedFoodList", selectedFoodList)
- 
+   // console.log("selectedFoodList", selectedFoodList)
 
   const LoadListData = ()=>{
-    FetchCuisineTypeList()
+    FetchCuisineTypeList(id)
       .then(res =>{
-        const response = res.data.data.cuisine_list;
+        const response = res.data.data;
         setCuisineList(response);
       })
 
-    FetchFoodTypeList()
+    FetchFoodTypeList(id)
       .then(res =>{
-        const response = res.data.data.food_list;
+        const response = res.data.data;
         setFoodList(response);
       })
 
-      CategoryList()
+      CategoryList(id)
       .then(res =>{
         const response = res.data.data;
         setCategoryList(response);
@@ -138,32 +122,7 @@ const removeFields = (index) => {
 
   },[])
 
- 
-  // // const theme = useTheme()
-  // const [addons, setAddons] = useState([]);
-  // const [variations, setVariations] = useState([]);
 
-
-  // const handleAddonsChange = (event) => {
-  //   const {
-  //     target: { value },
-  //   } = event;
-  //   setAddons(
-  //     // On autofill we get a stringified value.
-  //     typeof value === 'string' ? value.split(',') : value,
-  //   );
-  // };
-
-
-  // const handleVariationsChange = (event) => {
-  //   const {
-  //     target: { value },
-  //   } = event;
-  //   setVariations(
-  //     // On autofill we get a stringified value.
-  //     typeof value === 'string' ? value.split(',') : value,
-  //   );
-  // };
 
   const MenuItemSchema = Yup.object().shape({
     name: Yup.string().required('Name is required'),
@@ -174,7 +133,10 @@ const removeFields = (index) => {
     categories: Yup.mixed().required('Category is required').nullable(),
     food_item_type: Yup.string().required('Food Item Type is required'),
     food_item_estimate_days :Yup.string().required('Estimate Days are required'),
-    image : Yup.mixed().required('Image is required')
+    image : Yup.mixed().required('Image is required'),
+    variationHalf : Yup.string().required("Required"),
+    variationFull : Yup.string().required("Required"),
+
   });
 
   const formik = useFormik({
@@ -197,56 +159,6 @@ const removeFields = (index) => {
 
     validationSchema: MenuItemSchema,
     onSubmit: (values) => {
-
-      //  const FormData = new FormData();
-      //  FormData.append('image', values.image);
-
-      // const data = {
-      //   name : values.name,
-      //   price : values.price,
-      //   description : values.description,
-      //   food_type_id : values.food_types.id,
-      //   cuisine_id : values.cuisine_types.id,
-      //   category_id : values.categories.id,
-      //   food_item_type : values.food_item_type,
-      //   food_item_estimate_days : values.food_item_estimate_days,
-      //   restaurant_id : id,
-      //   food_addons : inputFields,
-      //   food_variations : {
-      //       "full" : values.variationFull,
-      //       "half" : values.variationHalf
-      //     },
-      // }
-
-      // const data = new FormData();
-      // data.append('name', values.name);
-      // data.append('price', values.price);
-      // data.append('description', values.description);
-      // data.append('food_type_id', values.food_types.id);
-      // data.append("cuisine_id", values.cuisine_types.id);
-      // data.append("category_id", values.categories.id)
-      // data.append("food_item_type",  values.food_item_type);
-      // data.append("food_item_estimate_days", values.food_item_estimate_days);
-      // data.append("restaurant_id", id);
-
-      // for (let i=0; i< inputFields.length; i++){
-      //   data.append('food_addons[]', inputFields[i]);
-      // }
-
-      // inputFields.forEach(item => data.append("food_addons", item))
-
-    //   barArray.forEach(function (element) {
-    //     data.append('foo[][item]', element.item);
-    // })
-
-      // data.append("food_addons[]", JSON.stringify(inputFields));
-      // data.append('food_variations{}',  JSON.stringify({"full" : values.variationFull, "half" : values.variationHalf }))
-      // data.append('image', values.image);
-
-    // var formData = new FormData();
-    // createFormData(formData, 'data', data);
-   
-      // console.log("data",data)
 
 
     const form = new FormData();
@@ -279,9 +191,29 @@ const removeFields = (index) => {
         })
         .catch((err)=>{
           setLoading(false);
-          const errors = err.response.data.message;
-          const ddd = err.response.data.errors?.name[0];
-          toast.error(ddd?ddd : errors)
+          const errors = err.response.data.errors;
+          
+          if(errors.category_id?errors.category_id[0] : false){
+            toast.error(errors.category_id[0])
+          }
+
+          // addon message popup
+          if(errors["food_addons.0.name"]? errors["food_addons.0.name"][0] : false){
+            toast.error(errors["food_addons.0.name"][0])
+          }
+
+          if(errors["food_addons.0.price"]? errors["food_addons.0.price"][0] : false){
+            toast.error(errors["food_addons.0.price"][0])
+          }
+
+          if(errors["food_addons.1.name"]? errors["food_addons.1.name"][1] : false){
+            toast.error(errors["food_addons.1.name"][1])
+          }
+
+          if(errors["food_addons.1.price"]? errors["food_addons.1.price"][1] : false){
+            toast.error(errors["food_addons.1.price"][1])
+          }
+          
         })
     }
   });
@@ -357,7 +289,7 @@ const removeFields = (index) => {
                               fullWidth
                               limitTags={1}
                               options={cuisineList}
-                              getOptionLabel = {(option)=> option.cuisine_name}
+                              getOptionLabel = {(option)=> option.name}
                               onChange = {(event, value)=>  formik.setFieldValue("cuisine_types", value) } 
                               renderInput = {(option)=> 
                                   <TextField 
@@ -445,7 +377,7 @@ const removeFields = (index) => {
                                 label="Full"
                                 {...getFieldProps('variationFull')}
                                 error={Boolean(touched.variationFull && errors.variationFull)}
-                                helperText={touched.variationFull && errors.navariationFullme}
+                                helperText={touched.variationFull && errors.variationFull}
                             />
                           </Stack>
 

@@ -226,7 +226,7 @@ export default function Withdrawal() {
                 <TableBody>
                   {filteredUsers
                     .map((row) => {
-                      const { id, customer, is_withdrawn, store_bank, amount, created_at } = row;
+                      const { id, customer, is_withdrawn, store_bank,bank_name, amount, created_at } = row;
       
                       return (
                         <TableRow
@@ -243,7 +243,7 @@ export default function Withdrawal() {
                           <TableCell align="left">{CapitalizeFirstLetter(customer?.email)}</TableCell>
                           <TableCell align="left">{customer?.phone}</TableCell>
                           <TableCell align="left">{CapitalizeFirstLetter(store_bank?.holder_name)}</TableCell>
-                          <TableCell align="left">{store_bank?.bank?.name}</TableCell>
+                          <TableCell align="left">{bank_name}</TableCell>
                           <TableCell align="left">{store_bank?.account_number}</TableCell>
                           <TableCell align="left">RM {amount}</TableCell>
                           <TableCell align="left">

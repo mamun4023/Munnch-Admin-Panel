@@ -57,6 +57,7 @@ function AddonsFilter(data){
 
 export default function Update() {
   const {id} = useParams();
+  const [storeId, setStoreId] = useState();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
@@ -69,6 +70,7 @@ export default function Update() {
       .then((res)=>{
           const response = res.data.data;
           setSingleMenu(response)
+          setStoreId(response.store.id)
           setInputFields(AddonsFilter(response?.menu_item_addons))
       })
   }
@@ -106,20 +108,20 @@ const removeFields = (index) => {
   const[categoryList, setCategoryList] = useState([]);
   const[selectedCategory, setSelectedCategoryList] = useState();
 
-  const LoadListData = ()=>{
-    FetchCuisineTypeList()
+  const LoadListData = (storeId)=>{
+    FetchCuisineTypeList(storeId)
       .then(res =>{
-        const response = res.data.data.cuisine_list;
+        const response = res.data.data;
         setCuisineList(response);
       })
 
-    FetchFoodTypeList()
+    FetchFoodTypeList(storeId)
       .then(res =>{
-        const response = res.data.data.food_list;
+        const response = res.data.data;
         setFoodList(response);
       })
 
-      CategoryList()
+      CategoryList(storeId)
       .then(res =>{
         const response = res.data.data;
         setCategoryList(response);
@@ -127,8 +129,8 @@ const removeFields = (index) => {
   }
 
   useEffect(()=>{
-    LoadListData();
-  },[])
+    LoadListData(storeId);
+  },[storeId])
 
   const MenuItemSchema = Yup.object().shape({
     name: Yup.string().required('Name is required'),

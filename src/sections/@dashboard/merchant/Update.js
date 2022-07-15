@@ -66,7 +66,7 @@ function Create() {
       ic_number : SingleMerchant.ic_number ? SingleMerchant.ic_number : "",
       email : SingleMerchant.email? SingleMerchant.email : "",
       phone : SingleMerchant.phone? SingleMerchant.phone : "",
-      store_phone : SingleMerchant.store_phone ? SingleMerchant.phone : "",
+      store_phone : SingleMerchant.store_phone ? SingleMerchant.store_phone : "",
       password : SingleMerchant.password ? SingleMerchant.password : "",
       password_confirmation : SingleMerchant.password_confirmation? SingleMerchant.password_confirmation : '',
     },

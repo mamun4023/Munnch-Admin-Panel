@@ -52,6 +52,7 @@ export default function View() {
                             </Typography>
                             <img 
                                 src= {image}
+                                style = {{minWidth : "700px"}}
                             />
                              <Typography style={{ background : "#eee" }}  padding={1} textAlign= "center" variant="h6" component="div">
                                Item Description
