@@ -34,7 +34,7 @@ function View() {
     
     console.log("Ordered data", orderedData)
     
-    const {order, address, order_remarks, created_at, updated_at} = orderedData;
+    const {order, address, customer, order_remarks, store, created_at, updated_at} = orderedData;
     const classes = useStyles();
     return(
             <>
@@ -71,7 +71,7 @@ function View() {
                                     />
                                 </Grid>
 
-                                
+            
                                 <Grid item 
                                     style={{ paddingLeft : "100px" }}
                                 > 
@@ -120,10 +120,15 @@ function View() {
                                             <TableCell className={classes.tableCell}  align="left">Total Payment </TableCell>
                                             <TableCell className={classes.tableCell} align="left">  RM {order?.bill_details.to_pay} </TableCell>
                                         </TableRow>
+                                        <TableRow className={classes.tableRow}>
+                                            <TableCell className={classes.tableCell}  align="left">User Phone </TableCell>
+                                            <TableCell className={classes.tableCell} align="left">  {customer?.phone} </TableCell>
+                                        </TableRow>
                                     </TableBody>
                                 </Table>
                                 <Typography sx={{ mb: 1.5 }} color="text.secondary">
                                 </Typography>
+
                                 <h4> Delivery Address</h4>
                                 <Typography variant="body2">
                                    <Box 
@@ -171,9 +176,23 @@ function View() {
                                             <TableCell className={classes.tableCell} align="left"> Estimated Delivery Days </TableCell>
                                             <TableCell className={classes.tableCell} align="left"> {order?.estimated_delivery_days} </TableCell>
                                         </TableRow>
+                                        <TableRow className={classes.tableRow}>
+                                            <TableCell className={classes.tableCell} align="left"> Contact No </TableCell>
+                                            <TableCell className={classes.tableCell} align="left"> {store?.contact_no} </TableCell>
+                                        </TableRow>
+
+                                        
                                     </TableBody>
                                 </Table>
                                 <Typography sx={{ mb: 1.5 }} color="text.secondary">
+                                </Typography>
+                                <h4> Shop Address</h4>
+                                <Typography variant="body2">
+                                   <Box 
+                                        sx={{ py: 1}}
+                                   >
+                                       {store?.store_addresses?.address}
+                                    </Box>
                                 </Typography>
                                 <h4> Ramark</h4>
                                 <Typography variant="body2">
