@@ -54,7 +54,7 @@ function Update() {
   const OperationHoursFiltering = (Hours)=>{
     for(let i =0; i<Hours.length; i++){
       // Hours[i].no_of_hours = moment(Hours[i].start_time , "HH:mm:ss").diff(moment(Hours[i].closing_time , "HH:mm:ss"), "hh");
-      Hours[i].no_of_hours = moment.utc(moment(Hours[i].closing_time,"HH:mm:ss").diff(moment(Hours[i].start_time ,"HH:mm:ss"))).format("HH")
+      Hours[i].no_of_hours = Number( moment.utc(moment(Hours[i].closing_time,"HH:mm:ss").diff(moment(Hours[i].start_time ,"HH:mm:ss"))).format("HH"))
       delete Hours[i].closing_time;
     }
     return Hours;
@@ -350,7 +350,7 @@ function Update() {
     description: Yup.string().required('Description is required').max(150, "Maximum 150 Characters "),
     max_delivery_km : Yup.string().required("Delivery KM is required"),
     contact_no : Yup.string().required("Contact Number is required").min(10,"Minimum 10 Digit").max(10,"Maximum 10 Digit"),
-    additional_info : Yup.string().required('Additional Information is required'),
+    additional_info : Yup.string().required('Additional Information is required').max(150, "Maximum 150 characters"),
     country : Yup.string().required('Country is required').nullable(),
     city : Yup.string().required('City is required').nullable(),
     cuisines : Yup.array().required("Cusine is required").nullable(),
@@ -441,8 +441,12 @@ function Update() {
       })
       .catch((err)=>{
         setLoading(false);
-        const response = err.response.data.errors
-        toast.dark(response);
+        const errors = err.response.data.errors;
+
+        if(errors?.additional_info? errors?.additional_info[0] : false){
+          toast.error(errors?.additional_info[0]);
+        }
+        
       }) 
     }
   });

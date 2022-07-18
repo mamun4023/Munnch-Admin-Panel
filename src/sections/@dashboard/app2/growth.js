@@ -212,18 +212,23 @@ export default function UserGrowth() {
       `11/01/${year}`,
       `12/01/${year}`
     ],
-    xaxis: { type: 'datetime' },
+    xaxis: { type: 'date' },
     tooltip: {
-      shared: true,
-      intersect: false,
-      y: {
-        formatter: (y) => {
-          if (typeof y !== 'undefined') {
-            return `${y.toFixed(0)}`;
-          }
-          return y;
-        }
-      }
+      // shared: true,
+      // intersect: false,
+      // y: {
+      //   formatter: (y) => {
+      //     if (typeof y !== 'undefined') {
+      //       return `${y.toFixed(0)}`;
+      //     }
+      //     return y;
+      //   }
+      // },
+      x: {
+        show: true,
+        format: 'dd MMM',
+        formatter: undefined,
+    },
     }
   });
 

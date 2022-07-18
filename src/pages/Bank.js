@@ -156,7 +156,6 @@ export default function Bank() {
   const filteredBanks = applySortFilter(BankList, getComparator(order, orderBy), filterName);
   const isUserNotFound = filteredBanks.length === 0;
 
-
   const StatusTogglerHandler = (id)=>{
     dispatch(StatusToggler(id))
     setTimeout(()=>{

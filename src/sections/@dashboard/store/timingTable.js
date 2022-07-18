@@ -43,7 +43,8 @@ export default function BasicTable({timing}) {
                    </TableCell>
                    <TableCell align="left"> 
                       {
-                        moment(data.closing_time, "HH:mm:ss").format("hh:mm A")
+                        data?.close_time
+                        // moment(data.closing_time, "HH:mm:ss").format("hh:mm A")
                       }
                     </TableCell> 
                  </TableRow>

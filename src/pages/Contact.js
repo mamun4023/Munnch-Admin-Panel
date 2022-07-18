@@ -10,11 +10,11 @@ const RootStyle = styled(Page)(({ theme }) => ({
   }
 }));
 
-export default function Withdraw() {
+export default function Contact() {
 
   return (
      <>
-      <RootStyle title="Munchh | Withdrawal"> </RootStyle>
+      <RootStyle title="Munchh | Contact"> </RootStyle>
           <Typography  variant="h4" gutterBottom>
                 Contact Us Management
           </Typography>

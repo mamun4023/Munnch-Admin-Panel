@@ -136,7 +136,7 @@ export default function Withdrawal() {
       referenceNumber : data.bill_plz_payment?.bill_id,
       paymentStatus : LowerCase(data.order?.status),
       paymentMode : data.bill_plz_payment? "BillPlz" : "Wallet",
-      date :  moment(data.order?.created_at, "DD-MM-YYYY hh:mm a").format("DD-MM-YYYY hh:mm a")
+      date :  moment(data.bill_plz_payment?.created_at).format("DD-MM-YYYY hh:mm a")
     }
     csvDATA.push(obj)
   })
@@ -236,7 +236,7 @@ export default function Withdrawal() {
                           {/* <TableCell align="left">{CapitalizeFirstLetter(store_withdraw?.store_bank?.holder_name)}</TableCell> */}
                          
                           <TableCell align="left">
-                            <Moment format="DD-MM-YYYY hh:mm a" >{store_withdraw?.store_bank?.created_at}</Moment> 
+                            <Moment format="DD-MM-YYYY hh:mm a" >{bill_plz_payment?.created_at}</Moment> 
                           </TableCell>   
                         </TableRow>
                       );

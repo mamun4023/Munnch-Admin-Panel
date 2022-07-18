@@ -80,7 +80,6 @@ export default function OrderGrowth() {
       })
    })
 
-
 // sorting month
   const map = {
     'January': 1,
@@ -134,7 +133,7 @@ export default function OrderGrowth() {
       `11/01/${year}`,
       `12/01/${year}`
     ],
-    xaxis: { type: 'datetime' },
+    xaxis: { type: 'date' },
     tooltip: {
       shared: true,
       intersect: false,
@@ -145,7 +144,12 @@ export default function OrderGrowth() {
           }
           return y;
         }
-      }
+      },
+      x: {
+        show: true,
+        format: 'dd MMM',
+        formatter: undefined,
+    },
     }
   });
 
