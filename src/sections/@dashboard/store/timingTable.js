@@ -37,15 +37,10 @@ export default function BasicTable({timing}) {
                  >
                    <TableCell component="th" scope="row"> {data.day} </TableCell>
                    <TableCell align="left"> 
-                      {
-                        moment(data.start_time, "HH:mm:ss").format("hh:mm A")
-                      }
+                      {data?.start_time}
                    </TableCell>
                    <TableCell align="left"> 
-                      {
-                        data?.close_time
-                        // moment(data.closing_time, "HH:mm:ss").format("hh:mm A")
-                      }
+                      {data?.close_time}
                     </TableCell> 
                  </TableRow>
            )}

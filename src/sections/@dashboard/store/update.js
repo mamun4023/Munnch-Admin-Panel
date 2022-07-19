@@ -50,12 +50,13 @@ function Update() {
       }) 
   }
 
-  // operational hours arry manipulation
+  // operational hours arry manipulation with parsing date format
   const OperationHoursFiltering = (Hours)=>{
     for(let i =0; i<Hours.length; i++){
       // Hours[i].no_of_hours = moment(Hours[i].start_time , "HH:mm:ss").diff(moment(Hours[i].closing_time , "HH:mm:ss"), "hh");
-      Hours[i].no_of_hours = Number( moment.utc(moment(Hours[i].closing_time,"HH:mm:ss").diff(moment(Hours[i].start_time ,"HH:mm:ss"))).format("HH"))
-      delete Hours[i].closing_time;
+      // Hours[i].no_of_hours = Number( moment.utc(moment(Hours[i].close_time,"HH:mm:ss").diff(moment(Hours[i].start_time ,"HH:mm:ss"))).format("HH"))
+      Hours[i].start_time =  moment(Hours[i].start_time, "HH:mm").format("hh:mm A");
+      Hours[i].close_time = moment(Hours[i].close_time, "HH:mm").format("hh:mm A");
     }
     return Hours;
   }
@@ -107,37 +108,37 @@ function Update() {
         
         //Sunday data initialize
         setSundayStartTime(response?.operational_hours?.find(data => data.day === "Sunday")?.start_time)
-        setSundayCloseTime(response?.operational_hours?.find(data => data.day === "Sunday")?.closing_time)
+        setSundayCloseTime(response?.operational_hours?.find(data => data.day === "Sunday")?.close_time)
         setSundayIsOpen(response?.operational_hours?.find(data => data.day === "Sunday")?.is_open?1:0)
         
         //Monday data initialize
         setMondayStartTime(response?.operational_hours?.find(data => data.day === "Monday")?.start_time)
-        setMondayCloseTime(response?.operational_hours?.find(data => data.day === "Monday")?.closing_time)
+        setMondayCloseTime(response?.operational_hours?.find(data => data.day === "Monday")?.close_time)
         setMondayIsOpen(response?.operational_hours?.find(data => data.day === "Monday")?.is_open?1:0)
         
         //Tuesday data initialize
         setTuesdayStartTime(response?.operational_hours?.find(data => data.day === "Tuesday")?.start_time)
-        setTuesdayCloseTime(response?.operational_hours?.find(data => data.day === "Tuesday")?.closing_time)
+        setTuesdayCloseTime(response?.operational_hours?.find(data => data.day === "Tuesday")?.close_time)
         setTuesdayIsOpen(response?.operational_hours?.find(data => data.day === "Tuesday")?.is_open?1:0)
         
          //Wednesday data initialize
          setWednesdayStartTime(response?.operational_hours?.find(data => data.day === "Wednesday")?.start_time)
-         setWednesdayCloseTime(response?.operational_hours?.find(data => data.day === "Wednesday")?.closing_time)
+         setWednesdayCloseTime(response?.operational_hours?.find(data => data.day === "Wednesday")?.close_time)
          setWednesdayIsOpen(response?.operational_hours?.find(data => data.day === "Wednesday")?.is_open?1:0)
          
         //Thursday data initialize
          setThursdayStartTime(response?.operational_hours?.find(data => data.day === "Thursday")?.start_time)
-         setThursdayCloseTime(response?.operational_hours?.find(data => data.day === "Thursday")?.closing_time)
+         setThursdayCloseTime(response?.operational_hours?.find(data => data.day === "Thursday")?.close_time)
          setThursdayIsOpen(response?.operational_hours?.find(data => data.day === "Thursday")?.is_open?1:0)
          
         //Friday data initialize
          setFridayStartTime(response?.operational_hours?.find(data => data.day === "Friday")?.start_time)
-         setFridayCloseTime(response?.operational_hours?.find(data => data.day === "Friday")?.closing_time)
+         setFridayCloseTime(response?.operational_hours?.find(data => data.day === "Friday")?.close_time)
          setFridayIsOpen(response?.operational_hours?.find(data => data.day === "Friday")?.is_open?1:0)
          
          //Saturday data initialize
          setSaturdayStartTime(response?.operational_hours?.find(data => data.day === "Saturday")?.start_time)
-         setSaturdayCloseTime(response?.operational_hours?.find(data => data.day === "Saturday")?.closing_time)
+         setSaturdayCloseTime(response?.operational_hours?.find(data => data.day === "Saturday")?.close_time)
          setSaturdayIsOpen(response?.operational_hours?.find(data => data.day === "Saturday")?.is_open?1:0)
       })
   }
@@ -190,7 +191,7 @@ function Update() {
       setOperationalHours([...operationalHours, {
         "day": "Sunday",
         "start_time": sundayStartTime,
-        "closing_time": sundayCloseTime,
+        "close_time": sundayCloseTime,
         "is_open": 1
       }])
       setSundayIsOpen(1);
@@ -215,7 +216,7 @@ function Update() {
       setOperationalHours([...operationalHours, {
         "day": "Monday",
         "start_time": mondayStartTime,
-        "closing_time": mondayCloseTime,
+        "close_time": mondayCloseTime,
         "is_open": 1,
       }])
       setMondayIsOpen(1);
@@ -239,7 +240,7 @@ function Update() {
       setOperationalHours([...operationalHours, {
           "day": "Tuesday",
           "start_time": tuesdayStartTime,
-          "closing_time": tuesdayCloseTime,
+          "close_time": tuesdayCloseTime,
           "is_open": 1
         }])
       setTuesdayIsOpen(1);
@@ -263,7 +264,7 @@ function Update() {
       setOperationalHours([...operationalHours, {
         "day": "Wednesday",
         "start_time": wednesdayStartTime,
-        "closing_time": wednesdayCloseTime,
+        "close_time": wednesdayCloseTime,
         "is_open": 1
       }
     ])
@@ -288,7 +289,7 @@ function Update() {
       setOperationalHours([...operationalHours, {
           "day": "Thursday",
           "start_time": thursdayStartTime,
-          "closing_time": thursdayCloseTime,
+          "close_time": thursdayCloseTime,
           "is_open": 1
         }
       ])
@@ -313,7 +314,7 @@ function Update() {
       setOperationalHours([...operationalHours, {
         "day": "Friday",
         "start_time": fridayStartTime,
-        "closing_time": fridayCloseTime,
+        "close_time": fridayCloseTime,
         "is_open": 1
       }])
       setFridayIsOpen(1);
@@ -337,7 +338,7 @@ function Update() {
       setOperationalHours([...operationalHours, {
         "day": "Saturday",
         "start_time": saturdayStartTime,
-        "closing_time": saturdayCloseTime,
+        "close_time": saturdayCloseTime,
         "is_open": 1,
       }
     ])
@@ -602,7 +603,7 @@ function Update() {
                                 }}
                                 type= "time"
                                 label="Start Time"
-                                value = {sundayStartTime}
+                                value = {moment(sundayStartTime, ["h:mm A"]).format("HH:mm")}
                                 onChange = {SundayStartTimeHandler}
                                 disabled = {sundayIsOpen == 1? true :false}
                             />  
@@ -614,7 +615,7 @@ function Update() {
                                }}
                                type= "time"
                                label="Close Time"
-                               value = {sundayCloseTime}
+                               value = {moment(sundayCloseTime, ["h:mm A"]).format("HH:mm")}
                                onChange = {SundayCloseTimeHandler}
                                disabled = {sundayIsOpen == 1? true :false}
                             />  
@@ -651,7 +652,7 @@ function Update() {
                                 }}
                                 type= "time"
                                 label="Start Time"
-                                value = {mondayStartTime}
+                                value = {moment(mondayStartTime, ["h:mm A"]).format("HH:mm")}
                                 onChange = {MondayStartTimeHandler}
                                 disabled = {mondayIsopen == 1? true :false}
                             />  
@@ -662,7 +663,7 @@ function Update() {
                                 }}
                                 type= "time"
                                 label="Close Time"
-                                value = {mondayCloseTime}
+                                value = {moment(mondayCloseTime, ["h:mm A"]).format("HH:mm")}
                                 onChange = {MondayCloseTimeHandler}
                                 disabled = {mondayIsopen == 1? true :false}
                             />  
@@ -698,8 +699,8 @@ function Update() {
                                   shrink: true,
                                 }}
                                 type= "time"
-                                label="Start Time"
-                                value = {tuesdayStartTime}
+                                label="Start Time"                       
+                                value = {moment(tuesdayStartTime, ["h:mm A"]).format("HH:mm")}
                                 onChange = {TuesdayStartTimeHandler}
                                 disabled = {tuesdayIsOpen == 1? true :false}
                             />  
@@ -711,7 +712,8 @@ function Update() {
                                 }}
                                 type= "time"
                                 label="Close Time"
-                                value = {tuesdayCloseTime}
+                                // value = {tuesdayCloseTime}
+                                value = {moment(tuesdayCloseTime, ["h:mm A"]).format("HH:mm")}
                                 onChange = {TuesdayCloseimeHandler}
                                 disabled = {tuesdayIsOpen == 1? true :false}
                             />  
@@ -748,7 +750,8 @@ function Update() {
                                 }}
                                 type= "time"
                                 label="Start Time"
-                                value = {wednesdayStartTime}
+                                // value = {wednesdayStartTime}
+                                value = {moment(wednesdayStartTime, ["h:mm A"]).format("HH:mm")}
                                 onChange = {WednesdayStartTimeHandler}
                                 disabled = {wednesdayIsOpen == 1? true :false}
                             />  
@@ -760,7 +763,8 @@ function Update() {
                                 }}
                                 type= "time"
                                 label="Close Time"
-                                value = {wednesdayCloseTime}
+                                // value = {wednesdayCloseTime}
+                                value = {moment(wednesdayCloseTime, ["h:mm A"]).format("HH:mm")}
                                 onChange = {WednesdayCloseTimeHandler}
                                 disabled = {wednesdayIsOpen == 1? true :false}
                             />  
@@ -798,7 +802,8 @@ function Update() {
                                 }}
                                 type= "time"
                                 label="Start Time"
-                                value = {thursdayStartTime}
+                                // value = {thursdayStartTime}
+                                value = {moment(thursdayStartTime, ["h:mm A"]).format("HH:mm")}
                                 onChange = {ThursdayStartTimeHandler}
                                 disabled = {thursdayIsOpen == 1? true :false}
                             />  
@@ -809,7 +814,8 @@ function Update() {
                                 }}
                                 type= "time"
                                 label="Close Time"
-                                value = {thursdayCloseTime}
+                                // value = {thursdayCloseTime}
+                                value = {moment(thursdayCloseTime, ["h:mm A"]).format("HH:mm")}
                                 onChange = {ThursdayCloseTimeHandler}
                                 disabled = {thursdayIsOpen == 1? true :false}
                             />  
@@ -846,7 +852,8 @@ function Update() {
                                 }}
                                 type= "time"
                                 label="Start Time"
-                                value = {fridayStartTime}
+                                // value = {fridayStartTime}
+                                value = {moment(fridayStartTime, ["h:mm A"]).format("HH:mm")}
                                 onChange = {FridayStartTimeHandler}
                                 disabled = {fridayIsOpen == 1? true :false}
                             />  
@@ -858,7 +865,8 @@ function Update() {
                                 }}
                                 type= "time"
                                 label="Start Time"
-                                value = {fridayCloseTime}
+                                // value = {fridayCloseTime}
+                                value = {moment(fridayCloseTime, ["h:mm A"]).format("HH:mm")}
                                 onChange = {FridayCloseTimeHandler}
                                 disabled = {fridayIsOpen == 1? true :false}
                             />  
@@ -897,7 +905,8 @@ function Update() {
                                 }}
                                 type= "time"
                                 label="Start Time"
-                                value = {saturdayStartTime}
+                                // value = {saturdayStartTime}
+                                value = {moment(saturdayStartTime, ["h:mm A"]).format("HH:mm")}
                                 onChange = {SaturdayStartTimeHandler}
                                 disabled = {saturdayIsOpen == 1? true :false}
                             />  
@@ -908,7 +917,8 @@ function Update() {
                                 }}
                                 type= "time"
                                 label="Close Time"
-                                value = {saturdayCloseTime}
+                                // value = {saturdayCloseTime}
+                                value = {moment(saturdayCloseTime, ["h:mm A"]).format("HH:mm")}
                                 onChange = {SaturdayCloseTimeHandler}
                                 disabled = {saturdayIsOpen == 1? true :false}
                             />  
