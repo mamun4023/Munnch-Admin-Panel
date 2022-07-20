@@ -36,14 +36,14 @@ function Update() {
   const[foodList, setFoodList] = useState([]);
   const[cuisineList, setCuisineList] = useState([]);
   
-  const LoadListData = ()=>{
-    FetchCuisineTypeList()
+  const LoadListData = (id)=>{
+    FetchCuisineTypeList(id)
       .then(res =>{
         const response = res.data.data;
         setCuisineList(response);
       })
 
-    FetchFoodTypeList()
+    FetchFoodTypeList(id)
       .then(res =>{
         const response = res.data.data;
         setFoodList(response);
@@ -145,7 +145,7 @@ function Update() {
 
   useEffect(()=>{
     FetchStoreData(id);
-    LoadListData();
+    LoadListData(id);
     setAddress()
   },[])
 
@@ -814,7 +814,6 @@ function Update() {
                                 }}
                                 type= "time"
                                 label="Close Time"
-                                // value = {thursdayCloseTime}
                                 value = {moment(thursdayCloseTime, ["h:mm A"]).format("HH:mm")}
                                 onChange = {ThursdayCloseTimeHandler}
                                 disabled = {thursdayIsOpen == 1? true :false}
@@ -852,7 +851,6 @@ function Update() {
                                 }}
                                 type= "time"
                                 label="Start Time"
-                                // value = {fridayStartTime}
                                 value = {moment(fridayStartTime, ["h:mm A"]).format("HH:mm")}
                                 onChange = {FridayStartTimeHandler}
                                 disabled = {fridayIsOpen == 1? true :false}
@@ -865,7 +863,6 @@ function Update() {
                                 }}
                                 type= "time"
                                 label="Start Time"
-                                // value = {fridayCloseTime}
                                 value = {moment(fridayCloseTime, ["h:mm A"]).format("HH:mm")}
                                 onChange = {FridayCloseTimeHandler}
                                 disabled = {fridayIsOpen == 1? true :false}
@@ -905,7 +902,6 @@ function Update() {
                                 }}
                                 type= "time"
                                 label="Start Time"
-                                // value = {saturdayStartTime}
                                 value = {moment(saturdayStartTime, ["h:mm A"]).format("HH:mm")}
                                 onChange = {SaturdayStartTimeHandler}
                                 disabled = {saturdayIsOpen == 1? true :false}
@@ -917,7 +913,6 @@ function Update() {
                                 }}
                                 type= "time"
                                 label="Close Time"
-                                // value = {saturdayCloseTime}
                                 value = {moment(saturdayCloseTime, ["h:mm A"]).format("HH:mm")}
                                 onChange = {SaturdayCloseTimeHandler}
                                 disabled = {saturdayIsOpen == 1? true :false}
@@ -928,8 +923,8 @@ function Update() {
                               multiple
                               options={cuisineList}
                               defaultValue = {values.cuisines}
-                              getOptionSelected={(option, value) => option?.cuisine_name === values?.cuisine_name}
-                              getOptionLabel = {(option)=> option?.cuisine_name}
+                              getOptionSelected={(option, value) => option?.name === values?.cuisine_name}
+                              getOptionLabel = {(option)=> option?.name || option?.cuisine_name }
                               renderInput = {(option)=> <TextField {...option} label ="Cuisine Type" /> }
                               // onChange = {(event, value)=> setSelectedCuisineList(value) }
                               onChange = {(event, value)=>  formik.setFieldValue("cuisines", value) } 

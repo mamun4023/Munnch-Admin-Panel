@@ -59,7 +59,6 @@ const TABLE_HEAD = [
     id: 'popularity', 
     alignRight: false 
   },
-
   { 
     label: 'STATUS', 
     id: 'status', 
@@ -129,7 +128,7 @@ export default function Bank() {
 
   useEffect(()=>{
     dispatch(FetchBankList(bankStatus, filterName, page, rowsPerPage, order))
-  }, [bankStatus, filterName, page, rowsPerPage, order])
+  }, [dispatch, bankStatus, filterName, page, rowsPerPage, order])
 
   const BankList = useSelector(state => state.FetchBankList.data)
   // console.log("Bank List", BankList);
@@ -215,7 +214,7 @@ export default function Bank() {
                 <TableBody>
                   {filteredBanks
                     .map((row) => {
-                      const { id, name, image, is_popular, is_enabled,created_at, updated_at } = row;
+                      const { id, name, image, is_popular, is_enabled,created_at } = row;
                       return (
                         <TableRow
                           hover
@@ -280,7 +279,7 @@ export default function Bank() {
               return `Page: ${page}`;
             }}
             backIconButtonProps={
-              page == 1 ? {disabled: true} : undefined
+              page === 1 ? {disabled: true} : undefined
             }
             nextIconButtonProps={
               filteredBanks.length === 0 || filteredBanks.length < rowsPerPage? {disabled: true} : undefined

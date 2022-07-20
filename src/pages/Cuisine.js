@@ -39,7 +39,7 @@ const TABLE_HEAD = [
     alignRight: false 
   },
   { 
-    label: 'NAME', 
+    label: 'CUISINE NAME', 
     id: 'cuisine_name', 
     alignRight: false 
   },
@@ -58,7 +58,6 @@ const TABLE_HEAD = [
     id: 'popularity', 
     alignRight: false 
   },
-
 ];
 
 // ----------------------------------------------------------------------
@@ -107,7 +106,7 @@ export default function Cuisine() {
 
   useEffect(()=>{
     dispatch(FetchCuisineList(filterName, page, rowsPerPage, order))
-  }, [filterName, page, rowsPerPage, order ])
+  }, [dispatch, filterName, page, rowsPerPage, order ])
 
   const CuisineList = useSelector(state => state.FetchCuisineList.data)
   const loading = useSelector(state => state.FetchCuisineList.loading);
@@ -155,17 +154,15 @@ const PopularToggleHandler = (id)=>{
           </Button>
         </Stack>
         <Card>
-
         <Box>  
           <CuisineListToolbar
             filterName={filterName}
             onFilterName={handleFilterByName}
           />
-        
+      
         {loading? <Spinner/>: <Box>  
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
-
               <Table>
                 <CuisineListHead
                   order={order}
@@ -193,10 +190,9 @@ const PopularToggleHandler = (id)=>{
                           <TableCell align="left">
                             <Switch
                               onClick={()=> PopularToggleHandler(id)}
-                              defaultChecked = {is_popular == 1?true: false}
+                              defaultChecked = {is_popular === 1?true: false}
                             />
                           </TableCell>
-                    
                           <TableCell align="right">
                             <CuisineMoreMenu 
                               id = {id}
@@ -234,7 +230,7 @@ const PopularToggleHandler = (id)=>{
               return `Page: ${page}`;
             }}
             backIconButtonProps={
-              page == 1 ? {disabled: true} : undefined
+              page === 1 ? {disabled: true} : undefined
             }
             nextIconButtonProps={
               filteredCuisine.length === 0 || filteredCuisine.length < rowsPerPage? {disabled: true} : undefined

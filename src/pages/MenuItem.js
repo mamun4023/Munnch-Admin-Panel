@@ -11,7 +11,6 @@ import {
   Stack,
   Avatar,
   Button,
-  Checkbox,
   TableRow,
   TableBody,
   TableCell,
@@ -20,13 +19,11 @@ import {
   Typography,
   TableContainer,
   TablePagination,
-  IconButton,
   Switch 
 } from '@mui/material';
 
 // components
 import Page from '../components/Page';
-import Label from '../components/Label';
 import Scrollbar from '../components/Scrollbar';
 import Iconify from '../components/Iconify';
 import SearchNotFound from '../components/SearchNotFound';
@@ -64,7 +61,6 @@ const TABLE_HEAD = [
     id: 'description', 
     alignRight: false 
   },
-
   { 
     label: 'CREATED AT', 
     id: 'createdAt', 
@@ -123,7 +119,6 @@ function CapitalizeFirstLetter (s){
   return s.charAt(0).toUpperCase() + s.slice(1)
 }
 
-
 export default function MenuItem() {
   const {id} = useParams();
   const storeId = id;
@@ -140,7 +135,7 @@ export default function MenuItem() {
 
   useEffect(()=>{
     dispatch(FetchMenuList(storeId,filterName, page, rowsPerPage, order ))
-  },[filterName, page, rowsPerPage, order])
+  },[dispatch, storeId, filterName, page, rowsPerPage, order])
 
   const MenuList = useSelector(state => state.FetchAllMenu.data);
   console.log("menu item data", MenuList)
@@ -249,13 +244,13 @@ export default function MenuItem() {
                           <TableCell align="left">
                            <Switch
                               onChange={()=>StockTogglerHandler(id)}
-                              defaultChecked={in_stock == 1?true : false}
+                              defaultChecked={in_stock === 1?true : false}
                            />  
                           </TableCell>
                           <TableCell align="left">
                             <Switch
                                 onChange={()=>BestSellerTogglerHandler(id)}
-                                defaultChecked={best_seller == 1?true : false}
+                                defaultChecked={best_seller === 1?true : false}
                             />  
                           </TableCell>   
                           <TableCell align="right">
@@ -296,7 +291,7 @@ export default function MenuItem() {
               return `Page: ${page}`;
             }}
             backIconButtonProps={
-              page == 1 ? {disabled: true} : undefined
+              page === 1 ? {disabled: true} : undefined
             }
             nextIconButtonProps={
               filteredItems.length === 0 || filteredItems.length < rowsPerPage? {disabled: true} : undefined

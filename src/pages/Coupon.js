@@ -1,5 +1,4 @@
 import { filter } from 'lodash';
-import { sentenceCase } from 'change-case';
 import { useEffect, useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import {Box} from '@mui/material';
@@ -64,7 +63,7 @@ const TABLE_HEAD = [
     alignRight: false 
   },
   { 
-    label: 'START DATE     ', 
+    label: 'START DATE', 
     id: 'start_date', 
     alignRight: false 
   },
@@ -74,7 +73,7 @@ const TABLE_HEAD = [
     alignRight: false 
   },
   { 
-    label: ' VALID DAYS', 
+    label: 'VALID DAYS', 
     id: 'days', 
     alignRight: false 
   },
@@ -208,7 +207,7 @@ export default function Coupon() {
 
   useEffect(()=>{
     dispatch(FetchCouponList(couponStatus, filterName, page, rowsPerPage, order))
-  }, [couponStatus, filterName, page, rowsPerPage, order])
+  }, [ dispatch, couponStatus, filterName, page, rowsPerPage, order])
 
   const CouponList = useSelector(state => state.CouponList.data);
 
@@ -289,8 +288,8 @@ export default function Coupon() {
                 <TableBody>
                   {filteredCoupons
                     .map((row) => {
-                      const { id, 
-                        user_id,
+                      const { 
+                        id, 
                         code,
                         coupon_type,
                         max_discount,
@@ -317,10 +316,10 @@ export default function Coupon() {
                         >
                           <TableCell align="left">{id}</TableCell>
                           <TableCell align="left">{code.toUpperCase()}</TableCell>
-                          <TableCell align="left">{coupon_type == 1 ? "Fixed" : "Percentage"}</TableCell>
-                          <TableCell align="left">{coupon_type == 1? "RM "+ amount: "--"}</TableCell>
-                          <TableCell align="left">{coupon_type == 2? amount : "--"}</TableCell>
-                          <TableCell align="left">{max_discount== 0? "--":"RM "+ max_discount}</TableCell>
+                          <TableCell align="left">{coupon_type === 1 ? "Fixed" : "Percentage"}</TableCell>
+                          <TableCell align="left">{coupon_type === 1? "RM "+ amount: "--"}</TableCell>
+                          <TableCell align="left">{coupon_type === 2? amount : "--"}</TableCell>
+                          <TableCell align="left">{max_discount === 0? "--":"RM "+ max_discount}</TableCell>
                           <TableCell align="left">
                             <Moment format="DD-MM-YYYY" >{start_date}</Moment>
                           </TableCell>
@@ -385,7 +384,7 @@ export default function Coupon() {
               return `Page: ${page}`;
             }}
             backIconButtonProps={
-              page == 1 ? {disabled: true} : undefined
+              page === 1 ? {disabled: true} : undefined
             }
             nextIconButtonProps={
               filteredCoupons.length === 0 || filteredCoupons.length < rowsPerPage? {disabled: true} : undefined

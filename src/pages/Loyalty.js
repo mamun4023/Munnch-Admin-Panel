@@ -109,19 +109,16 @@ function applySortFilter(array, comparator, query) {
 export default function Loyalty() {
   const [page, setPage] = useState(0);
   const [order, setOrder] = useState('desc');
-  const [selected, setSelected] = useState([]);
   const [orderBy, setOrderBy] = useState('id');
   const [filterName, setFilterName] = useState('');
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [LoyaltyList, setLoyaltyList] = useState([]);
-
 
   const FetchData = ()=>{
     GetLoyaltyImageList()
       .then(res =>{
           const response = res.data.data.level_images_list;
           setLoyaltyList(response)
-
       })
   }
 
@@ -129,7 +126,7 @@ export default function Loyalty() {
     FetchData();
   }, [])
   
-  console.log(LoyaltyList)
+  // console.log(LoyaltyList)
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';

@@ -36,7 +36,7 @@ const TABLE_HEAD = [
     alignRight: false 
   },
   { 
-    label: 'NAME', 
+    label: 'FOOD NAME', 
     id: 'name', 
     alignRight: false 
   },
@@ -98,12 +98,10 @@ export default function Food() {
 
   useEffect(()=>{
     dispatch(FetchFoodList(filterName, page, rowsPerPage, order))
-  }, [filterName, page, rowsPerPage, order])
+  }, [dispatch, filterName, page, rowsPerPage, order])
 
   const FoodList = useSelector(state => state.FetchFoodList.data)
   const loading = useSelector(state => state.FetchFoodList.loading);
-
-  // console.log("Food List", FoodList)
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -161,7 +159,7 @@ export default function Food() {
                 <TableBody>
                   {filteredFood
                     .map((row) => {
-                      const { id, food_type_name, image, created_at,  updated_at } = row;
+                      const { id, food_type_name, image, created_at } = row;
                       return (
                         <TableRow
                           hover
@@ -212,7 +210,7 @@ export default function Food() {
               return `Page: ${page}`;
             }}
             backIconButtonProps={
-              page == 1 ? {disabled: true} : undefined
+              page === 1 ? {disabled: true} : undefined
             }
             nextIconButtonProps={
               filteredFood.length === 0 || filteredFood.length < rowsPerPage? {disabled: true} : undefined

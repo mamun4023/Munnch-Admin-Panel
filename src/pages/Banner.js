@@ -121,7 +121,7 @@ export default function Banner() {
 
   useEffect(()=>{
     dispatch(FetchBannerList(bannerStatus,filterName, page, rowsPerPage, order))
-  }, [bannerStatus, filterName, page, rowsPerPage, order])
+  }, [dispatch, bannerStatus, filterName, page, rowsPerPage, order])
 
   const BannerList = useSelector(state=> state.FetchBannerList.data);
 
@@ -190,7 +190,7 @@ export default function Banner() {
                 >Inactive</Button> 
               </div>
           </div>
-
+          
          {loading? <Spinner/> : <Box>  
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
@@ -262,7 +262,7 @@ export default function Banner() {
               return `Page: ${page}`;
             }}
             backIconButtonProps={
-              page == 1 ? {disabled: true} : undefined
+              page === 1 ? {disabled: true} : undefined
             }
             nextIconButtonProps={
               filteredBanners.length === 0 || filteredBanners.length < rowsPerPage? {disabled: true} : undefined

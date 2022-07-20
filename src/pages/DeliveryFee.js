@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { filter } from 'lodash';
 import { Link as RouterLink } from 'react-router-dom';
 import {Card, Table, Stack, Button, TableRow, TableBody, Box, TableCell, Container, Typography, TableContainer, TablePagination } from '@mui/material';
 import {useDispatch, useSelector} from 'react-redux';
@@ -84,7 +83,7 @@ export default function DeliveryFee() {
 
   useEffect(()=>{
     dispatch(DeliveryFeeList(filterName, page, rowsPerPage, order))
-  },[filterName, page, rowsPerPage, order])
+  },[dispatch, filterName, page, rowsPerPage, order])
 
   const FeeList = useSelector(state => state.DeliveryFee.data);
   // console.log("Fee list", FeeList)
@@ -108,11 +107,11 @@ export default function DeliveryFee() {
     setFilterName(event.target.value);
   };
 
-  // const filteredUsers = applySortFilter(FeeList, getComparator(order, orderBy), filterName);
+  // const filteredFee = applySortFilter(FeeList, getComparator(order, orderBy), filterName);
   const isUserNotFound = FeeList.length === 0;
 
   return (
-    <Page title="Munchh | Cuisine">
+    <Page title="Munchh | Delivery Fee">
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={1}>
           <Typography variant="h4" gutterBottom>
@@ -197,7 +196,7 @@ export default function DeliveryFee() {
               return `Page: ${page}`;
             }}
             backIconButtonProps={
-              page == 1 ? {disabled: true} : undefined
+              page === 1 ? {disabled: true} : undefined
             }
             nextIconButtonProps={
               FeeList.length === 0 || FeeList.length < rowsPerPage? {disabled: true} : undefined
