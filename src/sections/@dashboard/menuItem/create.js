@@ -44,7 +44,6 @@ const MenuProps = {
   },
 };
 
-
 function createFormData(formData, key, data) {
   if (data === Object(data) || Array.isArray(data)) {
       for (var i in data) {
@@ -55,49 +54,64 @@ function createFormData(formData, key, data) {
   }
 }
 
-
 export default function Create() {
   const {id} = useParams();
   const navigate = useNavigate();
-  const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
-
-  const [inputFields, setInputFields] = useState([
-    { name: '', price: '' },
+  
+  const [variationFields, setVariationFields] = useState([
+    // { name: '', price: '' },
+  ])
+  const [addonFields, setAddonFields] = useState([
+    // { name: '', price: '' },
   ])
 
-  // console.log(inputFields)
 
-  const handleFormChange = (index, event) => {
-    let data = [...inputFields];
+    // Variations handlers 
+    const handleVariationFormChange = (index, event) => {
+      let data = [...variationFields];
+      data[index][event.target.name] = event.target.value;
+      setVariationFields(data);
+    }
+  
+    const addVariationFields = (e) => {
+      e.preventDefault();
+      let newfield = { name: '', price: '' }
+      setVariationFields([...variationFields, newfield])
+    }
+  
+    const removeVariationFields = (index) => {
+      index.preventDefault();
+      let data = [...variationFields];
+      data.splice(index, 1)
+      setVariationFields(data)
+    }
+
+  // addon handlers 
+  const handleAddonFormChange = (index, event) => {
+    let data = [...addonFields];
     data[index][event.target.name] = event.target.value;
-    setInputFields(data);
- }
+    setAddonFields(data);
+  }
 
-  // console.log(inputFields)
-  const addFields = (e) => {
+  const addAddonFields = (e) => {
     e.preventDefault();
     let newfield = { name: '', price: '' }
-    setInputFields([...inputFields, newfield])
-}
+    setAddonFields([...addonFields, newfield])
+  }
 
-const removeFields = (index) => {
-  index.preventDefault();
-  let data = [...inputFields];
-  data.splice(index, 1)
-  setInputFields(data)
-}
+  const removeAddonFields = (index) => {
+    index.preventDefault();
+    let data = [...addonFields];
+    data.splice(index, 1)
+    setAddonFields(data)
+  }
 
   const[foodList, setFoodList] = useState([]);
-  const[selectedFoodList, setSelectedFoodList] = useState();
   const[cuisineList, setCuisineList] = useState([]);
-  const[selectedCuisine, setSelectedCuisineList] = useState();
   const[categoryList, setCategoryList] = useState([]);
-  const[selectedCategory, setSelectedCategoryList] = useState();
 
-   // console.log("selectedFoodList", selectedFoodList)
-
-  const LoadListData = ()=>{
+  const LoadListData = (id)=>{
     FetchCuisineTypeList(id)
       .then(res =>{
         const response = res.data.data;
@@ -118,10 +132,9 @@ const removeFields = (index) => {
   }
 
   useEffect(()=>{
-    LoadListData();
+    LoadListData(id);
 
-  },[])
-
+  },[id])
 
 
   const MenuItemSchema = Yup.object().shape({
@@ -134,9 +147,6 @@ const removeFields = (index) => {
     food_item_type: Yup.string().required('Food Item Type is required'),
     food_item_estimate_days :Yup.string().required('Estimate Days are required'),
     image : Yup.mixed().required('Image is required'),
-    variationHalf : Yup.string().required("Required"),
-    variationFull : Yup.string().required("Required"),
-
   });
 
   const formik = useFormik({
@@ -152,14 +162,10 @@ const removeFields = (index) => {
       food_item_type  : '',
       food_item_estimate_days : 0,
       restaurant_id : '',
-      addons : '',
-      variationHalf : '',
-      variationFull : ''
     },
 
     validationSchema: MenuItemSchema,
     onSubmit: (values) => {
-
 
     const form = new FormData();
     form.append("name", values.name);
@@ -170,12 +176,18 @@ const removeFields = (index) => {
     form.append("category_id", String(values.categories.id));
     form.append("food_item_type", values.food_item_type)
     form.append("image", values.image);
-    form.append("food_variations[full]", values.variationFull);
-    form.append("food_variations[half]", values.variationHalf);
     form.append("food_item_estimate_days", values.food_item_estimate_days);
     form.append("restaurant_id", id);
-    if (inputFields?.length) {
-      inputFields.forEach((item, index) => {
+    
+    if (variationFields?.length) {
+      variationFields.forEach((item, index) => {
+        form.append(`food_variations[${index}][name]`, item?.name);
+        form.append(`food_variations[${index}][price]`, item?.price);
+      });
+    }
+
+    if (addonFields?.length) {
+      addonFields.forEach((item, index) => {
         form.append(`food_addons[${index}][name]`, item?.name);
         form.append(`food_addons[${index}][price]`, item?.price);
       });
@@ -213,12 +225,12 @@ const removeFields = (index) => {
           if(errors["food_addons.1.price"]? errors["food_addons.1.price"][1] : false){
             toast.error(errors["food_addons.1.price"][1])
           }
-          
+      
         })
     }
   });
 
-  const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = formik;
+  const { errors, touched, values, handleSubmit, getFieldProps } = formik;
 
   return(
         <>
@@ -340,49 +352,11 @@ const removeFields = (index) => {
                             error={Boolean(touched.food_item_estimate_days && errors.food_item_estimate_days)}
                             helperText={touched.food_item_estimate_days && errors.food_item_estimate_days}
                         /> 
-
                         : null
                       }
 
-                        {/* <TextField
-                            fullWidth
-                            type="number"
-                            label="Restaurant ID"
-                            {...getFieldProps('restaurant_id')}
-                            error={Boolean(touched.restaurant_id && errors.restaurant_id)}
-                            helperText={touched.restaurant_id && errors.restaurant_id}
-                        /> */}
-
-                          <h4 style={{ textAlign : "center" }} > Variation </h4>
-                         
-                          <Stack
-                            direction="row"
-                            justifyContent="space-between"
-                            alignItems="flex-start"
-                            spacing={2}
-                          >
-
-                            <TextField
-                              fullWidth
-                              type="number"
-                              label="Half"
-                              {...getFieldProps('variationHalf')}
-                              error={Boolean(touched.variationHalf && errors.variationHalf)}
-                              helperText={touched.variationHalf && errors.variationHalf}
-                              
-                            />
-                            <TextField
-                                fullWidth
-                                type="number"
-                                label="Full"
-                                {...getFieldProps('variationFull')}
-                                error={Boolean(touched.variationFull && errors.variationFull)}
-                                helperText={touched.variationFull && errors.variationFull}
-                            />
-                          </Stack>
-
-                          <h4 style={{ textAlign : "center" }} > Addons </h4>
-                          {inputFields.map((input, index) => {
+                          <h4 style={{ textAlign : "center" }} > Variations </h4>
+                          {variationFields.map((input, index) => {
                             return (
                                 <div key={index}>
                                   <Stack
@@ -395,14 +369,14 @@ const removeFields = (index) => {
                                         name='name'
                                         placeholder='Name'
                                         value={input.name}
-                                        onChange={event => handleFormChange(index, event)}
+                                        onChange={event => handleVariationFormChange(index, event)}
                                       />
                                       <TextField
                                         name='price'
                                         type= "number"
                                         placeholder='Price'
                                         value={input.price}
-                                        onChange={event => handleFormChange(index, event)}
+                                        onChange={event => handleVariationFormChange(index, event)}
                                       />
                                   </Stack>
                                 </div>
@@ -414,15 +388,62 @@ const removeFields = (index) => {
                           alignItems="flex-start"
                           margin={0}
                         >
-                          <IconButton onClick={addFields} aria-label="delete" size="large">
+                          <IconButton onClick={addVariationFields} aria-label="delete" size="large">
                             <AddCircleIcon/>
                           </IconButton>
-                          {inputFields.length ===0 ? 
-                            <IconButton disabled  onClick={(index) => removeFields(index)} aria-label="delete" size="large">
+                          {variationFields.length ===0 ? 
+                            <IconButton disabled  onClick={(index) => removeVariationFields(index)} aria-label="delete" size="large">
                               <DeleteIcon />
                             </IconButton>
                           : 
-                            <IconButton  onClick={(index) => removeFields(index)} aria-label="delete" size="large">
+                            <IconButton  onClick={(index) => removeVariationFields(index)} aria-label="delete" size="large">
+                              <DeleteIcon />
+                            </IconButton>
+                          }
+                        </Stack>
+                        
+                          <h4 style={{ textAlign : "center" }} > Addons </h4>
+                          {addonFields.map((input, index) => {
+                            return (
+                                <div key={index}>
+                                  <Stack
+                                    direction="row"
+                                    justifyContent="space-between"
+                                    alignItems="flex-start"
+                                    spacing={2}
+                                  >
+                                      <TextField
+                                        name='name'
+                                        placeholder='Name'
+                                        value={input.name}
+                                        onChange={event => handleAddonFormChange(index, event)}
+                                      />
+                                      <TextField
+                                        name='price'
+                                        type= "number"
+                                        placeholder='Price'
+                                        value={input.price}
+                                        onChange={event => handleAddonFormChange(index, event)}
+                                      />
+                                  </Stack>
+                                </div>
+                              )
+                          })}
+                        <Stack
+                          direction="row"
+                          justifyContent="space-between"
+                          alignItems="flex-start"
+                          margin={0}
+                        >
+                          <IconButton onClick={addAddonFields} aria-label="delete" size="large">
+                            <AddCircleIcon/>
+                          </IconButton>
+                          {addonFields.length ===0 ? 
+                            <IconButton disabled  onClick={(index) => removeAddonFields(index)} aria-label="delete" size="large">
+                              <DeleteIcon />
+                            </IconButton>
+                          : 
+                            <IconButton  onClick={(index) => removeAddonFields(index)} aria-label="delete" size="large">
                               <DeleteIcon />
                             </IconButton>
                           }

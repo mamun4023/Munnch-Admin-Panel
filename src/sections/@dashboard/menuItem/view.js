@@ -163,12 +163,12 @@ export default function View() {
                                 <Table> 
                                     {menu_item_variations?.map(data => <> 
                                         <TableRow className={classes.tableRow}>
-                                            <TableCell align="left"  className={classes.tableCell}> Half Price </TableCell>
-                                            <TableCell align="left" className={classes.tableCell}>RM {data.half_price}</TableCell>
+                                            <TableCell align="left"  className={classes.tableCell}> Name </TableCell>
+                                            <TableCell align="left" className={classes.tableCell}>RM {data.name}</TableCell>
                                         </TableRow>
                                         <TableRow className={classes.tableRow}>
-                                            <TableCell align="left" className={classes.tableCell}> Full Price  </TableCell>
-                                            <TableCell align="left" className={classes.tableCell}> RM {data.full_price}</TableCell>
+                                            <TableCell align="left" className={classes.tableCell}> Price  </TableCell>
+                                            <TableCell align="left" className={classes.tableCell}> RM {data.price}</TableCell>
                                         </TableRow>
                                     </>)}
                                 </Table>  
