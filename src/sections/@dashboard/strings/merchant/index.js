@@ -6,6 +6,24 @@ import {useDispatch, useSelector} from 'react-redux';
 import {FetchMerchantString} from '../../../../redux/strings/merchant/fetch/action';
 import {UpdateString} from '../../../../redux/strings/merchant/update/action';
 
+const Modules = {
+  toolbar: [
+    [{ 'header': [1, 2, false] }, { 'font': [] }],
+    ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+    [{'list': 'ordered'}, {'list': 'bullet'}, 
+     {'indent': '-1'}, {'indent': '+1'}],
+    ['link', 'image', 'video'],
+    ['clean']
+  ]
+}
+
+const Formats = [
+  'header', 'font', 'size',
+  'bold', 'italic', 'underline', 'strike', 'blockquote',
+  'list', 'bullet', 'indent',
+  'link', 'image', 'video'
+]
+
 export default function MyComponent() {
   const [policy_value, setPolicyValue] = useState('');
   const [aboutUs, setAboutUs] = useState("");
@@ -28,8 +46,6 @@ export default function MyComponent() {
     FetchString();
   },[])
 
-
-
   const UpdateHandler = ()=>{
     const data =  {
       "data": [
@@ -48,7 +64,6 @@ export default function MyComponent() {
           }
       ]
     }
-
     UpdateString(data);
   }
 
@@ -75,6 +90,8 @@ export default function MyComponent() {
             
               <ReactQuill 
                 theme="snow" 
+                modules={Modules}
+                formats={Formats}
                 value={policy_value} 
                 onChange={setPolicyValue}
               />
@@ -85,6 +102,8 @@ export default function MyComponent() {
             </Typography>
                 <ReactQuill 
                   theme="snow" 
+                  modules={Modules}
+                  formats={Formats}
                   value={aboutUs} 
                   onChange={setAboutUs}
                 />
@@ -95,6 +114,8 @@ export default function MyComponent() {
             </Typography>
                 <ReactQuill 
                   theme="snow" 
+                  modules={Modules}
+                  formats={Formats}
                   value={term_condition} 
                   onChange={setTerm_condition}
                 />

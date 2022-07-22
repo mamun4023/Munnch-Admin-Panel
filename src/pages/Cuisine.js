@@ -3,6 +3,7 @@ import { filter } from 'lodash';
 import { Link as RouterLink } from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
 import Moment from 'react-moment';
+import { makeStyles} from '@mui/styles';
 
 // material
 import {
@@ -31,6 +32,12 @@ import {Toggler} from '../redux/cuisine/toggler/action';
 import { Box } from '@mui/system';
 import Spinner from 'src/components/Spinner';
 // ----------------------------------------------------------------------
+
+const useStyles = makeStyles({
+  tableCell: {
+    padding: "10px 16px",
+  }
+});
 
 const TABLE_HEAD = [
   { 
@@ -97,6 +104,7 @@ function CapitalizeFirstLetter (s){
 }
 
 export default function Cuisine() {
+  const classes = useStyles();
   const [page, setPage] = useState(1);
   const dispatch = useDispatch();
   const [order, setOrder] = useState('desc');
@@ -114,7 +122,7 @@ export default function Cuisine() {
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
-    setOrderBy(property);
+    setOrderBy(property); 
   };
 
   const handleChangePage = (event, newPage) => {
@@ -179,21 +187,21 @@ const PopularToggleHandler = (id)=>{
                           hover
                           key={id}
                         >
-                          <TableCell align="left">{id}</TableCell>
-                          <TableCell align="left">{CapitalizeFirstLetter(cuisine_name)}</TableCell>
-                          <TableCell align="left"> 
+                          <TableCell className= {classes.tableCell} align="left">{id}</TableCell>
+                          <TableCell className= {classes.tableCell} align="left">{CapitalizeFirstLetter(cuisine_name)}</TableCell>
+                          <TableCell className= {classes.tableCell} align="left"> 
                             <Avatar  variant="square" style={{width : "70px"}} src= {image} />
                           </TableCell>
-                          <TableCell align="left">
+                          <TableCell className= {classes.tableCell} align="left">
                             <Moment format="DD-MM-YYYY hh:mm a" >{created_at}</Moment> 
                           </TableCell>
-                          <TableCell align="left">
+                          <TableCell className= {classes.tableCell} align="left">
                             <Switch
                               onClick={()=> PopularToggleHandler(id)}
                               defaultChecked = {is_popular === 1?true: false}
                             />
                           </TableCell>
-                          <TableCell align="right">
+                          <TableCell className= {classes.tableCell} align="right">
                             <CuisineMoreMenu 
                               id = {id}
                               filter = {filterName}

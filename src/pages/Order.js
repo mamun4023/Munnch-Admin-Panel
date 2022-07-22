@@ -9,6 +9,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import MenuPopover from '../components/MenuPopover';
 import Moment from 'react-moment';
+import { makeStyles } from '@mui/styles';
 // material
 import {
   Card,
@@ -39,6 +40,13 @@ import {CancleOrder} from '../redux/order/cancelToggler/actions';
 import Spinner from 'src/components/Spinner';
 // ----------------------------------------------------------------------
 
+
+const useStyles = makeStyles({
+  tableCell: {
+    padding: "10px 16px",
+  }
+});
+
 const TABLE_HEAD = [
   { 
     label: 'ID',
@@ -60,21 +68,6 @@ const TABLE_HEAD = [
     id: 'riderName', 
     alignRight: false 
   },
-  // { 
-  //   label: 'EMAIL', 
-  //   id: 'email', 
-  //   alignRight: false 
-  // },
-  // { 
-  //   label: 'PHONE NUMBER', 
-  //   id: 'phone', 
-  //   alignRight: false 
-  // },
-  // { 
-  //   label: 'ADDRESS', 
-  //   id: 'address', 
-  //   alignRight: false 
-  // },
   { 
     label: 'TOTAL PRICE', 
     id: 'totalPrice',
@@ -90,11 +83,11 @@ const TABLE_HEAD = [
     id: 'status',
     alignRight: false 
   },
-  { 
-    label: 'CANCEL ORDER', 
-    id: 'cancelOrder',
-    alignRight: false 
-  },
+  // { 
+  //   label: 'CANCEL ORDER', 
+  //   id: 'cancelOrder',
+  //   alignRight: false 
+  // },
   { 
     label: 'CREATED AT', 
     id: 'createAt', 
@@ -146,6 +139,7 @@ function LowerCase(s){
 }
 
 export default function Order() {
+  const classes = useStyles();
   const [page, setPage] = useState(1);
   const [order, setOrder] = useState('desc');
   const [selected, setSelected] = useState([]);
@@ -153,14 +147,14 @@ export default function Order() {
   const [filterName, setFilterName] = useState('');
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [orderData, setOrderData] = useState([]);
-  const [orderStatus, setOrderStatus] = useState("PENDING");
+  const [orderStatus, setOrderStatus] = useState("ASSIGNING_DRIVER");
   const dispatch = useDispatch();
   const loading = useSelector(state => state.OrderList.loading);
 
   useEffect(()=>{
     // FetchOrder(orderStatus
     dispatch(FetchOrderList(page, rowsPerPage, order, orderStatus, filterName))
-  },[page, rowsPerPage, order, orderStatus, filterName])
+  },[dispatch, page, rowsPerPage, order, orderStatus, filterName])
 
   const OrderList = useSelector(state => state.OrderList.data);
 
@@ -235,14 +229,14 @@ export default function Order() {
                     value={orderStatus}
                     onChange = {(e)=>setOrderStatus(e.target.value)}
                     >    
-                      <MenuItem value= "PENDING"> Pending </MenuItem>
-                      <MenuItem value= "ASSIGNING_DRIVER">Assigning Driver </MenuItem>
-                      <MenuItem value= "CANCELED"> Cancelled </MenuItem>
-                      <MenuItem value= "EXPIRED"> Expired </MenuItem>
-                      <MenuItem value= "REJECTED"> Rejected </MenuItem>
-                      <MenuItem value= "ON_GOING"> On Going </MenuItem>
-                      <MenuItem value= "PICKED_UP"> Picked Up </MenuItem>
-                      <MenuItem value= "COMPLETED"> Completed </MenuItem>
+                      <MenuItem value= "ASSIGNING_DRIVER">Assigning Order </MenuItem>
+                      <MenuItem value= "PENDING"> Pending Order </MenuItem>
+                      <MenuItem value= "CANCELED"> Cancelled Order </MenuItem>
+                      <MenuItem value= "EXPIRED"> Expired Order </MenuItem>
+                      <MenuItem value= "REJECTED"> Rejected Order </MenuItem>
+                      <MenuItem value= "ON_GOING"> On Going Order </MenuItem>
+                      <MenuItem value= "PICKED_UP"> Picked Up Order </MenuItem>
+                      <MenuItem value= "COMPLETED"> Delivered Order </MenuItem>
                   </TextField>
                 </Stack>
               </div>
@@ -266,25 +260,25 @@ export default function Order() {
                           hover
                           key={id}
                         > 
-                          <TableCell align="left">{id}</TableCell>
-                          <TableCell align="left">{CapitalizeFirstLetter(customer?.name)}</TableCell>
-                          <TableCell align="left">{CapitalizeFirstLetter(store?.restaurant_name)}</TableCell>
-                          <TableCell align="left">{(rider_data?.rider_details?.name)?rider_data?.rider_details?.name: "--"}</TableCell>
-                          <TableCell align="left">RM {paid_price}</TableCell> 
+                          <TableCell className= {classes.tableCell} align="left">{id}</TableCell>
+                          <TableCell className= {classes.tableCell}  align="left">{CapitalizeFirstLetter(customer?.name)}</TableCell>
+                          <TableCell className= {classes.tableCell}  align="left">{CapitalizeFirstLetter(store?.restaurant_name)}</TableCell>
+                          <TableCell className= {classes.tableCell}  align="left">{(rider_data?.rider_details?.name)?rider_data?.rider_details?.name: "--"}</TableCell>
+                          <TableCell className= {classes.tableCell}  align="left">RM {paid_price}</TableCell> 
                           {/* <TableCell align="left">{(order?.cart_items?.food_type)?order?.cart_items?.food_type : "--"}</TableCell>  */}
-                          <TableCell align="left">{store?.store_menu_items[0]?.food_item_type}</TableCell> 
-                          <TableCell align="left">{LowerCase(status)}</TableCell> 
-                          <TableCell align="left">
+                          <TableCell className= {classes.tableCell}  align="left">{store?.store_menu_items[0]?.food_item_type}</TableCell> 
+                          <TableCell className= {classes.tableCell}  align="left">{LowerCase(status)}</TableCell> 
+                          {/* <TableCell className= {classes.tableCell}  align="left">
                             <Switch 
                               disabled= {status === "CANCELED"?true:false}
                               onChange={()=>CanclerHandler(id)}
                               defaultChecked = {status === "CANCELED"?true:false}
                             />
-                          </TableCell>
-                          <TableCell align="left">
+                          </TableCell> */}
+                          <TableCell className= {classes.tableCell}  align="left">
                             <Moment format="DD-MM-YYYY HH:mm a" >{created_at}</Moment>
                           </TableCell>   
-                          <TableCell align="right">
+                          <TableCell className= {classes.tableCell}  align="right">
                              <OrderMoreMenu id = {id} /> 
                           </TableCell>
                         </TableRow>
@@ -294,7 +288,7 @@ export default function Order() {
                 {isUserNotFound && (
                   <TableBody>
                     <TableRow>
-                      <TableCell align="center" colSpan={8} sx={{ py: 3 }}>
+                      <TableCell align="center" colSpan={7} sx={{ py: 3 }}>
                         <SearchNotFound searchQuery={filterName} />
                       </TableCell>
                     </TableRow>

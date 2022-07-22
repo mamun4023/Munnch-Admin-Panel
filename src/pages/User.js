@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { filter } from 'lodash';
 import { Link as RouterLink } from 'react-router-dom';
 import {useSelector, useDispatch} from 'react-redux';
+import { makeStyles } from "@mui/styles";
 import Moment from 'react-moment';
 // material
 import {
@@ -32,6 +33,13 @@ import {FetchUserList} from '../redux/user/fetch/action';
 import {Toggler} from '../redux/user/toggler/action';
 import Spinner from 'src/components/Spinner';
 // ----------------------------------------------------------------------
+
+const useStyles = makeStyles({
+  tableCell: {
+    padding: "10px 16px",
+  }
+});
+
 
 const TABLE_HEAD = [
   {
@@ -113,6 +121,7 @@ function CapitalizeFirstLetter (s){
 }
 
 export default function User() {
+  const classes = useStyles();
   const [page, setPage] = useState(1);
   const [order, setOrder] = useState('desc');
   const [orderBy, setOrderBy] = useState('id');
@@ -138,7 +147,7 @@ export default function User() {
 
   useEffect(()=>{
     dispatch(FetchUserList(userStatus,filterName, page, rowsPerPage, order))
-  }, [userStatus, filterName, page, rowsPerPage, order])
+  }, [dispatch, userStatus, filterName, page, rowsPerPage, order])
 
   const userList = useSelector(state=> state.FetchUsers.data);
 
@@ -227,22 +236,22 @@ export default function User() {
                           hover
                           key={id}
                         >
-                          <TableCell align="left">{id}</TableCell>
-                          <TableCell align="left">{CapitalizeFirstLetter(name)}</TableCell>
-                          <TableCell align="left">
+                          <TableCell className= {classes.tableCell}  align="left">{id}</TableCell>
+                          <TableCell className= {classes.tableCell}   align="left">{CapitalizeFirstLetter(name)}</TableCell>
+                          <TableCell className= {classes.tableCell}  align="left">
                             <Avatar  variant="square" style={{width : "70px"}} src= {profile_image} />
                           </TableCell>
-                          <TableCell align="left">{email}</TableCell>
-                          <TableCell align="left">{phone}</TableCell>
-                          <TableCell align="left">RM {wallet_data? wallet_data?.total_balance : "0"}</TableCell>
+                          <TableCell className= {classes.tableCell}  align="left">{email}</TableCell>
+                          <TableCell className= {classes.tableCell}  align="left">{phone}</TableCell>
+                          <TableCell className= {classes.tableCell}  align="left">RM {wallet_data? wallet_data?.total_balance : "0"}</TableCell>
                           <TableCell align="left">
                             <Moment format="DD-MM-YYYY hh:mm a" >{created_at}</Moment>
                           </TableCell>
-                          <TableCell align="right" >
+                          <TableCell className= {classes.tableCell}  align="right" >
                             <Tooltip title = "Change Status" > 
                               <Switch 
                                 onClick={()=> toggleHandler(id)}
-                                defaultChecked = {status == 1?true: false}
+                                defaultChecked = {status === 1?true: false}
                               />
                             </Tooltip> 
                           </TableCell>

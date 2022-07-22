@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { Link as RouterLink, useParams } from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
 import Moment from 'react-moment';
+import {makeStyles} from '@mui/styles';
 
 // material
 import {
@@ -34,6 +35,12 @@ import {BestSellerToggler} from '../redux/menu/bestSellerToggler/action';
 import Spinner from 'src/components/Spinner';
 
 // ----------------------------------------------------------------------
+
+const useStyles = makeStyles({
+  tableCell: {
+    padding: "10px 16px",
+  }
+});
 
 const TABLE_HEAD = [
   { 
@@ -120,6 +127,7 @@ function CapitalizeFirstLetter (s){
 }
 
 export default function MenuItem() {
+  const classes = useStyles();
   const {id} = useParams();
   const storeId = id;
   const [page, setPage] = useState(1);
@@ -209,7 +217,7 @@ export default function MenuItem() {
 
         {loading? <Spinner/> : <Box>  
           <Scrollbar>
-            <TableContainer sx={{ minWidth: 1500 }}>
+            <TableContainer sx={{ minWidth: 1600 }}>
               <Table>
                 <MenuListHead
                   order={order}
@@ -226,34 +234,34 @@ export default function MenuItem() {
                           hover
                           key={id}
                         >
-                          <TableCell align="left">{id}</TableCell>
-                          <TableCell align="left">{CapitalizeFirstLetter(name)}</TableCell>
-                          <TableCell align="left">
+                          <TableCell className= {classes.tableCell} align="left">{id}</TableCell>
+                          <TableCell className= {classes.tableCell} align="left">{CapitalizeFirstLetter(name)}</TableCell>
+                          <TableCell className= {classes.tableCell} align="left">
                             <Avatar  variant="square" style={{width : "70px"}} src= {image} />
                           </TableCell>
                           
-                          <TableCell align="left">RM {price}  </TableCell>
+                          <TableCell className= {classes.tableCell}  align="left">RM {price}  </TableCell>
                           
-                          <TableCell align="left" sx={{ maxWidth: 300 }}>
+                          <TableCell className= {classes.tableCell} align="left" sx={{ maxWidth: 300 }}>
                              {CapitalizeFirstLetter(description)}
                           </TableCell>
-                          <TableCell align="left">
+                          <TableCell className= {classes.tableCell} align="left">
                             <Moment format="DD-MM-YYYY HH:mm a" >{created_at}</Moment> 
                           </TableCell>
-                          <TableCell align="left">{food_item_type}</TableCell>
-                          <TableCell align="left">
+                          <TableCell className= {classes.tableCell} align="left">{food_item_type}</TableCell>
+                          <TableCell className= {classes.tableCell} align="left">
                            <Switch
                               onChange={()=>StockTogglerHandler(id)}
                               defaultChecked={in_stock === 1?true : false}
                            />  
                           </TableCell>
-                          <TableCell align="left">
+                          <TableCell className= {classes.tableCell} align="left">
                             <Switch
                                 onChange={()=>BestSellerTogglerHandler(id)}
                                 defaultChecked={best_seller === 1?true : false}
                             />  
                           </TableCell>   
-                          <TableCell align="right">
+                          <TableCell className= {classes.tableCell} align="right">
                             <MenuMoreMenu 
                               id = {id}
                               storeId = {storeId}
@@ -270,7 +278,7 @@ export default function MenuItem() {
                 {isUserNotFound && (
                   <TableBody>
                     <TableRow>
-                      <TableCell align="center" colSpan={8} sx={{ py: 3 }}>
+                      <TableCell align="center" colSpan={7} sx={{ py: 3 }}>
                         <SearchNotFound searchQuery={filterName} />
                       </TableCell>
                     </TableRow>

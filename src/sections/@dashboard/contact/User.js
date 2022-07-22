@@ -3,6 +3,7 @@ import { filter } from 'lodash';
 import { Link as RouterLink } from 'react-router-dom';
 import {useSelector, useDispatch} from 'react-redux';
 import Moment from 'react-moment';
+import { makeStyles } from '@mui/styles';
 // material
 import {
   Card,
@@ -29,6 +30,12 @@ import {FetchContactList} from '../../../redux/contact/user/fetchAll/action';
 import {StatusToggler} from '../../../redux/contact/statusToggler/action';
 import Spinner from 'src/components/Spinner';
 // ----------------------------------------------------------------------
+
+const useStyles = makeStyles({
+  tableCell: {
+    padding: "10px 16px",
+  }
+});
 
 const TABLE_HEAD = [
   { 
@@ -105,6 +112,7 @@ function CapitalizeFirstLetter (s){
 }
 
 export default function Contact() {
+  const classes = useStyles();
   const [page, setPage] = useState(1);
   const [order, setOrder] = useState('desc');
   const [orderBy, setOrderBy] = useState('id');
@@ -211,25 +219,25 @@ export default function Contact() {
                           hover
                           key={id}
                         >
-                          <TableCell align="left">{id}</TableCell>
-                          <TableCell align="left">{customer?.name}</TableCell>
-                          <TableCell align="left">{customer?.email}</TableCell>
-                          <TableCell align="left" sx={{ maxWidth: 300 }}>
+                          <TableCell className= {classes.tableCell}  align="left">{id}</TableCell>
+                          <TableCell className= {classes.tableCell}  align="left">{customer?.name}</TableCell>
+                          <TableCell className= {classes.tableCell}  align="left">{customer?.email}</TableCell>
+                          <TableCell className= {classes.tableCell}  align="left" sx={{ maxWidth: 300 }}>
                             {CapitalizeFirstLetter(message)}
                           </TableCell>
-                          <TableCell align="left">
+                          <TableCell className= {classes.tableCell}  align="left">
                             <Moment format="DD-MM-YYYY hh:mm a" >{updated_at}</Moment>
                           </TableCell>
-                          <TableCell align="left">
+                          <TableCell className= {classes.tableCell}  align="left">
                             <Moment format="DD-MM-YYYY hh:mm a" >{created_at}</Moment>
                           </TableCell>
-                          <TableCell align="left">
+                          <TableCell className= {classes.tableCell}  align="left">
                              <Switch 
                               onClick={()=> StatusToggleHandler(id)}
                               defaultChecked = {status}
                             />
                             </TableCell>
-                          <TableCell align="right">
+                          <TableCell className= {classes.tableCell}  align="right">
                             <UserContactMoreMenu 
                               id = {id}
                               status = {contactStatus}

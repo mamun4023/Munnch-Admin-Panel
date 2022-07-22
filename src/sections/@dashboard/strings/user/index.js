@@ -7,6 +7,25 @@ import {useDispatch, useSelector} from 'react-redux';
 import {FetchUserString} from '../../../../redux/strings/user/fetch/action';
 import {UpdateString} from '../../../../redux/strings/user/update/action';
 
+
+const Modules = {
+  toolbar: [
+    [{ 'header': [1, 2, false] }, { 'font': [] }],
+    ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+    [{'list': 'ordered'}, {'list': 'bullet'}, 
+     {'indent': '-1'}, {'indent': '+1'}],
+    ['link', 'image', 'video'],
+    ['clean']
+  ]
+}
+
+const Formats = [
+  'header', 'font', 'size',
+  'bold', 'italic', 'underline', 'strike', 'blockquote',
+  'list', 'bullet', 'indent',
+  'link', 'image', 'video'
+]
+
 export default function MyComponent() {
   const [policy_value, setPolicyValue] = useState('');
   const [aboutUs, setAboutUs] = useState("");
@@ -65,7 +84,7 @@ export default function MyComponent() {
   return (
     <> 
           <Typography variant="h4" gutterBottom>
-             User Strings Management 
+             User Strings 
           </Typography>
           <Box
               textAlign= "right"
@@ -78,13 +97,16 @@ export default function MyComponent() {
               >Save</Button>
           </Box>
 
-          <Box> 
+          <Box
+          > 
           <Typography variant="h5" gutterBottom>
             Privacy Policy
           </Typography>
             
               <ReactQuill 
                 theme="snow" 
+                modules={Modules}
+                formats={Formats}
                 value={policy_value} 
                 onChange={setPolicyValue}
               />
@@ -94,9 +116,10 @@ export default function MyComponent() {
             <Typography variant="h5" gutterBottom>
               About US
             </Typography>
-          
                 <ReactQuill 
                   theme="snow" 
+                  modules={Modules}
+                  formats={Formats}
                   value={aboutUs} 
                   onChange={setAboutUs}
                 />
@@ -108,6 +131,8 @@ export default function MyComponent() {
           
                 <ReactQuill 
                   theme="snow" 
+                  modules={Modules}
+                  formats={Formats}
                   value={term_condition} 
                   onChange={setTerm_condition}
                 />

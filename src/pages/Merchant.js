@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { filter } from 'lodash';
 import {Link as RouterLink } from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
-
+import { makeStyles } from "@mui/styles";
 // material
 import {
   Card,
@@ -33,6 +33,12 @@ import {StatusToggler} from '../redux/merchant/statusToggler/action';
 import {ApprovalToggler} from '../redux/merchant/aprovalToggler/action';
 
 // ----------------------------------------------------------------------
+
+const useStyles = makeStyles({
+  tableCell: {
+    padding: "10px 16px",
+  }
+});
 
 const TABLE_HEAD = [
   { 
@@ -124,6 +130,7 @@ function CapitalizeFirstLetter (s){
 }
 
 export default function Merchant() {
+  const classes = useStyles();
   const dispatch = useDispatch();
   const [page, setPage] = useState(1);
   const [order, setOrder] = useState('desc');
@@ -149,11 +156,10 @@ export default function Merchant() {
 
   useEffect(()=>{
     dispatch(FetchMerchantList(merchantStatus, filterName, page, rowsPerPage, order));
-  },[merchantStatus, filterName, page, rowsPerPage, order])
+  },[dispatch, merchantStatus, filterName, page, rowsPerPage, order])
 
   const MerchantList = useSelector(state => state.FetchMerchantList.data)
   const loading = useSelector(state => state.FetchMerchantList.loading);
-
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -241,32 +247,31 @@ export default function Merchant() {
                           hover
                           key={id}
                         >
-                          <TableCell align="left">{id}</TableCell>
-                          <TableCell align="left">{CapitalizeFirstLetter(personal_name)}</TableCell>
-                          <TableCell> 
+                          <TableCell className= {classes.tableCell} align="left">{id}</TableCell>
+                          <TableCell className= {classes.tableCell}  align="left">{CapitalizeFirstLetter(personal_name)}</TableCell>
+                          <TableCell className= {classes.tableCell}  > 
                             <Avatar  variant="circle" style={{width : "70px"}} src= {profile_pic} />
                           </TableCell>
-                          <TableCell align="left">{ic_number}</TableCell>
-                          
-                          <TableCell align="left">{email}</TableCell>
-                          <TableCell align="left">{phone}</TableCell>
-                          <TableCell align="left"> RM {wallet?.total_balance} </TableCell>
-                          <TableCell align="left"> 
+                          <TableCell className= {classes.tableCell}  align="left">{ic_number}</TableCell>
+                          <TableCell className= {classes.tableCell}  align="left">{email}</TableCell>
+                          <TableCell className= {classes.tableCell}  align="left">{phone}</TableCell>
+                          <TableCell className= {classes.tableCell}  align="left"> RM {wallet?.total_balance} </TableCell>
+                          <TableCell className= {classes.tableCell}  align="left"> 
                             <Rating style = {{color : "black"}} name="read-only" value={ restaurants[0]?.average_rating} readOnly />
                           </TableCell>
-                          <TableCell align="left">
+                          <TableCell className= {classes.tableCell}  align="left">
                             <Switch 
                                onClick={()=> StatusToggleHandler(id)}
                                defaultChecked = {status == 1?true: false}
                             />
                           </TableCell>
-                          <TableCell align="left">
+                          <TableCell className= {classes.tableCell}  align="left">
                             <Switch
                               onClick={()=> ApprovalToggleHandler(id)}
                               defaultChecked = {is_approved == 1?true: false}
                             />
                           </TableCell>
-                          <TableCell align="right">
+                          <TableCell className= {classes.tableCell}  align="right">
                             <MerchantMoreMenu 
                               id = {id} 
                               status = {merchantStatus}

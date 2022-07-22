@@ -3,6 +3,7 @@ import { filter } from 'lodash';
 import { Link as RouterLink } from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
 import Moment from 'react-moment';
+import { makeStyles} from '@mui/styles';
 // material
 import {
   Card,
@@ -32,6 +33,13 @@ import {StatusToggler} from '../redux/bank/statusToggler/action';
 import Spinner from 'src/components/Spinner';
 
 // ----------------------------------------------------------------------
+
+const useStyles = makeStyles({
+  tableCell: {
+    padding: "10px 16px",
+  }
+});
+
 
 const TABLE_HEAD = [
   { 
@@ -103,6 +111,7 @@ function CapitalizeFirstLetter (s){
 }
 
 export default function Bank() {
+  const classes = useStyles();
   const [page, setPage] = useState(1);
   const [order, setOrder] = useState('desc');
   const [orderBy, setOrderBy] = useState('id');
@@ -221,27 +230,27 @@ export default function Bank() {
                           key={id}
                           tabIndex={-1}
                         >
-                          <TableCell align="left">{id}</TableCell>
-                          <TableCell align="left">{CapitalizeFirstLetter(name)}</TableCell>
-                          <TableCell align="left">
+                          <TableCell className= {classes.tableCell} align="left">{id}</TableCell>
+                          <TableCell className= {classes.tableCell}  align="left">{CapitalizeFirstLetter(name)}</TableCell>
+                          <TableCell className= {classes.tableCell}  align="left">
                             <Avatar  variant="square" style={{width : "70px"}} src= {image} />
                           </TableCell>
-                          <TableCell align="left">
+                          <TableCell className= {classes.tableCell}  align="left">
                             <Moment format="DD-MM-YYYY hh:mm a" >{created_at}</Moment> 
                           </TableCell>
-                          <TableCell align="left">
+                          <TableCell className= {classes.tableCell}  align="left">
                             <Switch 
                               onChange={()=> PopularTogglerHandler(id)}
                               defaultChecked = {is_popular?is_popular:is_popular}
                             />  
                           </TableCell>   
-                          <TableCell align="left">
+                          <TableCell className= {classes.tableCell}  align="left">
                             <Switch 
                               onChange={()=> StatusTogglerHandler(id)}
                               defaultChecked = {is_enabled?is_enabled: is_enabled}
                             />  
                           </TableCell>
-                          <TableCell align="right">
+                          <TableCell className= {classes.tableCell}  align="right">
                             <BannerMoreMenu 
                               id = {id}
                               status = {bankStatus}

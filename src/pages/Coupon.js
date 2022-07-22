@@ -5,6 +5,7 @@ import {Box} from '@mui/material';
 import Spinner from 'src/components/Spinner';
 import {useDispatch, useSelector} from 'react-redux';
 import Moment from 'react-moment';
+import {makeStyles} from '@mui/styles';
 
 // material
 import {
@@ -30,7 +31,13 @@ import { CouponListHead, CouponListToolbar, CouponMoreMenu } from '../sections/@
 import {FetchCouponList} from '../redux/coupon/fetchAll/action';
 import {StatusToggler} from '../redux/coupon/statusToggler/action';
 // ----------------------------------------------------------------------
-   
+
+const useStyles = makeStyles({
+  tableCell: {
+    padding: "10px 16px",
+  }
+});
+
 const TABLE_HEAD = [
   { 
     label: 'ID',
@@ -182,6 +189,7 @@ function CapitalizeFirstLetter (s){
 }
 
 export default function Coupon() {
+  const classes = useStyles();
   const [page, setPage] = useState(1);
   const [order, setOrder] = useState('desc');
   const [orderBy, setOrderBy] = useState('id');
@@ -314,39 +322,39 @@ export default function Coupon() {
                           hover
                           key={id}
                         >
-                          <TableCell align="left">{id}</TableCell>
-                          <TableCell align="left">{code.toUpperCase()}</TableCell>
-                          <TableCell align="left">{coupon_type === 1 ? "Fixed" : "Percentage"}</TableCell>
-                          <TableCell align="left">{coupon_type === 1? "RM "+ amount: "--"}</TableCell>
-                          <TableCell align="left">{coupon_type === 2? amount : "--"}</TableCell>
-                          <TableCell align="left">{max_discount === 0? "--":"RM "+ max_discount}</TableCell>
-                          <TableCell align="left">
+                          <TableCell className= {classes.tableCell} align="left">{id}</TableCell>
+                          <TableCell className= {classes.tableCell} align="left">{code.toUpperCase()}</TableCell>
+                          <TableCell className= {classes.tableCell}  align="left">{coupon_type === 1 ? "Fixed" : "Percentage"}</TableCell>
+                          <TableCell className= {classes.tableCell}  align="left">{coupon_type === 1? "RM "+ amount: "--"}</TableCell>
+                          <TableCell className= {classes.tableCell}  align="left">{coupon_type === 2? amount : "--"}</TableCell>
+                          <TableCell className= {classes.tableCell}  align="left">{max_discount === 0? "--":"RM "+ max_discount}</TableCell>
+                          <TableCell className= {classes.tableCell}  align="left">
                             <Moment format="DD-MM-YYYY" >{start_date}</Moment>
                           </TableCell>
-                          <TableCell align="left">
+                          <TableCell className= {classes.tableCell}  align="left">
                             <Moment format="DD-MM-YYYY" >{end_date}</Moment>
                           </TableCell>
-                          <TableCell align="left"> { SeperatedByComma(days?days: ['empty'])}  </TableCell>
-                          <TableCell align="left">
+                          <TableCell className= {classes.tableCell}  align="left"> { SeperatedByComma(days?days: ['empty'])}  </TableCell>
+                          <TableCell className= {classes.tableCell}  align="left">
                             <Switch
                               onClick={()=>StatusToggleHandler(id)}
                               defaultChecked = {is_active? is_active : is_active}
                             />  
                           </TableCell>
-                          <TableCell align="left">{usage_per_user} Time</TableCell>
-                          <TableCell align="left">RM {minimum_spend}</TableCell>
-                          <TableCell align="left">RM {maximum_spend}</TableCell>
-                          <TableCell align="left">{maximum_usage_limit} Time</TableCell>
-                          <TableCell align="left"> {is_expired? "Yes" : "--"} </TableCell>
-                          <TableCell align="left">{is_exhausted?"Yes": "--"}</TableCell> 
-                          <TableCell align="left">{CapitalizeFirstLetter(ReduceDescription(description?description : "--"))}</TableCell> 
-                          <TableCell align="left">
+                          <TableCell className= {classes.tableCell}  align="left">{usage_per_user} Time</TableCell>
+                          <TableCell className= {classes.tableCell}  align="left">RM {minimum_spend}</TableCell>
+                          <TableCell className= {classes.tableCell}  align="left">RM {maximum_spend}</TableCell>
+                          <TableCell className= {classes.tableCell}  align="left">{maximum_usage_limit} Time</TableCell>
+                          <TableCell className= {classes.tableCell}  align="left"> {is_expired? "Yes" : "--"} </TableCell>
+                          <TableCell className= {classes.tableCell}  align="left">{is_exhausted?"Yes": "--"}</TableCell> 
+                          <TableCell className= {classes.tableCell}  align="left">{CapitalizeFirstLetter(ReduceDescription(description?description : "--"))}</TableCell> 
+                          <TableCell className= {classes.tableCell}  align="left">
                             <Moment format="DD-MM-YYYY hh:mm a" >{updated_at}</Moment>
                           </TableCell>
-                          <TableCell align="left">
+                          <TableCell className= {classes.tableCell}  align="left">
                             <Moment format="DD-MM-YYYY hh:mm a" >{created_at}</Moment>
                           </TableCell>
-                          <TableCell align="right">
+                          <TableCell className= {classes.tableCell}  align="right">
                             <CouponMoreMenu  
                               id = {id} 
                               status = {couponStatus}

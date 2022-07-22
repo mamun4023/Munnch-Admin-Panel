@@ -4,6 +4,7 @@ import { IconButton, Button } from '@mui/material';
 import Tooltip from '@mui/material/Tooltip';
 import Moment from 'react-moment';
 import { useDispatch, useSelector } from 'react-redux';
+import {makeStyles} from '@mui/styles';
 // material
 import {
   Card,
@@ -32,6 +33,12 @@ import Spinner from 'src/components/Spinner';
 
 // ----------------------------------------------------------------------
 
+const useStyles = makeStyles({
+  tableCell: {
+    padding: "10px 16px",
+  }
+});
+
 const TABLE_HEAD = [
   { 
     label: 'ID',
@@ -48,7 +55,6 @@ const TABLE_HEAD = [
     id: 'image', 
     alignRight: false 
   },
-
   { 
     label: 'EMAIL',
     id: 'email', 
@@ -64,18 +70,6 @@ const TABLE_HEAD = [
     id: 'account_holder_name', 
     alignRight: false 
   },
-
-//   { 
-//     label: 'PROFILE IMAGE',
-//     id: 'profile_image', 
-//     alignRight: false 
-//   },
-
-//   { 
-//     label: 'EMAIL',
-//     id: 'email', 
-//     alignRight: false 
-//   },
   { 
     label: 'BANK NAME', 
     id: 'bank_name', 
@@ -140,6 +134,7 @@ function CapitalizeFirstLetter (s){
 }
 
 export default function Withdrawal() {
+  const classes = useStyles();
   const [page, setPage] = useState(1);
   const [order, setOrder] = useState('desc');
   const [selected, setSelected] = useState([]);
@@ -235,21 +230,21 @@ export default function Withdrawal() {
                           tabIndex={-1}
                           role="checkbox"
                         >
-                          <TableCell align="left">{id}</TableCell>
-                          <TableCell align="left">{customer?.name}</TableCell>
-                          <TableCell align="left">
+                          <TableCell className={classes.tableCell} align="left">{id}</TableCell>
+                          <TableCell className={classes.tableCell} align="left">{customer?.name}</TableCell>
+                          <TableCell className={classes.tableCell} align="left">
                              <Avatar  variant="square" style={{width : "70px"}} src= {customer?.profile_image} />
                           </TableCell>
-                          <TableCell align="left">{CapitalizeFirstLetter(customer?.email)}</TableCell>
-                          <TableCell align="left">{customer?.phone}</TableCell>
-                          <TableCell align="left">{CapitalizeFirstLetter(store_bank?.holder_name)}</TableCell>
-                          <TableCell align="left">{bank_name}</TableCell>
-                          <TableCell align="left">{store_bank?.account_number}</TableCell>
-                          <TableCell align="left">RM {amount}</TableCell>
-                          <TableCell align="left">
+                          <TableCell className={classes.tableCell} className={classes.tableCell} align="left">{CapitalizeFirstLetter(customer?.email)}</TableCell>
+                          <TableCell className={classes.tableCell} className={classes.tableCell} align="left">{customer?.phone}</TableCell>
+                          <TableCell className={classes.tableCell} align="left">{CapitalizeFirstLetter(store_bank?.holder_name)}</TableCell>
+                          <TableCell className={classes.tableCell} align="left">{bank_name}</TableCell>
+                          <TableCell className={classes.tableCell} align="left">{store_bank?.account_number}</TableCell>
+                          <TableCell className={classes.tableCell} align="left">RM {amount}</TableCell>
+                          <TableCell className={classes.tableCell} align="left">
                             <Moment format="DD-MM-YYYY hh:mm a" >{customer?.created_at}</Moment> 
                           </TableCell>   
-                          <TableCell align="left">
+                          <TableCell className={classes.tableCell} align="left">
                               <Switch 
                                 onChange={()=> StatusChangeHandler(id)}
                                 defaultChecked = {is_withdrawn === 1? true: false}

@@ -2,7 +2,8 @@ import { useState, useEffect } from 'react';
 import { filter } from 'lodash';
 import { Link as RouterLink } from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
-import Moment from 'react-moment'
+import Moment from 'react-moment';
+import {makeStyles} from '@mui/styles';
 
 // material
 import {
@@ -29,6 +30,11 @@ import { NotifyListHead, NotifyListToolbar, NotifyMoreMenu } from '../sections/@
 import {FetchNotification} from '../redux/notify/fetchAll/action';
 
 // ----------------------------------------------------------------------
+const useStyles = makeStyles({
+  tableCell: {
+    padding: "20px 25px",
+  }
+});
 
 const TABLE_HEAD = [
   { 
@@ -108,6 +114,7 @@ function CapitalizeFirstLetter (s){
 }
 
 export default function Notification() {
+  const classes = useStyles();
   const [page, setPage] = useState(1);
   const [order, setOrder] = useState('desc');
   const [orderBy, setOrderBy] = useState('id');
@@ -118,11 +125,11 @@ export default function Notification() {
 
   useEffect(()=>{
     dispatch(FetchNotification(filterName, page, rowsPerPage, order))
-  },[filterName, page, rowsPerPage, order])
+  },[dispatch, filterName, page, rowsPerPage, order])
 
   const NotificationList = useSelector(state => state.NotificationList.data)
 
-  console.log("Notification Data", NotificationList);
+  // console.log("Notification Data", NotificationList);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -186,16 +193,16 @@ export default function Notification() {
                           hover
                           key={id}
                         >
-                          <TableCell align="left">{id}</TableCell>
-                          <TableCell align="left">{CapitalizeFirstLetter(title)}</TableCell>
-                          <TableCell align="left">{CapitalizeFirstLetter(user_type_name)}</TableCell>
-                          <TableCell align="left" sx={{ maxWidth: 300, wordBreak : "break-all" }}>
+                          <TableCell className= {classes.tableCell} align="left">{id}</TableCell>
+                          <TableCell className= {classes.tableCell} align="left">{CapitalizeFirstLetter(title)}</TableCell>
+                          <TableCell className= {classes.tableCell} align="left">{CapitalizeFirstLetter(user_type_name)}</TableCell>
+                          <TableCell className= {classes.tableCell} align="left" sx={{ maxWidth: 300, wordBreak : "break-all" }}>
                              {CapitalizeFirstLetter(message)}
                           </TableCell>
-                          <TableCell align="left">
+                          <TableCell className= {classes.tableCell} align="left">
                             <Moment format="DD-MM-YYYY HH:mm a" >{created_at}</Moment>
                           </TableCell>
-                          <TableCell align="right">
+                          <TableCell className= {classes.tableCell} align="right">
                             {/* <NotifyMoreMenu /> */}
                           </TableCell>
                         </TableRow>
@@ -226,7 +233,7 @@ export default function Notification() {
               return `Page: ${page}`;
             }}
             backIconButtonProps={
-              page == 1 ? {disabled: true} : undefined
+              page === 1 ? {disabled: true} : undefined
             }
             nextIconButtonProps={
               filteredUsers.length === 0 || filteredUsers.length < rowsPerPage? {disabled: true} : undefined

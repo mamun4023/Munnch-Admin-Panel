@@ -4,6 +4,7 @@ import { IconButton, Button } from '@mui/material';
 import Tooltip from '@mui/material/Tooltip';
 import Moment from 'react-moment';
 import { useDispatch, useSelector } from 'react-redux';
+import { makeStyles} from '@mui/styles';
 // material
 import {
   Card,
@@ -31,6 +32,12 @@ import {MerchantStatusToggler} from '../../../redux/withdraw/ApproveToggler/acti
 import Spinner from 'src/components/Spinner';
 
 // ----------------------------------------------------------------------
+
+const useStyles = makeStyles({
+  tableCell: {
+    padding: "10px 16px",
+  }
+});
 
 
 const TABLE_HEAD = [
@@ -60,35 +67,16 @@ const TABLE_HEAD = [
     id: 'phone_number', 
     alignRight: false 
   },
-
-
-
   { 
     label: 'ACCOUNT HOLDER NAME', 
     id: 'account_holder_name', 
     alignRight: false 
   },
-
-//   { 
-//     label: 'PROFILE IMAGE',
-//     id: 'profile_image', 
-//     alignRight: false 
-//   },
-
-//   { 
-//     label: 'EMAIL',
-//     id: 'email', 
-//     alignRight: false 
-//   },
-
-
   { 
     label: 'BANK NAME', 
     id: 'bank_name', 
     alignRight: false 
   },
-
-
   { 
     label: 'ACCOUNT NUMBER', 
     id: 'account_number',
@@ -147,9 +135,8 @@ function CapitalizeFirstLetter (s){
   return s.charAt(0).toUpperCase() + s.slice(1)
 }
 
-
-
 export default function Withdrawal() {
+  const classes = useStyles();
   const [page, setPage] = useState(1);
   const [order, setOrder] = useState('desc');
   const [selected, setSelected] = useState([]);
@@ -164,7 +151,7 @@ export default function Withdrawal() {
 
   useEffect(()=>{
     dispatch(FetchWithdrawalList(filterName, page, rowsPerPage, order));
-  },[filterName, page, rowsPerPage, order])
+  },[dispatch, filterName, page, rowsPerPage, order])
 
   const WithdrawList = useSelector(state => state.Withdrawal.data);
 
@@ -246,21 +233,21 @@ export default function Withdrawal() {
                           tabIndex={-1}
                           role="checkbox"
                         >
-                          <TableCell align="left">{id}</TableCell>
-                          <TableCell align="left">{CapitalizeFirstLetter(store?.restaurant_name)}</TableCell>
-                          <TableCell align="left">
+                          <TableCell className= {classes.tableCell} align="left">{id}</TableCell>
+                          <TableCell className= {classes.tableCell}  align="left">{CapitalizeFirstLetter(store?.restaurant_name)}</TableCell>
+                          <TableCell className= {classes.tableCell}  align="left">
                              <Avatar  variant="square" style={{width : "70px"}} src= {store?.images[0]?.image} />
                           </TableCell>
-                          <TableCell align="left">{store?.email}</TableCell>
-                          <TableCell align="left">{store?.contact_no}</TableCell>
-                          <TableCell align="left">{CapitalizeFirstLetter(store_bank?.holder_name)}</TableCell>
-                          <TableCell align="left">{store_bank?.bank?.name}</TableCell>
-                          <TableCell align="left">{store_bank?.account_number}</TableCell>
-                          <TableCell align="left">RM {amount}</TableCell>
-                          <TableCell align="left">
+                          <TableCell className= {classes.tableCell}  align="left">{store?.email}</TableCell>
+                          <TableCell className= {classes.tableCell}  align="left">{store?.contact_no}</TableCell>
+                          <TableCell className= {classes.tableCell}  align="left">{CapitalizeFirstLetter(store_bank?.holder_name)}</TableCell>
+                          <TableCell className= {classes.tableCell}  align="left">{store_bank?.bank?.name}</TableCell>
+                          <TableCell className= {classes.tableCell}  align="left">{store_bank?.account_number}</TableCell>
+                          <TableCell className= {classes.tableCell}  align="left">RM {amount}</TableCell>
+                          <TableCell className= {classes.tableCell}  align="left">
                             <Moment format="DD-MM-YYYY hh:mm a" >{created_at}</Moment> 
                           </TableCell>   
-                          <TableCell align="left">
+                          <TableCell className= {classes.tableCell}  align="left">
                               <Switch 
                                 onChange={()=> StatusChangeHandler(id)}
                                 defaultChecked = {is_withdrawn === 1? true: false}
