@@ -219,7 +219,7 @@ export default function Withdrawal() {
                 <TableBody>
                   {filteredTransaction
                     .map((row) => {
-                      const { id, order, bill_plz_payment, store_withdraw, amount } = row;
+                      const { id, order, bill_plz_payment, store_withdraw, amount, created_at } = row;
                       return (
                         <TableRow
                           hover
@@ -236,7 +236,7 @@ export default function Withdrawal() {
                           {/* <TableCell align="left">{CapitalizeFirstLetter(store_withdraw?.store_bank?.holder_name)}</TableCell> */}
                          
                           <TableCell align="left">
-                            <Moment format="DD-MM-YYYY hh:mm a" >{bill_plz_payment?.created_at}</Moment> 
+                            <Moment format="DD-MM-YYYY hh:mm a" >{created_at}</Moment> 
                           </TableCell>   
                         </TableRow>
                       );

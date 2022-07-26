@@ -234,7 +234,7 @@ export default function Withdrawal() {
                           <TableCell align="left">{LowerCase(order?.status)}</TableCell>
                           <TableCell align="left"> {bill_plz_payment?"BillPlz": "--"}</TableCell>
                           <TableCell align="left">
-                            <Moment format="DD-MM-YYYY hh:mm a" >{bill_plz_payment?.created_at}</Moment> 
+                            <Moment format="DD-MM-YYYY hh:mm a" >{created_at}</Moment> 
                           </TableCell>   
               
                           <TableCell align="right">

@@ -235,14 +235,14 @@ export default function Withdrawal() {
                           <TableCell className={classes.tableCell} align="left">
                              <Avatar  variant="square" style={{width : "70px"}} src= {customer?.profile_image} />
                           </TableCell>
-                          <TableCell className={classes.tableCell} className={classes.tableCell} align="left">{CapitalizeFirstLetter(customer?.email)}</TableCell>
-                          <TableCell className={classes.tableCell} className={classes.tableCell} align="left">{customer?.phone}</TableCell>
+                          <TableCell className={classes.tableCell} align="left">{CapitalizeFirstLetter(customer?.email)}</TableCell>
+                          <TableCell className={classes.tableCell} align="left">{customer?.phone}</TableCell>
                           <TableCell className={classes.tableCell} align="left">{CapitalizeFirstLetter(store_bank?.holder_name)}</TableCell>
                           <TableCell className={classes.tableCell} align="left">{bank_name}</TableCell>
                           <TableCell className={classes.tableCell} align="left">{store_bank?.account_number}</TableCell>
                           <TableCell className={classes.tableCell} align="left">RM {amount}</TableCell>
                           <TableCell className={classes.tableCell} align="left">
-                            <Moment format="DD-MM-YYYY hh:mm a" >{customer?.created_at}</Moment> 
+                            <Moment format="DD-MM-YYYY hh:mm a" >{created_at}</Moment> 
                           </TableCell>   
                           <TableCell className={classes.tableCell} align="left">
                               <Switch 
