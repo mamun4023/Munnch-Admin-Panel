@@ -78,7 +78,6 @@ export default function MyComponent() {
           const response = err.response.message;
           toast.dark(response);
         })
-
   }
 
   return (
@@ -96,41 +95,47 @@ export default function MyComponent() {
               onClick={UpdateHandler}
               >Save</Button>
           </Box>
-
           <Box
+            className="bound"
           > 
           <Typography variant="h5" gutterBottom>
             Privacy Policy
           </Typography>
-            
               <ReactQuill 
                 theme="snow" 
+                bounds={'.bound'}
                 modules={Modules}
                 formats={Formats}
                 value={policy_value} 
                 onChange={setPolicyValue}
               />
           </Box>
-
-           <Box marginTop={5}>   
+           <Box 
+              marginTop={5}
+              className="bound"
+            >   
             <Typography variant="h5" gutterBottom>
               About US
             </Typography>
                 <ReactQuill 
                   theme="snow" 
+                  bounds={'.bound'}
                   modules={Modules}
                   formats={Formats}
                   value={aboutUs} 
                   onChange={setAboutUs}
                 />
          </Box>   
-          <Box marginTop={5}>   
+          <Box 
+              marginTop={5}
+              className="bound"
+            >   
             <Typography variant="h5" gutterBottom>
               Terms and Condition
             </Typography>
-          
                 <ReactQuill 
                   theme="snow" 
+                  bounds={'.bound'}
                   modules={Modules}
                   formats={Formats}
                   value={term_condition} 

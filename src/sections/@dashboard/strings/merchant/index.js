@@ -83,37 +83,48 @@ export default function MyComponent() {
               >Save</Button>
           </Box>
 
-          <Box> 
+          <Box
+            className="bound"
+          > 
           <Typography variant="h5" gutterBottom>
             Privacy Policy
           </Typography>
             
               <ReactQuill 
                 theme="snow" 
+                bounds={".bound"}
                 modules={Modules}
                 formats={Formats}
                 value={policy_value} 
                 onChange={setPolicyValue}
               />
           </Box>
-           <Box marginTop={5}>   
+           <Box 
+              marginTop={5}
+              className = "bound"  
+            >   
             <Typography variant="h5" gutterBottom>
               About Us
             </Typography>
                 <ReactQuill 
                   theme="snow" 
+                  bounds={'.bound'}
                   modules={Modules}
                   formats={Formats}
                   value={aboutUs} 
                   onChange={setAboutUs}
                 />
          </Box>   
-          <Box marginTop={5}>   
+          <Box 
+             marginTop={5}
+             className="bound"
+            >   
             <Typography variant="h5" gutterBottom>
              Terms And Conditions
             </Typography>
                 <ReactQuill 
                   theme="snow" 
+                  bounds={".bound"}
                   modules={Modules}
                   formats={Formats}
                   value={term_condition} 
