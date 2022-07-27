@@ -173,7 +173,6 @@ export default function User() {
   const filteredUsers = applySortFilter(userList, getComparator(order, orderBy), filterName);
   const isUserNotFound = filteredUsers.length === 0;
 
-
   const toggleHandler = (id) => {
     dispatch(Toggler(id))
     setTimeout(()=>{
@@ -273,7 +272,7 @@ export default function User() {
                 {isUserNotFound && (
                   <TableBody>
                     <TableRow>
-                      <TableCell align="center" colSpan={6} sx={{ py: 3 }}>
+                      <TableCell align="center" colSpan={7} sx={{ py: 3 }}>
                         <SearchNotFound searchQuery={filterName} />
                       </TableCell>
                     </TableRow>

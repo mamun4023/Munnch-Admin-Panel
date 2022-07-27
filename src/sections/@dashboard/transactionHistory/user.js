@@ -98,9 +98,9 @@ function applySortFilter(array, comparator, query) {
   return stabilizedThis.map((el) => el[0]);
 }
 
-function CapitalizeFirstLetter (s){
+function CapitalizedLetter (s){
   if (typeof s !== 'string') return ''
-  return s.charAt(0).toUpperCase() + s.slice(1)
+  return s.toUpperCase()
 }
 
 function LowerCase(s){
@@ -230,7 +230,7 @@ export default function Withdrawal() {
                         >
                           <TableCell align="left">{id}</TableCell>
                           <TableCell align="left">{order?.id}</TableCell>
-                          <TableCell align="left">{bill_plz_payment?.bill_id}</TableCell>
+                          <TableCell align="left">{CapitalizedLetter(bill_plz_payment?.bill_id)}</TableCell>
                           <TableCell align="left">{LowerCase(order?.status)}</TableCell>
                           <TableCell align="left"> {bill_plz_payment?"BillPlz": "--"}</TableCell>
                           <TableCell align="left">

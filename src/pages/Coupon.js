@@ -371,7 +371,7 @@ export default function Coupon() {
                 {isUserNotFound && (
                   <TableBody>
                     <TableRow>
-                      <TableCell align="center" colSpan={8} sx={{ py: 3 }}>
+                      <TableCell align="center" colSpan={7} sx={{ py: 3 }}>
                         <SearchNotFound searchQuery={filterName} />
                       </TableCell>
                     </TableRow>

@@ -288,7 +288,7 @@ export default function Merchant() {
                 {isUserNotFound && (
                   <TableBody>
                     <TableRow>
-                      <TableCell align="center" colSpan={6} sx={{ py: 3 }}>
+                      <TableCell align="center" colSpan={7} sx={{ py: 3 }}>
                         <SearchNotFound searchQuery={filterName} />
                       </TableCell>
                     </TableRow>

@@ -18,7 +18,6 @@ export default function Withdraw() {
           <Typography  variant="h4" gutterBottom>
                 Withdrawal Management
           </Typography>
-
         <Grid
             container
             // item xs={8} 
