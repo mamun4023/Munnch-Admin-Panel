@@ -55,8 +55,8 @@ function Update() {
     for(let i =0; i<Hours.length; i++){
       // Hours[i].no_of_hours = moment(Hours[i].start_time , "HH:mm:ss").diff(moment(Hours[i].closing_time , "HH:mm:ss"), "hh");
       // Hours[i].no_of_hours = Number( moment.utc(moment(Hours[i].close_time,"HH:mm:ss").diff(moment(Hours[i].start_time ,"HH:mm:ss"))).format("HH"))
-      Hours[i].start_time =  moment(Hours[i].start_time, "HH:mm").format("hh:mm A");
-      Hours[i].close_time = moment(Hours[i].close_time, "HH:mm").format("hh:mm A");
+      Hours[i].start_time =  moment(Hours[i].start_time, "hh:mm A").format("hh:mm A");
+      Hours[i].close_time = moment(Hours[i].close_time, "hh:mm A").format("hh:mm A");
     }
     return Hours;
   }
@@ -148,7 +148,6 @@ function Update() {
     LoadListData(id);
     setAddress()
   },[])
-
 
   // geo location
   const [address, setAddress] = useState();
@@ -345,6 +344,8 @@ function Update() {
       setSaturdayIsOpen(1);
     }
   }
+
+  const regMatch = /^((http|https):\/\/)?(www.)?(?!.*(http|https|www.))[a-zA-Z0-9_-]+(\.[a-zA-Z]+)+(\/)?.([\w\?[a-zA-Z-_%\/@?]+)*([^\/\w\?[a-zA-Z0-9_-]+=\w+(&[a-zA-Z0-9_]+=\w+)*)?$/;
   
   const StoreSchema = Yup.object().shape({
     store_name: Yup.string().required('Store Name is required'),
@@ -356,7 +357,9 @@ function Update() {
     city : Yup.string().required('City is required').nullable(),
     cuisines : Yup.array().required("Cusine is required").nullable(),
     foodType : Yup.array().required("Food Type is required").nullable(),
-
+    website : Yup.string().matches(regMatch, "Enter a valid website URL").nullable(),
+    instagram : Yup.string().matches(regMatch, "Enter a valid instagram URL").nullable(),
+    facebook : Yup.string().matches(regMatch, "Enter a valid facebook URL").nullable()
   });
 
   const formik = useFormik({
@@ -376,7 +379,6 @@ function Update() {
       website : SingleStoreData.social_links?SingleStoreData.social_links.website : "" ,
       instagram : SingleStoreData.social_links?SingleStoreData.social_links.instagram : "" ,
       facebook : SingleStoreData.social_links?SingleStoreData.social_links.facebook : "" ,
-
     },
     validationSchema: StoreSchema,
     onSubmit: (values) => {
@@ -432,6 +434,8 @@ function Update() {
         "cuisines" : CuisineIds
     }
 
+    // console.log(data);
+
     setLoading(true);
     UpdateStore(id, data)
       .then(res =>{
@@ -443,7 +447,6 @@ function Update() {
       .catch((err)=>{
         setLoading(false);
         const errors = err.response.data.errors;
-
         if(errors?.additional_info? errors?.additional_info[0] : false){
           toast.error(errors?.additional_info[0]);
         }
@@ -769,7 +772,6 @@ function Update() {
                                 disabled = {wednesdayIsOpen == 1? true :false}
                             />  
                         </Stack>
-
                         <Stack
                             direction="row"
                             justifyContent="space-between"

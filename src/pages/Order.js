@@ -229,14 +229,14 @@ export default function Order() {
                     value={orderStatus}
                     onChange = {(e)=>setOrderStatus(e.target.value)}
                     >    
-                      <MenuItem value= "ASSIGNING_DRIVER">Assigning Order </MenuItem>
-                      <MenuItem value= "PENDING"> Pending Order </MenuItem>
-                      <MenuItem value= "CANCELED"> Cancelled Order </MenuItem>
-                      <MenuItem value= "EXPIRED"> Expired Order </MenuItem>
-                      <MenuItem value= "REJECTED"> Rejected Order </MenuItem>
-                      <MenuItem value= "ON_GOING"> On Going Order </MenuItem>
-                      <MenuItem value= "PICKED_UP"> Picked Up Order </MenuItem>
-                      <MenuItem value= "COMPLETED"> Delivered Order </MenuItem>
+                      <MenuItem value= "ASSIGNING_DRIVER">Assigning </MenuItem>
+                      <MenuItem value= "PENDING"> Pending </MenuItem>
+                      <MenuItem value= "CANCELED"> Cancelled </MenuItem>
+                      <MenuItem value= "EXPIRED"> Expired </MenuItem>
+                      <MenuItem value= "REJECTED"> Rejected </MenuItem>
+                      <MenuItem value= "ON_GOING"> On Going </MenuItem>
+                      <MenuItem value= "PICKED_UP"> Picked Up </MenuItem>
+                      <MenuItem value= "COMPLETED"> Completed </MenuItem>
                   </TextField>
                 </Stack>
               </div>
@@ -263,7 +263,7 @@ export default function Order() {
                           <TableCell className= {classes.tableCell} align="left">{id}</TableCell>
                           <TableCell className= {classes.tableCell}  align="left">{CapitalizeFirstLetter(customer?.name)}</TableCell>
                           <TableCell className= {classes.tableCell}  align="left">{CapitalizeFirstLetter(store?.restaurant_name)}</TableCell>
-                          <TableCell className= {classes.tableCell}  align="left">{(rider_data?.rider_details?.name)?rider_data?.rider_details?.name: "--"}</TableCell>
+                          <TableCell className= {classes.tableCell}  align="left">{(rider_data?.rider_details?.name)?"Delivered Rider":"--"}</TableCell>
                           <TableCell className= {classes.tableCell}  align="left">RM {paid_price}</TableCell> 
                           {/* <TableCell align="left">{(order?.cart_items?.food_type)?order?.cart_items?.food_type : "--"}</TableCell>  */}
                           <TableCell className= {classes.tableCell}  align="left">{store?.store_menu_items[0]?.food_item_type}</TableCell> 
