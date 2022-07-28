@@ -7,11 +7,15 @@ import {
   Stack,
   TextField,
   Grid,
-  Typography
+  Typography,
+  MenuItem,
+  Autocomplete,
 } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import {FetchSingleBanner} from '../../../redux/banner/fetchSingle/action';
 import {UpdateBanner} from '../../../redux/banner/update/action';
+import {StoreList} from '../../../redux/banner/add/action';
+import {FetchSingleMerchant} from '../../../redux/merchant/fetchSingle/action';
 import { useDispatch, useSelector } from 'react-redux';
 
 // ----------------------------------------------------------------------
@@ -20,19 +24,44 @@ export default function Update() {
   const {id} = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [singleBanner, setSingleBanner] = useState([])
+  const [storeList, setStoreList] = useState([]);
+  // const [singleStore, setSingeStore] = useState([]);
+  const [storeId, setStoreId] = useState();
   const [image, setImage] = useState();
   const loading = useSelector(state => state.UpdateBanner.loading)
 
+  const FetchSingleBannerData = (id)=>{
+    FetchSingleBanner(id)
+      .then(res =>{
+          const response = res.data.data;
+          setSingleBanner(response);
+          setStoreId(response?.restaurant_id)
+
+      })
+  }
+
+  const FetchStoreList = (storeId)=>{
+    StoreList(storeId)
+      .then(res =>{
+         const response = res.data.data;
+         setStoreList(response);
+      })
+  }
+
   useEffect(()=>{
-    dispatch(FetchSingleBanner(id))
+    FetchSingleBannerData(id)
+    FetchStoreList(storeId)
+    dispatch(FetchSingleMerchant(storeId))
   },[])
+
+  const singlStore = useSelector(state => state.FetchSingleMerchant.data);
 
   const HandlerChange =(e)=>{
     setImage(e.target.files[0])
   }
 
-  const SingleBanner = useSelector(state=> state.FetchSingleBanner.data);
-  console.log("Single banner", SingleBanner)
+  console.log("Single singlStore", singlStore)
 
   const BannerSchema = Yup.object().shape({
     title: Yup.string().required('Title is required'),
@@ -41,8 +70,11 @@ export default function Update() {
   const formik = useFormik({
     enableReinitialize : true,
     initialValues: {
-      title: SingleBanner.title? SingleBanner.title : "",
-      url : SingleBanner.url? SingleBanner.url : ""
+      title: singleBanner?.title,
+      type : singleBanner.type === 1? "1": "2",
+      url : singleBanner?.url,
+      restaurant_name : null,
+      image : singleBanner?.image? singleBanner.image : singleBanner.url,
     },
     validationSchema: BannerSchema,
     onSubmit: (values) => {
@@ -80,22 +112,78 @@ export default function Update() {
                         <Stack style={{ width : "450px" }} spacing={3}>
                         <TextField
                             fullWidth
+                            InputLabelProps={{
+                              shrink : true                                
+                            }}
                             type="text"
                             label="Title"
                             {...getFieldProps('title')}
                             error={Boolean(touched.title && errors.title)}
                             helperText={touched.title && errors.title}
                         />
+
                         <TextField
                             fullWidth
+                            select
+                            label="Type"
+                            value={1}
+                            {...getFieldProps('type')}
+                            error={Boolean(touched.type && errors.type)}
+                            helperText={touched.type && errors.type}
+                        >    
+                            <MenuItem value= "1">1. URL</MenuItem>
+                            <MenuItem value= "2">2. Store</MenuItem>
+                        </TextField> 
+
+                       {
+                        values.type === "1" || values.type === 1?  
+                          <TextField
+                            fullWidth
                             type="text"
-                            label="URL (Optional)"
+                            label="URL"
                             {...getFieldProps('url')}
-                        />
+                            error={Boolean(touched.url && errors.url)}
+                            helperText={touched.url && errors.url}
+                          />
+                        : null
+                      }
+
+
+                      {
+                        values.type === 2 || values.type === "2"? 
+                        
+                        <Autocomplete
+                        // multiple
+                        fullWidth
+                        limitTags={1}
+                        options={storeList}
+                        getOptionLabel = {(option)=> option.restaurant_name}
+                        defaultValue = {singlStore}
+                        getOptionSelected={(option, value) => option.restaurant_name  === value.personal_name}
+                        onChange = {(event, value)=> formik.setFieldValue("restaurant_name", value) } 
+                        renderInput = {(option)=> 
+                            <TextField 
+                                {...option} 
+                                label ="Restaurant Name"
+                                error={Boolean(touched.restaurant_name && errors.restaurant_name)}
+                                helperText={touched.restaurant_name && errors.restaurant_name} 
+
+                            /> }
+                      />
+
+
+                        
+                        
+                        : null
+                      }      
+
+                  
+
                         <img 
-                            src= { image?URL.createObjectURL(image) : SingleBanner?.image}
+                            src= { image?URL.createObjectURL(image) : singleBanner?.image}
                             style = {{ maxHeight : "300px" }}
                         />
+
                         <TextField
                             fullWidth
                             type = "file"

@@ -214,7 +214,7 @@ export default function Banner() {
                 <TableBody>
                   {filteredBanners
                     .map((row) => {
-                      const { id, title, image, is_enabled, created_at } = row;
+                      const { id, title, image,url, is_enabled, created_at } = row;
                       return (
                         <TableRow
                           hover
@@ -223,7 +223,7 @@ export default function Banner() {
                           <TableCell className= {classes.tableCell} align="left">{id}</TableCell>
                           <TableCell className= {classes.tableCell} align="left">{CapitalizeFirstLetter(title)}</TableCell>
                           <TableCell className= {classes.tableCell} align="left">
-                            <Avatar  variant="square" style={{width : "70px"}} src= {image} />
+                            <Avatar  variant="square" style={{width : "70px"}} src= {image != null? image : url} />
                           </TableCell>
                           <TableCell className= {classes.tableCell} align="left">
                             <Moment format="DD-MM-YYYY hh:mm a" >{created_at}</Moment>

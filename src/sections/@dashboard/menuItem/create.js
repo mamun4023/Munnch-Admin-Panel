@@ -136,7 +136,6 @@ export default function Create() {
 
   },[id])
 
-
   const MenuItemSchema = Yup.object().shape({
     name: Yup.string().required('Name is required'),
     price: Yup.string().required('Price is required'),
