@@ -235,7 +235,7 @@ export default function MenuItem() {
                           key={id}
                         >
                           <TableCell className= {classes.tableCell} align="left">{id}</TableCell>
-                          <TableCell className= {classes.tableCell} align="left">{CapitalizeFirstLetter(name)}</TableCell>
+                          <TableCell className= {classes.tableCell} align="left" sx={{ maxWidth: 300 }} >{CapitalizeFirstLetter(name)}</TableCell>
                           <TableCell className= {classes.tableCell} align="left">
                             <Avatar  variant="square" style={{width : "70px"}} src= {image} />
                           </TableCell>

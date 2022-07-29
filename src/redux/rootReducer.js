@@ -11,7 +11,6 @@ import FetchMerchantListReducer from './merchant/fetchAll/reducer';
 import FetchSingleMerchantReducer from './merchant/fetchSingle/reducer';
 import UpdateMerchantReducer from './merchant/update/reducer';
 import FetchBannerListReducer from './banner/fetchAll/reducer';
-import UpdateBannerReducer from './banner/update/reducer';
 import FetchNotificationListReducer from './notify/fetchAll/reducer';
 import FetchAllMenuReducer from './menu/fetchAll/reducer';
 import FetchSingleMenuReducer from './menu/fetchSingle/reducer';
@@ -48,7 +47,6 @@ const RootReducer = combineReducers({
     FetchSingleMerchant : FetchSingleMerchantReducer,
     UpdateMerchant : UpdateMerchantReducer,
     FetchBannerList : FetchBannerListReducer,
-    UpdateBanner : UpdateBannerReducer,
     NotificationList : FetchNotificationListReducer,
     FetchAllMenu : FetchAllMenuReducer,
     FetchSingle : FetchSingleMenuReducer,

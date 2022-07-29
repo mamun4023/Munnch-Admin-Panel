@@ -2,6 +2,7 @@ import * as Yup from 'yup';
 import { useEffect, useState } from 'react';
 import { Link as RouterLink, useNavigate, useParams } from 'react-router-dom';
 import { useFormik, Form, FormikProvider } from 'formik';
+import {toast} from 'material-react-toastify';
 // material
 import {
   Stack,
@@ -20,6 +21,25 @@ import { useDispatch, useSelector } from 'react-redux';
 
 // ----------------------------------------------------------------------
 
+function ObjectTOArray(data){
+	let obj = { 
+			"id" : data['id'],
+			"ic_number" : data['ic_number'],
+			"restaurant_name": data['personal_name'],
+      "email": data["email"],
+      "phone": data["phone"],
+    	"profile_pic": data['profile_pic'],
+    	"store_phone": data["store_phone"],
+    	"status": data['status'],
+    	"is_verified": data['is_verified'],
+    	"is_approved": data['is_approved'],
+    	"tnc": data['tnc']
+		}
+	return obj;
+}
+
+
+
 export default function Update() {
   const {id} = useParams();
   const dispatch = useDispatch();
@@ -29,7 +49,7 @@ export default function Update() {
   // const [singleStore, setSingeStore] = useState([]);
   const [storeId, setStoreId] = useState();
   const [image, setImage] = useState();
-  const loading = useSelector(state => state.UpdateBanner.loading)
+  const [loading, setLoading] = useState(false); 
 
   const FetchSingleBannerData = (id)=>{
     FetchSingleBanner(id)
@@ -37,6 +57,7 @@ export default function Update() {
           const response = res.data.data;
           setSingleBanner(response);
           setStoreId(response?.restaurant_id)
+          dispatch(FetchSingleMerchant(response?.restaurant_id))
 
       })
   }
@@ -52,8 +73,8 @@ export default function Update() {
   useEffect(()=>{
     FetchSingleBannerData(id)
     FetchStoreList(storeId)
-    dispatch(FetchSingleMerchant(storeId))
-  },[])
+    // dispatch(FetchSingleMerchant(storeId))
+  },[dispatch])
 
   const singlStore = useSelector(state => state.FetchSingleMerchant.data);
 
@@ -61,7 +82,7 @@ export default function Update() {
     setImage(e.target.files[0])
   }
 
-  console.log("Single singlStore", singlStore)
+  console.log("Single singlStore", storeList)
 
   const BannerSchema = Yup.object().shape({
     title: Yup.string().required('Title is required'),
@@ -73,7 +94,7 @@ export default function Update() {
       title: singleBanner?.title,
       type : singleBanner.type === 1? "1": "2",
       url : singleBanner?.url,
-      restaurant_name : null,
+      restaurant_name : singleBanner?.restaurant_id,
       image : singleBanner?.image? singleBanner.image : singleBanner.url,
     },
     validationSchema: BannerSchema,
@@ -82,13 +103,54 @@ export default function Update() {
       const data = new FormData();
       data.append('title', values.title);
       data.append('_method', "PUT");
-      if(image != undefined){
-        data.append('image', image);
+      data.append("type", values.type);
+
+      if(values.type === "2"){
+        if(image != undefined){
+          data.append('image', image);
+        }
       }
-      data.append('url', values.url);
-      dispatch(UpdateBanner(id, data));
-      navigate('/dashboard/banner', { replace: true });
-    }
+      
+      if(values.type === "2"){
+        if(values.restaurant_name?.id){
+          data.append('restaurant_id', values.restaurant_name?.id)
+        }else{
+          data.append('restaurant_id', values.restaurant_name)
+        }
+      }
+      
+      if(values.type === "1"){
+        data.append('url', values.url);
+      }
+      setLoading(true)
+      UpdateBanner(id, data)
+        .then(res =>{
+          const response = res.data.message;
+          toast.dark(response);
+          setLoading(false);
+          navigate('/dashboard/banner', { replace: true });
+        })
+        .catch((err)=>{
+            setLoading(false);
+            const errors = err.response.data.errors
+            if(errors.url?errors.url[0]:false){ 
+              toast.error(errors?.url[0])
+            }
+  
+            if(errors.title?errors.title[0]:false){ 
+              toast.error(errors?.title[0])
+            }
+  
+            if(errors.image?errors.image[0]:false){ 
+              toast.error(errors?.image[0])
+            }
+  
+            if(errors.restaurant_id?errors.restaurant_id[0]:false){ 
+              toast.error(errors?.restaurant_id[0])
+            }  
+  
+        })
+     }
   });
 
   const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = formik;
@@ -136,7 +198,7 @@ export default function Update() {
                         </TextField> 
 
                        {
-                        values.type === "1" || values.type === 1?  
+                        values.type === "1"?  
                           <TextField
                             fullWidth
                             type="text"
@@ -148,48 +210,47 @@ export default function Update() {
                         : null
                       }
 
-
                       {
-                        values.type === 2 || values.type === "2"? 
+                        values.type === "2" && Object.keys(singlStore).length > 1  ?  
                         
                         <Autocomplete
-                        // multiple
-                        fullWidth
-                        limitTags={1}
-                        options={storeList}
-                        getOptionLabel = {(option)=> option.restaurant_name}
-                        defaultValue = {singlStore}
-                        getOptionSelected={(option, value) => option.restaurant_name  === value.personal_name}
-                        onChange = {(event, value)=> formik.setFieldValue("restaurant_name", value) } 
-                        renderInput = {(option)=> 
+                          // multiple
+                          fullWidth
+                          limitTags={1}
+                          options={storeList}
+                          getOptionLabel = {(option)=> option.restaurant_name}
+                          defaultValue = {ObjectTOArray(singlStore)}
+                          getOptionSelected={(option, value) => option.restaurant_name === value.restaurant_name}
+                          onChange = {(event, value)=> formik.setFieldValue("restaurant_name", value) } 
+                          renderInput = {(option)=> 
                             <TextField 
                                 {...option} 
                                 label ="Restaurant Name"
                                 error={Boolean(touched.restaurant_name && errors.restaurant_name)}
                                 helperText={touched.restaurant_name && errors.restaurant_name} 
-
                             /> }
-                      />
-
-
-                        
-                        
+                        />
                         : null
                       }      
 
-                  
-
+                
                         <img 
                             src= { image?URL.createObjectURL(image) : singleBanner?.image}
                             style = {{ maxHeight : "300px" }}
                         />
 
-                        <TextField
-                            fullWidth
-                            type = "file"
-                            onChange= {HandlerChange}
-                            required
-                        />
+
+                        {
+                          values.type === "2"? 
+                            <TextField
+                              fullWidth
+                              type = "file"
+                              onChange= {HandlerChange}
+                              required
+                            />
+                          : null
+                        }
+                        
                         <LoadingButton
                           fullWidth
                           size="large"

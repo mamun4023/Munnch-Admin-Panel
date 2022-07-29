@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import Card from '@mui/material/Card';
 import {Link as RouterLink, useParams} from 'react-router-dom';
 import CardContent from '@mui/material/CardContent';
@@ -12,13 +12,21 @@ import Spinner from 'src/components/Spinner';
 export default function View() {
     const {id} = useParams();
     const dispatch = useDispatch();
-    const loading = useSelector(state => state.FetchSingleBanner.loading);
+    const [singleBanner, setSingleBanner] = useState([])
+
+
+    const FetchBannerData =(id)=>{
+        FetchSingleBanner(id)
+            .then(res =>{
+                const respone = res.data.data;
+                setSingleBanner(respone)
+            })
+    }
 
     useEffect(()=>{
-        dispatch(FetchSingleBanner(id))
+        FetchBannerData(id)
     },[])
 
-    const singleBanner = useSelector(state=> state.FetchSingleBanner.data);
     // console.log("single banner",singleBanner)
  
     return(
@@ -27,7 +35,7 @@ export default function View() {
                     View Banner Image
                 </Typography>
 
-                {loading? <Spinner/> : 
+               
                 <Grid container spacing={2}>
                     <Grid item xs={8}>
                     <Card 
@@ -37,8 +45,8 @@ export default function View() {
                         <CardMedia
                             component="img"
                             style={{backgroundRepeat : "no-repeat", borderRadius : "10px"}}
-                            image= {singleBanner.image}
-                            alt="green iguana"
+                            image= {singleBanner?.image?singleBanner.image : singleBanner?.url}
+                            alt="Banner image"
                         />
                     </Card>
                     </Grid>
@@ -60,7 +68,7 @@ export default function View() {
                         </Card>
                     </Grid>
                  </Grid>
-                 }
+                
             </>
         );
 }

@@ -154,6 +154,9 @@ export default function Update() {
     LoadListData(storeId);
   },[storeId])
 
+
+  // console.log("Food list", foodList)
+
   const MenuItemSchema = Yup.object().shape({
     name: Yup.string().required('Name is required'),
     price: Yup.string().required('Price is required'),
@@ -229,6 +232,9 @@ export default function Update() {
   });
 
   const { errors, touched, values, handleSubmit, getFieldProps } = formik;
+
+
+console.log("Food list", values.food_types)
 
   return(
         <>
