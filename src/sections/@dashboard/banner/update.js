@@ -16,8 +16,7 @@ import { LoadingButton } from '@mui/lab';
 import {FetchSingleBanner} from '../../../redux/banner/fetchSingle/action';
 import {UpdateBanner} from '../../../redux/banner/update/action';
 import {StoreList} from '../../../redux/banner/add/action';
-import {FetchSingleMerchant} from '../../../redux/merchant/fetchSingle/action';
-import { useDispatch, useSelector } from 'react-redux';
+import {FetchSingleStore} from '../../../redux/banner/update/action';
 
 // ----------------------------------------------------------------------
 
@@ -38,15 +37,12 @@ function ObjectTOArray(data){
 	return obj;
 }
 
-
-
 export default function Update() {
   const {id} = useParams();
-  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [singleBanner, setSingleBanner] = useState([])
   const [storeList, setStoreList] = useState([]);
-  // const [singleStore, setSingeStore] = useState([]);
+  const [singlStore, setSingeStore] = useState([])
   const [storeId, setStoreId] = useState();
   const [image, setImage] = useState();
   const [loading, setLoading] = useState(false); 
@@ -57,8 +53,7 @@ export default function Update() {
           const response = res.data.data;
           setSingleBanner(response);
           setStoreId(response?.restaurant_id)
-          dispatch(FetchSingleMerchant(response?.restaurant_id))
-
+          FetchSingleStoreData(response?.restaurant_id)
       })
   }
 
@@ -70,19 +65,22 @@ export default function Update() {
       })
   }
 
+  const FetchSingleStoreData = (id)=>{
+    FetchSingleStore(id)
+      .then(res =>{
+        const response = res.data.data.merchant;
+        setSingeStore(response)
+      })
+  }
+
   useEffect(()=>{
     FetchSingleBannerData(id)
     FetchStoreList(storeId)
-    // dispatch(FetchSingleMerchant(storeId))
-  },[dispatch])
-
-  const singlStore = useSelector(state => state.FetchSingleMerchant.data);
+  },[])
 
   const HandlerChange =(e)=>{
     setImage(e.target.files[0])
   }
-
-  console.log("Single singlStore", storeList)
 
   const BannerSchema = Yup.object().shape({
     title: Yup.string().required('Title is required'),
@@ -148,7 +146,7 @@ export default function Update() {
             if(errors.restaurant_id?errors.restaurant_id[0]:false){ 
               toast.error(errors?.restaurant_id[0])
             }  
-  
+
         })
      }
   });
@@ -183,7 +181,6 @@ export default function Update() {
                             error={Boolean(touched.title && errors.title)}
                             helperText={touched.title && errors.title}
                         />
-
                         <TextField
                             fullWidth
                             select
@@ -196,7 +193,6 @@ export default function Update() {
                             <MenuItem value= "1">1. URL</MenuItem>
                             <MenuItem value= "2">2. Store</MenuItem>
                         </TextField> 
-
                        {
                         values.type === "1"?  
                           <TextField
@@ -209,10 +205,8 @@ export default function Update() {
                           />
                         : null
                       }
-
                       {
-                        values.type === "2" && Object.keys(singlStore).length > 1  ?  
-                        
+                        values.type === "2" && Object.keys(singlStore).length > 1 ?  
                         <Autocomplete
                           // multiple
                           fullWidth
@@ -231,36 +225,39 @@ export default function Update() {
                             /> }
                         />
                         : null
-                      }      
-
-                
-                        <img 
-                            src= { image?URL.createObjectURL(image) : singleBanner?.image}
+                      }                    
+                      <img 
+                          src= { image?URL.createObjectURL(image) : singleBanner?.image}
+                          style = {{ maxHeight : "300px" }}
+                      />
+                      {  
+                        values.url? 
+                          <img 
+                            src= { values.url}
                             style = {{ maxHeight : "300px" }}
-                        />
-
-
-                        {
-                          values.type === "2"? 
-                            <TextField
-                              fullWidth
-                              type = "file"
-                              onChange= {HandlerChange}
-                              required
-                            />
-                          : null
-                        }
-                        
-                        <LoadingButton
-                          fullWidth
-                          size="large"
-                          type="submit"
-                          variant="contained"
-                          loading={loading}
-                        >
-                            Save
-                        </LoadingButton>
-                        </Stack>
+                          />  
+                        :null
+                      }
+                      {
+                        values.type === "2"? 
+                          <TextField
+                            fullWidth
+                            type = "file"
+                            onChange= {HandlerChange}
+                            required
+                          />
+                        : null
+                      }             
+                      <LoadingButton
+                        fullWidth
+                        size="large"
+                        type="submit"
+                        variant="contained"
+                        loading={loading}
+                      >
+                          Save
+                      </LoadingButton>
+                      </Stack>
                     </Form>
                 </FormikProvider>
             </Grid>   

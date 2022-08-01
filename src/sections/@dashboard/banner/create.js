@@ -37,8 +37,6 @@ export default function Create(){
     FetchStore();
   },[])
 
-  // console.log("store list", storeList)
-
   const BannerSchema = Yup.object().shape({
     title: Yup.string().required('Title is required'),
     type : Yup.string().required("Select Banner Type").nullable(),
@@ -58,8 +56,6 @@ export default function Create(){
     // }),
   });
 
-
-
   const formik = useFormik({
     initialValues: {
       title: '',
@@ -70,7 +66,6 @@ export default function Create(){
     },
     validationSchema: BannerSchema,
     onSubmit: (values) => {
-
       let data = new FormData();
       data.append('title', values.title);
       data.append('type', values.type);
@@ -136,92 +131,85 @@ export default function Create(){
                 <FormikProvider  value={formik}>
                     <Form encType="multipart/form-data" autoComplete="off" noValidate onSubmit={handleSubmit}>
                         <Stack style={{ width : "450px" }} spacing={3}>
-                        <TextField
-                            fullWidth
-                            type="text"
-                            label="Title"
-                            {...getFieldProps('title')}
-                            error={Boolean(touched.title && errors.title)}
-                            helperText={touched.title && errors.title}
-                        />
-
-                        <TextField
-                            fullWidth
-                            select
-                            label="Type"
-                            {...getFieldProps('type')}
-                            error={Boolean(touched.type && errors.type)}
-                            helperText={touched.type && errors.type}
-                        >    
-                            <MenuItem value= "1">1. URL</MenuItem>
-                            <MenuItem value= "2">2. Store</MenuItem>
-                        </TextField> 
-                      {
-                        values.type === "1"?  
                           <TextField
-                            fullWidth
-                            type="text"
-                            label="URL"
-                            {...getFieldProps('url')}
-                            error={Boolean(touched.url && errors.url)}
-                            helperText={touched.url && errors.url}
+                              fullWidth
+                              type="text"
+                              label="Title"
+                              {...getFieldProps('title')}
+                              error={Boolean(touched.title && errors.title)}
+                              helperText={touched.title && errors.title}
                           />
-                        : null
-                      }
-                      
-                      {
-                        values.type === "2"?
-                        <Autocomplete
-                          // multiple
-                          fullWidth
-                          limitTags={1}
-                          options={storeList}
-                          getOptionLabel = {(option)=> option.restaurant_name}
-                          onChange = {(event, value)=>  formik.setFieldValue("restaurant_name", value) } 
-                          renderInput = {(option)=> 
-                              <TextField 
-                                  {...option} 
-                                  label ="Restaurant Name"
-                                  error={Boolean(touched.restaurant_name && errors.restaurant_name)}
-                                  helperText={touched.restaurant_name && errors.restaurant_name} 
-
-                              /> }
-                        />
-                        : null
-                      }
-                     
-                      <img 
-                          src= {values.image?URL.createObjectURL(values.image): null}
-                          style = {{maxHeight : "300px"}}
-                        />
-
-                      {
-                          values.type === "2"? 
                           <TextField
-                            fullWidth
-                            InputLabelProps={{
-                            shrink : true                                
-                          }}
-                          type="file"
-                          label="Banner Image"
-                          onChange={ev=>{ formik.setFieldValue("image",ev.target.files[0]) }} 
-                          error={Boolean(touched.image && errors.image)}
-                          helperText={touched.image && errors.image}
-                      />
-
-                        :null
-                    }
-                        
-                        <LoadingButton
-                            fullWidth
-                            size="large"
-                            type="submit"
-                            variant="contained"
-                            loading={loading}
-                        >
-                            Save
-                        </LoadingButton>
-                        </Stack>
+                              fullWidth
+                              select
+                              label="Type"
+                              {...getFieldProps('type')}
+                              error={Boolean(touched.type && errors.type)}
+                              helperText={touched.type && errors.type}
+                          >    
+                              <MenuItem value= "1">1. URL</MenuItem>
+                              <MenuItem value= "2">2. Store</MenuItem>
+                          </TextField> 
+                          {
+                            values.type === "1"?  
+                              <TextField
+                                fullWidth
+                                type="text"
+                                label="URL"
+                                {...getFieldProps('url')}
+                                error={Boolean(touched.url && errors.url)}
+                                helperText={touched.url && errors.url}
+                              />
+                            : null
+                          }             
+                          {
+                            values.type === "2"?
+                              <Autocomplete
+                                // multiple
+                                fullWidth
+                                limitTags={1}
+                                options={storeList}
+                                getOptionLabel = {(option)=> option.restaurant_name}
+                                onChange = {(event, value)=>  formik.setFieldValue("restaurant_name", value) } 
+                                renderInput = {(option)=> 
+                                    <TextField 
+                                        {...option} 
+                                        label ="Restaurant Name"
+                                        error={Boolean(touched.restaurant_name && errors.restaurant_name)}
+                                        helperText={touched.restaurant_name && errors.restaurant_name} 
+                                    /> }
+                              />
+                            : null
+                          }
+                          <img 
+                            src= {values.image?URL.createObjectURL(values.image): null}
+                            style = {{maxHeight : "300px"}}
+                          />
+                          {
+                            values.type === "2"? 
+                              <TextField
+                                fullWidth
+                                InputLabelProps={{
+                                shrink : true                                
+                                }}
+                                type="file"
+                                label="Banner Image"
+                                onChange={ev=>{ formik.setFieldValue("image",ev.target.files[0]) }} 
+                                error={Boolean(touched.image && errors.image)}
+                                helperText={touched.image && errors.image}
+                              />
+                            :null
+                          }
+                          <LoadingButton
+                              fullWidth
+                              size="large"
+                              type="submit"
+                              variant="contained"
+                              loading={loading}
+                            >
+                              Save
+                          </LoadingButton>
+                      </Stack>
                     </Form>
                 </FormikProvider>
             </Grid>   

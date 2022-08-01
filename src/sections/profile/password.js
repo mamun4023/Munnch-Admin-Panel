@@ -11,7 +11,7 @@ import {
   InputAdornment,
 } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
-import {useSelector, useDispatch} from 'react-redux'
+import {useSelector, useDispatch} from 'react-redux';
 import {ChangePassword} from '../../redux/auth/profile/changePassword/actions';
 // component
 import Iconify from "../../components/Iconify";
@@ -64,7 +64,6 @@ export default function ChangeAdminPassword() {
 
   return(
         <>
-
         <Grid
             container
             // item xs={8} 
@@ -74,7 +73,6 @@ export default function ChangeAdminPassword() {
             justifyContent="center"
             style={{ minHeight: '60vh' }}
         >
-
             <Grid item xs={6} >
                 <FormikProvider value={formik}>
                     <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
@@ -94,8 +92,8 @@ export default function ChangeAdminPassword() {
                             </InputAdornment>
                           )
                         }}
-                        error={Boolean(touched.password && errors.password)}
-                        helperText={touched.password && errors.password}
+                        error={Boolean(touched.currentPassword && errors.currentPassword)}
+                        helperText={touched.currentPassword && errors.currentPassword}
                       />
                    
                       <TextField
@@ -113,8 +111,8 @@ export default function ChangeAdminPassword() {
                             </InputAdornment>
                           )
                         }}
-                        error={Boolean(touched.password && errors.password)}
-                        helperText={touched.password && errors.password}
+                        error={Boolean(touched.newPassword && errors.newPassword)}
+                        helperText={touched.newPassword && errors.newPassword}
                       />
 
                       <TextField
@@ -132,22 +130,20 @@ export default function ChangeAdminPassword() {
                             </InputAdornment>
                           )
                         }}
-                        error={Boolean(touched.password && errors.password)}
-                        helperText={touched.password && errors.password}
-                      />
-                        
-                        <LoadingButton
-                            fullWidth
-                            size="large"
-                            type="submit"
-                            variant="contained"
-                            loading={loading}
-                        >
-                            Save
-                        </LoadingButton>
-                        </Stack>
+                        error={Boolean(touched.confirmPassword && errors.confirmPassword)}
+                        helperText={touched.confirmPassword && errors.confirmPassword}
+                      />                        
+                      <LoadingButton
+                        fullWidth
+                        size="large"
+                        type="submit"
+                        variant="contained"
+                        loading={loading}
+                      >
+                        Save
+                      </LoadingButton>
+                      </Stack>
                     </Form>
-                    
                 </FormikProvider>
             </Grid>   
          </Grid>
