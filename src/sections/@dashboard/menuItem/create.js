@@ -1,29 +1,19 @@
 import * as Yup from 'yup';
 import { useState, useEffect } from 'react';
-import axios from 'axios';
 import { Link as RouterLink, useNavigate, useParams } from 'react-router-dom';
-import { Grid, Typography, Autocomplete } from '@mui/material';
 import { useFormik, Form, FormikProvider } from 'formik';
-import { useTheme } from '@mui/material/styles';
-import OutlinedInput from '@mui/material/OutlinedInput';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
-import {useDispatch, useSelector} from 'react-redux';
 import { toast } from 'material-react-toastify';
 import DeleteIcon from  '@mui/icons-material/Delete'
 import AddCircleIcon from  '@mui/icons-material/AddCircle';
-
 // material
 import {
-  Link,
+  Grid,
   Stack,
-  Checkbox,
   TextField,
   IconButton,
-  InputAdornment,
-  FormControlLabel
+  Typography,
+  Autocomplete,
+  MenuItem
 } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 // component
@@ -44,28 +34,29 @@ const MenuProps = {
   },
 };
 
-function createFormData(formData, key, data) {
-  if (data === Object(data) || Array.isArray(data)) {
-      for (var i in data) {
-          createFormData(formData, key + '[' + i + ']', data[i]);
-      }
-  } else {
-      formData.append(key, data);
-  }
-}
+// function createFormData(formData, key, data) {
+//   if (data === Object(data) || Array.isArray(data)) {
+//       for (var i in data) {
+//           createFormData(formData, key + '[' + i + ']', data[i]);
+//       }
+//   } else {
+//       formData.append(key, data);
+//   }
+// }
 
-export default function Create() {
-  const {id} = useParams();
-  const navigate = useNavigate();
-  const [loading, setLoading] = useState(false);
-  
-  const [variationFields, setVariationFields] = useState([
-    // { name: '', price: '' },
-  ])
-  const [addonFields, setAddonFields] = useState([
-    // { name: '', price: '' },
-  ])
-
+export default function Create(){
+    const {id} = useParams();
+    const navigate = useNavigate();
+    const[foodList, setFoodList] = useState([]);
+    const[cuisineList, setCuisineList] = useState([]);
+    const[categoryList, setCategoryList] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [variationFields, setVariationFields] = useState([
+      // { name: '', price: '' },
+    ])
+    const [addonFields, setAddonFields] = useState([
+      // { name: '', price: '' },
+    ])
 
     // Variations handlers 
     const handleVariationFormChange = (index, event) => {
@@ -107,10 +98,6 @@ export default function Create() {
     setAddonFields(data)
   }
 
-  const[foodList, setFoodList] = useState([]);
-  const[cuisineList, setCuisineList] = useState([]);
-  const[categoryList, setCategoryList] = useState([]);
-
   const LoadListData = (id)=>{
     FetchCuisineTypeList(id)
       .then(res =>{
@@ -133,7 +120,6 @@ export default function Create() {
 
   useEffect(()=>{
     LoadListData(id);
-
   },[id])
 
   const MenuItemSchema = Yup.object().shape({
@@ -165,32 +151,31 @@ export default function Create() {
 
     validationSchema: MenuItemSchema,
     onSubmit: (values) => {
-
-    const form = new FormData();
-    form.append("name", values.name);
-    form.append("description", values.description);
-    form.append("price", values.price);
-    form.append("food_type_id", String(values.food_types.id));
-    form.append("cuisine_id", String(values.cuisine_types.id));
-    form.append("category_id", String(values.categories.id));
-    form.append("food_item_type", values.food_item_type)
-    form.append("image", values.image);
-    form.append("food_item_estimate_days", values.food_item_estimate_days);
-    form.append("restaurant_id", id);
+      const form = new FormData();
+      form.append("name", values.name);
+      form.append("description", values.description);
+      form.append("price", values.price);
+      form.append("food_type_id", String(values.food_types.id));
+      form.append("cuisine_id", String(values.cuisine_types.id));
+      form.append("category_id", String(values.categories.id));
+      form.append("food_item_type", values.food_item_type)
+      form.append("image", values.image);
+      form.append("food_item_estimate_days", values.food_item_estimate_days);
+      form.append("restaurant_id", id);
     
-    if (variationFields?.length) {
-      variationFields.forEach((item, index) => {
-        form.append(`food_variations[${index}][name]`, item?.name);
-        form.append(`food_variations[${index}][price]`, item?.price);
-      });
-    }
+      if (variationFields?.length) {
+        variationFields.forEach((item, index) => {
+          form.append(`food_variations[${index}][name]`, item?.name);
+          form.append(`food_variations[${index}][price]`, item?.price);
+        });
+      }
 
-    if (addonFields?.length) {
-      addonFields.forEach((item, index) => {
-        form.append(`food_addons[${index}][name]`, item?.name);
-        form.append(`food_addons[${index}][price]`, item?.price);
-      });
-    }
+      if (addonFields?.length) {
+        addonFields.forEach((item, index) => {
+          form.append(`food_addons[${index}][name]`, item?.name);
+          form.append(`food_addons[${index}][price]`, item?.price);
+        });
+      }
 
       setLoading(true);
       AddMenu(form)
@@ -224,7 +209,6 @@ export default function Create() {
           if(errors["food_addons.1.price"]? errors["food_addons.1.price"][1] : false){
             toast.error(errors["food_addons.1.price"][1])
           }
-      
         })
     }
   });
@@ -259,7 +243,6 @@ export default function Create() {
                               error={Boolean(touched.name && errors.name)}
                               helperText={touched.name && errors.name}
                           />
-
                           <TextField
                               fullWidth
                               type="number"
@@ -268,18 +251,16 @@ export default function Create() {
                               error={Boolean(touched.price && errors.price)}
                               helperText={touched.price && errors.price}
                           />
-
-                            <TextField
-                              fullWidth
-                              type="text"
-                              label="Description"
-                              multiline
-                              rows={4}
-                              {...getFieldProps('description')}
-                              error={Boolean(touched.description && errors.description)}
-                              helperText={touched.description && errors.description}
+                          <TextField
+                            fullWidth
+                            type="text"
+                            label="Description"
+                            multiline
+                            rows={4}
+                            {...getFieldProps('description')}
+                            error={Boolean(touched.description && errors.description)}
+                            helperText={touched.description && errors.description}
                           />
-
                           <Autocomplete
                               // multiple
                               // limitTags={1}
@@ -311,7 +292,6 @@ export default function Create() {
 
                                   /> }
                           />
-                          
                           <Autocomplete
                               // multiple
                               limitTags={1}
@@ -327,33 +307,29 @@ export default function Create() {
                                     helperText={touched.categories && errors.categories} 
                                     /> }
                           />
-
-                          <TextField
+                        <TextField
                             fullWidth
                             select
                             label="Food Item Type"
                             {...getFieldProps('food_item_type')}
                             error={Boolean(touched.food_item_type && errors.food_item_type)}
                             helperText={touched.food_item_type && errors.food_item_type}
-                        >    
+                          >    
                             <MenuItem value= "1">Food Item</MenuItem>
                             <MenuItem value= "2">Pre-Order Item</MenuItem>
                         </TextField>
-
                           {
                             values.food_item_type === 2 || values.food_item_type ==="2"? 
-
-                            <TextField
-                                fullWidth
-                                type="number"
-                                label="food Item Estimate Days"
-                                {...getFieldProps('food_item_estimate_days')}
-                                error={Boolean(touched.food_item_estimate_days && errors.food_item_estimate_days)}
-                                helperText={touched.food_item_estimate_days && errors.food_item_estimate_days}
-                            /> 
+                              <TextField
+                                  fullWidth
+                                  type="number"
+                                  label="food Item Estimate Days"
+                                  {...getFieldProps('food_item_estimate_days')}
+                                  error={Boolean(touched.food_item_estimate_days && errors.food_item_estimate_days)}
+                                  helperText={touched.food_item_estimate_days && errors.food_item_estimate_days}
+                              /> 
                             : null
                           }
-
                           <h4 style={{ textAlign : "center" }} > Variations </h4>
                           {variationFields.map((input, index) => {
                             return (
@@ -447,12 +423,10 @@ export default function Create() {
                             </IconButton>
                           }
                         </Stack>
-
                         <img 
                            src= {values.image?URL.createObjectURL(values.image): null}
                            style = {{maxHeight : "300px"}}
                         />
-
                         <TextField
                             fullWidth
                             type="file"
@@ -460,7 +434,6 @@ export default function Create() {
                             error={Boolean(touched.image && errors.image)}
                             helperText={touched.image && errors.image}
                         /> 
-
                         <LoadingButton
                             fullWidth
                             size="large"

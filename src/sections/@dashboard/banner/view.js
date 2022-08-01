@@ -5,15 +5,15 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { Box,Grid } from '@mui/material';
-import {useDispatch, useSelector} from 'react-redux';
 import {FetchSingleBanner} from '../../../redux/banner/fetchSingle/action';
-import Spinner from 'src/components/Spinner';
+
+function isImage(url) {
+    return /\.(jpg|jpeg|png|webp|avif|gif|svg)$/.test(url);
+  }
 
 export default function View() {
     const {id} = useParams();
-    const dispatch = useDispatch();
     const [singleBanner, setSingleBanner] = useState([])
-
 
     const FetchBannerData =(id)=>{
         FetchSingleBanner(id)
@@ -27,33 +27,28 @@ export default function View() {
         FetchBannerData(id)
     },[])
 
-    // console.log("single banner",singleBanner)
- 
     return(
             <>
                 <Typography variant="h4" gutterBottom>
                     View Banner Image
                 </Typography>
-
-               
                 <Grid container spacing={2}>
                     <Grid item xs={8}>
                     <Card 
                         // sx={{ maxWidth: 345 }}
                         style={{ padding : "50px" }}
                     >
+                        
                         <CardMedia
                             component="img"
                             style={{backgroundRepeat : "no-repeat", borderRadius : "10px"}}
-                            image= {singleBanner?.image?singleBanner.image : singleBanner?.url}
-                            alt="Banner image"
+                            image= {singleBanner?.image?singleBanner.image : isImage(singleBanner?.url)?singleBanner?.url: null}
                         />
                     </Card>
                     </Grid>
                     <Grid item xs={4}>
                         <Card>
                             <CardContent>
- 
                                 <Typography variant="h5" component="div">
                                    {singleBanner.title}
                                 </Typography>
@@ -68,7 +63,6 @@ export default function View() {
                         </Card>
                     </Grid>
                  </Grid>
-                
             </>
         );
 }

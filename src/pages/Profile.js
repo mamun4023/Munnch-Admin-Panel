@@ -17,7 +17,7 @@ const RootStyle = styled(Page)(({ theme }) => ({
   }));
 
 export default function Profile() {
-  const [value, setValue] = React.useState("change_password");
+  const [value, setValue] = React.useState("admin_detail");
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -30,19 +30,19 @@ export default function Profile() {
             <Tabs
                 value={value}
                 onChange={handleChange}
-                // variant="scrollable"
-                // scrollButtons="auto"
+                variant="scrollable"
+                scrollButtons="auto"
                 aria-label="scrollable auto tabs example"
             >
-                {/* <Tab value= "admin_detail" label="Admin Details" > </Tab> */}
+                <Tab value= "admin_detail" label="Admin Details" > </Tab>
                 <Tab value="change_password" label="Change Password" />
                 <Tab value="change_Picture" label="Change Picture" />
             </Tabs>
             </Box>
             <Box>
-                {/* {
+                {
                     value == "admin_detail"? <ProfileDetail/> : null
-                } */}
+                }
                 {
                     value == "change_password"? <ChangePassword/> : null
                 }

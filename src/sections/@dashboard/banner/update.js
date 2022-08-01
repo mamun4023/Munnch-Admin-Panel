@@ -37,6 +37,10 @@ function ObjectTOArray(data){
 	return obj;
 }
 
+function isImage(url) {
+  return /\.(jpg|jpeg|png|webp|avif|gif|svg)$/.test(url);
+}
+
 export default function Update() {
   const {id} = useParams();
   const navigate = useNavigate();
@@ -146,7 +150,6 @@ export default function Update() {
             if(errors.restaurant_id?errors.restaurant_id[0]:false){ 
               toast.error(errors?.restaurant_id[0])
             }  
-
         })
      }
   });
@@ -193,7 +196,7 @@ export default function Update() {
                             <MenuItem value= "1">1. URL</MenuItem>
                             <MenuItem value= "2">2. Store</MenuItem>
                         </TextField> 
-                       {
+                      {
                         values.type === "1"?  
                           <TextField
                             fullWidth
@@ -225,15 +228,19 @@ export default function Update() {
                             /> }
                         />
                         : null
-                      }                    
-                      <img 
-                          src= { image?URL.createObjectURL(image) : singleBanner?.image}
-                          style = {{ maxHeight : "300px" }}
-                      />
-                      {  
-                        values.url? 
+                      }  
+                      {
+                        values.type === "2"? 
                           <img 
-                            src= { values.url}
+                            src= { image?URL.createObjectURL(image) : singleBanner?.image}
+                            style = {{ maxHeight : "300px" }}
+                          />
+                        :null
+                      }                  
+                      {  
+                        values.url && values.type !="2"? 
+                          <img 
+                            src= { isImage(values.url)?values.url : null}
                             style = {{ maxHeight : "300px" }}
                           />  
                         :null
