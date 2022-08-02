@@ -1,10 +1,8 @@
 import React, {useEffect, useState} from 'react';
-import { Table, TableRow, TableCell, Card, CardActions, CardContent, Typography, Button, CardMedia, Stack, Box, IconButton, Grid } from '@mui/material';
+import { Table, TableRow, TableCell, Card, CardContent, Typography, Grid } from '@mui/material';
 import {Link as RouterLink, useParams} from 'react-router-dom';
 import Moment from 'react-moment';
-import {useDispatch, useSelector} from 'react-redux';
-import { withStyles, makeStyles } from "@mui/styles";
-import Iconify from '../../../components/Iconify';
+import { makeStyles } from "@mui/styles";
 import {FetchSingleMenu} from '../../../redux/menu/fetchSingle/action';
 
 const useStyles = makeStyles({
@@ -50,15 +48,19 @@ export default function View() {
                             <Typography style={{ background : "#eee" }}  padding={1} textAlign= "center" variant="h6" component="div">
                                 Item Image 
                             </Typography>
-                            <img 
-                                src= {image}
-                                style = {{minWidth : "700px"}}
-                            />
+                                    {
+                                        image? 
+                                            <img 
+                                                src= {image}
+                                                style = {{minWidth : "700px"}}
+                                            />
+                                        : <Typography color= "text.secondary" textAlign= "center" padding={3}  >  empty</Typography>
+                                    }
                              <Typography style={{ background : "#eee" }}  padding={1} textAlign= "center" variant="h6" component="div">
                                Item Description
                             </Typography>
-                            <Typography padding={1} textAlign= "left"  component="div">
-                              {description}
+                            <Typography padding={1.5} textAlign= "left"  component="div">
+                                {description?description : <Typography color= "text.secondary" textAlign= "center" padding={3}  >  empty</Typography>}
                             </Typography>
                         </Card>
                     </Grid>
@@ -93,16 +95,13 @@ export default function View() {
                                         <TableCell align="left" className={classes.tableCell}> Updated At </TableCell>
                                         <TableCell align="left" className={classes.tableCell}>  <Moment format="DD-MM-YYYY hh:mm a" >{updated_at}</Moment></TableCell>
                                     </TableRow>
-
                                     <TableRow className={classes.tableRow}>
                                         <TableCell align="left" className={classes.tableCell}> Created At </TableCell>
                                         <TableCell align="left" className={classes.tableCell}> <Moment format="DD-MM-YYYY hh:mm a" >{created_at}</Moment></TableCell>
                                     </TableRow>
-
                                 </Table>  
                             </CardContent>
                         </Card>
-
                         <Card>
                             <Typography style={{ background : "#eee" }}  padding={1} textAlign= "center" variant="h6" component="div">
                                 Store Information 
@@ -129,52 +128,53 @@ export default function View() {
                                         <TableCell align="left" className={classes.tableCell}> Maximum Radius </TableCell>
                                         <TableCell align="left" className={classes.tableCell}> {store?. max_delivery_km} KM </TableCell>
                                     </TableRow>
-
-
                                 </Table>  
                             </CardContent>
                         </Card>
-                        
                         <Card>
                             <Typography style={{ background : "#eee" }}  padding={1} textAlign= "center" variant="h6" component="div">
                                 Addons  
                             </Typography>
                             <CardContent>
-                                <Table> 
-                                    {menu_item_addons?.map(data => <> 
-                                        <TableRow className={classes.tableRow}>
-                                            <TableCell align="left"  className={classes.tableCell}> Name </TableCell>
-                                            <TableCell align="left" className={classes.tableCell}> {data.name}</TableCell>
-                                        </TableRow>
-                                        <TableRow className={classes.tableRow}>
-                                            <TableCell align="left" className={classes.tableCell}> Price  </TableCell>
-                                            <TableCell align="left" className={classes.tableCell}> RM {data.price}</TableCell>
-                                        </TableRow>
-                                    </>)}
-                                </Table>  
+                                {menu_item_addons?.length?  
+                                    <Table> 
+                                        {menu_item_addons?.map(data => <> 
+                                            <TableRow className={classes.tableRow}>
+                                                <TableCell align="left"  className={classes.tableCell}> Name </TableCell>
+                                                <TableCell align="left" className={classes.tableCell}> {data.name}</TableCell>
+                                            </TableRow>
+                                            <TableRow className={classes.tableRow}>
+                                                <TableCell align="left" className={classes.tableCell}> Price  </TableCell>
+                                                <TableCell align="left" className={classes.tableCell}> RM {data.price}</TableCell>
+                                            </TableRow>
+                                        </>)}
+                                    </Table>
+                                : <Typography color= "text.secondary" textAlign= "center" padding={1} > empty</Typography>}  
                             </CardContent>
                         </Card>
-
                         <Card>
                             <Typography style={{ background : "#eee" }}  padding={1} textAlign= "center" variant="h6" component="div">
                                 Variations  
                             </Typography>
                             <CardContent>
-                                <Table> 
-                                    {menu_item_variations?.map(data => <> 
-                                        <TableRow className={classes.tableRow}>
-                                            <TableCell align="left"  className={classes.tableCell}> Name </TableCell>
-                                            <TableCell align="left" className={classes.tableCell}>RM {data.name}</TableCell>
-                                        </TableRow>
-                                        <TableRow className={classes.tableRow}>
-                                            <TableCell align="left" className={classes.tableCell}> Price  </TableCell>
-                                            <TableCell align="left" className={classes.tableCell}> RM {data.price}</TableCell>
-                                        </TableRow>
-                                    </>)}
-                                </Table>  
+                                {
+                                    menu_item_variations?.length? 
+                                        <Table> 
+                                            {menu_item_variations?.map(data => <> 
+                                                <TableRow className={classes.tableRow}>
+                                                    <TableCell align="left"  className={classes.tableCell}> Name </TableCell>
+                                                    <TableCell align="left" className={classes.tableCell}>RM {data.name}</TableCell>
+                                                </TableRow>
+                                                <TableRow className={classes.tableRow}>
+                                                    <TableCell align="left" className={classes.tableCell}> Price  </TableCell>
+                                                    <TableCell align="left" className={classes.tableCell}> RM {data.price}</TableCell>
+                                                </TableRow>
+                                            </>)}
+                                        </Table>  
+                                    : <Typography color= "text.secondary" textAlign= "center" padding={1} > empty</Typography>
+                                }
                             </CardContent>
                         </Card>
-
                     </Grid>
                  </Grid>
             </>

@@ -20,6 +20,11 @@ import {AddBanner, StoreList} from '../../../redux/banner/add/action';
 
 // ----------------------------------------------------------------------
 
+
+function FilterNullStore(arr){
+  return arr.filter((data)=> data.restaurant_name !== null)
+}
+
 export default function Create(){
   const navigate = useNavigate();
   const [storeList, setStoreList] = useState([]);
@@ -41,7 +46,7 @@ export default function Create(){
     title: Yup.string().required('Title is required'),
     type : Yup.string().required("Select Banner Type").nullable(),
     // restaurant_name : Yup.string().required("Select Store").nullable(),
-    // image : Yup.mixed().required("Image is required").nullable(),
+    image : Yup.mixed().required("Image is required").nullable(),
     url : Yup.string().when("type" , {
       is : 1,
       then : Yup.string().required("required").nullable(),
@@ -168,7 +173,7 @@ export default function Create(){
                                 // multiple
                                 fullWidth
                                 limitTags={1}
-                                options={storeList}
+                                options={FilterNullStore(storeList)}
                                 getOptionLabel = {(option)=> option.restaurant_name}
                                 onChange = {(event, value)=>  formik.setFieldValue("restaurant_name", value) } 
                                 renderInput = {(option)=> 
@@ -185,8 +190,7 @@ export default function Create(){
                             src= {values.image?URL.createObjectURL(values.image): null}
                             style = {{maxHeight : "300px"}}
                           />
-                          {
-                            values.type === "2"? 
+                          
                               <TextField
                                 fullWidth
                                 InputLabelProps={{
@@ -198,8 +202,7 @@ export default function Create(){
                                 error={Boolean(touched.image && errors.image)}
                                 helperText={touched.image && errors.image}
                               />
-                            :null
-                          }
+                        
                           <LoadingButton
                               fullWidth
                               size="large"

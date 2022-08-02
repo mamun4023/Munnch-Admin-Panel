@@ -37,8 +37,7 @@ export default function View() {
                     <Card 
                         // sx={{ maxWidth: 345 }}
                         style={{ padding : "50px" }}
-                    >
-                        
+                    >   
                         <CardMedia
                             component="img"
                             style={{backgroundRepeat : "no-repeat", borderRadius : "10px"}}
@@ -49,14 +48,14 @@ export default function View() {
                     <Grid item xs={4}>
                         <Card>
                             <CardContent>
-                                <Typography variant="h5" component="div">
-                                   {singleBanner.title}
+                                <Typography variant="h5" component="div" color="text.secondary">
+                                  Title &ensp; : &ensp; {singleBanner.title}
                                 </Typography>
                                 <Typography sx={{ mb: 1.5 }} color="text.secondary">
                                     <Box 
                                         sx={{ py: 1}}
                                     >
-                                        <h4> Status &ensp; : &ensp; {singleBanner.is_enabled? "Active":"Inactive"}  </h4>
+                                        <h4> Status &ensp;: &ensp; {singleBanner.is_enabled? "Active":"Inactive"}  </h4>
                                     </Box> 
                                 </Typography>
                             </CardContent>

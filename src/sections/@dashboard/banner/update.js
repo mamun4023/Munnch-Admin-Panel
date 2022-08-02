@@ -41,6 +41,10 @@ function isImage(url) {
   return /\.(jpg|jpeg|png|webp|avif|gif|svg)$/.test(url);
 }
 
+function FilterNullStore(arr){
+  return arr.filter((data)=> data.restaurant_name !== null)
+}
+
 export default function Update() {
   const {id} = useParams();
   const navigate = useNavigate();
@@ -106,11 +110,9 @@ export default function Update() {
       data.append('title', values.title);
       data.append('_method', "PUT");
       data.append("type", values.type);
-
-      if(values.type === "2"){
-        if(image != undefined){
+     
+      if(image != undefined){
           data.append('image', image);
-        }
       }
       
       if(values.type === "2"){
@@ -214,7 +216,7 @@ export default function Update() {
                           // multiple
                           fullWidth
                           limitTags={1}
-                          options={storeList}
+                          options={FilterNullStore(storeList)}
                           getOptionLabel = {(option)=> option.restaurant_name}
                           defaultValue = {ObjectTOArray(singlStore)}
                           getOptionSelected={(option, value) => option.restaurant_name === value.restaurant_name}
@@ -230,31 +232,45 @@ export default function Update() {
                         : null
                       }  
                       {
-                        values.type === "2"? 
-                          <img 
-                            src= { image?URL.createObjectURL(image) : singleBanner?.image}
-                            style = {{ maxHeight : "300px" }}
-                          />
-                        :null
-                      }                  
-                      {  
+                        values.type === "2" && Object.keys(singlStore).length < 1? 
+                          <Autocomplete
+                            // multiple
+                            fullWidth
+                            limitTags={1}
+                            options={storeList}
+                            getOptionLabel = {(option)=> option.restaurant_name}
+                            // defaultValue = {ObjectTOArray(singlStore)}
+                            // getOptionSelected={(option, value) => option.restaurant_name === value.restaurant_name}
+                            onChange = {(event, value)=> formik.setFieldValue("restaurant_name", value) } 
+                            renderInput = {(option)=> 
+                              <TextField 
+                                  {...option} 
+                                  label ="Restaurant Name"
+                                  error={Boolean(touched.restaurant_name && errors.restaurant_name)}
+                                  helperText={touched.restaurant_name && errors.restaurant_name} 
+                              /> }
+                          />  : null
+                      }
+                      <img 
+                          src= { image?URL.createObjectURL(image) : singleBanner?.image}
+                          style = {{ maxHeight : "300px" }}
+                      />
+                                       
+                      {/* {  
                         values.url && values.type !="2"? 
                           <img 
                             src= { isImage(values.url)?values.url : null}
                             style = {{ maxHeight : "300px" }}
                           />  
                         :null
-                      }
-                      {
-                        values.type === "2"? 
-                          <TextField
-                            fullWidth
-                            type = "file"
-                            onChange= {HandlerChange}
-                            required
-                          />
-                        : null
-                      }             
+                      } */}
+
+                      <TextField
+                          fullWidth
+                          type = "file"
+                          onChange= {HandlerChange}
+                          required
+                      />
                       <LoadingButton
                         fullWidth
                         size="large"

@@ -223,7 +223,7 @@ export default function Banner() {
                           <TableCell className= {classes.tableCell} align="left">{id}</TableCell>
                           <TableCell className= {classes.tableCell} align="left">{CapitalizeFirstLetter(title)}</TableCell>
                           <TableCell className= {classes.tableCell} align="left">
-                            <Avatar  variant="square" style={{width : "70px"}} src= {image != null? image : url} />
+                            <Avatar  variant="square" style={{width : "70px"}} src= {image} />
                           </TableCell>
                           <TableCell className= {classes.tableCell} align="left">
                             <Moment format="DD-MM-YYYY hh:mm a" >{created_at}</Moment>

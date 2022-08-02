@@ -126,6 +126,7 @@ function Create() {
                               fullWidth
                               type="text"
                               label="Name"
+                              autoComplete='off'
                               {...getFieldProps('personal_name')}
                               error={Boolean(touched.personal_name && errors.personal_name)}
                               helperText={touched.personal_name && errors.personal_name}
@@ -134,6 +135,7 @@ function Create() {
                               fullWidth
                               type="text"
                               label="IC Number"
+                              autoComplete='off'
                               {...getFieldProps('ic_number')}
                               error={Boolean(touched.ic_number && errors.ic_number)}
                               helperText={touched.ic_number && errors.ic_number}
@@ -142,6 +144,7 @@ function Create() {
                               fullWidth
                               type="email"
                               label="Email"
+                              autoComplete='off'
                               {...getFieldProps('email')}
                               error={Boolean(touched.email && errors.email)}
                               helperText={touched.email && errors.email}
@@ -150,6 +153,7 @@ function Create() {
                               fullWidth
                               type="number"
                               label="Phone Number"
+                              autoComplete='off'
                               {...getFieldProps('phone')}
                               error={Boolean(touched.phone && errors.phone)}
                               helperText={touched.phone && errors.phone}
@@ -158,6 +162,7 @@ function Create() {
                               fullWidth
                               type="number"
                               label="Store Phone"
+                              autoComplete='off'
                               {...getFieldProps('store_phone')}
                               error={Boolean(touched.store_phone && errors.store_phone)}
                               helperText={touched.store_phone && errors.store_phone}
@@ -166,6 +171,7 @@ function Create() {
                               fullWidth
                               type="password"
                               label="Password"
+                              autoComplete="new-password"
                               {...getFieldProps('password')}
                               error={Boolean(touched.password && errors.password)}
                               helperText={touched.password && errors.password}
@@ -174,6 +180,7 @@ function Create() {
                               fullWidth
                               type="password"
                               label="Confirm Password"
+                              autoComplete="new-password"
                               {...getFieldProps('password_confirmation')}
                               error={Boolean(touched.password_confirmation && errors.password_confirmation)}
                               helperText={touched.password_confirmation && errors.password_confirmation}
