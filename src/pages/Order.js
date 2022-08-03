@@ -138,11 +138,29 @@ function LowerCase(s){
   return makeLowerCase.charAt(0).toUpperCase() + makeLowerCase.slice(1)
 }
 
-function RiderStatus(data){
-  let status = "";
-   if(data === "")
+function RiderStatus(data, rider){
+   if(data === "PENDING")
+     return  "--"
+   if(data === "ASSIGNING_DRIVER")
+    return "Assiging Rider"
+   
+  if(data === "CANCELED")
+    return "--"
+  
+  if(data === "EXPIRED")
+    return "--"
 
-  return 
+  if(data === "REJECTED")
+    return "--"
+
+  if(data === "ON_GOING")
+    return rider
+
+  if(data === "PICKED_UP")
+    return rider
+  
+  if(data === "COMPLETED")
+    return "Delivered Rider"
 }
 
 export default function Order() {
@@ -270,7 +288,7 @@ export default function Order() {
                           <TableCell className= {classes.tableCell} align="left">{id}</TableCell>
                           <TableCell className= {classes.tableCell}  align="left">{CapitalizeFirstLetter(customer?.name)}</TableCell>
                           <TableCell className= {classes.tableCell}  align="left">{CapitalizeFirstLetter(store?.restaurant_name)}</TableCell>
-                          <TableCell className= {classes.tableCell}  align="left">{(status === "")?"Delivered Rider":"--"}</TableCell>
+                          <TableCell className= {classes.tableCell}  align="left">{RiderStatus(status, rider_data?.rider_details?.name)}</TableCell>
                           <TableCell className= {classes.tableCell}  align="left">RM {paid_price}</TableCell> 
                           {/* <TableCell align="left">{(order?.cart_items?.food_type)?order?.cart_items?.food_type : "--"}</TableCell>  */}
                           <TableCell className= {classes.tableCell}  align="left">{store?.store_menu_items[0]?.food_item_type}</TableCell> 

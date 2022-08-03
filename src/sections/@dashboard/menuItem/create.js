@@ -1,10 +1,11 @@
 import * as Yup from 'yup';
 import { useState, useEffect } from 'react';
 import { Link as RouterLink, useNavigate, useParams } from 'react-router-dom';
-import { useFormik, Form, FormikProvider } from 'formik';
+import { useFormik, Form, FormikProvider, getIn, FieldArray } from 'formik';
 import { toast } from 'material-react-toastify';
 import DeleteIcon from  '@mui/icons-material/Delete'
 import AddCircleIcon from  '@mui/icons-material/AddCircle';
+import ClearIcon from '@mui/icons-material/Clear';
 // material
 import {
   Grid,
@@ -13,11 +14,11 @@ import {
   IconButton,
   Typography,
   Autocomplete,
-  MenuItem
+  MenuItem,
+  Button
 } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 // component
-import Iconify from '../../../components/Iconify';
 import {AddMenu} from '../../../redux/menu/add/action';
 import {FetchCuisineTypeList , FetchFoodTypeList, CategoryList} from '../../../redux/merchantStore/other/actions';
 
@@ -34,16 +35,6 @@ const MenuProps = {
   },
 };
 
-// function createFormData(formData, key, data) {
-//   if (data === Object(data) || Array.isArray(data)) {
-//       for (var i in data) {
-//           createFormData(formData, key + '[' + i + ']', data[i]);
-//       }
-//   } else {
-//       formData.append(key, data);
-//   }
-// }
-
 export default function Create(){
     const {id} = useParams();
     const navigate = useNavigate();
@@ -51,59 +42,13 @@ export default function Create(){
     const[cuisineList, setCuisineList] = useState([]);
     const[categoryList, setCategoryList] = useState([]);
     const [loading, setLoading] = useState(false);
-    const [variationFields, setVariationFields] = useState([
-      // { name: '', price: '' },
-    ])
-    const [addonFields, setAddonFields] = useState([
-      // { name: '', price: '' },
-    ])
-
-    // Variations handlers 
-    const handleVariationFormChange = (index, event) => {
-      let data = [...variationFields];
-      data[index][event.target.name] = event.target.value;
-      setVariationFields(data);
-    }
-  
-    const addVariationFields = (e) => {
-      e.preventDefault();
-      let newfield = { name: '', price: '' }
-      setVariationFields([...variationFields, newfield])
-    }
-  
-    const removeVariationFields = (index) => {
-      index.preventDefault();
-      let data = [...variationFields];
-      data.splice(index, 1)
-      setVariationFields(data)
-    }
-
-  // addon handlers 
-  const handleAddonFormChange = (index, event) => {
-    let data = [...addonFields];
-    data[index][event.target.name] = event.target.value;
-    setAddonFields(data);
-  }
-
-  const addAddonFields = (e) => {
-    e.preventDefault();
-    let newfield = { name: '', price: '' }
-    setAddonFields([...addonFields, newfield])
-  }
-
-  const removeAddonFields = (index) => {
-    index.preventDefault();
-    let data = [...addonFields];
-    data.splice(index, 1)
-    setAddonFields(data)
-  }
-
-  const LoadListData = (id)=>{
-    FetchCuisineTypeList(id)
-      .then(res =>{
-        const response = res.data.data;
-        setCuisineList(response);
-      })
+ 
+    const LoadListData = (id)=>{
+      FetchCuisineTypeList(id)
+        .then(res =>{
+          const response = res.data.data;
+          setCuisineList(response);
+        })
 
     FetchFoodTypeList(id)
       .then(res =>{
@@ -122,6 +67,9 @@ export default function Create(){
     LoadListData(id);
   },[id])
 
+
+
+
   const MenuItemSchema = Yup.object().shape({
     name: Yup.string().required('Name is required'),
     price: Yup.string().required('Price is required'),
@@ -132,6 +80,18 @@ export default function Create(){
     food_item_type: Yup.string().required('Food Item Type is required'),
     food_item_estimate_days :Yup.string().required('Estimate Days are required'),
     image : Yup.mixed().required('Image is required'),
+    variations : Yup.array().of(
+      Yup.object().shape({
+        name : Yup.string().required("Name is required"),
+        price : Yup.string().required("Price is required")
+      })
+    ),
+    addons : Yup.array().of(
+      Yup.object().shape({
+        name : Yup.string().required("Name is required"),
+        price : Yup.string().required("Price is required")
+      })
+    )
   });
 
   const formik = useFormik({
@@ -147,6 +107,18 @@ export default function Create(){
       food_item_type  : '',
       food_item_estimate_days : 0,
       restaurant_id : '',
+      variations : [
+        {
+          name : "",
+          price : ""
+        }
+      ],
+      addons : [
+        {
+          name : "",
+          price : ""
+        }
+      ]
     },
 
     validationSchema: MenuItemSchema,
@@ -163,17 +135,17 @@ export default function Create(){
       form.append("food_item_estimate_days", values.food_item_estimate_days);
       form.append("restaurant_id", id);
     
-      if (variationFields?.length) {
-        variationFields.forEach((item, index) => {
-          form.append(`food_variations[${index}][name]`, item?.name);
-          form.append(`food_variations[${index}][price]`, item?.price);
+      if(values?.variations.length) {
+          values?.variations.forEach((item, index) => {
+            form.append(`food_variations[${index}][name]`, item?.name);
+            form.append(`food_variations[${index}][price]`, item?.price);
         });
       }
 
-      if (addonFields?.length) {
-        addonFields.forEach((item, index) => {
-          form.append(`food_addons[${index}][name]`, item?.name);
-          form.append(`food_addons[${index}][price]`, item?.price);
+      if (values?.addons.length) {
+          values?.addons.forEach((item, index) => {
+            form.append(`food_addons[${index}][name]`, item?.name);
+            form.append(`food_addons[${index}][price]`, item?.price);
         });
       }
 
@@ -330,99 +302,173 @@ export default function Create(){
                               /> 
                             : null
                           }
-                          <h4 style={{ textAlign : "center" }} > Variations </h4>
-                          {variationFields.map((input, index) => {
-                            return (
-                                <div key={index}>
+                        <h4 style={{ textAlign : "center" }} > Variations </h4>
+                        <FieldArray name="variations">
+                          {({ push, remove }) => (
+                            <div>
+                              {values.variations.map((p, index) => {
+                                const name = `variations[${index}].name`;
+                                const touchedName = getIn(touched, name);
+                                const errorName = getIn(errors, name);
+                                const price = `variations[${index}].price`;
+                                const touchedPrice = getIn(touched, price);
+                                const errorPrice = getIn(errors, price);
+
+                                return (
+                                  <div key={p.id}>
+
                                   <Stack
                                     direction="row"
                                     justifyContent="space-between"
                                     alignItems="flex-start"
                                     spacing={2}
+                                    marginBottom = {2}
                                   >
-                                      <TextField
-                                        name='name'
-                                        placeholder='Name'
-                                        value={input.name}
-                                        onChange={event => handleVariationFormChange(index, event)}
-                                      />
-                                      <TextField
-                                        name='price'
-                                        type= "number"
-                                        placeholder='Price'
-                                        value={input.price}
-                                        onChange={event => handleVariationFormChange(index, event)}
-                                      />
-                                  </Stack>
-                                </div>
-                              )
-                          })}
-                        <Stack
-                          direction="row"
-                          justifyContent="space-between"
-                          alignItems="flex-start"
-                          margin={0}
-                        >
-                          <IconButton onClick={addVariationFields} aria-label="delete" size="large">
-                            <AddCircleIcon/>
-                          </IconButton>
-                          {variationFields.length ===0 ? 
-                            <IconButton disabled  onClick={(index) => removeVariationFields(index)} aria-label="delete" size="large">
-                              <DeleteIcon />
-                            </IconButton>
-                          : 
-                            <IconButton  onClick={(index) => removeVariationFields(index)} aria-label="delete" size="large">
-                              <DeleteIcon />
-                            </IconButton>
-                          }
-                        </Stack>
+                                    <TextField
+                                     
+                                      variant="outlined"
+                                      label="Name"
+                                      name={name}
+                                      value={p.name}
+                                   
+                                      helperText={
+                                        touchedName && errorName
+                                          ? errorName
+                                          : ""
+                                      }
+                                      error={Boolean(touchedName && errorName)}
+                                      {...getFieldProps(name)}
+                                    />
+                                    <TextField
+                                      variant="outlined"
+                                      label="Price"
+                                      name={price}
+                                      value={p.price}
+                              
+                                      helperText={
+                                        touchedPrice && errorPrice
+                                          ? errorPrice
+                                          : ""
+                                      }
+                                      error={Boolean(touchedPrice && errorPrice)}
+                                      {...getFieldProps(price)}
+                                    />
+                                    <IconButton
+                                      sx={{
+                                        padding : 2,
+                                      }}
+                                      style = {{marginLeft : "-8px"}}
+                                      type="button"
+                                      color="error"
+                                      variant="outlined"
+                                      onClick={() => remove(index)}
+                                    >
+                                      
+                                      <ClearIcon />
+                                    </IconButton>
+
+                                    </Stack>
+                                  </div>
+                                );
+                              })}
+                              <IconButton
+                                sx={{
+                                  marginTop : 1                                  
+                                }}
+                                type="button"
+                                variant="outlined"
+                                onClick={() =>
+                                  push({ name: "", price: "" })
+                                }
+                              >
+                                  <AddCircleIcon/>
+                              </IconButton>
+                            </div>
+                          )}
+                        </FieldArray>
                         
-                          <h4 style={{ textAlign : "center" }} > Addons </h4>
-                          {addonFields.map((input, index) => {
-                            return (
-                                <div key={index}>
-                                  <Stack
-                                    direction="row"
-                                    justifyContent="space-between"
-                                    alignItems="flex-start"
-                                    spacing={2}
-                                  >
+                        <h4 style={{ textAlign : "center" }} > Addons </h4>
+                        <FieldArray name="addons">
+                          {({ push, remove }) => (
+                            <div>
+                              {values.addons.map((p, index) => {
+                                const name = `addons[${index}].name`;
+                                const touchedName = getIn(touched, name);
+                                const errorName = getIn(errors, name);
+                                const price = `addons[${index}].price`;
+                                const touchedPrice = getIn(touched, price);
+                                const errorPrice = getIn(errors, price);
+
+                                return (
+                                  <div key={p.id}>
+                                    <Stack
+                                      direction="row"
+                                      justifyContent="space-between"
+                                      alignItems="flex-start"
+                                      spacing={2}
+                                      marginBottom={2}
+                                    >
                                       <TextField
-                                        name='name'
-                                        placeholder='Name'
-                                        value={input.name}
-                                        onChange={event => handleAddonFormChange(index, event)}
+                                        variant="outlined"
+                                        label="Name"
+                                        name={name}
+                                        value={p.name}
+                                        helperText={
+                                          touchedName && errorName
+                                            ? errorName
+                                            : ""
+                                        }
+                                        error={Boolean(touchedName && errorName)}
+                                        {...getFieldProps(name)}
                                       />
-                                      <TextField
-                                        name='price'
-                                        type= "number"
-                                        placeholder='Price'
-                                        value={input.price}
-                                        onChange={event => handleAddonFormChange(index, event)}
+                                      <TextField                                  
+                                        variant="outlined"
+                                        label="Price"
+                                        name={price}
+                                        value={p.price}
+                                        helperText={
+                                          touchedPrice && errorPrice
+                                            ? errorPrice
+                                            : ""
+                                        }
+                                        error={Boolean(touchedPrice && errorPrice)}
+                                        {...getFieldProps(price)}
                                       />
-                                  </Stack>
-                                </div>
-                              )
-                          })}
-                        <Stack
-                          direction="row"
-                          justifyContent="space-between"
-                          alignItems="flex-start"
-                          margin={0}
-                        >
-                          <IconButton onClick={addAddonFields} aria-label="delete" size="large">
-                            <AddCircleIcon/>
-                          </IconButton>
-                          {addonFields.length ===0 ? 
-                            <IconButton disabled  onClick={(index) => removeAddonFields(index)} aria-label="delete" size="large">
-                              <DeleteIcon />
-                            </IconButton>
-                          : 
-                            <IconButton  onClick={(index) => removeAddonFields(index)} aria-label="delete" size="large">
-                              <DeleteIcon />
-                            </IconButton>
-                          }
-                        </Stack>
+                                      <IconButton
+                                        sx={{
+                                          padding : 2,
+                                        }}
+                                        style = {{marginLeft : "-8px"}}
+                                        type="button"
+                                        color="error"
+                                        variant="outlined"
+                                        onClick={() => remove(index)}
+                                      >
+                                        <ClearIcon />
+                                      </IconButton>
+
+                                    </Stack>  
+                                  </div>
+                                );
+                              })}
+                              <IconButton
+                                sx={{
+                                  marginTop : 1                                  
+                                }}
+                                margin="normal"
+                                type="button"
+                                variant="outlined"
+                                onClick={() =>
+                                  push({ name: "", price: "" })
+                                }
+                              >
+                                <AddCircleIcon/>
+                              </IconButton>
+                            
+                            </div>
+                          )}
+                        </FieldArray>
+
                         <img 
                            src= {values.image?URL.createObjectURL(values.image): null}
                            style = {{maxHeight : "300px"}}
