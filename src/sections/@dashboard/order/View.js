@@ -42,23 +42,62 @@ function View() {
                 <Grid container spacing={2}>
                     <Grid item xs={8}>
                      {order?.cart_items.length > 0? <> 
-                        {order.cart_items.map(data => <> 
+                        {order.cart_items.map((data, i = 0 )=> <> 
                             <Card style={{ marginTop : "10px" }}   > 
-                            <Grid container spacing={2}>
-                                <Grid item 
-                                    paddingLeft={10}
+
+                                <Stack direction="row" spacing={1}>
+                                    
+                                    <Box 
+                                        sx={{ textAlign: 'center' }}
+                                        style = {{ minWidth : "100px", background : "#eee" }}
+                                    >
+                                        <h1 style={{fontSize : "50px" }}> 
+                                            {i+1}
+                                        </h1> 
+                                    </Box>
+
+
+                                    <Box>
+                                        {data?.image?  
+                                        <img
+                                            style={{maxHeight : "130px", width : "200px"}}
+                                            src= {data?.image}
+                                        />
+
+                                        : <div style={{minHeight : "150px", minWidth : "200px"}}>
+                                            <Typography padding={5} variant="body2" textAlign="center" color="text.secondary"> No Image </Typography>
+                                          </div>    
+                                        }
+                                    
+                                    </Box>
+                                    <Box>
+                                        <CardContent textAlign = "right" >
+                                            <Typography gutterBottom variant="h6" component="div">
+                                                {data?.store_menu_item_name}
+                                            </Typography>
+                                            <Typography variant="body2" color="text.secondary">
+                                                <h4> Quantity  &ensp; : &ensp; {data?.quantity}</h4>
+                                                <h4> Price &ensp;&ensp;&ensp; &ensp; : &ensp; RM {data?.total_price} </h4>
+                                            </Typography>
+                                        </CardContent>
+                                    </Box>
+                                </Stack>
+                                {/* <Grid container spacing={2}> */}
+
+                                {/* <Grid item 
                                     style = {{background : "#eee"}} 
                                 >
                                     <Box 
                                         sx={{ textAlign: 'center' }}
                                         style = {{ width : "100px" }}
                                     >
-                                        <h1 style={{fontSize : "50px" }}> {orderedData?.id} </h1> 
+                                        <h1 style={{fontSize : "50px" }}> 
+                                            {i+1}
+                                        </h1> 
                                     </Box>
+                                </Grid> */}
 
-                                </Grid>
-
-                                <Grid item sx={{ margin : 2 }} >
+                                {/* <Grid item sx={{ margin : 2 }} >
                                     {data?.image?  
                                     <CardMedia
                                         component="img"
@@ -68,15 +107,15 @@ function View() {
                                         image= {data?.image}
                                     />
 
-                                    :"Image Missing"}
-                                </Grid>
+                                    : <Typography paddingTop={5} variant="body2" textAlign="center" color="text.secondary"> No Image </Typography>}
+                                </Grid> */}
 
             
-                                <Grid item 
-                                    style={{ paddingLeft : "100px" }}
+                                {/* <Grid item 
+                                    // style={{ paddingLeft : "100px" }}
                                 > 
                                     <CardContent textAlign = "right" >
-                                        <Typography gutterBottom variant="h5" component="div">
+                                        <Typography gutterBottom variant="h6" component="div">
                                             {data?.store_menu_item_name}
                                         </Typography>
                                         <Typography variant="body2" color="text.secondary">
@@ -84,13 +123,13 @@ function View() {
                                             <h4> Price &ensp;&ensp;&ensp; &ensp; : &ensp; RM {data?.total_price} </h4>
                                         </Typography>
                                     </CardContent>
-                                </Grid>
-                            </Grid>
+                                </Grid> */}
+                            {/* </Grid> */}
                         </Card>
 
                         </>)}
 
-                     </>  : "No order Found"}   
+                     </>  : <Typography paddingTop={8} variant="body2" textAlign="center" color="text.secondary"> No order Found </Typography>}   
                       
                     </Grid>
                     <Grid item xs={4}>
@@ -177,8 +216,6 @@ function View() {
                                             <TableCell className={classes.tableCell} align="left"> Contact No </TableCell>
                                             <TableCell className={classes.tableCell} align="left"> {store?.contact_no} </TableCell>
                                         </TableRow>
-
-                                        
                                     </TableBody>
                                 </Table>
                                 <Typography sx={{ mb: 1.5 }} color="text.secondary">

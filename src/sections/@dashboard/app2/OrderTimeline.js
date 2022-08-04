@@ -18,9 +18,6 @@ import {FetchOrderTimeLine} from '../../../redux/report/fetchOrderTimeline/actio
 
 // ----------------------------------------------------------------------
 
-
-// ----------------------------------------------------------------------
-
 OrderItem.propTypes = {
   item: PropTypes.object,
   isLast: PropTypes.bool
@@ -36,8 +33,11 @@ function OrderItem({ item, isLast }) {
             bgcolor:
               (type === 'order1' && 'primary.main') ||
               (type === 'order2' && 'success.main') ||
-              (type === 'order3' && 'info.main') ||
-              (type === 'order4' && 'warning.main') ||
+              (type === 'order3' && 'warning.main') ||
+              (type === 'order4' && 'green') ||
+              (type === 'order5' && 'error.secondary') ||
+              (type === 'order6' && 'error.main') ||
+              (type === 'order7' && 'red') ||
               'error.main'
           }}
         />
@@ -70,38 +70,38 @@ export default function AppOrderTimeline() {
       order : OrderTimeLineData[0]?.total ,
       type: 'order1'
     },
-
     {
-      title: 'Total Cancelled Order',
-      order : OrderTimeLineData[1]?.total,
+      title: 'Total Ongoing Order',
+      order : OrderTimeLineData[4]?.total,
       type: 'order2'
+    },
+    {
+      title: 'Total Pending Order',
+      order : OrderTimeLineData[5]?.total,
+      type: 'order3'
     },
     {
       title: 'Total Completed Order',
       order : OrderTimeLineData[2]?.total,
-      type: 'order3'
+      type: 'order4'
     },
+    {
+      title: 'Total Cancelled Order',
+      order : OrderTimeLineData[1]?.total,
+      type: 'order5'
+    },
+
     {
       title: 'Total Expired Order',
       order : OrderTimeLineData[3]?.total,
-      type: 'order4'
+      type: 'order6'
     },
-
-    {
-      title: 'Total Pending Order',
-      order : OrderTimeLineData[4]?.total,
-      type: 'order4'
-    },
-
     {
       title: 'Total Rejected Order',
-      order : OrderTimeLineData[5]?.total,
-      type: 'order5'
+      order : OrderTimeLineData[6]?.total,
+      type: 'order7'
     }
   ];
-
-
-
 
   return (
     <Card

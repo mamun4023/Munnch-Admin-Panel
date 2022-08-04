@@ -138,29 +138,32 @@ function LowerCase(s){
   return makeLowerCase.charAt(0).toUpperCase() + makeLowerCase.slice(1)
 }
 
-function RiderStatus(data, rider){
-   if(data === "PENDING")
-     return  "--"
-   if(data === "ASSIGNING_DRIVER")
-    return "Assiging Rider"
+function RiderStatus(data, rider, foodType){
+  //  if(data === "PENDING")
+  //    return  "--"
+    if(data === "ASSIGNING_DRIVER" && foodType === "Food Item")
+    return "Assigning Rider"
    
-  if(data === "CANCELED")
-    return "--"
+  // else if(data === "CANCELED")
+  //   return "--"
   
-  if(data === "EXPIRED")
-    return "--"
+  // else if(data === "EXPIRED")
+  //   return "--"
 
-  if(data === "REJECTED")
-    return "--"
+  // else if(data === "REJECTED")
+  //   return "--"
 
-  if(data === "ON_GOING")
+  else if(data === "ON_GOING" && foodType === "Food Item")
     return rider
 
-  if(data === "PICKED_UP")
+  else if(data === "PICKED_UP" && foodType === "Food Item")
     return rider
   
-  if(data === "COMPLETED")
+  else if(data === "COMPLETED" && foodType === "Food Item")
     return "Delivered Rider"
+  else
+    return "--"
+  
 }
 
 export default function Order() {
@@ -288,7 +291,7 @@ export default function Order() {
                           <TableCell className= {classes.tableCell} align="left">{id}</TableCell>
                           <TableCell className= {classes.tableCell}  align="left">{CapitalizeFirstLetter(customer?.name)}</TableCell>
                           <TableCell className= {classes.tableCell}  align="left">{CapitalizeFirstLetter(store?.restaurant_name)}</TableCell>
-                          <TableCell className= {classes.tableCell}  align="left">{RiderStatus(status, rider_data?.rider_details?.name)}</TableCell>
+                          <TableCell className= {classes.tableCell}  align="left">{RiderStatus(status, rider_data?.rider_details?.name, store?.store_menu_items[0]?.food_item_type)}</TableCell>
                           <TableCell className= {classes.tableCell}  align="left">RM {paid_price}</TableCell> 
                           {/* <TableCell align="left">{(order?.cart_items?.food_type)?order?.cart_items?.food_type : "--"}</TableCell>  */}
                           <TableCell className= {classes.tableCell}  align="left">{store?.store_menu_items[0]?.food_item_type}</TableCell> 
