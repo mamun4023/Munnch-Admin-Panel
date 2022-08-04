@@ -32,8 +32,6 @@ function View() {
 
     const orderedData = useSelector(state => state.SingleOrder.data)
     
-    console.log("Ordered data", orderedData)
-    
     const {order, address, customer, order_remarks, store, created_at, updated_at} = orderedData;
     const classes = useStyles();
     return(
@@ -43,7 +41,6 @@ function View() {
                 </Typography>
                 <Grid container spacing={2}>
                     <Grid item xs={8}>
-
                      {order?.cart_items.length > 0? <> 
                         {order.cart_items.map(data => <> 
                             <Card style={{ marginTop : "10px" }}   > 
@@ -62,6 +59,7 @@ function View() {
                                 </Grid>
 
                                 <Grid item sx={{ margin : 2 }} >
+                                    {data?.image?  
                                     <CardMedia
                                         component="img"
                                         alt="green iguana"
@@ -69,6 +67,8 @@ function View() {
                                         style={{ width : "150px", height : "100px" }}
                                         image= {data?.image}
                                     />
+
+                                    :"Image Missing"}
                                 </Grid>
 
             
@@ -105,17 +105,14 @@ function View() {
                                             <TableCell className={classes.tableCell} align="left">Total Price</TableCell>
                                             <TableCell className={classes.tableCell} align="left"> RM {order?.bill_details.item_total} </TableCell>
                                         </TableRow>
-
                                         <TableRow className={classes.tableRow}>
                                             <TableCell className={classes.tableCell}  align="left">Delivery Fee</TableCell>
                                             <TableCell className={classes.tableCell} align="left">  RM {order?.bill_details.delivery_fee} </TableCell>
                                         </TableRow>
-
                                         <TableRow className={classes.tableRow}>
                                             <TableCell className={classes.tableCell}  align="left">Discount </TableCell>
                                             <TableCell className={classes.tableCell} align="left">  RM {order?.bill_details.coupon_discount} </TableCell>
                                         </TableRow>
-
                                         <TableRow className={classes.tableRow}>
                                             <TableCell className={classes.tableCell}  align="left">Total Payment </TableCell>
                                             <TableCell className={classes.tableCell} align="left">  RM {order?.bill_details.to_pay} </TableCell>

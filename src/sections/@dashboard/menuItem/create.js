@@ -3,7 +3,6 @@ import { useState, useEffect } from 'react';
 import { Link as RouterLink, useNavigate, useParams } from 'react-router-dom';
 import { useFormik, Form, FormikProvider, getIn, FieldArray } from 'formik';
 import { toast } from 'material-react-toastify';
-import DeleteIcon from  '@mui/icons-material/Delete'
 import AddCircleIcon from  '@mui/icons-material/AddCircle';
 import ClearIcon from '@mui/icons-material/Clear';
 // material
@@ -15,7 +14,6 @@ import {
   Typography,
   Autocomplete,
   MenuItem,
-  Button
 } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 // component
@@ -66,9 +64,6 @@ export default function Create(){
   useEffect(()=>{
     LoadListData(id);
   },[id])
-
-
-
 
   const MenuItemSchema = Yup.object().shape({
     name: Yup.string().required('Name is required'),
@@ -165,22 +160,19 @@ export default function Create(){
             toast.error(errors.category_id[0])
           }
 
-          // addon message popup
-          if(errors["food_addons.0.name"]? errors["food_addons.0.name"][0] : false){
-            toast.error(errors["food_addons.0.name"][0])
+          // Handled addon error & show popup message
+          for(let i = 0; i<values?.addons.length; i++){
+            if(errors?.[`food_addons.${i}.name`]){
+              toast.error(`Addon ${i+1} has duplicate value`);
+            }
           }
-
-          if(errors["food_addons.0.price"]? errors["food_addons.0.price"][0] : false){
-            toast.error(errors["food_addons.0.price"][0])
+            // Handled Variation error & show popup message
+          for(let i = 0; i<values?.variations.length; i++){
+            if(errors?.[`food_variations.${i}.name`]){
+              toast.error(`Variation ${i+1} has duplicate value`);
+            }
           }
-
-          if(errors["food_addons.1.name"]? errors["food_addons.1.name"][1] : false){
-            toast.error(errors["food_addons.1.name"][1])
-          }
-
-          if(errors["food_addons.1.price"]? errors["food_addons.1.price"][1] : false){
-            toast.error(errors["food_addons.1.price"][1])
-          }
+         
         })
     }
   });
@@ -317,55 +309,55 @@ export default function Create(){
                                 return (
                                   <div key={p.id}>
 
-                                  <Stack
-                                    direction="row"
-                                    justifyContent="space-between"
-                                    alignItems="flex-start"
-                                    spacing={2}
-                                    marginBottom = {2}
-                                  >
-                                    <TextField
-                                     
-                                      variant="outlined"
-                                      label="Name"
-                                      name={name}
-                                      value={p.name}
-                                   
-                                      helperText={
-                                        touchedName && errorName
-                                          ? errorName
-                                          : ""
-                                      }
-                                      error={Boolean(touchedName && errorName)}
-                                      {...getFieldProps(name)}
-                                    />
-                                    <TextField
-                                      variant="outlined"
-                                      label="Price"
-                                      name={price}
-                                      value={p.price}
-                              
-                                      helperText={
-                                        touchedPrice && errorPrice
-                                          ? errorPrice
-                                          : ""
-                                      }
-                                      error={Boolean(touchedPrice && errorPrice)}
-                                      {...getFieldProps(price)}
-                                    />
-                                    <IconButton
-                                      sx={{
-                                        padding : 2,
-                                      }}
-                                      style = {{marginLeft : "-8px"}}
-                                      type="button"
-                                      color="error"
-                                      variant="outlined"
-                                      onClick={() => remove(index)}
+                                    <Stack
+                                      direction="row"
+                                      justifyContent="space-between"
+                                      alignItems="flex-start"
+                                      spacing={2}
+                                      marginBottom = {2}
                                     >
+                                        <TextField
+                                          type= "text"
+                                          variant="outlined"
+                                          label="Name"
+                                          name={name}
+                                          value={p.name}
+                                          helperText={
+                                            touchedName && errorName
+                                              ? errorName
+                                              : ""
+                                          }
+                                          error={Boolean(touchedName && errorName)}
+                                          {...getFieldProps(name)}
+                                        />
+                                        <TextField
+                                          type = "number"
+                                          variant="outlined"
+                                          label="Price"
+                                          name={price}
+                                          value={p.price}
+                                  
+                                          helperText={
+                                            touchedPrice && errorPrice
+                                              ? errorPrice
+                                              : ""
+                                          }
+                                          error={Boolean(touchedPrice && errorPrice)}
+                                          {...getFieldProps(price)}
+                                        />
+                                        <IconButton
+                                          sx={{
+                                            padding : 2,
+                                          }}
+                                          style = {{marginLeft : "-8px"}}
+                                          type="button"
+                                          color="error"
+                                          variant="outlined"
+                                          onClick={() => remove(index)}
+                                        >
                                       
-                                      <ClearIcon />
-                                    </IconButton>
+                                          <ClearIcon />
+                                        </IconButton>
 
                                     </Stack>
                                   </div>
@@ -373,7 +365,7 @@ export default function Create(){
                               })}
                               <IconButton
                                 sx={{
-                                  marginTop : 1                                  
+                                  marginTop : -2                                  
                                 }}
                                 type="button"
                                 variant="outlined"
@@ -401,59 +393,60 @@ export default function Create(){
 
                                 return (
                                   <div key={p.id}>
-                                    <Stack
-                                      direction="row"
-                                      justifyContent="space-between"
-                                      alignItems="flex-start"
-                                      spacing={2}
-                                      marginBottom={2}
-                                    >
-                                      <TextField
-                                        variant="outlined"
-                                        label="Name"
-                                        name={name}
-                                        value={p.name}
-                                        helperText={
-                                          touchedName && errorName
-                                            ? errorName
-                                            : ""
-                                        }
-                                        error={Boolean(touchedName && errorName)}
-                                        {...getFieldProps(name)}
-                                      />
-                                      <TextField                                  
-                                        variant="outlined"
-                                        label="Price"
-                                        name={price}
-                                        value={p.price}
-                                        helperText={
-                                          touchedPrice && errorPrice
-                                            ? errorPrice
-                                            : ""
-                                        }
-                                        error={Boolean(touchedPrice && errorPrice)}
-                                        {...getFieldProps(price)}
-                                      />
-                                      <IconButton
-                                        sx={{
-                                          padding : 2,
-                                        }}
-                                        style = {{marginLeft : "-8px"}}
-                                        type="button"
-                                        color="error"
-                                        variant="outlined"
-                                        onClick={() => remove(index)}
+                                      <Stack
+                                        direction="row"
+                                        justifyContent="space-between"
+                                        alignItems="flex-start"
+                                        spacing={2}
+                                        marginBottom={2}
                                       >
-                                        <ClearIcon />
-                                      </IconButton>
+                                          <TextField
+                                            variant="outlined"
+                                            label="Name"
+                                            name={name}
+                                            value={p.name}
+                                            helperText={
+                                              touchedName && errorName
+                                                ? errorName
+                                                : ""
+                                            }
+                                            error={Boolean(touchedName && errorName)}
+                                            {...getFieldProps(name)}
+                                          />
+                                          <TextField
+                                            type= "number"                                  
+                                            variant="outlined"
+                                            label="Price"
+                                            name={price}
+                                            value={p.price}
+                                            helperText={
+                                              touchedPrice && errorPrice
+                                                ? errorPrice
+                                                : ""
+                                            }
+                                            error={Boolean(touchedPrice && errorPrice)}
+                                            {...getFieldProps(price)}
+                                          />
+                                          <IconButton
+                                            sx={{
+                                              padding : 2,
+                                            }}
+                                            style = {{marginLeft : "-8px"}}
+                                            type="button"
+                                            color="error"
+                                            variant="outlined"
+                                            onClick={() => remove(index)}
+                                          >
+                                            <ClearIcon />
+                                          </IconButton>
 
-                                    </Stack>  
-                                  </div>
+                                      </Stack>  
+                                    </div>
                                 );
                               })}
                               <IconButton
                                 sx={{
-                                  marginTop : 1                                  
+                                  marginTop : -2                                  
                                 }}
                                 margin="normal"
                                 type="button"
@@ -464,7 +457,6 @@ export default function Create(){
                               >
                                 <AddCircleIcon/>
                               </IconButton>
-                            
                             </div>
                           )}
                         </FieldArray>
