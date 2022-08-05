@@ -5,9 +5,7 @@ import {useDispatch, useSelector} from 'react-redux';
 // material
 import { useTheme, styled } from '@mui/material/styles';
 import { Card, CardHeader } from '@mui/material';
-// utils
 import { fNumber } from '../../../utils/formatNumber';
-//
 import { BaseOptionChart } from '../../../components/charts';
 import {FetchTopCuisine} from '../../../redux/report/fetchTopCuisine/action';
 
@@ -35,7 +33,6 @@ const ChartWrapperStyle = styled('div')(({ theme }) => ({
 // ----------------------------------------------------------------------
 
 export default function TopCuisines() {
-
   const dispatch = useDispatch();
 
   useEffect(()=>{

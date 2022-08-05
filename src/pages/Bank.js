@@ -40,7 +40,6 @@ const useStyles = makeStyles({
   }
 });
 
-
 const TABLE_HEAD = [
   { 
     label: 'ID',
@@ -140,7 +139,6 @@ export default function Bank() {
   }, [dispatch, bankStatus, filterName, page, rowsPerPage, order])
 
   const BankList = useSelector(state => state.FetchBankList.data)
-  // console.log("Bank List", BankList);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -199,12 +197,12 @@ export default function Bank() {
                 />
               <div style={{ marginTop : "25px" }} >
                 <Button
-                    variant= {bankStatus === "1"? "contained": null}
+                    variant= {bankStatus === "1"? "contained": "outlined"}
                     onClick = {ActiveStatusHandler}
                     disableElevation
                 >Active</Button>
                 <Button
-                   variant= {bankStatus === "0"? "contained": null}
+                   variant= {bankStatus === "0"? "contained": "outlined"}
                    onClick = {InactiveStatusHandler}
                    disableElevation
                 >Inactive</Button> 

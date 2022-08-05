@@ -11,8 +11,6 @@ import {
   TimelineSeparator,
   TimelineDot
 } from '@mui/lab';
-// utils
-import { fDateTime } from '../../../utils/formatTime';
 import { useEffect } from 'react';
 import {FetchOrderTimeLine} from '../../../redux/report/fetchOrderTimeline/action';
 
@@ -55,7 +53,6 @@ function OrderItem({ item, isLast }) {
 }
 
 export default function AppOrderTimeline() {
-
   const dispatch = useDispatch();
 
   useEffect(()=>{

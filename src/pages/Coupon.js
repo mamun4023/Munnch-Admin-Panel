@@ -272,12 +272,12 @@ export default function Coupon() {
               />
               <div style={{ marginTop : "25px" }} >
                 <Button
-                    variant= {couponStatus === "1"? "contained": null}
+                    variant= {couponStatus === "1"? "contained": "outlined"}
                     onClick = {ActiveStatusHandler}
                     disableElevation
                 >Active</Button>
                 <Button
-                   variant= {couponStatus === "0"? "contained": null}
+                   variant= {couponStatus === "0"? "contained": "outlined"}
                    onClick = {InactiveStatusHandler}
                    disableElevation
                 >Inactive</Button> 

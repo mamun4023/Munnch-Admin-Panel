@@ -82,54 +82,10 @@ function View() {
                                         </CardContent>
                                     </Box>
                                 </Stack>
-                                {/* <Grid container spacing={2}> */}
 
-                                {/* <Grid item 
-                                    style = {{background : "#eee"}} 
-                                >
-                                    <Box 
-                                        sx={{ textAlign: 'center' }}
-                                        style = {{ width : "100px" }}
-                                    >
-                                        <h1 style={{fontSize : "50px" }}> 
-                                            {i+1}
-                                        </h1> 
-                                    </Box>
-                                </Grid> */}
-
-                                {/* <Grid item sx={{ margin : 2 }} >
-                                    {data?.image?  
-                                    <CardMedia
-                                        component="img"
-                                        alt="green iguana"
-                                        // height="140"
-                                        style={{ width : "150px", height : "100px" }}
-                                        image= {data?.image}
-                                    />
-
-                                    : <Typography paddingTop={5} variant="body2" textAlign="center" color="text.secondary"> No Image </Typography>}
-                                </Grid> */}
-
-            
-                                {/* <Grid item 
-                                    // style={{ paddingLeft : "100px" }}
-                                > 
-                                    <CardContent textAlign = "right" >
-                                        <Typography gutterBottom variant="h6" component="div">
-                                            {data?.store_menu_item_name}
-                                        </Typography>
-                                        <Typography variant="body2" color="text.secondary">
-                                            <h4> Quantity  &ensp; : &ensp; {data?.quantity}</h4>
-                                            <h4> Price &ensp;&ensp;&ensp; &ensp; : &ensp; RM {data?.total_price} </h4>
-                                        </Typography>
-                                    </CardContent>
-                                </Grid> */}
-                            {/* </Grid> */}
-                        </Card>
-
+                            </Card>
                         </>)}
-
-                     </>  : <Typography paddingTop={8} variant="body2" textAlign="center" color="text.secondary"> No order Found </Typography>}   
+                    </>  : <Typography paddingTop={8} variant="body2" textAlign="center" color="text.secondary"> No order Found </Typography>}   
                       
                     </Grid>
                     <Grid item xs={4}>
@@ -203,7 +159,6 @@ function View() {
                                             <TableCell className={classes.tableCell}  align="left"> Update At </TableCell>
                                             <TableCell className={classes.tableCell} align="left">  <Moment format="DD-MM-YYYY hh:mm a" >{updated_at}</Moment>  </TableCell>
                                         </TableRow>
-
                                         <TableRow className={classes.tableRow}>
                                             <TableCell className={classes.tableCell}  align="left"> Create At </TableCell>
                                             <TableCell className={classes.tableCell} align="left"> <Moment format="DD-MM-YYYY hh:mm a" >{created_at}</Moment> </TableCell>
@@ -233,7 +188,7 @@ function View() {
                                    <Box 
                                         sx={{ py: 1}}
                                    >
-                                       {order_remarks == null? order_remarks : "empty"}
+                                       {order_remarks !== null? order_remarks : <Typography  variant="body2" textAlign="center" color="text.secondary"> Empty </Typography>}
                                     </Box>
                                 </Typography>
                             </CardContent>

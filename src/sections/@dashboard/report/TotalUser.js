@@ -1,11 +1,11 @@
 // material
 import { alpha, styled } from '@mui/material/styles';
 import { Card, Typography } from '@mui/material';
-import {useSelector} from 'react-redux';
-// utils
-import { fShortenNumber } from '../../../utils/formatNumber';
-//
+import {useDispatch, useSelector} from 'react-redux';
+// component
 import Iconify from '../../../components/Iconify';
+import {FetchTotal} from '../../../redux/report/fetchTotal/action';
+import { useEffect } from 'react';
 
 // ----------------------------------------------------------------------
 
@@ -33,22 +33,23 @@ const IconWrapperStyle = styled('div')(({ theme }) => ({
   )} 100%)`
 }));
 
+export default function TotalUsers() {
+  const dispatch = useDispatch();
 
-// ----------------------------------------------------------------------
-
-
-export default function AppItemOrders() {
+  useEffect(()=>{
+    dispatch(FetchTotal())
+  },[dispatch])
 
   const TotalData = useSelector(state => state.Total.data);
 
   return (
     <RootStyle>
       <IconWrapperStyle>
-        <Iconify icon="dashicons:food" width={50} height={50} />
+        <Iconify  icon="fa6-solid:users" width={50} height={50} />
       </IconWrapperStyle>
-      <Typography variant="h3">{TotalData?.totalCuisines}</Typography>
-      <Typography variant="subtitle2" sx={{ opacity: 0.72 }}>
-        Total Cuisines
+      <Typography variant="h3">{TotalData?.totalCustomers}</Typography>
+      <Typography sx={{ opacity: 0.72 }}>
+        Total Customers
       </Typography>
     </RootStyle>
   );

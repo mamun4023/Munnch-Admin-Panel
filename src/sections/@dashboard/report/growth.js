@@ -1,9 +1,7 @@
 import { forEach, merge } from 'lodash';
 import ReactApexChart from 'react-apexcharts';
 import {useDispatch, useSelector} from 'react-redux';
-// material
 import { Card, CardHeader, Box, MenuItem, Stack, TextField} from '@mui/material';
-//
 import { BaseOptionChart } from '../../../components/charts';
 import { useEffect, useState } from 'react';
 import {FetchGrowth} from '../../../redux/report/fetchGrowth/action';
@@ -71,7 +69,6 @@ export default function UserGrowth() {
     }
   ]
 
-
   const MerchantYear = [
     {
       "month": "January",
@@ -132,7 +129,6 @@ export default function UserGrowth() {
     })
  })
 
-
  // filter merchant data
  MerchantYear.forEach(data =>{
   GrowthData?.vendors?.forEach(d =>{
@@ -141,7 +137,6 @@ export default function UserGrowth() {
     }
   })
 })
-
 
 // sorting month
   const map = {
@@ -162,12 +157,10 @@ export default function UserGrowth() {
     return map[a.day] - map[b.day];
   });
 
-
   MerchantYear.sort((a, b) => {
     return map[a.day] - map[b.day];
   });
 
- 
  const customerData = [];
  const merchantData = [];
  
@@ -233,7 +226,7 @@ export default function UserGrowth() {
   });
 
   return (
-    <Card>
+      <Card>
           <div style={{ display:"flex", flexWrap:"wrap", justifyContent:"space-between"}}> 
               <CardHeader title=" User Growth" />
                 <Stack
@@ -284,10 +277,9 @@ export default function UserGrowth() {
                   </TextField>
                 </Stack>
               </div>  
-              
-      <Box sx={{ p: 3, pb: 1 }} dir="ltr">
-        <ReactApexChart type="line" series={CHART_DATA} options={chartOptions} height={364} />
-      </Box>
-    </Card>
+              <Box sx={{ p: 3, pb: 1 }} dir="ltr">
+                <ReactApexChart type="line" series={CHART_DATA} options={chartOptions} height={364} />
+              </Box>
+      </Card>
   );
 }

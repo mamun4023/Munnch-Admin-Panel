@@ -139,7 +139,6 @@ export default function Merchant() {
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [merchantStatus, setMerchantStatus] = useState("1")
 
-
   const ActiveStatusHandler = ()=>{
     setMerchantStatus("1");
     setPage(1);
@@ -218,12 +217,12 @@ export default function Merchant() {
                 />
               <div style={{ marginTop : "25px" }} > 
                 <Button
-                    variant= {merchantStatus === "1"? "contained": null}
+                    variant= {merchantStatus === "1"? "contained": "outlined"}
                     onClick = {ActiveStatusHandler}
                     disableElevation
                 >Active</Button>
                 <Button
-                    variant= {merchantStatus === "0"? "contained": null}
+                    variant= {merchantStatus === "0"? "contained": "outlined"}
                     onClick = {InactiveStatusHandler}
                 >Inactive</Button> 
               </div>

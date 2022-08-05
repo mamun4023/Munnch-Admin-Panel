@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link as RouterLink} from 'react-router-dom';
-import {Typography, Box, Button, styled, Grid, Stack} from '@mui/material';
+import {Typography, Button, styled, Grid, Stack} from '@mui/material';
 
 import Page from '../components/Page';
 
@@ -16,11 +16,10 @@ export default function Transaction() {
      <>
       <RootStyle title="Munchh | Transaction"> </RootStyle>
           <Typography  variant="h4" gutterBottom>
-                Transaction Management
+              Transaction Management
           </Typography>
         <Grid
             container
-            // item xs={8} 
             spacing={0}
             direction="column"
             alignItems="center"

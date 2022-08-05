@@ -1,5 +1,5 @@
 // material
-import { Box, Grid, Container, Typography } from '@mui/material';
+import { Grid, Container } from '@mui/material';
 // components
 import Page from '../components/Page';
 import {
@@ -11,8 +11,7 @@ import {
   OrderGrowth,
   Top5Cuisine,
   OrderTimeline,
-  AppTrafficBySite,
-} from '../sections/@dashboard/app2';
+} from '../sections/@dashboard/report';
 
 // ----------------------------------------------------------------------
 
@@ -20,9 +19,6 @@ export default function Report() {
   return (
     <Page title="Munchh | Report ">
       <Container maxWidth="xl">
-        {/* <Box sx={{ pb: 5 }}>
-          <Typography variant="h4">Report</Typography>
-        </Box> */}
         <Grid container spacing={3}>
           <Grid item xs={12} sm={6} md={3}>
             <TotalUser />
@@ -46,21 +42,7 @@ export default function Report() {
             <OrderGrowth />
           </Grid>
           <Grid item xs={12} md={6} lg={4}>
-            {/* <AppCurrentSubject /> */}
             <OrderTimeline />
-          </Grid>
-          <Grid item xs={12} md={6} lg={8}>
-            {/* <AppNewsUpdate /> */}
-            {/* <AppTrafficBySite /> */}
-          </Grid>
-          <Grid item xs={12} md={6} lg={4}>
-            {/* <AppOrderTimeline /> */}
-          </Grid>
-          <Grid item xs={12} md={6} lg={4}>
-            {/* <AppTrafficBySite /> */}
-          </Grid>
-          <Grid item xs={12} md={6} lg={8}>
-            {/* <AppTasks /> */}
           </Grid>
         </Grid>
       </Container>

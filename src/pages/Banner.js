@@ -187,12 +187,12 @@ export default function Banner() {
                 />
               <div style={{ marginTop : "25px" }} >
                 <Button
-                    variant= {bannerStatus === "1"? "contained": null}
+                    variant= {bannerStatus === "1"? "contained": "outlined"}
                     onClick = {ActiveStatusHandler}
                     disableElevation
                 >Active</Button>
                 <Button
-                   variant= {bannerStatus === "0"? "contained": null}
+                   variant= {bannerStatus === "0"? "contained": "outlined"}
                    onClick = {InactiveStatusHandler}
                    disableElevation
                 >Inactive</Button> 

@@ -7,7 +7,6 @@ import {useDispatch, useSelector} from 'react-redux';
 import {FetchUserString} from '../../../../redux/strings/user/fetch/action';
 import {UpdateString} from '../../../../redux/strings/user/update/action';
 
-
 const Modules = {
   toolbar: [
     [{ 'header': [1, 2, false] }, { 'font': [] }],
@@ -49,7 +48,6 @@ export default function MyComponent() {
   },[])
 
   const UpdateHandler = ()=>{
-    
     const data =  {
       "data": [
           {
@@ -66,7 +64,7 @@ export default function MyComponent() {
               "value": policy_value
           }
       ]
-  }
+    }
     
       UpdateString(data)
         .then(res =>{
@@ -88,7 +86,6 @@ export default function MyComponent() {
           <Box
               textAlign= "right"
               margin = {3}
-             
           >
             <Button 
               variant="contained"

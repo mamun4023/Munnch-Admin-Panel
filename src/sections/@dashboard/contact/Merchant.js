@@ -141,7 +141,6 @@ export default function Contact() {
   }, [contactStatus, filterName, page, rowsPerPage, order])
 
   const ContactList = useSelector(state=> state.MerchantContactList.data);
-  // console.log("ContactList Data", ContactList);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -189,12 +188,12 @@ export default function Contact() {
                 />
               <div style={{ marginTop : "25px" }} >
                 <Button
-                    variant= {contactStatus === "1"? "contained": null}
+                    variant= {contactStatus === "1"? "contained": "outlined"}
                     onClick = {ActiveStatusHandler}
                     disableElevation
                 >Active</Button>
                 <Button
-                   variant= {contactStatus === "0"? "contained": null}
+                   variant= {contactStatus === "0"? "contained": "outlined"}
                    onClick = {InactiveStatusHandler}
                    disableElevation
                 >Inactive</Button> 

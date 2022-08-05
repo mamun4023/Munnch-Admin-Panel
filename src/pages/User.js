@@ -187,14 +187,6 @@ export default function User() {
           <Typography variant="h4" gutterBottom>
             User Management
           </Typography>
-          {/* <Button
-            variant='contained'
-            component={RouterLink}
-            to="/dashboard/banner/create"
-            startIcon={<Iconify icon="eva:plus-fill" />}
-          >
-            Create Banner
-          </Button> */}
         </Stack>
         <Card>
           <div style={{ display:"flex", flexWrap:"wrap", justifyContent:"space-between"}}>
@@ -204,12 +196,12 @@ export default function User() {
                 />
               <div style={{ marginTop : "25px" }} >
                 <Button
-                    variant= {userStatus === "1"? "contained": null}
+                    variant= {userStatus === "1"? "contained": "outlined"}
                     onClick = {ActiveStatusHandler}
                     disableElevation
                 >Active</Button>
                 <Button
-                   variant= {userStatus === "0"? "contained": null}
+                   variant= {userStatus === "0"? "contained": "outlined"}
                    onClick = {InactiveStatusHandler}
                    disableElevation
                 >Inactive</Button> 
@@ -254,17 +246,6 @@ export default function User() {
                               />
                             </Tooltip> 
                           </TableCell>
-                        
-                          {/* <TableCell align="right">
-                            <UserMoreMenu 
-                              id = {id}
-                              status = {bannerStatus}
-                              filter = {filterName}
-                              page = {page}
-                              limit = {rowsPerPage}
-                              order = {order} 
-                            />
-                          </TableCell> */}
                         </TableRow>
                       );
                     })}

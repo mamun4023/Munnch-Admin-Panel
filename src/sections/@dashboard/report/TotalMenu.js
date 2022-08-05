@@ -2,8 +2,7 @@
 import { alpha, styled } from '@mui/material/styles';
 import { Card, Typography } from '@mui/material';
 import {useSelector} from 'react-redux';
-
-// component
+import { fShortenNumber } from '../../../utils/formatNumber';
 import Iconify from '../../../components/Iconify';
 
 // ----------------------------------------------------------------------
@@ -34,18 +33,16 @@ const IconWrapperStyle = styled('div')(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
-export default function TotalMerchant() {
-
+export default function AppBugReports() {
   const TotalData = useSelector(state => state.Total.data);
-
   return (
     <RootStyle>
       <IconWrapperStyle>
-        <Iconify icon="fa6-solid:shop" width={50} height={50} />
+        <Iconify icon="bxs:food-menu" width={50} height={50} />
       </IconWrapperStyle>
-      <Typography variant="h3">{TotalData?.totalMerchants}</Typography>
+      <Typography variant="h3">{TotalData?.totalMenuItems}</Typography>
       <Typography variant="subtitle2" sx={{ opacity: 0.72 }}>
-        Total Merchants
+        Total Menu Items
       </Typography>
     </RootStyle>
   );
