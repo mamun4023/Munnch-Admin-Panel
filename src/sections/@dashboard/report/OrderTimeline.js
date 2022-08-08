@@ -87,7 +87,6 @@ export default function AppOrderTimeline() {
       order : OrderTimeLineData[1]?.total,
       type: 'order5'
     },
-
     {
       title: 'Total Expired Order',
       order : OrderTimeLineData[3]?.total,
@@ -107,12 +106,17 @@ export default function AppOrderTimeline() {
           display: 'none'
         }
       }}
+      // style = {{maxHeight : "500px"}}
     >
       <CardHeader title="Order Timeline" />
       <CardContent>
         <Timeline>
           {TIMELINES.map((item, index) => (
-            <OrderItem key={item.title} item={item} isLast={index === TIMELINES.length - 1} />
+            <OrderItem 
+              key={item.title} 
+              item={item} 
+              isLast={index === TIMELINES.length - 1} 
+            />
           ))}
         </Timeline>
       </CardContent>

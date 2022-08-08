@@ -139,31 +139,16 @@ function LowerCase(s){
 }
 
 function RiderStatus(data, rider, foodType){
-  //  if(data === "PENDING")
-  //    return  "--"
-    if(data === "ASSIGNING_DRIVER" && foodType === "Food Item")
+  if(data === "ASSIGNING_DRIVER" && foodType === "Food Item")
     return "Assigning Rider"
-   
-  // else if(data === "CANCELED")
-  //   return "--"
-  
-  // else if(data === "EXPIRED")
-  //   return "--"
-
-  // else if(data === "REJECTED")
-  //   return "--"
-
   else if(data === "ON_GOING" && foodType === "Food Item")
     return rider
-
   else if(data === "PICKED_UP" && foodType === "Food Item")
     return rider
-  
   else if(data === "COMPLETED" && foodType === "Food Item")
     return "Delivered Rider"
   else
     return "--"
-  
 }
 
 export default function Order() {
@@ -291,18 +276,10 @@ export default function Order() {
                           <TableCell className= {classes.tableCell} align="left">{id}</TableCell>
                           <TableCell className= {classes.tableCell}  align="left">{CapitalizeFirstLetter(customer?.name)}</TableCell>
                           <TableCell className= {classes.tableCell}  align="left">{CapitalizeFirstLetter(store?.restaurant_name)}</TableCell>
-                          <TableCell className= {classes.tableCell}  align="left">{RiderStatus(status, rider_data?.rider_details?.name, store?.store_menu_items[0]?.food_item_type)}</TableCell>
+                          <TableCell className= {classes.tableCell}  align="left">{RiderStatus(status, rider_data?.rider_details?.name, order?.is_preorder?"Pre-Order" :"Food Item")}</TableCell>
                           <TableCell className= {classes.tableCell}  align="left">RM {paid_price}</TableCell> 
-                          {/* <TableCell align="left">{(order?.cart_items?.food_type)?order?.cart_items?.food_type : "--"}</TableCell>  */}
-                          <TableCell className= {classes.tableCell}  align="left">{store?.store_menu_items[0]?.food_item_type}</TableCell> 
+                          <TableCell align="left">{order?.is_preorder?"Pre-Order" :"Food Item"}</TableCell>
                           <TableCell className= {classes.tableCell}  align="left">{LowerCase(status)}</TableCell> 
-                          {/* <TableCell className= {classes.tableCell}  align="left">
-                            <Switch 
-                              disabled= {status === "CANCELED"?true:false}
-                              onChange={()=>CanclerHandler(id)}
-                              defaultChecked = {status === "CANCELED"?true:false}
-                            />
-                          </TableCell> */}
                           <TableCell className= {classes.tableCell}  align="left">
                             <Moment format="DD-MM-YYYY HH:mm a" >{created_at}</Moment>
                           </TableCell>   

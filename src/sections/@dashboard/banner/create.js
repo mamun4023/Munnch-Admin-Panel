@@ -196,55 +196,18 @@ export default function Create(){
                             style = {{maxHeight : "300px"}}
                           />
                           
-                              <TextField
-                                fullWidth
-                                InputLabelProps={{
-                                shrink : true                                
-                                }}
-                                id = "ddd"
-                                type="file"
-                                label="Banner Image"
-                                onChange={ev=>{ formik.setFieldValue("image",ev.target.files[0]) }} 
-                                error={Boolean(touched.image && errors.image)}
-                                helperText={touched.image && errors.image}
-                              />
-
-                                                              
-                                {/* <label htmlFor="upload-photo"
-                                error={Boolean(touched.image && errors.image)}
-                                helperText={touched.image && errors.image}
-                                >
-                                  <TextField
-                                    style={{ display: "none" }}
-                                    id="upload-photo"
-                                    name="upload-photo"
-                                    type="file"
-                                    onChange={ev=>{ formik.setFieldValue("image",ev.target.files[0]) }} 
-                                    
-
-                                  />
-                                  <Button
-                                    fullWidth
-                                    color="primary"
-                                    size="large"
-                                    aria-label="add"
-                                    variant="outlined"
-                                    // style = {
-                                    //   Boolean(touched.image && errors.image)?
-                                    //   {"border": "1px solid red"} : null}
-                                    // error={Boolean(touched.image && errors.image)}
-                                    // helperText={touched.image && errors.image}
-                                  
-                                  >
-                                    <AddIcon  />  { " "}  Upload Banner Image 
-                                  </Button>
-
-                                  {/* <Fab color="primary" size="small" component="span" aria-label="add">
-                                    <AddIcon />
-                                  </Fab> 
-                                </label>  */} 
-
-
+                          <TextField
+                            fullWidth
+                            InputLabelProps={{
+                            shrink : true                                
+                            }}
+                            id = "ddd"
+                            type="file"
+                            label="Banner Image"
+                            onChange={ev=>{ formik.setFieldValue("image",ev.target.files[0]) }} 
+                            error={Boolean(touched.image && errors.image)}
+                            helperText={touched.image && errors.image}
+                          />
 
                           <LoadingButton
                               fullWidth

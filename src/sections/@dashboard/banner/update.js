@@ -105,7 +105,6 @@ export default function Update() {
     },
     validationSchema: BannerSchema,
     onSubmit: (values) => {
-
       const data = new FormData();
       data.append('title', values.title);
       data.append('_method', "PUT");
@@ -213,7 +212,6 @@ export default function Update() {
                       {
                         values.type === "2" && Object.keys(singlStore).length > 1 ?  
                         <Autocomplete
-                          // multiple
                           fullWidth
                           limitTags={1}
                           options={FilterNullStore(storeList)}
@@ -234,7 +232,6 @@ export default function Update() {
                       {
                         values.type === "2" && Object.keys(singlStore).length < 1? 
                           <Autocomplete
-                            // multiple
                             fullWidth
                             limitTags={1}
                             options={storeList}
@@ -255,16 +252,6 @@ export default function Update() {
                           src= { image?URL.createObjectURL(image) : singleBanner?.image}
                           style = {{ maxHeight : "300px" }}
                       />
-                                       
-                      {/* {  
-                        values.url && values.type !="2"? 
-                          <img 
-                            src= { isImage(values.url)?values.url : null}
-                            style = {{ maxHeight : "300px" }}
-                          />  
-                        :null
-                      } */}
-
                       <TextField
                           fullWidth
                           type = "file"
