@@ -5,6 +5,7 @@ import { useFormik, Form, FormikProvider, getIn, FieldArray } from 'formik';
 import { toast } from 'material-react-toastify';
 import AddCircleIcon from  '@mui/icons-material/AddCircle';
 import ClearIcon from '@mui/icons-material/Clear';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 // material
 import {
   Grid,
@@ -14,6 +15,8 @@ import {
   Typography,
   Autocomplete,
   MenuItem,
+  Card,
+
 } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 // component
@@ -178,6 +181,11 @@ export default function Create(){
   });
 
   const { errors, touched, values, handleSubmit, getFieldProps } = formik;
+
+  const  RemoveImagePreview = ()=>{
+    formik.setFieldValue("image", null )
+  }
+
 
   return(
         <>
@@ -461,7 +469,60 @@ export default function Create(){
                           )}
                         </FieldArray>
 
-                        <img 
+                        {values.image ? 
+                           <Stack 
+                              direction= "row-reverse"> 
+                                <IconButton
+                                  style={{ marginBottom : "-30px" }}
+                                  color='error'
+                                  variant = "outlined"
+                                  onClick={RemoveImagePreview}
+                                > <ClearIcon/></IconButton>
+                           </Stack>
+
+                          : null}
+                            <img 
+                              src= {values.image?URL.createObjectURL(values.image): null}
+                              style = {{maxHeight : "300px"}}
+                            />
+                          {!values.image ?
+                          
+                            <label htmlFor="upload-photo"> 
+                              <TextField
+                                fullWidth
+                                InputLabelProps={{
+                                shrink : true                                
+                                }}
+                                style = {{
+                                  display : "none"
+                                }}
+                                id = "upload-photo"
+                                type="file"
+                                onChange={ev=>{ formik.setFieldValue("image",ev.target.files[0]) }} 
+                                error={Boolean(touched.image && errors.image)}
+                                helperText={touched.image && errors.image}
+                              />
+                              <Card 
+                                variant="outlined"
+                                sx={{
+                                  padding : 10,
+                                  marginTop : -2,
+                                  backgroundColor :  "#eee",
+                                  textAlign : "center"
+                                }}
+                                helperText = "requied"
+                                style = {Boolean(touched.image && errors.image)?{border : "1px solid red" }: null}
+                              >
+                                  <CloudUploadIcon style={{fontSize : "50px", color : "gray" }}/>
+                                    <Typography style={{color : "gray"}} > Upload Image</Typography>
+                              </Card>
+                              
+                            </label>
+                              : null}
+
+
+
+                        {/* <img 
                            src= {values.image?URL.createObjectURL(values.image): null}
                            style = {{maxHeight : "300px"}}
                         />
@@ -471,7 +532,7 @@ export default function Create(){
                             onChange={ev=>{ formik.setFieldValue("image",ev.target.files[0]) }} 
                             error={Boolean(touched.image && errors.image)}
                             helperText={touched.image && errors.image}
-                        /> 
+                        />  */}
                         <LoadingButton
                             fullWidth
                             size="large"

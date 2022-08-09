@@ -3,13 +3,18 @@ import { useEffect, useState } from 'react';
 import { Link as RouterLink, useNavigate, useParams } from 'react-router-dom';
 import { useFormik, Form, FormikProvider } from 'formik';
 import {useDispatch, useSelector} from 'react-redux';
-import {toast} from 'material-react-toastify'
+import {toast} from 'material-react-toastify';
+import ClearIcon from '@mui/icons-material/Clear';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+// material
 // material
 import {
   Stack,
   TextField,
   Grid,
-  Typography 
+  Typography,
+  Card,
+  IconButton
 } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 // component
@@ -26,6 +31,10 @@ import {UpdateFood} from '../../../redux/food/update/action';
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false)
 
+  const HandlerChange =(e)=>{
+    setImage(e.target.files[0])
+  }
+
   useEffect(()=>{
       dispatch(FetchSingleList(id))
   }, [id])
@@ -40,7 +49,8 @@ import {UpdateFood} from '../../../redux/food/update/action';
   const formik = useFormik({
     enableReinitialize : true,
     initialValues: {
-      food_type_name: FoodData.food_type_name? FoodData.food_type_name : "",
+      food_type_name: FoodData?.food_type_name,
+      image : FoodData?.image
     },
     validationSchema: FoodSchema,
     onSubmit: (values) => {
@@ -69,6 +79,14 @@ import {UpdateFood} from '../../../redux/food/update/action';
 
   const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = formik;
 
+  const  RemoveImagePreview = ()=>{
+    formik.setFieldValue("image", null )
+    
+    if(image){
+      setImage("")
+    }
+
+  }
   return(
         <>
         <Typography variant="h4" gutterBottom>
@@ -90,20 +108,66 @@ import {UpdateFood} from '../../../redux/food/update/action';
                             fullWidth
                             type="text"
                             label="Food Name"
+                            InputLabelProps={{
+                              shrink : true
+                            }}
                             // value={formik.values.food_type_name}
                             {...getFieldProps('food_type_name')}
                             error={Boolean(touched.food_type_name && errors.food_type_name)}
                             helperText={touched.food_type_name && errors.food_type_name}
                         />
+
+                        {values.image  || image? 
+                           <Stack 
+                              direction= "row-reverse"> 
+                                <IconButton
+                                  style={{ marginBottom : "-30px" }}
+                                  color='error'
+                                  variant = "outlined"
+                                  onClick={RemoveImagePreview}
+                                > 
+                                  <ClearIcon/>
+                                </IconButton>
+                           </Stack>
+
+                          : null}
                         <img 
-                            src= {image?URL.createObjectURL(image):FoodData?.image}
-                            style = {{ maxHeight : "300px" }}
+                          src= {image?URL.createObjectURL(image) : values?.image}
+                          style = {{ maxHeight : "300px" }}
                         />
-                        <TextField
+                        {/* <TextField
                             fullWidth
                             type="file"
                             onChange={(e)=> setImage(e.target.files[0])}
-                        />
+                        /> */}
+
+                        {!values.image && !image?
+                          <label htmlFor="upload-photo"> 
+                            <TextField
+                              fullWidth
+                              type = "file"
+                              onChange= {HandlerChange}                            
+                              style = {{
+                                display : "none"
+                              }}
+                              id = "upload-photo"
+                            />
+                            <Card 
+                              variant="outlined"
+                              sx={{
+                                padding : 10,
+                                marginTop : -2,
+                                backgroundColor : "#eee"
+                              }}
+                  
+                              style = {{textAlign : "center"}}
+                            >
+                                <CloudUploadIcon style={{fontSize : "50px", color : "gray" }}/>
+                                  <Typography style={{color : "gray"}} > Upload Image</Typography>
+                            </Card>
+                            
+                          </label>
+                            : null}
                         <LoadingButton
                             fullWidth
                             size="large"

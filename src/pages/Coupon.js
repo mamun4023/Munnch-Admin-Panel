@@ -115,11 +115,6 @@ const TABLE_HEAD = [
     alignRight: false 
   },
   { 
-    label: 'IS EXHAUSTED', 
-    id: 'is_exhausted', 
-    alignRight: false 
-  },
-  { 
     label: 'DESCRIPTION', 
     id: 'description', 
     alignRight: false 
@@ -345,8 +340,7 @@ export default function Coupon() {
                           <TableCell className= {classes.tableCell}  align="left">RM {minimum_spend}</TableCell>
                           <TableCell className= {classes.tableCell}  align="left">RM {maximum_spend}</TableCell>
                           <TableCell className= {classes.tableCell}  align="left">{maximum_usage_limit} Time</TableCell>
-                          <TableCell className= {classes.tableCell}  align="left"> {is_expired? "Yes" : "--"} </TableCell>
-                          <TableCell className= {classes.tableCell}  align="left">{is_exhausted?"Yes": "--"}</TableCell> 
+                          <TableCell className= {classes.tableCell}  align="left"> {is_expired? "Yes" : "No"} </TableCell>
                           <TableCell className= {classes.tableCell}  align="left">{CapitalizeFirstLetter(ReduceDescription(description?description : "--"))}</TableCell> 
                           <TableCell className= {classes.tableCell}  align="left">
                             <Moment format="DD-MM-YYYY hh:mm a" >{updated_at}</Moment>

@@ -4,12 +4,16 @@ import { Link as RouterLink, useNavigate, useParams } from 'react-router-dom';
 import { useFormik, Form, FormikProvider } from 'formik';
 import {useDispatch, useSelector} from  'react-redux';
 import { toast } from 'material-react-toastify';
+import ClearIcon from '@mui/icons-material/Clear';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 // material
 import {
   Stack,
   TextField,
   Typography,
-  Grid
+  Grid,
+  Card,
+  IconButton
 } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 // component
@@ -24,6 +28,10 @@ export default function Update() {
   const [loading, setLoading] = useState(false);
   const [image, setImage] = useState();
 
+  const HandlerChange = (e)=>{
+    setImage(e.target.files[0])
+  }
+
   useEffect(()=>{
     dispatch(FetchSingleList(id))
   },[])
@@ -37,7 +45,8 @@ export default function Update() {
   const formik = useFormik({
     enableReinitialize : true,
     initialValues: {
-      cuisine_name : SingleCuisine.cuisine_name? SingleCuisine.cuisine_name :"",
+      cuisine_name : SingleCuisine?.cuisine_name,
+      image : SingleCuisine?.image
     },
     validationSchema: CuisineSchema,
     onSubmit: (values) => {
@@ -63,6 +72,13 @@ export default function Update() {
 
   const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = formik;
 
+  const  RemoveImagePreview = ()=>{
+    formik.setFieldValue("image", null )
+    if(image){
+      setImage("")
+    }
+  }
+
   return(
         <>
         <Typography variant="h4" gutterBottom>
@@ -84,18 +100,58 @@ export default function Update() {
                             fullWidth
                             type="text"
                             label="Cuisine Name"
+                            InputLabelProps={{
+                              shrink : true
+                            }}
                             {...getFieldProps('cuisine_name')}
                             error={Boolean(touched.cuisine_name && errors.cuisine_name)}
                             helperText={touched.cuisine_name && errors.cuisine_name}
                         />
-                        <img  
-                          src= {image?URL.createObjectURL(image):SingleCuisine.image} 
+                      {values.image  || image? 
+                           <Stack 
+                              direction= "row-reverse"> 
+                                <IconButton
+                                  style={{ marginBottom : "-30px" }}
+                                  color='error'
+                                  variant = "outlined"
+                                  onClick={RemoveImagePreview}
+                                > <ClearIcon/></IconButton>
+                           </Stack>
+
+                          : null}
+                      <img 
+                          src= {image?URL.createObjectURL(image) : values?.image}
                           style = {{ maxHeight : "300px" }}
-                        />
-                        <TextField 
-                          type= "file"
-                          onChange={(e)=> setImage(e.target.files[0])}
-                        />
+                      />
+
+                      {!values.image && !image?
+                          
+                            <label htmlFor="upload-photo"> 
+                              <TextField
+                                fullWidth
+                                type = "file"
+                                onChange= {HandlerChange}                            
+                                style = {{
+                                  display : "none"
+                                }}
+                                id = "upload-photo"
+                              />
+                              <Card 
+                                variant="outlined"
+                                sx={{
+                                  padding : 10,
+                                  marginTop : -2,
+                                  backgroundColor : "#eee"
+                                }}
+                    
+                                style = {{textAlign : "center" }}
+                              >
+                                  <CloudUploadIcon style={{fontSize : "50px", color : "gray" }}/>
+                                    <Typography style={{color : "gray"}} > Upload Image</Typography>
+                              </Card>
+                              
+                            </label>
+                              : null}
                         <LoadingButton
                             fullWidth
                             size="large"

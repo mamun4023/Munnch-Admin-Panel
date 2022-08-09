@@ -4,13 +4,17 @@ import { Link as RouterLink, useNavigate, useParams } from 'react-router-dom';
 import { useFormik, Form, FormikProvider } from 'formik';
 import { toast } from 'material-react-toastify';
 import {useDispatch, useSelector} from 'react-redux';
+import ClearIcon from '@mui/icons-material/Clear';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 // material
 import {
   Stack,
   TextField,
   Grid,
   MenuItem, 
-  Typography 
+  Typography ,
+  Card,
+  IconButton
 } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import {FetchSingleBank} from '../../../redux/bank/fetchSingle/action';
@@ -24,6 +28,10 @@ export default function Update() {
   const [image, setImage] = useState();
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const HandlerChange = (e)=>{
+    setImage(e.target.files[0])
+  }
 
   useEffect(()=>{
     dispatch(FetchSingleBank(id))
@@ -39,8 +47,9 @@ export default function Update() {
   const formik = useFormik({
     enableReinitialize : true,
     initialValues: {
-      name : SingleBank.name?SingleBank.name : '',
-      is_popular : SingleBank.is_popular? "1" : '0',
+      name : SingleBank?.name,
+      is_popular : SingleBank?.is_popular? "1" : '0',
+      image : SingleBank?.image
     },
     validationSchema: BankSchema,
     onSubmit: (values) => {
@@ -69,6 +78,13 @@ export default function Update() {
   });
 
   const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = formik;
+  
+  const  RemoveImagePreview = ()=>{
+    formik.setFieldValue("image", null )
+    if(image){
+      setImage("")
+    }
+  }
 
   return(
         <>
@@ -106,17 +122,53 @@ export default function Update() {
                             <MenuItem value= "1">Yes</MenuItem>
                             <MenuItem value= "0">No</MenuItem>
                         </TextField> 
-                        
-                        <img 
-                          src= { image?(URL.createObjectURL(image)):SingleBank?.image}
-                          style = {{ maxHeight : "300px"}}
-                        />
 
-                        <TextField
-                            fullWidth
-                            type="file"
-                            onChange={(e)=> setImage(e.target.files[0])}
-                        />
+                        {values.image  || image? 
+                           <Stack 
+                              direction= "row-reverse"> 
+                                <IconButton
+                                  style={{ marginBottom : "-30px" }}
+                                  color='error'
+                                  variant = "outlined"
+                                  onClick={RemoveImagePreview}
+                                > <ClearIcon/></IconButton>
+                           </Stack>
+
+                          : null}
+                      <img 
+                          src= {image?URL.createObjectURL(image) : values?.image}
+                          style = {{ maxHeight : "300px" }}
+                      />
+
+                      {!values.image && !image?
+                          
+                            <label htmlFor="upload-photo"> 
+                              <TextField
+                                fullWidth
+                                type = "file"
+                                onChange= {HandlerChange}                            
+                                style = {{
+                                  display : "none"
+                                }}
+                                id = "upload-photo"
+                              />
+                              <Card 
+                                variant="outlined"
+                                sx={{
+                                  padding : 10,
+                                  marginTop : -2,
+                                  backgroundColor : "#eee"
+                                }}
+                    
+                                style = {{textAlign : "center" }}
+                              >
+                                  <CloudUploadIcon style={{fontSize : "50px", color : "gray" }}/>
+                                    <Typography style={{color : "gray"}} > Upload Image</Typography>
+                              </Card>
+                              
+                            </label>
+                              : null}
+
                         <LoadingButton
                             fullWidth
                             size="large"

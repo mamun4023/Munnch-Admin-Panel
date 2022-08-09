@@ -3,6 +3,8 @@ import { useEffect, useState } from 'react';
 import { Link as RouterLink, useNavigate, useParams } from 'react-router-dom';
 import { useFormik, Form, FormikProvider } from 'formik';
 import {toast} from 'material-react-toastify';
+import ClearIcon from '@mui/icons-material/Clear';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 // material
 import {
   Stack,
@@ -11,6 +13,8 @@ import {
   Typography,
   MenuItem,
   Autocomplete,
+  IconButton,
+  Card
 } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import {FetchSingleBanner} from '../../../redux/banner/fetchSingle/action';
@@ -101,10 +105,11 @@ export default function Update() {
       type : singleBanner.type === 1? "1": "2",
       url : singleBanner?.url,
       restaurant_name : singleBanner?.restaurant_id,
-      image : singleBanner?.image? singleBanner.image : singleBanner.url,
+      image : singleBanner?.image? singleBanner.image : "",
     },
     validationSchema: BannerSchema,
     onSubmit: (values) => {
+
       const data = new FormData();
       data.append('title', values.title);
       data.append('_method', "PUT");
@@ -157,6 +162,15 @@ export default function Update() {
 
   const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = formik;
 
+  const  RemoveImagePreview = ()=>{
+    formik.setFieldValue("image", null )
+    
+    if(image){
+      setImage("")
+    }
+
+  }
+  
   return(
         <>
         <Typography variant="h4" gutterBottom>
@@ -212,6 +226,7 @@ export default function Update() {
                       {
                         values.type === "2" && Object.keys(singlStore).length > 1 ?  
                         <Autocomplete
+                          // multiple
                           fullWidth
                           limitTags={1}
                           options={FilterNullStore(storeList)}
@@ -232,6 +247,7 @@ export default function Update() {
                       {
                         values.type === "2" && Object.keys(singlStore).length < 1? 
                           <Autocomplete
+                            // multiple
                             fullWidth
                             limitTags={1}
                             options={storeList}
@@ -248,16 +264,52 @@ export default function Update() {
                               /> }
                           />  : null
                       }
+
+                       {values.image  || image? 
+                           <Stack 
+                              direction= "row-reverse"> 
+                                <IconButton
+                                  style={{ marginBottom : "-30px" }}
+                                  color='error'
+                                  variant = "outlined"
+                                  onClick={RemoveImagePreview}
+                                > <ClearIcon/></IconButton>
+                           </Stack>
+
+                          : null}
                       <img 
-                          src= { image?URL.createObjectURL(image) : singleBanner?.image}
+                          src= {image?URL.createObjectURL(image) : values?.image}
                           style = {{ maxHeight : "300px" }}
                       />
-                      <TextField
-                          fullWidth
-                          type = "file"
-                          onChange= {HandlerChange}
-                          required
-                      />
+
+                      {!values.image && !image?
+                          
+                            <label htmlFor="upload-photo"> 
+                              <TextField
+                                fullWidth
+                                type = "file"
+                                onChange= {HandlerChange}                            
+                                style = {{
+                                  display : "none"
+                                }}
+                                id = "upload-photo"
+                              />
+                              <Card 
+                                variant="outlined"
+                                sx={{
+                                  padding : 10,
+                                  marginTop : -2
+                                }}
+                    
+                                style = {{textAlign : "center" }}
+                              >
+                                  <CloudUploadIcon style={{fontSize : "50px", color : "gray" }}/>
+                                    <Typography style={{color : "gray"}} > Upload Image</Typography>
+                              </Card>
+                              
+                            </label>
+                              : null}
+
                       <LoadingButton
                         fullWidth
                         size="large"
