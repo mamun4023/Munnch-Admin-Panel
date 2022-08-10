@@ -64,7 +64,6 @@ import UpdateStore from './sections/@dashboard/store/update';
 
 // ----------------------------------------------------------------------
 
-// const token = localStorage.getItem('token');
 const token = localStorage.getItem(process.env.REACT_APP_TOKEN);
 
 export default function Router() {

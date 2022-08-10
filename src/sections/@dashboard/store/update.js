@@ -2,7 +2,6 @@ import * as Yup from 'yup';
 import { useEffect, useState } from 'react';
 import PlacesAutocomplete, {geocodeByAddress, getLatLng} from "react-places-autocomplete";
 import { Link as RouterLink, useNavigate, useParams } from 'react-router-dom';
-import { Switch } from '@mui/material';
 import { useFormik, Form, FormikProvider } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'material-react-toastify';
@@ -32,7 +31,7 @@ function Update() {
   const[SingleStoreData, setSingleStoreData] = useState([])
   var [operationalHours, setOperationalHours] = useState([]);
 
-  //loading list data variable
+  //loading list data hooks
   const[foodList, setFoodList] = useState([]);
   const[cuisineList, setCuisineList] = useState([]);
   
@@ -53,15 +52,11 @@ function Update() {
   // operational hours arry manipulation with parsing date format
   const OperationHoursFiltering = (Hours)=>{
     for(let i =0; i<Hours.length; i++){
-      // Hours[i].no_of_hours = moment(Hours[i].start_time , "HH:mm:ss").diff(moment(Hours[i].closing_time , "HH:mm:ss"), "hh");
-      // Hours[i].no_of_hours = Number( moment.utc(moment(Hours[i].close_time,"HH:mm:ss").diff(moment(Hours[i].start_time ,"HH:mm:ss"))).format("HH"))
       Hours[i].start_time =  moment(Hours[i].start_time, "hh:mm A").format("hh:mm A");
       Hours[i].close_time = moment(Hours[i].close_time, "hh:mm A").format("hh:mm A");
     }
     return Hours;
   }
-
-  // shop timing data
   // sunday hooks
   const [sundayStartTime, setSundayStartTime] = useState();
   const [sundayCloseTime, setSundayCloseTime] = useState();
@@ -160,20 +155,14 @@ function Update() {
   const handleSelect = async (values) => {
   const result = await geocodeByAddress(values)
   setLocation(result[0].formatted_address)
-  // console.log("address",result[0].formatted_address)
   const latlogResult = await getLatLng(result[0])
-  // console.log(latlogResult)
   setLat(latlogResult.lat);
   setLng(latlogResult.lng);
   setAddress(result[0].formatted_address)
   setLatllogAddress(values)
   };
 
-  // console.log(lat+","+lng)
-  // console.log(address)
-
   // Sunday Handler
-
   const SundayStartTimeHandler =(e)=>{
     setSundayStartTime(e.target.value);
   }
@@ -434,8 +423,6 @@ function Update() {
         "cuisines" : CuisineIds
     }
 
-    // console.log(data);
-
     setLoading(true);
     UpdateStore(id, data)
       .then(res =>{
@@ -450,7 +437,6 @@ function Update() {
         if(errors?.additional_info? errors?.additional_info[0] : false){
           toast.error(errors?.additional_info[0]);
         }
-        
       }) 
     }
   });
@@ -493,7 +479,6 @@ function Update() {
                             error={Boolean(touched.description && errors.description)}
                             helperText={touched.description && errors.description}
                         />
-
                           <TextField
                             fullWidth
                             type= "number"
@@ -502,7 +487,6 @@ function Update() {
                             error={Boolean(touched.max_delivery_km && errors.max_delivery_km)}
                             helperText={touched.max_delivery_km && errors.max_delivery_km}
                           /> 
-
                           <TextField
                             fullWidth
                             type="text"
@@ -512,8 +496,7 @@ function Update() {
                             {...getFieldProps('additional_info')}
                             error={Boolean(touched.additional_info && errors.additional_info)}
                             helperText={touched.additional_info && errors.additional_info}
-                        />  
-
+                          />  
                           <TextField
                             fullWidth
                             type = "text"
@@ -538,11 +521,8 @@ function Update() {
                             error={Boolean(touched.city && errors.city)}
                             helperText={touched.city && errors.city}
                           />  
-
                           <PlacesAutocomplete
                               value= {latllogAddress}
-                              // defaultInputValue = "dhaka"
-                              // getDefaultValue={"dhak"}
                               onChange = {setLatllogAddress}
                               onSelect = {handleSelect}
                               highlightFirstSuggestion = {true}
@@ -551,10 +531,6 @@ function Update() {
                                 <div>
                                     <TextField 
                                       fullWidth
-                                     
-                                      // {...getFieldProps('location')}
-                                      // error={Boolean(touched.location && errors.location)}
-                                      // helperText={touched.location && errors.location}
                                       {...getInputProps({placeholder : "Location"})}
                                     /> 
                                     <div>
@@ -573,13 +549,13 @@ function Update() {
                                 </div>}
                           </PlacesAutocomplete>
 
-                        <h4 style={{textAlign : "center"}}> Operational Hours </h4>
-                        <Stack
+                          <h4 style={{textAlign : "center"}}> Operational Hours </h4>
+                          <Stack
                             direction="row"
                             justifyContent="space-between"
                             alignItems="flex-start"
                             margin={0}
-                        >
+                          >
                             <label> Sunday </label> 
                             {sundayIsOpen ==1?<label> Try edit after turn off</label>: null}
                             <ToggleButtonGroup
@@ -610,7 +586,6 @@ function Update() {
                                 onChange = {SundayStartTimeHandler}
                                 disabled = {sundayIsOpen == 1? true :false}
                             />  
-
                             <TextField
                                fullWidth
                                InputLabelProps={{
@@ -707,7 +682,6 @@ function Update() {
                                 onChange = {TuesdayStartTimeHandler}
                                 disabled = {tuesdayIsOpen == 1? true :false}
                             />  
-
                             <TextField
                                 fullWidth
                                 InputLabelProps={{
@@ -857,7 +831,6 @@ function Update() {
                                 onChange = {FridayStartTimeHandler}
                                 disabled = {fridayIsOpen == 1? true :false}
                             />  
-
                             <TextField
                                 fullWidth
                                 InputLabelProps={{
@@ -878,7 +851,6 @@ function Update() {
                         >
                             <label> Saturday </label> 
                             {saturdayIsOpen ==1?<label> Try edit after turn off</label>: null}
-                        
                             <ToggleButtonGroup
                                 size='small'
                                 value={saturdayIsOpen==1?"ON":"OFF"}
@@ -888,7 +860,6 @@ function Update() {
                                 <ToggleButton value="OFF">OFF</ToggleButton>
                                 <ToggleButton value="ON">ON</ToggleButton>
                             </ToggleButtonGroup> 
-
                         </Stack>
                         <Stack
                             direction="row"
@@ -928,25 +899,20 @@ function Update() {
                               getOptionSelected={(option, value) => option?.name === values?.cuisine_name}
                               getOptionLabel = {(option)=> option?.name || option?.cuisine_name }
                               renderInput = {(option)=> <TextField {...option} label ="Cuisine Type" /> }
-                              // onChange = {(event, value)=> setSelectedCuisineList(value) }
                               onChange = {(event, value)=>  formik.setFieldValue("cuisines", value) } 
                           />
                           : null}
-
                           {values.foodType? 
                             <Autocomplete
                               multiple
                               options={foodList}
                               defaultValue = {values.foodType}
                               getOptionSelected={(option, value) => option?.food_type_name === values?.food_type_name}
-
                               getOptionLabel = {(option)=> option?.food_type_name}
                               renderInput = {(option)=> <TextField {...option} label ="Food Type" /> }
-                              // onChange = {(event, value)=> setSelectedFoodList(value) }
                               onChange = {(event, value)=>  formik.setFieldValue("foodType", value) } 
-                          />  
+                            />  
                           :null}
-
                           <h4 style= {{ textAlign : "center" }} > Social Address </h4>
                           <TextField
                             fullWidth
@@ -955,7 +921,6 @@ function Update() {
                             error={Boolean(touched.website && errors.website)}
                             helperText={touched.website && errors.website}
                           />  
-
                           <TextField
                             fullWidth
                             label="Instagram"
@@ -963,7 +928,6 @@ function Update() {
                             error={Boolean(touched.instagram && errors.instagram)}
                             helperText={touched.instagram && errors.instagram}
                           />
-
                           <TextField
                             fullWidth
                             label="Facebook"
@@ -971,16 +935,15 @@ function Update() {
                             error={Boolean(touched.facebook && errors.facebook)}
                             helperText={touched.facebook && errors.facebook}
                           />
-
-                        <LoadingButton
-                            fullWidth
-                            size="large"
-                            type="submit"
-                            variant="contained"
-                            loading={loading}
-                        >
-                            Save
-                        </LoadingButton>
+                          <LoadingButton
+                              fullWidth
+                              size="large"
+                              type="submit"
+                              variant="contained"
+                              loading={loading}
+                          >
+                              Save
+                          </LoadingButton>
                         </Stack>
                     </Form>
                 </FormikProvider>

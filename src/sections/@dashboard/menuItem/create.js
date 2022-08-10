@@ -93,7 +93,6 @@ export default function Create(){
   });
 
   const formik = useFormik({
-    // enableReinitialize : true,
     initialValues: {
       name : '',
       price : '',
@@ -133,14 +132,14 @@ export default function Create(){
       form.append("food_item_estimate_days", values.food_item_estimate_days);
       form.append("restaurant_id", id);
     
-      if(values?.variations.length) {
+      if(values?.variations.length){
           values?.variations.forEach((item, index) => {
             form.append(`food_variations[${index}][name]`, item?.name);
             form.append(`food_variations[${index}][price]`, item?.price);
         });
       }
 
-      if (values?.addons.length) {
+      if(values?.addons.length){
           values?.addons.forEach((item, index) => {
             form.append(`food_addons[${index}][name]`, item?.name);
             form.append(`food_addons[${index}][price]`, item?.price);
@@ -161,6 +160,10 @@ export default function Create(){
           
           if(errors.category_id?errors.category_id[0] : false){
             toast.error(errors.category_id[0])
+          }
+
+          if(errors.image?errors.image[0] : false){
+            toast.error(errors.image[1])
           }
 
           // Handled addon error & show popup message
@@ -186,16 +189,13 @@ export default function Create(){
     formik.setFieldValue("image", null )
   }
 
-
   return(
         <>
         <Typography variant="h4" gutterBottom>
           Add New Item
-        </Typography>
-            
+        </Typography> 
         <Grid
             container
-            // item xs={8} 
             spacing={0}
             direction="column"
             alignItems="center"
@@ -234,8 +234,6 @@ export default function Create(){
                             helperText={touched.description && errors.description}
                           />
                           <Autocomplete
-                              // multiple
-                              // limitTags={1}
                               options={foodList}
                               disableClearable
                               getOptionLabel = {(option)=> option.food_type_name}
@@ -249,7 +247,6 @@ export default function Create(){
                                   /> }
                           />  
                           <Autocomplete
-                              // multiple
                               fullWidth
                               limitTags={1}
                               options={cuisineList}
@@ -265,10 +262,8 @@ export default function Create(){
                                   /> }
                           />
                           <Autocomplete
-                              // multiple
                               limitTags={1}
                               options={categoryList}
-                              // defaultValue = {["new", "old"]}
                               getOptionLabel = {(option)=> option.name}
                               onChange = {(event, value)=>  formik.setFieldValue("categories", value) } 
                               renderInput = {(option)=> 
@@ -279,17 +274,17 @@ export default function Create(){
                                     helperText={touched.categories && errors.categories} 
                                     /> }
                           />
-                        <TextField
-                            fullWidth
-                            select
-                            label="Food Item Type"
-                            {...getFieldProps('food_item_type')}
-                            error={Boolean(touched.food_item_type && errors.food_item_type)}
-                            helperText={touched.food_item_type && errors.food_item_type}
-                          >    
-                            <MenuItem value= "1">Food Item</MenuItem>
-                            <MenuItem value= "2">Pre-Order Item</MenuItem>
-                        </TextField>
+                          <TextField
+                              fullWidth
+                              select
+                              label="Food Item Type"
+                              {...getFieldProps('food_item_type')}
+                              error={Boolean(touched.food_item_type && errors.food_item_type)}
+                              helperText={touched.food_item_type && errors.food_item_type}
+                            >    
+                              <MenuItem value= "1">Food Item</MenuItem>
+                              <MenuItem value= "2">Pre-Order Item</MenuItem>
+                          </TextField>
                           {
                             values.food_item_type === 2 || values.food_item_type ==="2"? 
                               <TextField
@@ -302,112 +297,109 @@ export default function Create(){
                               /> 
                             : null
                           }
-                        <h4 style={{ textAlign : "center" }} > Variations </h4>
-                        <FieldArray name="variations">
-                          {({ push, remove }) => (
-                            <div>
-                              {values.variations.map((p, index) => {
-                                const name = `variations[${index}].name`;
-                                const touchedName = getIn(touched, name);
-                                const errorName = getIn(errors, name);
-                                const price = `variations[${index}].price`;
-                                const touchedPrice = getIn(touched, price);
-                                const errorPrice = getIn(errors, price);
+                          <h4 style={{ textAlign : "center" }} > Variations </h4>
+                          <FieldArray name="variations">
+                            {({ push, remove }) => (
+                              <div>
+                                {
+                                  values.variations.map((p, index) => {
+                                    const name = `variations[${index}].name`;
+                                    const touchedName = getIn(touched, name);
+                                    const errorName = getIn(errors, name);
+                                    const price = `variations[${index}].price`;
+                                    const touchedPrice = getIn(touched, price);
+                                    const errorPrice = getIn(errors, price);
 
-                                return (
-                                  <div key={p.id}>
-
-                                    <Stack
-                                      direction="row"
-                                      justifyContent="space-between"
-                                      alignItems="flex-start"
-                                      spacing={2}
-                                      marginBottom = {2}
-                                    >
-                                        <TextField
-                                          type= "text"
-                                          variant="outlined"
-                                          label="Name"
-                                          name={name}
-                                          value={p.name}
-                                          helperText={
-                                            touchedName && errorName
-                                              ? errorName
-                                              : ""
-                                          }
-                                          error={Boolean(touchedName && errorName)}
-                                          {...getFieldProps(name)}
-                                        />
-                                        <TextField
-                                          type = "number"
-                                          variant="outlined"
-                                          label="Price"
-                                          name={price}
-                                          value={p.price}
-                                  
-                                          helperText={
-                                            touchedPrice && errorPrice
-                                              ? errorPrice
-                                              : ""
-                                          }
-                                          error={Boolean(touchedPrice && errorPrice)}
-                                          {...getFieldProps(price)}
-                                        />
-                                        <IconButton
-                                          sx={{
-                                            padding : 2,
-                                          }}
-                                          style = {{marginLeft : "-8px"}}
-                                          type="button"
-                                          color="error"
-                                          variant="outlined"
-                                          onClick={() => remove(index)}
+                                    return(
+                                      <div key={p.id}>
+                                        <Stack
+                                          direction="row"
+                                          justifyContent="space-between"
+                                          alignItems="flex-start"
+                                          spacing={2}
+                                          marginBottom = {2}
                                         >
-                                      
-                                          <ClearIcon />
-                                        </IconButton>
-
-                                    </Stack>
-                                  </div>
-                                );
-                              })}
-                              <IconButton
-                                sx={{
-                                  marginTop : -2                                  
-                                }}
-                                type="button"
-                                variant="outlined"
-                                onClick={() =>
-                                  push({ name: "", price: "" })
+                                          <TextField
+                                            type= "text"
+                                            variant="outlined"
+                                            label="Name"
+                                            name={name}
+                                            value={p.name}
+                                            helperText={
+                                              touchedName && errorName
+                                                ? errorName
+                                                : ""
+                                            }
+                                            error={Boolean(touchedName && errorName)}
+                                            {...getFieldProps(name)}
+                                          />
+                                          <TextField
+                                            type = "number"
+                                            variant="outlined"
+                                            label="Price"
+                                            name={price}
+                                            value={p.price}
+                                            helperText={
+                                              touchedPrice && errorPrice
+                                                ? errorPrice
+                                                : ""
+                                            }
+                                            error={Boolean(touchedPrice && errorPrice)}
+                                            {...getFieldProps(price)}
+                                          />
+                                          <IconButton
+                                            sx={{
+                                              padding : 2,
+                                            }}
+                                            style = {{marginLeft : "-8px"}}
+                                            type="button"
+                                            color="error"
+                                            variant="outlined"
+                                            onClick={() => remove(index)}
+                                          >
+                                            <ClearIcon />
+                                          </IconButton>
+                                        </Stack>
+                                      </div>
+                                    );
+                                  })
                                 }
-                              >
-                                  <AddCircleIcon/>
-                              </IconButton>
-                            </div>
-                          )}
-                        </FieldArray>
-                        
-                        <h4 style={{ textAlign : "center" }} > Addons </h4>
-                        <FieldArray name="addons">
-                          {({ push, remove }) => (
-                            <div>
-                              {values.addons.map((p, index) => {
-                                const name = `addons[${index}].name`;
-                                const touchedName = getIn(touched, name);
-                                const errorName = getIn(errors, name);
-                                const price = `addons[${index}].price`;
-                                const touchedPrice = getIn(touched, price);
-                                const errorPrice = getIn(errors, price);
+                                <IconButton
+                                  sx={{
+                                    marginTop : -2                                  
+                                  }}
+                                  type="button"
+                                  variant="outlined"
+                                  onClick={() =>
+                                    push({ name: "", price: "" })
+                                  }
+                                >
+                                    <AddCircleIcon/>
+                                </IconButton>
+                              </div>
+                            )}
+                          </FieldArray>
+                          <h4 style={{ textAlign : "center" }} > Addons </h4>
+                          <FieldArray name="addons">
+                            {({ push, remove }) => (
+                              <div>
+                                {values.addons.map((p, index) => {
+                                  const name = `addons[${index}].name`;
+                                  const touchedName = getIn(touched, name);
+                                  const errorName = getIn(errors, name);
+                                  const price = `addons[${index}].price`;
+                                  const touchedPrice = getIn(touched, price);
+                                  const errorPrice = getIn(errors, price);
 
-                                return (
-                                  <div key={p.id}>
-                                      <Stack
-                                        direction="row"
-                                        justifyContent="space-between"
-                                        alignItems="flex-start"
-                                        spacing={2}
-                                        marginBottom={2}
-                                      >
+                                  return(
+                                      <div key={p.id}>
+                                        <Stack
+                                          direction="row"
+                                          justifyContent="space-between"
+                                          alignItems="flex-start"
+                                          spacing={2}
+                                          marginBottom={2}
+                                        >
                                           <TextField
                                             variant="outlined"
                                             label="Name"
@@ -447,101 +439,86 @@ export default function Create(){
                                           >
                                             <ClearIcon />
                                           </IconButton>
-
-                                      </Stack>  
-                                    </div>
-                                );
-                              })}
-                              <IconButton
-                                sx={{
-                                  marginTop : -2                                  
-                                }}
-                                margin="normal"
-                                type="button"
-                                variant="outlined"
-                                onClick={() =>
-                                  push({ name: "", price: "" })
-                                }
-                              >
-                                <AddCircleIcon/>
-                              </IconButton>
-                            </div>
-                          )}
-                        </FieldArray>
-
-                        {values.image ? 
-                           <Stack 
-                              direction= "row-reverse"> 
+                                        </Stack>  
+                                      </div>
+                                  );
+                                })}
                                 <IconButton
-                                  style={{ marginBottom : "-30px" }}
-                                  color='error'
-                                  variant = "outlined"
-                                  onClick={RemoveImagePreview}
-                                > <ClearIcon/></IconButton>
-                           </Stack>
-
-                          : null}
-                            <img 
-                              src= {values.image?URL.createObjectURL(values.image): null}
-                              style = {{maxHeight : "300px"}}
-                            />
-                          {!values.image ?
-                          
-                            <label htmlFor="upload-photo"> 
-                              <TextField
-                                fullWidth
-                                InputLabelProps={{
-                                shrink : true                                
-                                }}
-                                style = {{
-                                  display : "none"
-                                }}
-                                id = "upload-photo"
-                                type="file"
-                                onChange={ev=>{ formik.setFieldValue("image",ev.target.files[0]) }} 
-                                error={Boolean(touched.image && errors.image)}
-                                helperText={touched.image && errors.image}
-                              />
-                              <Card 
-                                variant="outlined"
-                                sx={{
-                                  padding : 10,
-                                  marginTop : -2,
-                                  backgroundColor :  "#eee",
-                                  textAlign : "center"
-                                }}
-                                helperText = "requied"
-                                style = {Boolean(touched.image && errors.image)?{border : "1px solid red" }: null}
-                              >
-                                  <CloudUploadIcon style={{fontSize : "50px", color : "gray" }}/>
-                                    <Typography style={{color : "gray"}} > Upload Image</Typography>
-                              </Card>
-                              
-                            </label>
-                              : null}
-
-
-
-                        {/* <img 
-                           src= {values.image?URL.createObjectURL(values.image): null}
-                           style = {{maxHeight : "300px"}}
-                        />
-                        <TextField
-                            fullWidth
-                            type="file"
-                            onChange={ev=>{ formik.setFieldValue("image",ev.target.files[0]) }} 
-                            error={Boolean(touched.image && errors.image)}
-                            helperText={touched.image && errors.image}
-                        />  */}
-                        <LoadingButton
-                            fullWidth
-                            size="large"
-                            type="submit"
-                            variant="contained"
-                            loading={loading}
-                        >
-                            Save
-                        </LoadingButton>
+                                  sx={{
+                                    marginTop : -2                                  
+                                  }}
+                                  margin="normal"
+                                  type="button"
+                                  variant="outlined"
+                                  onClick={() =>
+                                    push({ name: "", price: "" })
+                                  }
+                                >
+                                  <AddCircleIcon/>
+                                </IconButton>
+                              </div>
+                            )}
+                          </FieldArray>
+                          {
+                            values.image ? 
+                              <Stack 
+                                  direction= "row-reverse"> 
+                                    <IconButton
+                                      style={{ marginBottom : "-30px" }}
+                                      color='error'
+                                      variant = "outlined"
+                                      onClick={RemoveImagePreview}
+                                    > <ClearIcon/></IconButton>
+                              </Stack>
+                            : null
+                          }
+                          <img 
+                            src= {values.image?URL.createObjectURL(values.image): null}
+                            style = {{maxHeight : "300px"}}
+                          />
+                          {
+                            !values.image ?
+                              <label htmlFor="upload-photo"> 
+                                <TextField
+                                  fullWidth
+                                  InputLabelProps={{
+                                  shrink : true                                
+                                  }}
+                                  style = {{
+                                    display : "none"
+                                  }}
+                                  id = "upload-photo"
+                                  type="file"
+                                  onChange={ev=>{ formik.setFieldValue("image",ev.target.files[0]) }} 
+                                  error={Boolean(touched.image && errors.image)}
+                                  helperText={touched.image && errors.image}
+                                />
+                                <Card 
+                                  variant="outlined"
+                                  sx={{
+                                    padding : 10,
+                                    marginTop : -2,
+                                    backgroundColor :  "#eee",
+                                    textAlign : "center"
+                                  }}
+                                  helperText = "requied"
+                                  style = {Boolean(touched.image && errors.image)?{border : "1px solid red" }: null}
+                                >
+                                    <CloudUploadIcon style={{fontSize : "50px", color : "gray" }}/>
+                                      <Typography style={{color : "gray"}} > Upload Image</Typography>
+                                </Card>
+                              </label>
+                            : null
+                          }
+                          <LoadingButton
+                              fullWidth
+                              size="large"
+                              type="submit"
+                              variant="contained"
+                              loading={loading}
+                          >
+                              Save
+                          </LoadingButton>
                         </Stack>
                     </Form>
                 </FormikProvider>

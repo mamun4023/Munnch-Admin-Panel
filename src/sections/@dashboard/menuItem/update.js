@@ -18,7 +18,6 @@ import {
 } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 // component
-import Iconify from '../../../components/Iconify';
 import {FetchCuisineTypeList , FetchFoodTypeList, CategoryList} from '../../../redux/merchantStore/other/actions';
 import { FetchSingleMenu} from '../../../redux/menu/fetchSingle/action';
 import {UpdateMenu} from '../../../redux/menu/update/action';
@@ -216,7 +215,6 @@ export default function Update() {
         <Typography variant="h4" gutterBottom>
           Update Menu Item
         </Typography>
-            
         <Grid
             container
             spacing={0}
@@ -265,7 +263,7 @@ export default function Update() {
                               helperText={touched.description && errors.description}
                           />
                           {values.food_types? 
-                          <Autocomplete
+                            <Autocomplete
                               options={foodList}
                               disableClearable
                               getOptionLabel = {(option)=> option.food_type_name}
@@ -279,48 +277,44 @@ export default function Update() {
                                       error={Boolean(touched.food_types && errors.food_types)}
                                       helperText={touched.food_types && errors.food_types}
                                   /> }
-                          />  
+                            />  
                           : null}
-                         {values.cuisine_types? 
-                          <Autocomplete
-                              // multiple
-                              fullWidth
-                              limitTags={1}
-                              options={cuisineList}
-                              getOptionLabel = {(option)=> option.cuisine_name || option.name}
-                              defaultValue = {values.cuisine_types}
-                              getOptionSelected={(option, value) => option.name === value.name}
-                              onChange = {(event, value)=>  formik.setFieldValue("cuisine_types", value) } 
-                              renderInput = {(option)=> 
-                                  <TextField 
-                                      {...option} 
-                                      label ="Cuisine Type"
-                                      error={Boolean(touched.cuisine_types && errors.cuisine_types)}
-                                      helperText={touched.cuisine_types && errors.cuisine_types} 
+                          {values.cuisine_types? 
+                            <Autocomplete
+                                fullWidth
+                                limitTags={1}
+                                options={cuisineList}
+                                getOptionLabel = {(option)=> option.cuisine_name || option.name}
+                                defaultValue = {values.cuisine_types}
+                                getOptionSelected={(option, value) => option.name === value.name}
+                                onChange = {(event, value)=>  formik.setFieldValue("cuisine_types", value) } 
+                                renderInput = {(option)=> 
+                                    <TextField 
+                                        {...option} 
+                                        label ="Cuisine Type"
+                                        error={Boolean(touched.cuisine_types && errors.cuisine_types)}
+                                        helperText={touched.cuisine_types && errors.cuisine_types} 
 
-                                  /> }
-                          />
-                          : null}
-
-                          {values.categories? 
-                          <Autocomplete
-                              // multiple
-                              limitTags={1}
-                              options={categoryList}
-                              // defaultValue = {["new", "old"]}
-                              getOptionLabel = {(option)=> option.name}
-                              defaultValue = {values.categories}
-                              getOptionSelected={(option, value) => option.name === value.name}
-                              onChange = {(event, value)=>  formik.setFieldValue("categories", value) } 
-                              renderInput = {(option)=> 
-                                  <TextField 
-                                    {...option} 
-                                    label ="Category" 
-                                    error={Boolean(touched.categories && errors.categories)}
-                                    helperText={touched.categories && errors.categories} 
                                     /> }
-                          />
+                            />
                           : null}
+                          {values.categories? 
+                            <Autocomplete
+                                limitTags={1}
+                                options={categoryList}
+                                getOptionLabel = {(option)=> option.name}
+                                defaultValue = {values.categories}
+                                getOptionSelected={(option, value) => option.name === value.name}
+                                onChange = {(event, value)=>  formik.setFieldValue("categories", value) } 
+                                renderInput = {(option)=> 
+                                    <TextField 
+                                      {...option} 
+                                      label ="Category" 
+                                      error={Boolean(touched.categories && errors.categories)}
+                                      helperText={touched.categories && errors.categories} 
+                                      /> }
+                            />
+                            : null}
 
                           <TextField
                             fullWidth
@@ -339,22 +333,20 @@ export default function Update() {
 
                         {
                           values.food_item_type ==="2" || values.food_item_type === 2? 
-
-                        <TextField
-                            fullWidth
-                            InputLabelProps={{
-                              shrink : true                                
-                           }}
-                            type="number"
-                            label="food Item Estimate Days"
-                            {...getFieldProps('food_item_estimate_days')}
-                            error={Boolean(touched.food_item_estimate_days && errors.food_item_estimate_days)}
-                            helperText={touched.food_item_estimate_days && errors.food_item_estimate_days}
-                        /> 
-                        : null
-                      }
+                          <TextField
+                              fullWidth
+                              InputLabelProps={{
+                                shrink : true                                
+                            }}
+                              type="number"
+                              label="food Item Estimate Days"
+                              {...getFieldProps('food_item_estimate_days')}
+                              error={Boolean(touched.food_item_estimate_days && errors.food_item_estimate_days)}
+                              helperText={touched.food_item_estimate_days && errors.food_item_estimate_days}
+                          /> 
+                          : null
+                        }
                         <h4 style={{ textAlign : "center" }} > Variation </h4>
-
                         <FieldArray name="variations">
                           {({ push, remove }) => (
                             <div>
@@ -368,7 +360,6 @@ export default function Update() {
 
                                 return (
                                   <div key={p.id}>
-
                                     <Stack
                                       direction="row"
                                       justifyContent="space-between"
@@ -516,7 +507,6 @@ export default function Update() {
                             </div>
                           )}
                         </FieldArray>
-
                         {values.image  || image? 
                            <Stack 
                               direction= "row-reverse"> 
@@ -527,14 +517,12 @@ export default function Update() {
                                   onClick={RemoveImagePreview}
                                 > <ClearIcon/></IconButton>
                            </Stack>
-
-                          : null}
-                      <img 
-                          src= {image?URL.createObjectURL(image) : values?.image}
-                          style = {{ maxHeight : "300px" }}
-                      />
-
-                      {!values.image && !image?
+                        : null}
+                        <img 
+                            src= {image?URL.createObjectURL(image) : values?.image}
+                            style = {{ maxHeight : "300px" }}
+                        />
+                        {!values.image && !image?
                             <label htmlFor="upload-photo"> 
                               <TextField
                                 fullWidth
@@ -558,8 +546,7 @@ export default function Update() {
                                     <Typography style={{color : "gray"}} > Upload Image</Typography>
                               </Card>
                             </label>
-                      : null}
-
+                        : null}
                         <LoadingButton
                             fullWidth
                             size="large"

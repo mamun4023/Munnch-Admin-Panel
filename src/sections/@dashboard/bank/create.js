@@ -82,86 +82,85 @@ export default function Create(){
                 <FormikProvider value={formik}>
                     <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
                         <Stack style={{ width : "450px" }} spacing={3}>
-                        <TextField
-                            fullWidth
-                            type="text"
-                            label="Bank Name"
-                            {...getFieldProps('name')}
-                            error={Boolean(touched.name && errors.name)}
-                            helperText={touched.name && errors.name}
-                        />
-
-                        <TextField
-                            fullWidth
-                            select
-                            label="Popularity"
-                            {...getFieldProps('is_popular')}
-                            error={Boolean(touched.is_popular && errors.is_popular)}
-                            helperText={touched.is_popular && errors.is_popular}
-                        >    
-                            <MenuItem value= "1">Yes</MenuItem>
-                            <MenuItem value= "0">No</MenuItem>
-                        </TextField> 
-                        {values.image ? 
-                           <Stack 
-                              direction= "row-reverse"> 
-                                <IconButton
-                                  style={{ marginBottom : "-30px" }}
-                                  color='error'
-                                  variant = "outlined"
-                                  onClick={RemoveImagePreview}
-                                > <ClearIcon/></IconButton>
-                           </Stack>
-
-                          : null}
-                            <img 
-                              src= {values.image?URL.createObjectURL(values.image): null}
-                              style = {{maxHeight : "300px"}}
-                            />
-                          {!values.image ?
-                          
-                            <label htmlFor="upload-photo"> 
-                              <TextField
-                                fullWidth
-                                InputLabelProps={{
-                                shrink : true                                
-                                }}
-                                style = {{
-                                  display : "none"
-                                }}
-                                id = "upload-photo"
-                                type="file"
-                                onChange={ev=>{ formik.setFieldValue("image",ev.target.files[0]) }} 
-                                error={Boolean(touched.image && errors.image)}
-                                helperText={touched.image && errors.image}
-                              />
-                              <Card 
-                                variant="outlined"
-                                sx={{
-                                  padding : 10,
-                                  marginTop : -2,
-                                  backgroundColor : "#eee",
-                                  textAlign : "center" 
-                                }}
-                                helperText = "requied"
-                                style = {Boolean(touched.image && errors.image)?{border : "1px solid red" }: null}
-                              >
-                                  <CloudUploadIcon style={{fontSize : "50px", color : "gray" }}/>
-                                    <Typography style={{color : "gray"}} > Upload Image</Typography>
-                              </Card>
-                              
-                            </label>
-                              : null}
-        
-                        <LoadingButton
-                            fullWidth
-                            size="large"
-                            type="submit"
-                            variant="contained"
-                            loading={loading}
-                        >
-                            Save
-                        </LoadingButton>
+                          <TextField
+                              fullWidth
+                              type="text"
+                              label="Bank Name"
+                              {...getFieldProps('name')}
+                              error={Boolean(touched.name && errors.name)}
+                              helperText={touched.name && errors.name}
+                          />
+                          <TextField
+                              fullWidth
+                              select
+                              label="Popularity"
+                              {...getFieldProps('is_popular')}
+                              error={Boolean(touched.is_popular && errors.is_popular)}
+                              helperText={touched.is_popular && errors.is_popular}
+                          >    
+                              <MenuItem value= "1">Yes</MenuItem>
+                              <MenuItem value= "0">No</MenuItem>
+                          </TextField> 
+                          {
+                            values.image ? 
+                              <Stack 
+                                  direction= "row-reverse"> 
+                                    <IconButton
+                                      style={{ marginBottom : "-30px" }}
+                                      color='error'
+                                      variant = "outlined"
+                                      onClick={RemoveImagePreview}
+                                    > <ClearIcon/></IconButton>
+                              </Stack>
+                            : null
+                          }
+                          <img 
+                            src= {values.image?URL.createObjectURL(values.image): null}
+                            style = {{maxHeight : "300px"}}
+                          />
+                          {
+                            !values.image ?
+                              <label htmlFor="upload-photo"> 
+                                <TextField
+                                  fullWidth
+                                  InputLabelProps={{
+                                  shrink : true                                
+                                  }}
+                                  style = {{
+                                    display : "none"
+                                  }}
+                                  id = "upload-photo"
+                                  type="file"
+                                  onChange={ev=>{ formik.setFieldValue("image",ev.target.files[0]) }} 
+                                  error={Boolean(touched.image && errors.image)}
+                                  helperText={touched.image && errors.image}
+                                />
+                                <Card 
+                                  variant="outlined"
+                                  sx={{
+                                    padding : 10,
+                                    marginTop : -2,
+                                    backgroundColor : "#eee",
+                                    textAlign : "center" 
+                                  }}
+                                  helperText = "requied"
+                                  style = {Boolean(touched.image && errors.image)?{border : "1px solid red" }: null}
+                                >
+                                    <CloudUploadIcon style={{fontSize : "50px", color : "gray" }}/>
+                                      <Typography style={{color : "gray"}} > Upload Image</Typography>
+                                </Card>
+                              </label>
+                            : null
+                          }
+                          <LoadingButton
+                              fullWidth
+                              size="large"
+                              type="submit"
+                              variant="contained"
+                              loading={loading}
+                          >
+                              Save
+                          </LoadingButton>
                         </Stack>
                     </Form>
                 </FormikProvider>

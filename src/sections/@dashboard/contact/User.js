@@ -9,7 +9,6 @@ import {
   Card,
   Table,
   Stack,
-  Avatar,
   Button,
   TableRow,
   TableBody,

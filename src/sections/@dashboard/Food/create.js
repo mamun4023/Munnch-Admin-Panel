@@ -63,108 +63,89 @@ export default function Create() {
 
   return(
         <>
-        <Typography variant="h4" gutterBottom>
-          Create Food
-        </Typography>
-            
-        <Grid
-            container
-            spacing={0}
-            direction="column"
-            alignItems="center"
-            justifyContent="center"
-            style={{ minHeight: '60vh' }}
-        >
+          <Typography variant="h4" gutterBottom>
+            Create Food
+          </Typography>
+          <Grid
+              container
+              spacing={0}
+              direction="column"
+              alignItems="center"
+              justifyContent="center"
+              style={{ minHeight: '60vh' }}
+          >
             <Grid item xs={6} >
                 <FormikProvider value={formik}>
                     <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
                         <Stack style={{ width : "450px" }} spacing={3}>
-                        <TextField
-                            fullWidth
-                            type="text"
-                            label="Food Name"
-                            {...getFieldProps('food_name')}
-                            error={Boolean(touched.food_name && errors.food_name)}
-                            helperText={touched.food_name && errors.food_name}
-                        />
-                         {/* <img 
-                            src= {values.image?URL.createObjectURL(values.image):null}
-                            style = {{ maxHeight : "300px" }}
-                        />
-                        <TextField
-                            fullWidth
-                            InputLabelProps={{
-                              shrink : true                                
-                            }}
-                            type="file"
-                            label="Food Image"
-                            onChange = {e => {formik.setFieldValue('image', e.target.files[0])}} 
-                            error={Boolean(touched.image && errors.image)}
-                            helperText={touched.image && errors.image}
-                        /> */}
-
-
-                          {values.image ? 
-                           <Stack 
-                              direction= "row-reverse"> 
-                                <IconButton
-                                  style={{ marginBottom : "-30px" }}
-                                  color='error'
-                                  variant = "outlined"
-                                  onClick={RemoveImagePreview}
-                                > <ClearIcon/></IconButton>
-                           </Stack>
-
-                          : null}
-                            <img 
-                              src= {values.image?URL.createObjectURL(values.image): null}
-                              style = {{maxHeight : "300px"}}
-                            />
-                          {!values.image ?
-                          
-                            <label htmlFor="upload-photo"> 
-                              <TextField
-                                fullWidth
-                                InputLabelProps={{
-                                shrink : true                                
-                                }}
-                                style = {{
-                                  display : "none"
-                                }}
-                                id = "upload-photo"
-                                type="file"
-                                label="Banner Image"
-                                onChange={ev=>{ formik.setFieldValue("image",ev.target.files[0]) }} 
-                                error={Boolean(touched.image && errors.image)}
-                                helperText={touched.image && errors.image}
-                              />
-                              <Card 
-                                variant="outlined"
-                                sx={{
-                                  padding : 10,
-                                  marginTop : -2,
-                                  backgroundColor : "#eee"
-                                }}
-                                helperText = "requied"
-                                style = {Boolean(touched.image && errors.image)?{border : "1px solid red", textAlign : "center" }: { textAlign : "center"}}
-                              >
-                                  <CloudUploadIcon style={{fontSize : "50px", color : "gray" }}/>
-                                    <Typography style={{color : "gray"}} > Upload Image</Typography>
-                              </Card>
-                              
-                            </label>
-                              : null}
-
-
-                        <LoadingButton
-                            fullWidth
-                            size="large"
-                            type="submit"
-                            variant="contained"
-                            loading={loading}
-                        >
-                            Save
-                        </LoadingButton>
+                          <TextField
+                              fullWidth
+                              type="text"
+                              label="Food Name"
+                              {...getFieldProps('food_name')}
+                              error={Boolean(touched.food_name && errors.food_name)}
+                              helperText={touched.food_name && errors.food_name}
+                          />
+                          {
+                            values.image ? 
+                              <Stack 
+                                  direction= "row-reverse"> 
+                                    <IconButton
+                                      style={{ marginBottom : "-30px" }}
+                                      color='error'
+                                      variant = "outlined"
+                                      onClick={RemoveImagePreview}
+                                    > <ClearIcon/></IconButton>
+                              </Stack>
+                            : null
+                          }
+                          <img 
+                            src= {values.image?URL.createObjectURL(values.image): null}
+                            style = {{maxHeight : "300px"}}
+                          />
+                          {
+                            !values.image ?
+                              <label htmlFor="upload-photo"> 
+                                <TextField
+                                  fullWidth
+                                  InputLabelProps={{
+                                  shrink : true                                
+                                  }}
+                                  style = {{
+                                    display : "none"
+                                  }}
+                                  id = "upload-photo"
+                                  type="file"
+                                  label="Banner Image"
+                                  onChange={ev=>{ formik.setFieldValue("image",ev.target.files[0]) }} 
+                                  error={Boolean(touched.image && errors.image)}
+                                  helperText={touched.image && errors.image}
+                                />
+                                <Card 
+                                  variant="outlined"
+                                  sx={{
+                                    padding : 10,
+                                    marginTop : -2,
+                                    backgroundColor : "#eee"
+                                  }}
+                                  helperText = "requied"
+                                  style = {Boolean(touched.image && errors.image)?{border : "1px solid red", textAlign : "center" }: { textAlign : "center"}}
+                                >
+                                    <CloudUploadIcon style={{fontSize : "50px", color : "gray" }}/>
+                                      <Typography style={{color : "gray"}} > Upload Image</Typography>
+                                </Card>
+                              </label>
+                            : null
+                          }
+                          <LoadingButton
+                              fullWidth
+                              size="large"
+                              type="submit"
+                              variant="contained"
+                              loading={loading}
+                          >
+                              Save
+                          </LoadingButton>
                         </Stack>
                     </Form>
                 </FormikProvider>

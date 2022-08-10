@@ -34,16 +34,13 @@ export default function View() {
                 </Typography>
                 <Grid container spacing={2}>
                     <Grid item xs={8}>
-                    <Card 
-                        // sx={{ maxWidth: 345 }}
-                        style={{ padding : "50px" }}
-                    >   
-                        <CardMedia
-                            component="img"
-                            style={{backgroundRepeat : "no-repeat", borderRadius : "10px"}}
-                            image= {singleBanner?.image?singleBanner.image : isImage(singleBanner?.url)?singleBanner?.url: null}
-                        />
-                    </Card>
+                        <Card>   
+                            <CardMedia
+                                component="img"
+                                style={{backgroundRepeat : "no-repeat", borderRadius : "10px"}}
+                                image= {singleBanner?.image?singleBanner.image : isImage(singleBanner?.url)?singleBanner?.url: null}
+                            />
+                        </Card>
                     </Grid>
                     <Grid item xs={4}>
                         <Card>

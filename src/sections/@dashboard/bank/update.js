@@ -102,83 +102,82 @@ export default function Update() {
             <Grid item xs={6} >
                 <FormikProvider value={formik}>
                     <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
-                        <Stack style={{ width : "450px" }} spacing={3}>
-                        <TextField
-                            fullWidth
-                            type="text"
-                            label="Bank Name"
-                            {...getFieldProps('name')}
-                            error={Boolean(touched.name && errors.name)}
-                            helperText={touched.name && errors.name}
-                        />
-                        <TextField
-                            fullWidth
-                            select
-                            label="Popularity"
-                            {...getFieldProps('is_popular')}
-                            error={Boolean(touched.is_popular && errors.is_popular)}
-                            helperText={touched.is_popular && errors.is_popular}
-                        >    
-                            <MenuItem value= "1">Yes</MenuItem>
-                            <MenuItem value= "0">No</MenuItem>
-                        </TextField> 
+                      <Stack style={{ width : "450px" }} spacing={3}>
+                          <TextField
+                              fullWidth
+                              type="text"
+                              label="Bank Name"
+                              {...getFieldProps('name')}
+                              error={Boolean(touched.name && errors.name)}
+                              helperText={touched.name && errors.name}
+                          />
+                          <TextField
+                              fullWidth
+                              select
+                              label="Popularity"
+                              {...getFieldProps('is_popular')}
+                              error={Boolean(touched.is_popular && errors.is_popular)}
+                              helperText={touched.is_popular && errors.is_popular}
+                          >    
+                              <MenuItem value= "1">Yes</MenuItem>
+                              <MenuItem value= "0">No</MenuItem>
+                          </TextField> 
 
-                        {values.image  || image? 
-                           <Stack 
-                              direction= "row-reverse"> 
-                                <IconButton
-                                  style={{ marginBottom : "-30px" }}
-                                  color='error'
-                                  variant = "outlined"
-                                  onClick={RemoveImagePreview}
-                                > <ClearIcon/></IconButton>
-                           </Stack>
+                          {
+                            values.image  || image? 
+                              <Stack 
+                                  direction= "row-reverse"> 
+                                    <IconButton
+                                      style={{ marginBottom : "-30px" }}
+                                      color='error'
+                                      variant = "outlined"
+                                      onClick={RemoveImagePreview}
+                                    > <ClearIcon/></IconButton>
+                              </Stack>
+                            : null
+                          }
+                          <img 
+                              src= {image?URL.createObjectURL(image) : values?.image}
+                              style = {{ maxHeight : "300px" }}
+                          />
+                          {
+                            !values.image && !image?
+                              <label htmlFor="upload-photo"> 
+                                <TextField
+                                  fullWidth
+                                  type = "file"
+                                  onChange= {HandlerChange}                            
+                                  style = {{
+                                    display : "none"
+                                  }}
+                                  id = "upload-photo"
+                                />
+                                <Card 
+                                  variant="outlined"
+                                  sx={{
+                                    padding : 10,
+                                    marginTop : -2,
+                                    backgroundColor : "#eee"
+                                  }}
+                                  style = {{textAlign : "center" }}
+                                >
+                                    <CloudUploadIcon style={{fontSize : "50px", color : "gray" }}/>
+                                      <Typography style={{color : "gray"}} > Upload Image</Typography>
+                                </Card>
+                              </label>
+                            : null
+                          }
 
-                          : null}
-                      <img 
-                          src= {image?URL.createObjectURL(image) : values?.image}
-                          style = {{ maxHeight : "300px" }}
-                      />
-
-                      {!values.image && !image?
-                          
-                            <label htmlFor="upload-photo"> 
-                              <TextField
-                                fullWidth
-                                type = "file"
-                                onChange= {HandlerChange}                            
-                                style = {{
-                                  display : "none"
-                                }}
-                                id = "upload-photo"
-                              />
-                              <Card 
-                                variant="outlined"
-                                sx={{
-                                  padding : 10,
-                                  marginTop : -2,
-                                  backgroundColor : "#eee"
-                                }}
-                    
-                                style = {{textAlign : "center" }}
-                              >
-                                  <CloudUploadIcon style={{fontSize : "50px", color : "gray" }}/>
-                                    <Typography style={{color : "gray"}} > Upload Image</Typography>
-                              </Card>
-                              
-                            </label>
-                              : null}
-
-                        <LoadingButton
-                            fullWidth
-                            size="large"
-                            type="submit"
-                            variant="contained"
-                            loading={loading}
-                        >
-                            Save
-                        </LoadingButton>
-                        </Stack>
+                          <LoadingButton
+                              fullWidth
+                              size="large"
+                              type="submit"
+                              variant="contained"
+                              loading={loading}
+                          >
+                              Save
+                          </LoadingButton>
+                      </Stack>
                     </Form>
                 </FormikProvider>
             </Grid>   

@@ -12,22 +12,16 @@ import {
   Typography,
   MenuItem,
   Autocomplete,
-  Box,
   IconButton,
-  Button,
   Card
 
 } from '@mui/material';
-import ImageIcon from '@mui/icons-material/Image';
-// import AddIcon from '@mui/icons-material/AddAPhoto';
-import AddIcon from '@mui/icons-material/AddPhotoAlternate';
 import ClearIcon from '@mui/icons-material/Clear';
 import { LoadingButton } from '@mui/lab';
 // component
 import {AddBanner, StoreList} from '../../../redux/banner/add/action';
 
 // ----------------------------------------------------------------------
-
 
 function FilterNullStore(arr){
   return arr.filter((data)=> data.restaurant_name !== null)
@@ -53,20 +47,7 @@ export default function Create(){
   const BannerSchema = Yup.object().shape({
     title: Yup.string().required('Title is required'),
     type : Yup.string().required("Select Banner Type").nullable(),
-    // restaurant_name : Yup.string().required("Select Store").nullable(),
     image : Yup.mixed().required("Image is required").nullable(),
-    url : Yup.string().when("type" , {
-      is : 1,
-      then : Yup.string().required("required").nullable(),
-    }),
-    // image : Yup.string().when("type", {
-    //   is : 2,
-    //   then : Yup.mixed().required("Image is required"),
-    // }),
-    // restaurant_name : Yup.string().when("type", {
-    //   is : 2,
-    //   then : Yup.mixed().required("Select Store name"),
-    // }),
   });
 
   const formik = useFormik({
@@ -89,7 +70,7 @@ export default function Create(){
       if(values?.url != ''){
         data.append('url', values.url);
       }
-
+      
       if(values.image != null){
         data.append('image', values.image);
       }
@@ -197,65 +178,66 @@ export default function Create(){
                               />
                             : null
                           }
-                          {values.image ? 
-                           <Stack 
-                              direction= "row-reverse"> 
-                                <IconButton
-                                  style={{ marginBottom : "-30px" }}
-                                  color='error'
-                                  variant = "outlined"
-                                  onClick={RemoveImagePreview}
-                                > <ClearIcon/></IconButton>
-                           </Stack>
-
-                          : null}
-                            <img 
-                              src= {values.image?URL.createObjectURL(values.image): null}
-                              style = {{maxHeight : "300px"}}
-                            />
-                          {!values.image ?
-                          
-                            <label htmlFor="upload-photo"> 
-                              <TextField
-                                fullWidth
-                                InputLabelProps={{
-                                shrink : true                                
-                                }}
-                                style = {{
-                                  display : "none"
-                                }}
-                                id = "upload-photo"
-                                type="file"
-                                label="Banner Image"
-                                onChange={ev=>{ formik.setFieldValue("image",ev.target.files[0]) }} 
-                                error={Boolean(touched.image && errors.image)}
-                                helperText={touched.image && errors.image}
-                              />
-                              <Card 
-                                variant="outlined"
-                                sx={{
-                                  padding : 10,
-                                  marginTop : -2,
-                                  backgroundColor : "#eee"
-                                }}
-                                helperText = "requied"
-                                style = {Boolean(touched.image && errors.image)?{border : "1px solid red", textAlign : "center" }: { textAlign : "center"}}
-                              >
-                                  <CloudUploadIcon style={{fontSize : "50px", color : "gray" }}/>
-                                    <Typography style={{color : "gray"}} > Upload Image</Typography>
-                              </Card>
-                              
-                            </label>
-                              : null}
-                            <LoadingButton
-                              fullWidth
-                              size="large"
-                              type="submit"
-                              variant="contained"
-                              loading={loading}
-                            >
-                              Save
-                          </LoadingButton>
+                          {
+                            values.image ? 
+                              <Stack 
+                                  direction= "row-reverse"> 
+                                    <IconButton
+                                      style={{ marginBottom : "-30px" }}
+                                      color='error'
+                                      variant = "outlined"
+                                      onClick={RemoveImagePreview}
+                                    > <ClearIcon/></IconButton>
+                              </Stack>
+                            : null
+                          }
+                          <img 
+                            src= {values.image?URL.createObjectURL(values.image): null}
+                            style = {{maxHeight : "300px"}}
+                          />
+                          {
+                            !values.image ?
+                              <label htmlFor="upload-photo"> 
+                                <TextField
+                                  fullWidth
+                                  InputLabelProps={{
+                                  shrink : true                                
+                                  }}
+                                  style = {{
+                                    display : "none"
+                                  }}
+                                  id = "upload-photo"
+                                  type="file"
+                                  label="Banner Image"
+                                  onChange={ev=>{ formik.setFieldValue("image",ev.target.files[0]) }} 
+                                  error={Boolean(touched.image && errors.image)}
+                                  helperText={touched.image && errors.image}
+                                />
+                                <Card 
+                                  variant="outlined"
+                                  sx={{
+                                    padding : 10,
+                                    marginTop : -2,
+                                    backgroundColor : "#eee"
+                                  }}
+                                  helperText = "requied"
+                                  style = {Boolean(touched.image && errors.image)?{border : "1px solid red", textAlign : "center" }: { textAlign : "center"}}
+                                >
+                                    <CloudUploadIcon style={{fontSize : "50px", color : "gray" }}/>
+                                      <Typography style={{color : "gray"}} > Upload Image</Typography>
+                                </Card>
+                              </label>
+                            : null
+                          }
+                          <LoadingButton
+                            fullWidth
+                            size="large"
+                            type="submit"
+                            variant="contained"
+                            loading={loading}
+                          >
+                            Save
+                        </LoadingButton>
                       </Stack>
                     </Form>
                 </FormikProvider>

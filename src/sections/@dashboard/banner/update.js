@@ -109,7 +109,6 @@ export default function Update() {
     },
     validationSchema: BannerSchema,
     onSubmit: (values) => {
-
       const data = new FormData();
       data.append('title', values.title);
       data.append('_method', "PUT");
@@ -162,13 +161,11 @@ export default function Update() {
 
   const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = formik;
 
-  const  RemoveImagePreview = ()=>{
+  const RemoveImagePreview = ()=>{
     formik.setFieldValue("image", null )
-    
     if(image){
       setImage("")
     }
-
   }
   
   return(
@@ -187,138 +184,132 @@ export default function Update() {
             <Grid item xs={6} >
                 <FormikProvider value={formik}>
                     <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
-                        <Stack style={{ width : "450px" }} spacing={3}>
-                        <TextField
-                            fullWidth
-                            InputLabelProps={{
-                              shrink : true                                
-                            }}
-                            type="text"
-                            label="Title"
-                            {...getFieldProps('title')}
-                            error={Boolean(touched.title && errors.title)}
-                            helperText={touched.title && errors.title}
-                        />
-                        <TextField
-                            fullWidth
-                            select
-                            label="Type"
-                            value={1}
-                            {...getFieldProps('type')}
-                            error={Boolean(touched.type && errors.type)}
-                            helperText={touched.type && errors.type}
-                        >    
-                            <MenuItem value= "1">1. URL</MenuItem>
-                            <MenuItem value= "2">2. Store</MenuItem>
-                        </TextField> 
-                      {
-                        values.type === "1"?  
+                      <Stack style={{ width : "450px" }} spacing={3}>
                           <TextField
-                            fullWidth
-                            type="text"
-                            label="URL"
-                            {...getFieldProps('url')}
-                            error={Boolean(touched.url && errors.url)}
-                            helperText={touched.url && errors.url}
+                              fullWidth
+                              InputLabelProps={{
+                                shrink : true                                
+                              }}
+                              type="text"
+                              label="Title"
+                              {...getFieldProps('title')}
+                              error={Boolean(touched.title && errors.title)}
+                              helperText={touched.title && errors.title}
                           />
-                        : null
-                      }
-                      {
-                        values.type === "2" && Object.keys(singlStore).length > 1 ?  
-                        <Autocomplete
-                          // multiple
-                          fullWidth
-                          limitTags={1}
-                          options={FilterNullStore(storeList)}
-                          getOptionLabel = {(option)=> option.restaurant_name}
-                          defaultValue = {ObjectTOArray(singlStore)}
-                          getOptionSelected={(option, value) => option.restaurant_name === value.restaurant_name}
-                          onChange = {(event, value)=> formik.setFieldValue("restaurant_name", value) } 
-                          renderInput = {(option)=> 
-                            <TextField 
-                                {...option} 
-                                label ="Restaurant Name"
-                                error={Boolean(touched.restaurant_name && errors.restaurant_name)}
-                                helperText={touched.restaurant_name && errors.restaurant_name} 
-                            /> }
-                        />
-                        : null
-                      }  
-                      {
-                        values.type === "2" && Object.keys(singlStore).length < 1? 
-                          <Autocomplete
-                            // multiple
-                            fullWidth
-                            limitTags={1}
-                            options={storeList}
-                            getOptionLabel = {(option)=> option.restaurant_name}
-                            // defaultValue = {ObjectTOArray(singlStore)}
-                            // getOptionSelected={(option, value) => option.restaurant_name === value.restaurant_name}
-                            onChange = {(event, value)=> formik.setFieldValue("restaurant_name", value) } 
-                            renderInput = {(option)=> 
-                              <TextField 
-                                  {...option} 
-                                  label ="Restaurant Name"
-                                  error={Boolean(touched.restaurant_name && errors.restaurant_name)}
-                                  helperText={touched.restaurant_name && errors.restaurant_name} 
-                              /> }
-                          />  : null
-                      }
-
-                       {values.image  || image? 
-                           <Stack 
-                              direction= "row-reverse"> 
-                                <IconButton
-                                  style={{ marginBottom : "-30px" }}
-                                  color='error'
-                                  variant = "outlined"
-                                  onClick={RemoveImagePreview}
-                                > <ClearIcon/></IconButton>
-                           </Stack>
-
-                          : null}
-                      <img 
-                          src= {image?URL.createObjectURL(image) : values?.image}
-                          style = {{ maxHeight : "300px" }}
-                      />
-
-                      {!values.image && !image?
-                          
-                            <label htmlFor="upload-photo"> 
+                          <TextField
+                              fullWidth
+                              select
+                              label="Type"
+                              value={1}
+                              {...getFieldProps('type')}
+                              error={Boolean(touched.type && errors.type)}
+                              helperText={touched.type && errors.type}
+                          >    
+                              <MenuItem value= "1">1. URL</MenuItem>
+                              <MenuItem value= "2">2. Store</MenuItem>
+                          </TextField> 
+                          {
+                            values.type === "1"?  
                               <TextField
                                 fullWidth
-                                type = "file"
-                                onChange= {HandlerChange}                            
-                                style = {{
-                                  display : "none"
-                                }}
-                                id = "upload-photo"
+                                type="text"
+                                label="URL"
+                                {...getFieldProps('url')}
+                                error={Boolean(touched.url && errors.url)}
+                                helperText={touched.url && errors.url}
                               />
-                              <Card 
-                                variant="outlined"
-                                sx={{
-                                  padding : 10,
-                                  marginTop : -2
-                                }}
-                    
-                                style = {{textAlign : "center" }}
-                              >
-                                  <CloudUploadIcon style={{fontSize : "50px", color : "gray" }}/>
-                                    <Typography style={{color : "gray"}} > Upload Image</Typography>
-                              </Card>
-                              
-                            </label>
-                              : null}
-
-                      <LoadingButton
-                        fullWidth
-                        size="large"
-                        type="submit"
-                        variant="contained"
-                        loading={loading}
-                      >
-                          Save
-                      </LoadingButton>
+                            : null
+                          }
+                          {
+                            values.type === "2" && Object.keys(singlStore).length > 1 ?  
+                            <Autocomplete
+                              fullWidth
+                              limitTags={1}
+                              options={FilterNullStore(storeList)}
+                              getOptionLabel = {(option)=> option.restaurant_name}
+                              defaultValue = {ObjectTOArray(singlStore)}
+                              getOptionSelected={(option, value) => option.restaurant_name === value.restaurant_name}
+                              onChange = {(event, value)=> formik.setFieldValue("restaurant_name", value) } 
+                              renderInput = {(option)=> 
+                                <TextField 
+                                    {...option} 
+                                    label ="Restaurant Name"
+                                    error={Boolean(touched.restaurant_name && errors.restaurant_name)}
+                                    helperText={touched.restaurant_name && errors.restaurant_name} 
+                                /> }
+                            />
+                            : null
+                          }  
+                          {
+                            values.type === "2" && Object.keys(singlStore).length < 1? 
+                              <Autocomplete
+                                fullWidth
+                                limitTags={1}
+                                options={storeList}
+                                getOptionLabel = {(option)=> option.restaurant_name}
+                                onChange = {(event, value)=> formik.setFieldValue("restaurant_name", value) } 
+                                renderInput = {(option)=> 
+                                  <TextField 
+                                      {...option} 
+                                      label ="Restaurant Name"
+                                      error={Boolean(touched.restaurant_name && errors.restaurant_name)}
+                                      helperText={touched.restaurant_name && errors.restaurant_name} 
+                                  /> }
+                              />  : null
+                          }
+                          {
+                            values.image || image? 
+                              <Stack 
+                                  direction= "row-reverse"> 
+                                    <IconButton
+                                      style={{ marginBottom : "-30px" }}
+                                      color='error'
+                                      variant = "outlined"
+                                      onClick={RemoveImagePreview}
+                                    > <ClearIcon/></IconButton>
+                              </Stack>
+                            : null
+                          }
+                          <img 
+                              src= {image?URL.createObjectURL(image) : values?.image}
+                              style = {{ maxHeight : "300px" }}
+                          />
+                          {
+                            !values.image && !image?
+                              <label htmlFor="upload-photo"> 
+                                <TextField
+                                  fullWidth
+                                  type = "file"
+                                  onChange= {HandlerChange}                            
+                                  style = {{
+                                    display : "none"
+                                  }}
+                                  id = "upload-photo"
+                                />
+                                <Card 
+                                  variant="outlined"
+                                  sx={{
+                                    padding : 10,
+                                    marginTop : -2,
+                                    backgroundColor : "#eee"
+                                  }}
+                                  style = {{textAlign : "center" }}
+                                >
+                                    <CloudUploadIcon style={{fontSize : "50px", color : "gray" }}/>
+                                      <Typography style={{color : "gray"}} > Upload Image</Typography>
+                                </Card>
+                              </label>
+                            : null
+                          }
+                          <LoadingButton
+                            fullWidth
+                            size="large"
+                            type="submit"
+                            variant="contained"
+                            loading={loading}
+                          >
+                            Save
+                          </LoadingButton>
                       </Stack>
                     </Form>
                 </FormikProvider>
