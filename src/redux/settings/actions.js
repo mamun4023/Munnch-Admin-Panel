@@ -12,3 +12,9 @@ export const GetLoyaltyData = ()=>{
 export const UpdateData = (data)=>{
     return axios.post(`${URL}/api/v1/admin/merchant-variable/store`,data, AuthConfig)
 }
+
+
+export const DelayUpdate = (data)=>{
+    return axios.post(`${URL}/api/v1/admin/user-variable/store`,data, AuthConfig)
+}
+

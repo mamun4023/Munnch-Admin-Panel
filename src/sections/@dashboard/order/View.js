@@ -1,13 +1,9 @@
 import React, {useEffect} from 'react';
 import Card from '@mui/material/Card';
 import {Link as RouterLink, useParams} from 'react-router-dom';
-import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
-import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { Stack, Box, IconButton, Grid, Table, TableBody,TableRow, TableCell } from '@mui/material';
-import Iconify from '../../../components/Iconify';
 import {useDispatch, useSelector} from 'react-redux';
 import {FetchSingleOrder} from '../../../redux/order/fetchSingle/action';
 import { makeStyles } from "@mui/styles";
@@ -44,9 +40,7 @@ function View() {
                      {order?.cart_items.length > 0? <> 
                         {order.cart_items.map((data, i = 0 )=> <> 
                             <Card style={{ marginTop : "10px" }}   > 
-
                                 <Stack direction="row" spacing={1}>
-                                    
                                     <Box 
                                         sx={{ textAlign: 'center' }}
                                         style = {{ minWidth : "100px", background : "#eee" }}
@@ -55,20 +49,16 @@ function View() {
                                             {i+1}
                                         </h1> 
                                     </Box>
-
-
                                     <Box>
                                         {data?.image?  
                                         <img
                                             style={{maxHeight : "130px", width : "200px"}}
                                             src= {data?.image}
                                         />
-
                                         : <div style={{minHeight : "150px", minWidth : "200px"}}>
                                             <Typography padding={5} variant="body2" textAlign="center" color="text.secondary"> No Image </Typography>
                                           </div>    
                                         }
-                                    
                                     </Box>
                                     <Box>
                                         <CardContent textAlign = "right" >
@@ -82,11 +72,9 @@ function View() {
                                         </CardContent>
                                     </Box>
                                 </Stack>
-
                             </Card>
                         </>)}
                     </>  : <Typography paddingTop={8} variant="body2" textAlign="center" color="text.secondary"> No order Found </Typography>}   
-                      
                     </Grid>
                     <Grid item xs={4}>
                         <Card>
@@ -120,7 +108,6 @@ function View() {
                                 </Table>
                                 <Typography sx={{ mb: 1.5 }} color="text.secondary">
                                 </Typography>
-
                                 <h4> Delivery Address</h4>
                                 <Typography variant="body2">
                                    <Box 
@@ -133,28 +120,15 @@ function View() {
                         </Card>
                         <Card sx={{ marginTop: 2 }}>
                             <CardContent>
-                                <Typography sx={{ fontSize: 14 }} color="text.primary" gutterBottom>
+                                <Typography sx={{ fontSize: 14}} color="text.primary" gutterBottom>
                                    <h4> Order Information </h4> 
                                 </Typography>
-
                                 <Table>
                                     <TableBody>
                                         <TableRow className={classes.tableRow}>
-                                            <TableCell className={classes.tableCell} align="left"> Deliveried </TableCell>
+                                            <TableCell className={classes.tableCell} align="left"> Delivered </TableCell>
                                             <TableCell className={classes.tableCell} align="left"> {order?.is_delivery == 1? "Yes" : "No"} </TableCell>
                                         </TableRow>
-
-                                    {/* 
-                                        <TableRow className={classes.tableRow}>
-                                            <TableCell className={classes.tableCell}  align="left">Delivery Fee</TableCell>
-                                            <TableCell className={classes.tableCell} align="left">  {order?.bill_details.delivery_fee} </TableCell>
-                                        </TableRow> */}
-
-                                        {/* <TableRow className={classes.tableRow}>
-                                            <TableCell className={classes.tableCell}  align="left">Discount </TableCell>
-                                            <TableCell className={classes.tableCell} align="left">  {order?.bill_details.coupon_discount} </TableCell>
-                                        </TableRow> */}
-
                                         <TableRow className={classes.tableRow}>
                                             <TableCell className={classes.tableCell}  align="left"> Update At </TableCell>
                                             <TableCell className={classes.tableCell} align="left">  <Moment format="DD-MM-YYYY hh:mm a" >{updated_at}</Moment>  </TableCell>

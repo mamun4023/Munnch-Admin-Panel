@@ -41,11 +41,13 @@ import Strings from './pages/String';
 import MerchantString from './sections/@dashboard/strings/merchant';
 import UserString from './sections/@dashboard/strings/user';
 import Profile from './pages/Profile';
-import Settings from './pages/Settings';
-import UpdateSettings from './sections/@dashboard/settings/update';
-import Loyalty from './pages/Loyalty';
-import CreateLoyalty from './sections/@dashboard/loyalty/create';
-import UpdateLoyalty from './sections/@dashboard/loyalty/update';
+import Settings from './pages/Setting';
+import UpdateLoyalty from './sections/@dashboard/settings/updateLoyalty';
+import UpdateDeliveryDelay from './sections/@dashboard/settings/updateDeliveryDelay';
+// import Loyalty from './sections/@dashboard/settings/royaltySetting';
+// import CreateLoyalty from './sections/@dashboard/loyalty/create';
+// import UpdateLoyalty from './sections/@dashboard/loyalty/update';
+// import DeliveryDelay from './sections/@dashboard/settings/deliveryDelaySetting';
 import Bank from './pages/Bank';
 import AddBank from './sections/@dashboard/bank/create';
 import UpdateBank from './sections/@dashboard/bank/update';
@@ -101,7 +103,8 @@ export default function Router() {
         { path: "string/user", element : <UserString/>},
         { path: "profile", element : <Profile/>},
         { path: "settings", element : <Settings/>},
-        { path: "settings/update", element : <UpdateSettings/>},
+        { path: "settings/loyalty", element : <UpdateLoyalty/>},
+        { path: "settings/delivery_delay", element : <UpdateDeliveryDelay/>},
         { path: 'banner/create', element : <BannerCreate/>},
         { path: 'banner/view/:id', element : <BannerView/>},
         { path: 'banner/update/:id', element : <BannerUpdate/>},
@@ -111,9 +114,9 @@ export default function Router() {
         { path: 'cuisine', element : <Cuisine/>},
         { path: 'cuisine/create', element : <CreateCuisine/>},
         { path: 'cuisine/update/:id', element : <UpdateCuisine/>},
-        { path: 'loyalty', element : <Loyalty/>},
-        { path: 'loyalty/create', element : <CreateLoyalty/>},
-        { path: 'loyalty/update', element : <UpdateLoyalty/>},
+        // { path: 'settings/loyalty', element : <Loyalty/>},
+        // { path: 'loyalty/create', element : <CreateLoyalty/>},
+        // { path: 'loyalty/update', element : <UpdateLoyalty/>},
         { path: 'bank', element : <Bank/>},
         { path: 'bank/add', element : <AddBank/>},
         { path: 'bank/update/:id', element : <UpdateBank/>},
