@@ -19,7 +19,6 @@ export default function MyEditor() {
           </Typography>
             <Grid
                 container
-                // item xs={8} 
                 spacing={0}
                 direction="column"
                 alignItems="center"
@@ -28,14 +27,14 @@ export default function MyEditor() {
             >
             <Grid item xs={6} >
                   <Stack style={{ width : "450px" }} spacing={3}>
-                    <Button
+                    {/* <Button
                       fullWidth
                       size="large"
                       component={RouterLink} to="/dashboard/settings/loyalty"
                       variant="outlined"
                     >
                       Royalty Setting
-                    </Button>
+                    </Button> */}
                     <Button
                       fullWidth
                       size="large"
