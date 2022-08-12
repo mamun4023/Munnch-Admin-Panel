@@ -2,7 +2,7 @@ export const URL = "https://api-munchh.segwitz.dev";
 
 export const AuthConfig = {
         headers : {
-            "Accept": "multipart/form-data",   //also support application/json
+            "Accept": "multipart/form-data", 
             "Authorization": 'Bearer '+ localStorage.getItem(process.env.REACT_APP_TOKEN)
         }          
     }

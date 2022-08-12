@@ -21,7 +21,6 @@ export default function MyEditor() {
           </Typography>
             <Grid
                 container
-                // item xs={8} 
                 spacing={0}
                 direction="column"
                 alignItems="center"
