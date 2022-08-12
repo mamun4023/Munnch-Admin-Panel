@@ -29,7 +29,7 @@ function View() {
 
     const orderedData = useSelector(state => state.SingleOrder.data)
     
-    const {order, address, customer, order_remarks, store, created_at, updated_at} = orderedData;
+    const {order, address, customer, order_remarks,cart_items, store, created_at, updated_at} = orderedData;
     const classes = useStyles();
     return(
             <>
@@ -88,7 +88,7 @@ function View() {
                                                 </Box>
                                                 <Box> 
                                                     <Typography variant="body2" color="text.secondary">
-                                                        <h4> Remark  &ensp;&ensp; : &ensp; {order_remarks !== null? order_remarks :  "Empty"}</h4>
+                                                        <h4> Remark  &ensp;&ensp; : &ensp; {data.remarks? data.remarks :  "Empty"}</h4>
                                                     </Typography>
                                                 </Box>
                                             </Stack> 
@@ -102,7 +102,7 @@ function View() {
                     <Grid item xs={4}>
                         <Card>
                             <Typography  padding={1} style={{background : "#eee" }}  textAlign="center" variant="h6" component="div">
-                                Payment Information  (<IconButton>  <RemoveIcon/></IconButton>)
+                                Payment Information 
                             </Typography>
                             <CardContent>
                                 <Table>
@@ -117,11 +117,11 @@ function View() {
                                         </TableRow>
                                         <TableRow className={classes.tableRow}>
                                             <TableCell className={classes.tableCell}  align="left">Coupon Discount </TableCell>
-                                            <TableCell className={classes.tableCell} align="left">  RM {order?.bill_details.coupon_discount} </TableCell>
+                                            <TableCell className={classes.tableCell} align="left">  - RM {order?.bill_details?.coupon_discount.toFixed(2)} </TableCell>
                                         </TableRow>
                                         <TableRow className={classes.tableRow}>
-                                            <TableCell className={classes.tableCell}  align="left">Royalty Discount </TableCell>
-                                            <TableCell className={classes.tableCell} align="left">  RM {order?.bill_details.loyalty_stamp_discount} </TableCell>
+                                            <TableCell className={classes.tableCell}  align="left">Loyalty Discount </TableCell>
+                                            <TableCell className={classes.tableCell} align="left">  - RM {order?.bill_details.loyalty_stamp_discount} </TableCell>
                                         </TableRow>
                                         <TableRow className={classes.tableRow}>
                                             <TableCell className={classes.tableCell}  align="left">Total Payment </TableCell>
