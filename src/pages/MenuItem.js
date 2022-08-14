@@ -240,7 +240,7 @@ export default function MenuItem() {
                             <Avatar  variant="square" style={{width : "70px"}} src= {image} />
                           </TableCell>
                           
-                          <TableCell className= {classes.tableCell}  align="left">RM {price}  </TableCell>
+                          <TableCell className= {classes.tableCell}  align="left">RM {price?.toFixed(2)}  </TableCell>
                           
                           <TableCell className= {classes.tableCell} align="left" sx={{ maxWidth: 300 }}>
                              {CapitalizeFirstLetter(description)}

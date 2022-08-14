@@ -83,7 +83,7 @@ function View() {
                                                     </Typography>
                                                     <Typography variant="body2" color="text.secondary">
                                                         <h4> Quantity  &ensp; : &ensp; {data?.quantity}</h4>
-                                                        <h4> Price &ensp;&ensp;&ensp; &ensp; : &ensp; RM {data?.total_price} </h4>
+                                                        <h4> Price &ensp;&ensp;&ensp; &ensp; : &ensp; RM {data?.total_price?.toFixed(2)} </h4>
                                                     </Typography>
                                                 </Box>
                                                 <Box> 
@@ -109,11 +109,11 @@ function View() {
                                     <TableBody>
                                         <TableRow className={classes.tableRow}>
                                             <TableCell className={classes.tableCell} align="left">Total Price</TableCell>
-                                            <TableCell className={classes.tableCell} align="left"> RM {order?.bill_details.item_total} </TableCell>
+                                            <TableCell className={classes.tableCell} align="left"> RM {order?.bill_details.item_total?.toFixed(2)} </TableCell>
                                         </TableRow>
                                         <TableRow className={classes.tableRow}>
                                             <TableCell className={classes.tableCell}  align="left">Delivery Fee</TableCell>
-                                            <TableCell className={classes.tableCell} align="left">  RM {order?.bill_details.delivery_fee} </TableCell>
+                                            <TableCell className={classes.tableCell} align="left">  RM {order?.bill_details.delivery_fee?.toFixed(2)} </TableCell>
                                         </TableRow>
                                         <TableRow className={classes.tableRow}>
                                             <TableCell className={classes.tableCell}  align="left">Coupon Discount </TableCell>
@@ -121,11 +121,11 @@ function View() {
                                         </TableRow>
                                         <TableRow className={classes.tableRow}>
                                             <TableCell className={classes.tableCell}  align="left">Loyalty Discount </TableCell>
-                                            <TableCell className={classes.tableCell} align="left">  - RM {order?.bill_details.loyalty_stamp_discount} </TableCell>
+                                            <TableCell className={classes.tableCell} align="left">  - RM {order?.bill_details?.loyalty_stamp_discount?.toFixed(2)} </TableCell>
                                         </TableRow>
                                         <TableRow className={classes.tableRow}>
                                             <TableCell className={classes.tableCell}  align="left">Total Payment </TableCell>
-                                            <TableCell className={classes.tableCell} align="left">  RM {order?.bill_details.to_pay} </TableCell>
+                                            <TableCell className={classes.tableCell} align="left">  RM {order?.bill_details?.to_pay?.toFixed(2)} </TableCell>
                                         </TableRow>
                                         <TableRow className={classes.tableRow}>
                                             <TableCell className={classes.tableCell}  align="left">User Phone </TableCell>

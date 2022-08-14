@@ -254,7 +254,7 @@ export default function Merchant() {
                           <TableCell className= {classes.tableCell}  align="left">{ic_number}</TableCell>
                           <TableCell className= {classes.tableCell}  align="left">{email}</TableCell>
                           <TableCell className= {classes.tableCell}  align="left">{phone}</TableCell>
-                          <TableCell className= {classes.tableCell}  align="left"> RM {wallet?.total_balance} </TableCell>
+                          <TableCell className= {classes.tableCell}  align="left"> RM {wallet?.total_balance?.toFixed(2)} </TableCell>
                           <TableCell className= {classes.tableCell}  align="left"> 
                             <Rating style = {{color : "black"}} name="read-only" value={ restaurants[0]?.average_rating} readOnly />
                           </TableCell>

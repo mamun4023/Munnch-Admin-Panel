@@ -234,7 +234,7 @@ export default function User() {
                           </TableCell>
                           <TableCell className= {classes.tableCell}  align="left">{email}</TableCell>
                           <TableCell className= {classes.tableCell}  align="left">{phone}</TableCell>
-                          <TableCell className= {classes.tableCell}  align="left">RM {wallet_data? wallet_data?.total_balance : "0"}</TableCell>
+                          <TableCell className= {classes.tableCell}  align="left">RM {wallet_data?.total_balance?.toFixed(2)}</TableCell>
                           <TableCell align="left">
                             <Moment format="DD-MM-YYYY hh:mm a" >{created_at}</Moment>
                           </TableCell>

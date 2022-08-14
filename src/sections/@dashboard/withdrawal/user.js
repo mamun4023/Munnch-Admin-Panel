@@ -240,7 +240,7 @@ export default function Withdrawal() {
                           <TableCell className={classes.tableCell} align="left">{CapitalizeFirstLetter(store_bank?.holder_name)}</TableCell>
                           <TableCell className={classes.tableCell} align="left">{bank_name}</TableCell>
                           <TableCell className={classes.tableCell} align="left">{store_bank?.account_number}</TableCell>
-                          <TableCell className={classes.tableCell} align="left">RM {amount}</TableCell>
+                          <TableCell className={classes.tableCell} align="left">RM {amount?.toFixed(2)}</TableCell>
                           <TableCell className={classes.tableCell} align="left">
                             <Moment format="DD-MM-YYYY hh:mm a" >{created_at}</Moment> 
                           </TableCell>   

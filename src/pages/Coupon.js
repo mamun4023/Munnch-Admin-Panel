@@ -320,9 +320,9 @@ export default function Coupon() {
                           <TableCell className= {classes.tableCell} align="left">{id}</TableCell>
                           <TableCell className= {classes.tableCell} align="left">{code.toUpperCase()}</TableCell>
                           <TableCell className= {classes.tableCell}  align="left">{coupon_type === 1 ? "Fixed" : "Percentage"}</TableCell>
-                          <TableCell className= {classes.tableCell}  align="left">{coupon_type === 1? "RM "+ amount: "--"}</TableCell>
+                          <TableCell className= {classes.tableCell}  align="left">{coupon_type === 1? "RM "+ amount?.toFixed(2): "--"}</TableCell>
                           <TableCell className= {classes.tableCell}  align="left">{coupon_type === 2? amount : "--"}</TableCell>
-                          <TableCell className= {classes.tableCell}  align="left">{max_discount === 0? "--":"RM "+ max_discount}</TableCell>
+                          <TableCell className= {classes.tableCell}  align="left">{max_discount === 0? "--":"RM "+ max_discount?.toFixed(2)}</TableCell>
                           <TableCell className= {classes.tableCell}  align="left">
                             <Moment format="DD-MM-YYYY" >{start_date}</Moment>
                           </TableCell>
@@ -337,8 +337,8 @@ export default function Coupon() {
                             />  
                           </TableCell>
                           <TableCell className= {classes.tableCell}  align="left">{usage_per_user} Time</TableCell>
-                          <TableCell className= {classes.tableCell}  align="left">RM {minimum_spend}</TableCell>
-                          <TableCell className= {classes.tableCell}  align="left">RM {maximum_spend}</TableCell>
+                          <TableCell className= {classes.tableCell}  align="left">RM {minimum_spend?.toFixed(2)}</TableCell>
+                          <TableCell className= {classes.tableCell}  align="left">RM {maximum_spend?.toFixed(2)}</TableCell>
                           <TableCell className= {classes.tableCell}  align="left">{maximum_usage_limit} Time</TableCell>
                           <TableCell className= {classes.tableCell}  align="left"> {is_expired? "Yes" : "No"} </TableCell>
                           <TableCell className= {classes.tableCell}  align="left">{CapitalizeFirstLetter(ReduceDescription(description?description : "--"))}</TableCell> 

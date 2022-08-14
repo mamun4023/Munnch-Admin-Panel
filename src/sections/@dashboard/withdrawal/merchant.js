@@ -26,7 +26,6 @@ import Page from '../../../components/Page';
 import Scrollbar from '../../../components/Scrollbar';
 import SearchNotFound from '../../../components/SearchNotFound';
 import { WithdrawalListHead, WithdrawalListToolbar, WithdrawalMoreMenu } from './index';
-import {toast} from 'material-react-toastify';
 import {FetchWithdrawalList} from '../../../redux/withdraw/fetchAll/action';
 import {MerchantStatusToggler} from '../../../redux/withdraw/ApproveToggler/actions';
 import Spinner from 'src/components/Spinner';
@@ -38,7 +37,6 @@ const useStyles = makeStyles({
     padding: "10px 16px",
   }
 });
-
 
 const TABLE_HEAD = [
   { 
@@ -56,7 +54,6 @@ const TABLE_HEAD = [
     id: 'profile_image', 
     alignRight: false 
   },
-
   { 
     label: 'EMAIL',
     id: 'email', 
@@ -148,7 +145,6 @@ export default function Withdrawal() {
   const dispatch = useDispatch();
   const loading = useSelector(state => state.Withdrawal.loading);
 
-
   useEffect(()=>{
     dispatch(FetchWithdrawalList(filterName, page, rowsPerPage, order));
   },[dispatch, filterName, page, rowsPerPage, order])
@@ -213,7 +209,7 @@ export default function Withdrawal() {
           
           {loading? <Spinner/> :  <Box> 
           <Scrollbar>
-            <TableContainer sx={{ minWidth: 2200 }}>
+            <TableContainer sx={{ minWidth: 1800 }}>
               <Table>
                 <WithdrawalListHead
                   order={order}
@@ -243,7 +239,7 @@ export default function Withdrawal() {
                           <TableCell className= {classes.tableCell}  align="left">{CapitalizeFirstLetter(store_bank?.holder_name)}</TableCell>
                           <TableCell className= {classes.tableCell}  align="left">{store_bank?.bank?.name}</TableCell>
                           <TableCell className= {classes.tableCell}  align="left">{store_bank?.account_number}</TableCell>
-                          <TableCell className= {classes.tableCell}  align="left">RM {amount}</TableCell>
+                          <TableCell className= {classes.tableCell}  align="left">RM {amount?.toFixed(2)}</TableCell>
                           <TableCell className= {classes.tableCell}  align="left">
                             <Moment format="DD-MM-YYYY hh:mm a" >{created_at}</Moment> 
                           </TableCell>   
@@ -252,8 +248,7 @@ export default function Withdrawal() {
                                 onChange={()=> StatusChangeHandler(id)}
                                 defaultChecked = {is_withdrawn === 1? true: false}
                               />
-
-                            </TableCell>
+                          </TableCell>
                           <TableCell align="right">
                             {/* <MerchantMoreMenu /> */}
                           </TableCell>
@@ -291,7 +286,6 @@ export default function Withdrawal() {
               filteredUsers.length === 0 || filteredUsers.length < rowsPerPage? {disabled: true} : undefined
             }
           />
-
         </Box>}  
         </Card>
       </Container>
