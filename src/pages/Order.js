@@ -83,11 +83,6 @@ const TABLE_HEAD = [
     id: 'status',
     alignRight: false 
   },
-  // { 
-  //   label: 'CANCEL ORDER', 
-  //   id: 'cancelOrder',
-  //   alignRight: false 
-  // },
   { 
     label: 'CREATED AT', 
     id: 'createAt', 
@@ -155,17 +150,14 @@ export default function Order() {
   const classes = useStyles();
   const [page, setPage] = useState(1);
   const [order, setOrder] = useState('desc');
-  const [selected, setSelected] = useState([]);
   const [orderBy, setOrderBy] = useState('id');
   const [filterName, setFilterName] = useState('');
   const [rowsPerPage, setRowsPerPage] = useState(5);
-  const [orderData, setOrderData] = useState([]);
   const [orderStatus, setOrderStatus] = useState("ASSIGNING_DRIVER");
   const dispatch = useDispatch();
   const loading = useSelector(state => state.OrderList.loading);
 
   useEffect(()=>{
-    // FetchOrder(orderStatus
     dispatch(FetchOrderList(page, rowsPerPage, order, orderStatus, filterName))
   },[dispatch, page, rowsPerPage, order, orderStatus, filterName])
 
@@ -193,24 +185,6 @@ export default function Order() {
   const filteredUsers = applySortFilter(OrderList, getComparator(order, orderBy), filterName);
   const isUserNotFound = filteredUsers.length === 0;
 
-  const CanclerHandler = (id)=>{
-    dispatch(CancleOrder(id))
-    setTimeout(()=>{
-      dispatch(FetchOrderList(page, rowsPerPage, order, orderStatus, filterName))
-    }, 1000)
-  }
-
-  const anchorRef = useRef(null);
-  const [open, setOpen] = useState(false);
-
-  const handleOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-  
   return (
     <Page title="Munchh | Order">
       <Container>
@@ -222,7 +196,6 @@ export default function Order() {
         <Card>
               <div style={{ display:"flex", flexWrap:"wrap", justifyContent:"space-between"}}>
                 <OrderListToolbar
-                  numSelected={selected.length}
                   filterName={filterName}
                   onFilterName={handleFilterByName}
                 />
@@ -237,7 +210,6 @@ export default function Order() {
                     fullWidth
                     select
                     size='small'
-                    // label="Coupon Type"
                     variant="outlined"
                     value={orderStatus}
                     onChange = {(e)=>setOrderStatus(e.target.value)}
@@ -277,11 +249,11 @@ export default function Order() {
                           <TableCell className= {classes.tableCell}  align="left">{CapitalizeFirstLetter(customer?.name)}</TableCell>
                           <TableCell className= {classes.tableCell}  align="left">{CapitalizeFirstLetter(store?.restaurant_name)}</TableCell>
                           <TableCell className= {classes.tableCell}  align="left">{RiderStatus(status, rider_data?.rider_details?.name, order?.is_preorder?"Pre-Order" :"Food Item")}</TableCell>
-                          <TableCell className= {classes.tableCell}  align="left">RM {paid_price}</TableCell> 
+                          <TableCell className= {classes.tableCell}  align="left">RM {paid_price?.toFixed(2)}</TableCell> 
                           <TableCell align="left">{order?.is_preorder?"Pre-Order" :"Food Item"}</TableCell>
                           <TableCell className= {classes.tableCell}  align="left">{LowerCase(status)}</TableCell> 
                           <TableCell className= {classes.tableCell}  align="left">
-                            <Moment format="DD-MM-YYYY HH:mm a" >{created_at}</Moment>
+                            <Moment format="DD-MM-YYYY HH:mm a">{created_at}</Moment>
                           </TableCell>   
                           <TableCell className= {classes.tableCell}  align="right">
                              <OrderMoreMenu id = {id} /> 

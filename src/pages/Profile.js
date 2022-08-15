@@ -27,17 +27,17 @@ export default function Profile() {
         <>
             <RootStyle  title = "Admin Profile" > </RootStyle>    
             <Box sx={{ maxWidth: { xs: 320, sm: 480 }, bgcolor: 'background.paper' }}>
-            <Tabs
-                value={value}
-                onChange={handleChange}
-                variant="scrollable"
-                scrollButtons="auto"
-                aria-label="scrollable auto tabs example"
-            >
-                <Tab value= "admin_detail" label="Admin Details" > </Tab>
-                <Tab value="change_password" label="Change Password" />
-                <Tab value="change_Picture" label="Change Picture" />
-            </Tabs>
+                <Tabs
+                    value={value}
+                    onChange={handleChange}
+                    variant="scrollable"
+                    scrollButtons="auto"
+                    aria-label="scrollable auto tabs example"
+                >
+                    <Tab value= "admin_detail" label="Admin Details" > </Tab>
+                    <Tab value="change_password" label="Change Password" />
+                    <Tab value="change_Picture" label="Change Picture" />
+                </Tabs>
             </Box>
             <Box>
                 {

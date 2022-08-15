@@ -5,6 +5,7 @@ import LogoOnlyLayout from './layouts/LogoOnlyLayout';
 import NotFound from './pages/Page404';
 // pages
 import Login from './pages/Login';
+import Profile from './pages/Profile';
 // import Register from './pages/Register';
 import User from './pages/User';
 import Merchant from './pages/Merchant';
@@ -15,7 +16,6 @@ import MenuItem from './pages/MenuItem';
 import CreateMenuItem from './sections/@dashboard/menuItem/create';
 import ViewMenuItem from './sections/@dashboard/menuItem/view';
 import UpdateItem from './sections/@dashboard/menuItem/update';
-import UploadImage from './sections/@dashboard/menuItem/image';
 import Withdrawal from './pages/Withdrawal';
 import MerchantWithdraw from './sections/@dashboard/withdrawal/merchant';
 import UserWithdraw from './sections/@dashboard/withdrawal/user';
@@ -40,14 +40,8 @@ import ViewOrder from './sections/@dashboard/order/View';
 import Strings from './pages/String';
 import MerchantString from './sections/@dashboard/strings/merchant';
 import UserString from './sections/@dashboard/strings/user';
-import Profile from './pages/Profile';
 import Settings from './pages/Setting';
-import UpdateLoyalty from './sections/@dashboard/settings/updateLoyalty';
 import UpdateDeliveryDelay from './sections/@dashboard/settings/updateDeliveryDelay';
-// import Loyalty from './sections/@dashboard/settings/royaltySetting';
-// import CreateLoyalty from './sections/@dashboard/loyalty/create';
-// import UpdateLoyalty from './sections/@dashboard/loyalty/update';
-// import DeliveryDelay from './sections/@dashboard/settings/deliveryDelaySetting';
 import Bank from './pages/Bank';
 import AddBank from './sections/@dashboard/bank/create';
 import UpdateBank from './sections/@dashboard/bank/update';
@@ -55,9 +49,6 @@ import TransactionHistory from './pages/TransactionHistory';
 import UserTransactionHistory from './sections/@dashboard/transactionHistory/user';
 import MerchantTransactionHistory from './sections/@dashboard/transactionHistory/merchant';
 import Report from './pages/Report';
-import DeliveryFee from './pages/DeliveryFee';
-import AddRange from './sections/@dashboard/deliveryFee/create';
-import UpdateRange from './sections/@dashboard/deliveryFee/update';
 import ContactUs from './pages/Contact';
 import UserContact from './sections/@dashboard/contact/User';
 import MerchantContact from './sections/@dashboard/contact/Merchant';
@@ -84,7 +75,6 @@ export default function Router() {
         { path: 'merchant/menu/:id', element : <MenuItem/>},
         { path: 'merchant/menu/create/:id', element : <CreateMenuItem/>},
         { path: 'merchant/menu/view/:id', element : <ViewMenuItem/>},
-        { path: 'merchant/menu/image', element : <UploadImage/>},
         { path: 'merchant/menu/update/:id', element : <UpdateItem/>},
         { path: 'order', element : <Order/>},
         { path: 'order/view/:id', element : <ViewOrder/>},
@@ -103,7 +93,6 @@ export default function Router() {
         { path: "string/user", element : <UserString/>},
         { path: "profile", element : <Profile/>},
         { path: "settings", element : <Settings/>},
-        { path: "settings/loyalty", element : <UpdateLoyalty/>},
         { path: "settings/delivery_delay", element : <UpdateDeliveryDelay/>},
         { path: 'banner/create', element : <BannerCreate/>},
         { path: 'banner/view/:id', element : <BannerView/>},
@@ -114,9 +103,6 @@ export default function Router() {
         { path: 'cuisine', element : <Cuisine/>},
         { path: 'cuisine/create', element : <CreateCuisine/>},
         { path: 'cuisine/update/:id', element : <UpdateCuisine/>},
-        // { path: 'settings/loyalty', element : <Loyalty/>},
-        // { path: 'loyalty/create', element : <CreateLoyalty/>},
-        // { path: 'loyalty/update', element : <UpdateLoyalty/>},
         { path: 'bank', element : <Bank/>},
         { path: 'bank/add', element : <AddBank/>},
         { path: 'bank/update/:id', element : <UpdateBank/>},
@@ -124,9 +110,6 @@ export default function Router() {
         { path: 'transaction_history/user', element : <UserTransactionHistory/>},
         { path: 'transaction_history/merchant', element : <MerchantTransactionHistory/>},
         { path: 'report', element : <Report/>},
-        { path: 'delivery_fee', element : <DeliveryFee/>},
-        { path: 'delivery_fee/add', element : <AddRange/>},
-        { path: 'delivery_fee/update/:id', element : <UpdateRange/>},
         { path: 'contact', element : <ContactUs/>},
         { path: 'contact/user', element : <UserContact/>},
         { path: 'contact/merchant', element : <MerchantContact/>},

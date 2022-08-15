@@ -306,7 +306,6 @@ export default function Coupon() {
                         maximum_usage_limit,
                         is_active,
                         is_expired,
-                        is_exhausted,
                         description,
                         created_at,
                         updated_at,
@@ -317,8 +316,8 @@ export default function Coupon() {
                           hover
                           key={id}
                         >
-                          <TableCell className= {classes.tableCell} align="left">{id}</TableCell>
-                          <TableCell className= {classes.tableCell} align="left">{code.toUpperCase()}</TableCell>
+                          <TableCell className= {classes.tableCell}  align="left">{id}</TableCell>
+                          <TableCell className= {classes.tableCell}  align="left">{code.toUpperCase()}</TableCell>
                           <TableCell className= {classes.tableCell}  align="left">{coupon_type === 1 ? "Fixed" : "Percentage"}</TableCell>
                           <TableCell className= {classes.tableCell}  align="left">{coupon_type === 1? "RM "+ amount?.toFixed(2): "--"}</TableCell>
                           <TableCell className= {classes.tableCell}  align="left">{coupon_type === 2? amount : "--"}</TableCell>

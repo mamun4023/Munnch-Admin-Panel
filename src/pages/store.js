@@ -1,5 +1,4 @@
 import { useState, useEffect, useDebugValue } from 'react';
-import { filter } from 'lodash';
 import { Link as RouterLink, useParams } from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
 import { styled } from '@mui/material/styles';
@@ -7,6 +6,7 @@ import ImageListItemBar from '@mui/material/ImageListItemBar';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import Info from '@mui/icons-material/Info';
+
 // material
 import {
   Card,
@@ -16,15 +16,10 @@ import {
   TableRow,
   Grid,
   CardContent,
-  TableBody,
   TableCell,
-  TextField,
-  CardMedia,
   Container,
   Typography,
   IconButton,
-  TableContainer,
-  TablePagination,
   ImageList,
   ImageListItem
 
@@ -32,7 +27,6 @@ import {
 import { withStyles, makeStyles } from "@mui/styles";
 // components
 import Page from '../components/Page';
-import Scrollbar from '../components/Scrollbar';
 import Iconify from '../components/Iconify';
 import SearchNotFound from '../components/SearchNotFound';
 import TimingTable from '../sections/@dashboard/store/timingTable';
@@ -135,7 +129,6 @@ export default function Store() {
                         <Typography style={{ background : "#eee" }}  padding={1} textAlign= "center" variant="h6" component="div">
                             Additional Information
                         </Typography>
-                        
                         <Typography sx={{ mb: 1.5, p : 1.5 }} color="text.secondary">
                           {StoreData.additional_info? StoreData.additional_info : <div  style={{ textAlign : "center", "padding" : "20px"}} > empty </div> }
                         </Typography>
@@ -187,7 +180,6 @@ export default function Store() {
                                   <ImageListItemBar
                                     title={item?.cuisine_name}
                                     subtitle = {item?.status ==1 ? "Active" : "Inactive"}
-
                                     actionIcon={
                                       <IconButton
                                         sx={{ color: 'rgba(255, 255, 255, 0.54)' }}

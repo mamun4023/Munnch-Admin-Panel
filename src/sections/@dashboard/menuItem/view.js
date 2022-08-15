@@ -77,7 +77,7 @@ export default function View() {
                                     </TableRow>
                                     <TableRow className={classes.tableRow}>
                                         <TableCell align="left" className={classes.tableCell}> Item Price </TableCell>
-                                        <TableCell align="left" className={classes.tableCell}> RM {price}</TableCell>
+                                        <TableCell align="left" className={classes.tableCell}> RM {price?.toFixed(2)}</TableCell>
                                     </TableRow>
                                     <TableRow className={classes.tableRow}>
                                         <TableCell align="left" className={classes.tableCell}> Stock </TableCell>
@@ -122,7 +122,7 @@ export default function View() {
                                     </TableRow>
                                     <TableRow className={classes.tableRow}>
                                         <TableCell align="left" className={classes.tableCell}>Delivery Charge </TableCell>
-                                        <TableCell align="left" className={classes.tableCell}> RM {store?.delivery_charge} </TableCell>
+                                        <TableCell align="left" className={classes.tableCell}> RM {store?.delivery_charge?.toFixed(2)} </TableCell>
                                     </TableRow>
                                     <TableRow className={classes.tableRow}>
                                         <TableCell align="left" className={classes.tableCell}> Maximum Radius </TableCell>

@@ -132,12 +132,11 @@ export default function MenuItem() {
   const storeId = id;
   const [page, setPage] = useState(1);
   const [order, setOrder] = useState('desc');
-  const [selected, setSelected] = useState([]);
   const [orderBy, setOrderBy] = useState('id');
   const [filterName, setFilterName] = useState('');
   const [rowsPerPage, setRowsPerPage] = useState(5);
-  const [menuData, setMenuData] = useState([]);
-  const [menuStatus, setMenuStatus] = useState("true");
+  // const [menuData, setMenuData] = useState([]);
+  // const [menuStatus, setMenuStatus] = useState("true");
   const dispatch = useDispatch();
   const loading = useSelector(state => state.FetchAllMenu.loading);
 
@@ -146,7 +145,6 @@ export default function MenuItem() {
   },[dispatch, storeId, filterName, page, rowsPerPage, order])
 
   const MenuList = useSelector(state => state.FetchAllMenu.data);
-  console.log("menu item data", MenuList)
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -197,7 +195,6 @@ export default function MenuItem() {
         <Card>
           <div style={{ display:"flex", flexWrap:"wrap", justifyContent:"space-between"}}>
               <MenuListToolbar
-                  numSelected={selected.length}
                   filterName={filterName}
                   onFilterName={handleFilterByName}
                 />
@@ -214,8 +211,7 @@ export default function MenuItem() {
                 >Inactive</Button> 
               </div> */}
           </div>
-
-        {loading? <Spinner/> : <Box>  
+          {loading? <Spinner/> : <Box>  
           <Scrollbar>
             <TableContainer sx={{ minWidth: 1600 }}>
               <Table>
@@ -239,9 +235,7 @@ export default function MenuItem() {
                           <TableCell className= {classes.tableCell} align="left">
                             <Avatar  variant="square" style={{width : "70px"}} src= {image} />
                           </TableCell>
-                          
-                          <TableCell className= {classes.tableCell}  align="left">RM {price?.toFixed(2)}  </TableCell>
-                          
+                          <TableCell className= {classes.tableCell}  align="left">RM {price?.toFixed(2)} </TableCell>
                           <TableCell className= {classes.tableCell} align="left" sx={{ maxWidth: 300 }}>
                              {CapitalizeFirstLetter(description)}
                           </TableCell>
@@ -250,10 +244,10 @@ export default function MenuItem() {
                           </TableCell>
                           <TableCell className= {classes.tableCell} align="left">{food_item_type}</TableCell>
                           <TableCell className= {classes.tableCell} align="left">
-                           <Switch
+                            <Switch
                               onChange={()=>StockTogglerHandler(id)}
                               defaultChecked={in_stock === 1?true : false}
-                           />  
+                            />  
                           </TableCell>
                           <TableCell className= {classes.tableCell} align="left">
                             <Switch
@@ -305,7 +299,7 @@ export default function MenuItem() {
               filteredItems.length === 0 || filteredItems.length < rowsPerPage? {disabled: true} : undefined
             }
           />
-      </Box>} 
+          </Box>} 
         </Card>
       </Container>
     </Page>

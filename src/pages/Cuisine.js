@@ -162,90 +162,89 @@ const PopularToggleHandler = (id)=>{
           </Button>
         </Stack>
         <Card>
-        <Box>  
-          <CuisineListToolbar
-            filterName={filterName}
-            onFilterName={handleFilterByName}
-          />
-      
-        {loading? <Spinner/>: <Box>  
-          <Scrollbar>
-            <TableContainer sx={{ minWidth: 800 }}>
-              <Table>
-                <CuisineListHead
-                  order={order}
-                  orderBy={orderBy}
-                  headLabel={TABLE_HEAD}
-                  onRequestSort={handleRequestSort}
-                />
-                <TableBody>
-                  {filteredCuisine
-                    .map((row) => {
-                      const { id, cuisine_name, image, created_at, is_popular } = row;
-                      return (
-                        <TableRow
-                          hover
-                          key={id}
-                        >
-                          <TableCell className= {classes.tableCell} align="left">{id}</TableCell>
-                          <TableCell className= {classes.tableCell} align="left">{CapitalizeFirstLetter(cuisine_name)}</TableCell>
-                          <TableCell className= {classes.tableCell} align="left"> 
-                            <Avatar  variant="square" style={{width : "70px"}} src= {image} />
-                          </TableCell>
-                          <TableCell className= {classes.tableCell} align="left">
-                            <Moment format="DD-MM-YYYY hh:mm a" >{created_at}</Moment> 
-                          </TableCell>
-                          <TableCell className= {classes.tableCell} align="left">
-                            <Switch
-                              onClick={()=> PopularToggleHandler(id)}
-                              defaultChecked = {is_popular === 1?true: false}
-                            />
-                          </TableCell>
-                          <TableCell className= {classes.tableCell} align="right">
-                            <CuisineMoreMenu 
-                              id = {id}
-                              filter = {filterName}
-                              page = {page}
-                              limit = {rowsPerPage}
-                              order = {order}  
-                            />
-                          </TableCell>
-                        </TableRow>
-                      );
-                    })}
-                </TableBody>
-                {isUserNotFound && (
-                  <TableBody>
-                    <TableRow>
-                      <TableCell align="center" colSpan={6} sx={{ py: 3 }}>
-                        <SearchNotFound searchQuery={filterName} />
-                      </TableCell>
-                    </TableRow>
-                  </TableBody>
-                )}
-              </Table>
-            </TableContainer>
-          </Scrollbar>
-          <TablePagination
-            rowsPerPageOptions={[5, 10, 25]}
-            component="div"
-            count={-1}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            onPageChange={handleChangePage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-            labelDisplayedRows={({ page }) => {
-              return `Page: ${page}`;
-            }}
-            backIconButtonProps={
-              page === 1 ? {disabled: true} : undefined
-            }
-            nextIconButtonProps={
-              filteredCuisine.length === 0 || filteredCuisine.length < rowsPerPage? {disabled: true} : undefined
-            }
-          />
-        </Box>} 
-        </Box>
+            <Box>  
+              <CuisineListToolbar
+                filterName={filterName}
+                onFilterName={handleFilterByName}
+              />
+              {loading? <Spinner/>: <Box>  
+                  <Scrollbar>
+                    <TableContainer sx={{ minWidth: 800 }}>
+                      <Table>
+                        <CuisineListHead
+                          order={order}
+                          orderBy={orderBy}
+                          headLabel={TABLE_HEAD}
+                          onRequestSort={handleRequestSort}
+                        />
+                        <TableBody>
+                          {filteredCuisine
+                            .map((row) => {
+                              const { id, cuisine_name, image, created_at, is_popular } = row;
+                              return (
+                                <TableRow
+                                  hover
+                                  key={id}
+                                >
+                                  <TableCell className= {classes.tableCell} align="left">{id}</TableCell>
+                                  <TableCell className= {classes.tableCell} align="left">{CapitalizeFirstLetter(cuisine_name)}</TableCell>
+                                  <TableCell className= {classes.tableCell} align="left"> 
+                                    <Avatar  variant="square" style={{width : "70px"}} src= {image} />
+                                  </TableCell>
+                                  <TableCell className= {classes.tableCell} align="left">
+                                    <Moment format="DD-MM-YYYY hh:mm a" >{created_at}</Moment> 
+                                  </TableCell>
+                                  <TableCell className= {classes.tableCell} align="left">
+                                    <Switch
+                                      onClick={()=> PopularToggleHandler(id)}
+                                      defaultChecked = {is_popular === 1?true: false}
+                                    />
+                                  </TableCell>
+                                  <TableCell className= {classes.tableCell} align="right">
+                                    <CuisineMoreMenu 
+                                      id = {id}
+                                      filter = {filterName}
+                                      page = {page}
+                                      limit = {rowsPerPage}
+                                      order = {order}  
+                                    />
+                                  </TableCell>
+                                </TableRow>
+                              );
+                            })}
+                        </TableBody>
+                        {isUserNotFound && (
+                          <TableBody>
+                            <TableRow>
+                              <TableCell align="center" colSpan={6} sx={{ py: 3 }}>
+                                <SearchNotFound searchQuery={filterName} />
+                              </TableCell>
+                            </TableRow>
+                          </TableBody>
+                        )}
+                      </Table>
+                    </TableContainer>
+                  </Scrollbar>
+                  <TablePagination
+                    rowsPerPageOptions={[5, 10, 25]}
+                    component="div"
+                    count={-1}
+                    rowsPerPage={rowsPerPage}
+                    page={page}
+                    onPageChange={handleChangePage}
+                    onRowsPerPageChange={handleChangeRowsPerPage}
+                    labelDisplayedRows={({ page }) => {
+                      return `Page: ${page}`;
+                    }}
+                    backIconButtonProps={
+                      page === 1 ? {disabled: true} : undefined
+                    }
+                    nextIconButtonProps={
+                      filteredCuisine.length === 0 || filteredCuisine.length < rowsPerPage? {disabled: true} : undefined
+                    }
+                  />
+              </Box>} 
+            </Box>
         </Card>
       </Container>
     </Page>
