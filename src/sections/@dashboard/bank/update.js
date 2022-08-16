@@ -106,6 +106,9 @@ export default function Update() {
                           <TextField
                               fullWidth
                               type="text"
+                              InputLabelProps={{
+                                shrink : true
+                              }}
                               label="Bank Name"
                               {...getFieldProps('name')}
                               error={Boolean(touched.name && errors.name)}
@@ -122,7 +125,6 @@ export default function Update() {
                               <MenuItem value= "1">Yes</MenuItem>
                               <MenuItem value= "0">No</MenuItem>
                           </TextField> 
-
                           {
                             values.image  || image? 
                               <Stack 
@@ -132,7 +134,8 @@ export default function Update() {
                                       color='error'
                                       variant = "outlined"
                                       onClick={RemoveImagePreview}
-                                    > <ClearIcon/></IconButton>
+                                    > <ClearIcon/>
+                                    </IconButton>
                               </Stack>
                             : null
                           }
@@ -167,7 +170,6 @@ export default function Update() {
                               </label>
                             : null
                           }
-
                           <LoadingButton
                               fullWidth
                               size="large"

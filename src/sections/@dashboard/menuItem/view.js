@@ -141,11 +141,11 @@ export default function View() {
                                         {menu_item_addons?.map(data => <> 
                                             <TableRow className={classes.tableRow}>
                                                 <TableCell align="left"  className={classes.tableCell}> Name </TableCell>
-                                                <TableCell align="left" className={classes.tableCell}> {data.name}</TableCell>
+                                                <TableCell align="left" className={classes.tableCell}> {data?.name}</TableCell>
                                             </TableRow>
                                             <TableRow className={classes.tableRow}>
                                                 <TableCell align="left" className={classes.tableCell}> Price  </TableCell>
-                                                <TableCell align="left" className={classes.tableCell}> RM {data.price}</TableCell>
+                                                <TableCell align="left" className={classes.tableCell}> RM {data?.price}</TableCell>
                                             </TableRow>
                                         </>)}
                                     </Table>
