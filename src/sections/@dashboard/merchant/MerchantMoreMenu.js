@@ -20,7 +20,6 @@ export default function UserMoreMenu({id, status, filter, page, limit, order}) {
     setTimeout(()=>{
       dispatch(FetchMerchantList(status, filter, page, limit, order))
     },1000)
-    
   }
 
   return (
@@ -39,45 +38,30 @@ export default function UserMoreMenu({id, status, filter, page, limit, order}) {
         anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
         transformOrigin={{ vertical: 'top', horizontal: 'right' }}
       >
-
-        <MenuItem onClick={()=>RemoveHandler(id)} sx={{ color: 'text.secondary' }}>
-          <ListItemIcon    
-          >
-            <Iconify icon="ant-design:delete-filled" width={24} height={24} />
-          </ListItemIcon>
-          <ListItemText primary="Delete" primaryTypographyProps={{ variant: 'body2' }} />
-        </MenuItem>
-
-        {/* <MenuItem component={RouterLink} to= {`/dashboard/merchant/view/${id}`} sx={{ color: 'text.secondary' }}>
-          <ListItemIcon>
-            <Iconify icon="carbon:view-filled" width={24} height={24} />
-          </ListItemIcon>
-          <ListItemText primary="View" primaryTypographyProps={{ variant: 'body2' }} />
-        </MenuItem> */}
-
-        <MenuItem component={RouterLink} to= {`/dashboard/merchant/update/${id}`} sx={{ color: 'text.secondary' }}>
-          <ListItemIcon>
-            <Iconify icon="clarity:note-edit-solid" width={24} height={24} />
-          </ListItemIcon>
-          <ListItemText primary="Edit" primaryTypographyProps={{ variant: 'body2' }} />
-        </MenuItem>
-       
         <MenuItem component={RouterLink} to= { `/dashboard/merchant/menu/${id}`} sx={{ color: 'text.secondary' }}>
           <ListItemIcon>
             <Iconify icon="bxs:food-menu" width={24} height={24} />
           </ListItemIcon>
           <ListItemText primary="Menu" primaryTypographyProps={{ variant: 'body2' }} />
         </MenuItem>
-
         <MenuItem component={RouterLink} to= {`/dashboard/merchant/store/${id}`} sx={{ color: 'text.secondary' }}>
           <ListItemIcon>
             <Iconify icon="dashicons:store" width={24} height={24} />
           </ListItemIcon>
           <ListItemText primary="Store" primaryTypographyProps={{ variant: 'body2' }} />
         </MenuItem>
-
-
-
+        <MenuItem component={RouterLink} to= {`/dashboard/merchant/update/${id}`} sx={{ color: 'text.secondary' }}>
+          <ListItemIcon>
+            <Iconify icon="clarity:note-edit-solid" width={24} height={24} />
+          </ListItemIcon>
+          <ListItemText primary="Edit" primaryTypographyProps={{ variant: 'body2' }} />
+        </MenuItem>
+        <MenuItem onClick={()=>RemoveHandler(id)} sx={{ color: 'text.secondary' }}>
+          <ListItemIcon>
+            <Iconify icon="ant-design:delete-filled" width={24} height={24} />
+          </ListItemIcon>
+          <ListItemText primary="Delete" primaryTypographyProps={{ variant: 'body2' }} />
+        </MenuItem>
       </Menu>
     </>
   );

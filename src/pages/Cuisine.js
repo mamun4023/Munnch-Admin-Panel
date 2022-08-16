@@ -138,12 +138,12 @@ export default function Cuisine() {
     setFilterName(event.target.value);
   };
 
-const filteredCuisine = applySortFilter(CuisineList, getComparator(order, orderBy), filterName);
-const isUserNotFound = filteredCuisine.length === 0;
+  const filteredCuisine = applySortFilter(CuisineList, getComparator(order, orderBy), filterName);
+  const isUserNotFound = filteredCuisine.length === 0;
 
-const PopularToggleHandler = (id)=>{
-  dispatch(Toggler(id))
-}
+  const PopularToggleHandler = (id)=>{
+    dispatch(Toggler(id))
+  }
 
   return (
     <Page title="Munchh | Cuisine">

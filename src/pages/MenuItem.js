@@ -135,7 +135,6 @@ export default function MenuItem() {
   const [orderBy, setOrderBy] = useState('id');
   const [filterName, setFilterName] = useState('');
   const [rowsPerPage, setRowsPerPage] = useState(5);
-  // const [menuData, setMenuData] = useState([]);
   // const [menuStatus, setMenuStatus] = useState("true");
   const dispatch = useDispatch();
   const loading = useSelector(state => state.FetchAllMenu.loading);
