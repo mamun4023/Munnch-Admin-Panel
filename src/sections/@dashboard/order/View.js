@@ -42,14 +42,19 @@ function View() {
                         {order.cart_items.map((data, i = 0 )=> <> 
                             <Card style={{ marginTop : "10px" }}   > 
                                 <Stack direction="row" spacing={1}>
-                                    <Box 
-                                        sx={{ textAlign: 'center' }}
-                                        style = {{ minWidth : "100px", background : "#eee" }}
-                                    >
-                                        <h1 style={{fontSize : "50px" }}> 
-                                            {i+1}
-                                        </h1> 
-                                    </Box>
+                                    <Stack
+                                        direction= 'column'
+                                        justifyContent = "center"
+                                    > 
+                                        <Box 
+                                            sx={{ textAlign: 'center' }}
+                                            style = {{ minWidth : "60px", background : "#eee" }}
+                                        >
+                                            <h3 style={{fontSize : "30px"  }}> 
+                                                {i+1}
+                                            </h3> 
+                                        </Box>
+                                    </Stack>
                                     <Box
                                         sx={{
                                             minWidth : "250px",
@@ -109,11 +114,11 @@ function View() {
                                     <TableBody>
                                         <TableRow className={classes.tableRow}>
                                             <TableCell className={classes.tableCell} align="left">Total Price</TableCell>
-                                            <TableCell className={classes.tableCell} align="left"> RM {order?.bill_details.item_total?.toFixed(2)} </TableCell>
+                                            <TableCell className={classes.tableCell} align="left"> &ensp;RM {order?.bill_details.item_total?.toFixed(2)} </TableCell>
                                         </TableRow>
                                         <TableRow className={classes.tableRow}>
                                             <TableCell className={classes.tableCell}  align="left">Delivery Fee</TableCell>
-                                            <TableCell className={classes.tableCell} align="left">  RM {order?.bill_details.delivery_fee?.toFixed(2)} </TableCell>
+                                            <TableCell className={classes.tableCell} align="left">  &ensp;RM {order?.bill_details.delivery_fee?.toFixed(2)} </TableCell>
                                         </TableRow>
                                         <TableRow className={classes.tableRow}>
                                             <TableCell className={classes.tableCell}  align="left">Coupon Discount </TableCell>
@@ -125,11 +130,11 @@ function View() {
                                         </TableRow>
                                         <TableRow className={classes.tableRow}>
                                             <TableCell className={classes.tableCell}  align="left">Total Payment </TableCell>
-                                            <TableCell className={classes.tableCell} align="left">  RM {order?.bill_details?.to_pay?.toFixed(2)} </TableCell>
+                                            <TableCell className={classes.tableCell} align="left">  &ensp;RM {order?.bill_details?.to_pay?.toFixed(2)} </TableCell>
                                         </TableRow>
                                         <TableRow className={classes.tableRow}>
                                             <TableCell className={classes.tableCell}  align="left">User Phone </TableCell>
-                                            <TableCell className={classes.tableCell} align="left">  {customer?.phone} </TableCell>
+                                            <TableCell className={classes.tableCell} align="left">  &ensp;{customer?.phone} </TableCell>
                                         </TableRow>
                                     </TableBody>
                                 </Table>
@@ -157,20 +162,20 @@ function View() {
                                             <TableCell className={classes.tableCell} align="left"> {order?.is_delivery == 1? "Yes" : "No"} </TableCell>
                                         </TableRow>
                                         <TableRow className={classes.tableRow}>
-                                            <TableCell className={classes.tableCell}  align="left"> Update At </TableCell>
-                                            <TableCell className={classes.tableCell} align="left">  <Moment format="DD-MM-YYYY hh:mm a" >{updated_at}</Moment>  </TableCell>
-                                        </TableRow>
-                                        <TableRow className={classes.tableRow}>
-                                            <TableCell className={classes.tableCell}  align="left"> Create At </TableCell>
-                                            <TableCell className={classes.tableCell} align="left"> <Moment format="DD-MM-YYYY hh:mm a" >{created_at}</Moment> </TableCell>
-                                        </TableRow>
-                                        <TableRow className={classes.tableRow}>
                                             <TableCell className={classes.tableCell} align="left"> Estimated Delivery Days </TableCell>
                                             <TableCell className={classes.tableCell} align="left"> {order?.estimated_delivery_days} </TableCell>
                                         </TableRow>
                                         <TableRow className={classes.tableRow}>
                                             <TableCell className={classes.tableCell} align="left"> Contact No </TableCell>
                                             <TableCell className={classes.tableCell} align="left"> {store?.contact_no} </TableCell>
+                                        </TableRow>
+                                        <TableRow className={classes.tableRow}>
+                                            <TableCell className={classes.tableCell}  align="left"> Update At </TableCell>
+                                            <TableCell className={classes.tableCell} align="left">  <Moment format="DD-MM-YYYY hh:mm a" >{updated_at}</Moment>  </TableCell>
+                                        </TableRow>
+                                        <TableRow className={classes.tableRow}>
+                                            <TableCell className={classes.tableCell}  align="left"> Create At </TableCell>
+                                            <TableCell className={classes.tableCell} align="left"> <Moment format="DD-MM-YYYY hh:mm a" >{created_at}</Moment> </TableCell>
                                         </TableRow>
                                     </TableBody>
                                 </Table>
