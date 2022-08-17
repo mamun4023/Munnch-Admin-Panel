@@ -3,12 +3,11 @@ import Card from '@mui/material/Card';
 import {Link as RouterLink, useParams} from 'react-router-dom';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
-import { Stack, Box, IconButton, CardMedia, Grid, Table, TableBody,TableRow, TableCell } from '@mui/material';
+import { Stack, Box, CardMedia, Grid, Table, TableBody,TableRow, TableCell } from '@mui/material';
 import {useDispatch, useSelector} from 'react-redux';
 import {FetchSingleOrder} from '../../../redux/order/fetchSingle/action';
 import { makeStyles } from "@mui/styles";
 import Moment from 'react-moment'
-import RemoveIcon from '@mui/icons-material/Remove';
 
 const useStyles = makeStyles({
     tableRow: {
@@ -29,7 +28,7 @@ function View() {
 
     const orderedData = useSelector(state => state.SingleOrder.data)
     
-    const {order, address, customer, order_remarks,cart_items, store, created_at, updated_at} = orderedData;
+    const {order, address, customer, store, created_at, updated_at} = orderedData;
     const classes = useStyles();
     return(
             <>
