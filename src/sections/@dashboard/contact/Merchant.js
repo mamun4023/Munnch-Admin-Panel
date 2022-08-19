@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { filter } from 'lodash';
-import { Link as RouterLink } from 'react-router-dom';
 import {useSelector, useDispatch} from 'react-redux';
 import Moment from 'react-moment';
 import { makeStyles} from '@mui/styles';
@@ -9,7 +8,6 @@ import {
   Card,
   Table,
   Stack,
-  Avatar,
   Button,
   TableRow,
   TableBody,
@@ -29,6 +27,7 @@ import { ContactListHead, ContactListToolbar, MerchantContactMoreMenu } from './
 import {FetchContactList} from '../../../redux/contact/merchant/fetchAll/action';
 import {StatusToggler} from '../../../redux/contact/statusToggler/action';
 import Spinner from 'src/components/Spinner';
+import {CapitalizeFirstLetter} from 'src/helperFunctions';
 // ----------------------------------------------------------------------
 
 const useStyles = makeStyles({
@@ -104,11 +103,6 @@ function applySortFilter(array, comparator, query) {
     return filter(array, (_user) => _user.vendor?.personal_name.toLowerCase().indexOf(query.toLowerCase()) !== -1);
   }
   return stabilizedThis.map((el) => el[0]);
-}
-
-function CapitalizeFirstLetter (s){
-  if (typeof s !== 'string') return ''
-  return s.charAt(0).toUpperCase() + s.slice(1)
 }
 
 export default function Contact() {
@@ -274,7 +268,7 @@ export default function Contact() {
               return `Page: ${page}`;
             }}
             backIconButtonProps={
-              page == 1 ? {disabled: true} : undefined
+              page === 1 ? {disabled: true} : undefined
             }
             nextIconButtonProps={
               filteredContact.length === 0 || filteredContact.length < rowsPerPage? {disabled: true} : undefined

@@ -7,6 +7,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import Moment from 'react-moment';
 import {makeStyles} from '@mui/styles';
 
+
 // material
 import {
   Card,
@@ -30,6 +31,7 @@ import SearchNotFound from '../components/SearchNotFound';
 import { CouponListHead, CouponListToolbar, CouponMoreMenu } from '../sections/@dashboard/coupon';
 import {FetchCouponList} from '../redux/coupon/fetchAll/action';
 import {StatusToggler} from '../redux/coupon/statusToggler/action';
+import {CapitalizeFirstLetter} from 'src/helperFunctions';
 // ----------------------------------------------------------------------
 
 const useStyles = makeStyles({
@@ -176,11 +178,6 @@ function applySortFilter(array, comparator, query) {
     return filter(array, (_user) => _user.code.toLowerCase().indexOf(query.toLowerCase()) !== -1);
   }
   return stabilizedThis.map((el) => el[0]);
-}
-
-function CapitalizeFirstLetter (s){
-  if (typeof s !== 'string') return ''
-  return s.charAt(0).toUpperCase() + s.slice(1)
 }
 
 export default function Coupon() {

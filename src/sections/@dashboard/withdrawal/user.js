@@ -1,7 +1,5 @@
 import { useState, useEffect } from 'react';
 import { filter } from 'lodash';
-import { IconButton, Button } from '@mui/material';
-import Tooltip from '@mui/material/Tooltip';
 import Moment from 'react-moment';
 import { useDispatch, useSelector } from 'react-redux';
 import {makeStyles} from '@mui/styles';
@@ -25,11 +23,11 @@ import {
 import Page from '../../../components/Page';
 import Scrollbar from '../../../components/Scrollbar';
 import SearchNotFound from '../../../components/SearchNotFound';
-import { WithdrawalListHead, WithdrawalListToolbar, WithdrawalMoreMenu } from './index';
-import {toast} from 'material-react-toastify';
+import { WithdrawalListHead, WithdrawalListToolbar } from './index';
 import {FetchWithdrawalList} from '../../../redux/withdraw/FetchAllUser/action';
 import {UserStatusToggler} from '../../../redux/withdraw/ApproveToggler/actions';
 import Spinner from 'src/components/Spinner';
+import {CapitalizeFirstLetter} from 'src/helperFunctions';
 
 // ----------------------------------------------------------------------
 
@@ -128,21 +126,13 @@ function applySortFilter(array, comparator, query) {
   return stabilizedThis.map((el) => el[0]);
 }
 
-function CapitalizeFirstLetter (s){
-  if (typeof s !== 'string') return ''
-  return s.charAt(0).toUpperCase() + s.slice(1)
-}
-
 export default function Withdrawal() {
   const classes = useStyles();
   const [page, setPage] = useState(1);
   const [order, setOrder] = useState('desc');
-  const [selected, setSelected] = useState([]);
   const [orderBy, setOrderBy] = useState('id');
   const [filterName, setFilterName] = useState('');
   const [rowsPerPage, setRowsPerPage] = useState(5);
-  const [withdrawalData, setWithdrawalData] = useState([]);
-  const [withdrawalStatus, setWithdrawalStatus] = useState("requested");
   const dispatch = useDispatch();
   const loading = useSelector(state => state.Withdrawal.loading);
 
@@ -189,25 +179,10 @@ export default function Withdrawal() {
         <Card>
           <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-between" }}>
               <WithdrawalListToolbar
-                numSelected={selected.length}
                 filterName={filterName}
                 onFilterName={handleFilterByName}
               />
-            {/* <div style={{ marginTop : "25px" }}>
-              <Button
-                variant={withdrawalStatus === "requested" ? "contained" : null}
-                onClick={() => setWithdrawalStatus("requested")}
-                disableElevation
-              // style={ userStatus === "acitve"? { backgroundColor : "#636e72" }:null}
-              >Requested</Button>
-              <Button
-                variant={withdrawalStatus === "approved" ? "contained" : null}
-                onClick={() => setWithdrawalStatus("approved")}
-                disableElevation
-              >Approved</Button>
-            </div> */}
           </div>
-          
           {loading? <Spinner/> :  <Box> 
           <Scrollbar>
             <TableContainer sx={{ minWidth: 1800 }}>
@@ -227,8 +202,6 @@ export default function Withdrawal() {
                         <TableRow
                           hover
                           key={id}
-                          tabIndex={-1}
-                          role="checkbox"
                         >
                           <TableCell className={classes.tableCell} align="left">{id}</TableCell>
                           <TableCell className={classes.tableCell} align="left">{customer?.name}</TableCell>
@@ -250,9 +223,6 @@ export default function Withdrawal() {
                                 defaultChecked = {is_withdrawn === 1? true: false}
                               />
                             </TableCell>
-                          <TableCell align="right">
-                            {/* <MerchantMoreMenu /> */}
-                          </TableCell>
                         </TableRow>
                       );
                     })}

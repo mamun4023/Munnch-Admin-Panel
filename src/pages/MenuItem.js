@@ -33,6 +33,7 @@ import {FetchMenuList} from '../redux/menu/fetchAll/action';
 import {StockToggler} from '../redux/menu/stockToggler/action';
 import {BestSellerToggler} from '../redux/menu/bestSellerToggler/action';
 import Spinner from 'src/components/Spinner';
+import {CapitalizeFirstLetter} from 'src/helperFunctions'
 
 // ----------------------------------------------------------------------
 
@@ -119,11 +120,6 @@ function applySortFilter(array, comparator, query) {
     return filter(array, (_user) => _user.name.toLowerCase().indexOf(query.toLowerCase()) !== -1);
   }
   return stabilizedThis.map((el) => el[0]);
-}
-
-function CapitalizeFirstLetter (s){
-  if (typeof s !== 'string') return ''
-  return s.charAt(0).toUpperCase() + s.slice(1)
 }
 
 export default function MenuItem() {

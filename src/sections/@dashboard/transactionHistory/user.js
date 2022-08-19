@@ -1,8 +1,6 @@
 import { useState, useEffect } from 'react';
 import { filter } from 'lodash';
 import { CSVLink } from 'react-csv';
-import { IconButton, Button } from '@mui/material';
-import Tooltip from '@mui/material/Tooltip';
 import Moment from 'react-moment';
 import moment from 'moment';
 import { useDispatch, useSelector } from 'react-redux';
@@ -12,8 +10,7 @@ import {
   Table,
   Stack,
   TableRow,
-  Switch,
-  Avatar,
+  Button,
   TableBody,
   TableCell,
   Box,
@@ -26,11 +23,11 @@ import {
 import Page from '../../../components/Page';
 import Scrollbar from '../../../components/Scrollbar';
 import SearchNotFound from '../../../components/SearchNotFound';
-import { WithdrawalListHead, WithdrawalListToolbar, WithdrawalMoreMenu } from './index';
-import {toast} from 'material-react-toastify';
+import { WithdrawalListHead, WithdrawalListToolbar } from './index';
 import {FetchUserTransactionList} from '../../../redux/transactionHistory/User/action';
 import {UserStatusToggler} from '../../../redux/withdraw/ApproveToggler/actions';
 import Spinner from 'src/components/Spinner';
+import {CapitalizeAllLetter} from 'src/helperFunctions';
 
 // ----------------------------------------------------------------------
 
@@ -98,10 +95,10 @@ function applySortFilter(array, comparator, query) {
   return stabilizedThis.map((el) => el[0]);
 }
 
-function CapitalizedLetter (s){
-  if (typeof s !== 'string') return ''
-  return s.toUpperCase()
-}
+// function CapitalizedLetter (s){
+//   if (typeof s !== 'string') return ''
+//   return s.toUpperCase()
+// }
 
 function LowerCase(s){
   if (typeof s !== 'string') return ''
@@ -113,12 +110,9 @@ function LowerCase(s){
 export default function Withdrawal() {
   const [page, setPage] = useState(1);
   const [order, setOrder] = useState('desc');
-  const [selected, setSelected] = useState([]);
   const [orderBy, setOrderBy] = useState('id');
   const [filterName, setFilterName] = useState('');
   const [rowsPerPage, setRowsPerPage] = useState(5);
-  const [withdrawalData, setWithdrawalData] = useState([]);
-  const [withdrawalStatus, setWithdrawalStatus] = useState("requested");
   const dispatch = useDispatch();
   const loading = useSelector(state => state.UserTransaction.loading);
 
@@ -164,10 +158,6 @@ export default function Withdrawal() {
   const filteredUsers = applySortFilter(TransactionList, getComparator(order, orderBy), filterName);
   const isUserNotFound = filteredUsers.length === 0;
 
-  const StatusChangeHandler = (id) => {
-    dispatch(UserStatusToggler(id))
-  }
-
   const headers = [
     { label: "ID", key: "id" },
     { label: "ORDER ID", key: "orderId" },
@@ -188,7 +178,6 @@ export default function Withdrawal() {
         <Card>
           <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-between" }}>
               <WithdrawalListToolbar
-                numSelected={selected.length}
                 filterName={filterName}
                 onFilterName={handleFilterByName}
               />
@@ -219,8 +208,7 @@ export default function Withdrawal() {
                 <TableBody>
                   {filteredUsers
                     .map((row) => {
-                      const { id, customer, order, bill_plz_payment, is_withdrawn, store_bank, amount, created_at } = row;
-      
+                      const { id, order, bill_plz_payment, created_at } = row;
                       return (
                         <TableRow
                           hover
@@ -230,16 +218,12 @@ export default function Withdrawal() {
                         >
                           <TableCell align="left">{id}</TableCell>
                           <TableCell align="left">{order?.id}</TableCell>
-                          <TableCell align="left">{CapitalizedLetter(bill_plz_payment?.bill_id)}</TableCell>
+                          <TableCell align="left">{CapitalizeAllLetter(bill_plz_payment?.bill_id)}</TableCell>
                           <TableCell align="left">{LowerCase(order?.status)}</TableCell>
                           <TableCell align="left"> {bill_plz_payment?"BillPlz": "--"}</TableCell>
                           <TableCell align="left">
                             <Moment format="DD-MM-YYYY hh:mm a" >{created_at}</Moment> 
                           </TableCell>   
-              
-                          <TableCell align="right">
-                            {/* <MerchantMoreMenu /> */}
-                          </TableCell>
                         </TableRow>
                       );
                     })}
@@ -268,7 +252,7 @@ export default function Withdrawal() {
               return `Page: ${page}`;
             }}
             backIconButtonProps={
-              page == 1 ? {disabled: true} : undefined
+              page === 1 ? {disabled: true} : undefined
             }
             nextIconButtonProps={
               filteredUsers.length === 0 || filteredUsers.length < rowsPerPage? {disabled: true} : undefined

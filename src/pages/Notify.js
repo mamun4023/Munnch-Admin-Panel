@@ -26,8 +26,9 @@ import Scrollbar from '../components/Scrollbar';
 import Iconify from '../components/Iconify';
 import SearchNotFound from '../components/SearchNotFound';
 import Spinner from 'src/components/Spinner';
-import { NotifyListHead, NotifyListToolbar, NotifyMoreMenu } from '../sections/@dashboard/notify';
+import { NotifyListHead, NotifyListToolbar } from '../sections/@dashboard/notify';
 import {FetchNotification} from '../redux/notify/fetchAll/action';
+import {CapitalizeFirstLetter} from 'src/helperFunctions';
 
 // ----------------------------------------------------------------------
 const useStyles = makeStyles({
@@ -93,24 +94,6 @@ function applySortFilter(array, comparator, query) {
     return filter(array, (_user) => _user.title.toLowerCase().indexOf(query.toLowerCase()) !== -1);
   }
   return stabilizedThis.map((el) => el[0]);
-}
-
-function ReduceMessage(data){
-  let arr = data.split('');
-  let reducer , message;
-  if(arr.length > 50){
-    reducer = arr.slice(1, 50);
-    message = reducer.join('');
-    return message+" ...";
-  }
-  // reducer = arr.slice(1, 30);
-  message = arr.join('');
-  return message
-}
-
-function CapitalizeFirstLetter (s){
-  if (typeof s !== 'string') return ''
-  return s.charAt(0).toUpperCase() + s.slice(1)
 }
 
 export default function Notification() {

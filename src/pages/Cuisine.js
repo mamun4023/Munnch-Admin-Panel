@@ -31,6 +31,7 @@ import {FetchCuisineList} from '../redux/cuisine/fetchAll/action';
 import {Toggler} from '../redux/cuisine/toggler/action';
 import { Box } from '@mui/system';
 import Spinner from 'src/components/Spinner';
+import {CapitalizeFirstLetter} from 'src/helperFunctions';
 // ----------------------------------------------------------------------
 
 const useStyles = makeStyles({
@@ -96,11 +97,6 @@ function applySortFilter(array, comparator, query) {
     return filter(array, (_user) => _user.cuisine_name.toLowerCase().indexOf(query.toLowerCase()) !== -1);
   }
   return stabilizedThis.map((el) => el[0]);
-}
-
-function CapitalizeFirstLetter (s){
-  if (typeof s !== 'string') return ''
-  return s.charAt(0).toUpperCase() + s.slice(1)
 }
 
 export default function Cuisine() {

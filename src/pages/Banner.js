@@ -30,6 +30,7 @@ import { BannerListHead, BannerListToolbar, BannerMoreMenu } from '../sections/@
 import {FetchBannerList} from '../redux/banner/fetchAll/action';
 import {StatusToggler} from '../redux/banner/statusToggler/action';
 import Spinner from 'src/components/Spinner';
+import {CapitalizeFirstLetter} from 'src/helperFunctions';
 // ----------------------------------------------------------------------
 
 const useStyles = makeStyles({
@@ -95,11 +96,6 @@ function applySortFilter(array, comparator, query) {
     return filter(array, (_user) => _user.title.toLowerCase().indexOf(query.toLowerCase()) !== -1);
   }
   return stabilizedThis.map((el) => el[0]);
-}
-
-function CapitalizeFirstLetter (s){
-  if (typeof s !== 'string') return ''
-  return s.charAt(0).toUpperCase() + s.slice(1)
 }
 
 export default function Banner() {
@@ -214,7 +210,7 @@ export default function Banner() {
                 <TableBody>
                   {filteredBanners
                     .map((row) => {
-                      const { id, title, image,url, is_enabled, created_at } = row;
+                      const { id, title, image, is_enabled, created_at } = row;
                       return (
                         <TableRow
                           hover

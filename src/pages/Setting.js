@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link as RouterLink} from 'react-router-dom';
-import {Typography, Box, Button, styled, Grid, Stack} from '@mui/material';
+import {Typography, Button, styled, Grid, Stack} from '@mui/material';
 import Page from '../components/Page';
 
 const RootStyle = styled(Page)(({ theme }) => ({
@@ -27,14 +27,6 @@ export default function MyEditor() {
             >
             <Grid item xs={6} >
                   <Stack style={{ width : "450px" }} spacing={3}>
-                    {/* <Button
-                      fullWidth
-                      size="large"
-                      component={RouterLink} to="/dashboard/settings/loyalty"
-                      variant="outlined"
-                    >
-                      Royalty Setting
-                    </Button> */}
                     <Button
                       fullWidth
                       size="large"

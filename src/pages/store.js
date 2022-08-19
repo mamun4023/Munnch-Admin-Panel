@@ -1,6 +1,6 @@
-import { useState, useEffect, useDebugValue } from 'react';
+import { useState, useEffect } from 'react';
 import { Link as RouterLink, useParams } from 'react-router-dom';
-import {useDispatch, useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import { styled } from '@mui/material/styles';
 import ImageListItemBar from '@mui/material/ImageListItemBar';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -24,17 +24,11 @@ import {
   ImageListItem
 
 } from '@mui/material';
-import { withStyles, makeStyles } from "@mui/styles";
+import { makeStyles } from "@mui/styles";
 // components
 import Page from '../components/Page';
 import Iconify from '../components/Iconify';
-import SearchNotFound from '../components/SearchNotFound';
 import TimingTable from '../sections/@dashboard/store/timingTable';
-import imageUpload from '../sections/@dashboard/store/imageUpload';
-import { FoodListHead,  FoodListToolbar, FoodMoreMenu } from '../sections/@dashboard/Food';
-import {FetchFoodList} from '../redux/food/fetchAll/action';
-import { Box } from '@mui/system';
-import Spinner from 'src/components/Spinner';
 import {FetchSingleStore} from '../redux/merchantStore/fetchSingle/action';
 import {RemoveImage} from '../redux/merchantStore/remove/action'
 import {AddImage} from '../redux/merchantStore/upload/action';
@@ -61,7 +55,6 @@ const useStyles = makeStyles({
 export default function Store() {
   const {id} = useParams();
   const dispatch = useDispatch();
-  const [image, setImage] = useState();
   const [StoreData, setStoreData] = useState([]);
 
   const UploadHandler = (e)=>{
@@ -206,7 +199,6 @@ export default function Store() {
                             <ImageListItem key={item?.id}>
                               <img
                                 src={item?.image}
-                                // alt={item.title}
                                 loading="lazy"
                               />
                               <ImageListItemBar
@@ -214,7 +206,6 @@ export default function Store() {
                                   <IconButton
                                     onClick={()=> ImageDeleteHandler(id, item.id)}
                                     sx={{ color: 'rgba(255, 255, 255, 0.80)' }}
-                                    // aria-label={`info about ${item.id}`}
                                   >
                                     <DeleteIcon color='error' />
                                   </IconButton>

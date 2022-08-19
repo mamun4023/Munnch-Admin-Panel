@@ -28,6 +28,7 @@ import { FoodListHead,  FoodListToolbar, FoodMoreMenu } from '../sections/@dashb
 import {FetchFoodList} from '../redux/food/fetchAll/action';
 import { Box } from '@mui/system';
 import Spinner from 'src/components/Spinner';
+import {CapitalizeFirstLetter} from 'src/helperFunctions';
 // ----------------------------------------------------------------------
 
 const useStyles = makeStyles({
@@ -88,11 +89,6 @@ function applySortFilter(array, comparator, query) {
     return filter(array, (_user) => _user.food_type_name.toLowerCase().indexOf(query.toLowerCase()) !== -1);
   }
   return stabilizedThis.map((el) => el[0]);
-}
-
-function CapitalizeFirstLetter (s){
-  if (typeof s !== 'string') return ''
-  return s.charAt(0).toUpperCase() + s.slice(1)
 }
 
 export default function Food() {

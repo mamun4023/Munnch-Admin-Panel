@@ -31,7 +31,7 @@ import Iconify from '../components/Iconify';
 import {FetchMerchantList} from '../redux/merchant/fetchAll/action';
 import {StatusToggler} from '../redux/merchant/statusToggler/action';
 import {ApprovalToggler} from '../redux/merchant/aprovalToggler/action';
-
+import {CapitalizeFirstLetter} from 'src/helperFunctions';
 // ----------------------------------------------------------------------
 
 const useStyles = makeStyles({
@@ -122,11 +122,6 @@ function applySortFilter(array, comparator, query) {
     return filter(array, (_user) => _user.personal_name.toLowerCase().indexOf(query.toLowerCase()) !== -1);
   }
   return stabilizedThis.map((el) => el[0]);
-}
-
-function CapitalizeFirstLetter (s){
-  if (typeof s !== 'string') return ''
-  return s.charAt(0).toUpperCase() + s.slice(1)
 }
 
 export default function Merchant() {
@@ -240,7 +235,7 @@ export default function Merchant() {
                 <TableBody>
                   {filteredUsers
                     .map((row) => {
-                      const { id, personal_name, profile_pic, ic_number, email, phone,wallet,restaurants, status, is_verified, is_approved } = row;
+                      const { id, personal_name, profile_pic, ic_number, email, phone,wallet,restaurants, status, is_approved } = row;
                       return (
                         <TableRow
                           hover
@@ -261,13 +256,13 @@ export default function Merchant() {
                           <TableCell className= {classes.tableCell}  align="left">
                             <Switch 
                                onClick={()=> StatusToggleHandler(id)}
-                               defaultChecked = {status == 1?true: false}
+                               defaultChecked = {status === 1?true: false}
                             />
                           </TableCell>
                           <TableCell className= {classes.tableCell}  align="left">
                             <Switch
                               onClick={()=> ApprovalToggleHandler(id)}
-                              defaultChecked = {is_approved == 1?true: false}
+                              defaultChecked = {is_approved === 1?true: false}
                             />
                           </TableCell>
                           <TableCell className= {classes.tableCell}  align="right">
@@ -308,7 +303,7 @@ export default function Merchant() {
               return `Page: ${page}`;
             }}
             backIconButtonProps={
-              page == 1 ? {disabled: true} : undefined
+              page === 1 ? {disabled: true} : undefined
             }
             nextIconButtonProps={
               filteredUsers.length === 0 || filteredUsers.length < rowsPerPage? {disabled: true} : undefined

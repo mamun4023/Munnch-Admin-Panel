@@ -1,7 +1,5 @@
 import { useState, useEffect } from 'react';
 import { filter } from 'lodash';
-import { IconButton, Button } from '@mui/material';
-import Tooltip from '@mui/material/Tooltip';
 import { CSVLink } from 'react-csv';
 import Moment from 'react-moment';
 import moment from 'moment';
@@ -12,25 +10,23 @@ import {
   Table,
   Stack,
   TableRow,
-  Switch,
-  Avatar,
   TableBody,
   TableCell,
   Box,
   Container,
   Typography,
   TableContainer,
-  TablePagination
+  TablePagination,
+  Button
 } from '@mui/material';
 // components
 import Page from '../../../components/Page';
 import Scrollbar from '../../../components/Scrollbar';
 import SearchNotFound from '../../../components/SearchNotFound';
-import { WithdrawalListHead, WithdrawalListToolbar, WithdrawalMoreMenu } from './index';
-import {toast} from 'material-react-toastify';
+import { WithdrawalListHead, WithdrawalListToolbar } from './index';
 import {FetchMerchantTransactionList} from '../../../redux/transactionHistory/merchant/action';
-import {MerchantStatusToggler} from '../../../redux/withdraw/ApproveToggler/actions';
 import Spinner from 'src/components/Spinner';
+import {CapitalizeAllLetter} from 'src/helperFunctions';
 
 // ----------------------------------------------------------------------
 
@@ -98,11 +94,6 @@ function applySortFilter(array, comparator, query) {
   return stabilizedThis.map((el) => el[0]);
 }
 
-function CapitalizedLetter (s){
-  if (typeof s !== 'string') return ''
-  return s.toUpperCase()
-}
-
 function LowerCase (s){
   if (typeof s !== 'string') return ''
   var removeUnderScore = s.replace(/_/g, "");
@@ -110,11 +101,9 @@ function LowerCase (s){
   return makeLowerCase.charAt(0).toUpperCase() + makeLowerCase.slice(1)
 }
 
-
 export default function Withdrawal() {
   const [page, setPage] = useState(1);
   const [order, setOrder] = useState('desc');
-  const [selected, setSelected] = useState([]);
   const [orderBy, setOrderBy] = useState('id');
   const [filterName, setFilterName] = useState('');
   const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -141,7 +130,6 @@ export default function Withdrawal() {
     csvDATA.push(obj)
   })
 
-
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
@@ -164,11 +152,6 @@ export default function Withdrawal() {
   const filteredTransaction = applySortFilter(TransactionList, getComparator(order, orderBy), filterName);
   const isUserNotFound = filteredTransaction.length === 0;
 
-  const StatusChangeHandler = (id) => {
-    dispatch(MerchantStatusToggler(id))
-  }
-
-  
   const headers = [
     { label: "ID", key: "id" },
     { label: "ORDER ID", key: "orderId" },
@@ -177,7 +160,6 @@ export default function Withdrawal() {
     { label: "PAYMENT MODE", key: "paymentMode" },
     { label: "CREATED AT", key: "date" },
   ];
-
 
   return (
     <Page title="Munchh | Merchant Transaction">
@@ -190,7 +172,6 @@ export default function Withdrawal() {
         <Card>
           <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-between" }}>
               <WithdrawalListToolbar
-                numSelected={selected.length}
                 filterName={filterName}
                 onFilterName={handleFilterByName}
               />
@@ -219,22 +200,17 @@ export default function Withdrawal() {
                 <TableBody>
                   {filteredTransaction
                     .map((row) => {
-                      const { id, order, bill_plz_payment, store_withdraw, amount, created_at } = row;
+                      const { id, order, bill_plz_payment, created_at } = row;
                       return (
                         <TableRow
                           hover
                           key={id}
-                          tabIndex={-1}
-                          role="checkbox"
                         >
                           <TableCell align="left">{id}</TableCell>
                           <TableCell align="left">{order?.id}</TableCell>
-                          <TableCell align="left">{ CapitalizedLetter(bill_plz_payment?.bill_id)}</TableCell>
+                          <TableCell align="left">{ CapitalizeAllLetter(bill_plz_payment?.bill_id)}</TableCell>
                           <TableCell align="left">{ LowerCase(order?.status)}</TableCell>
                           <TableCell align="left">{bill_plz_payment?"BillPlz": "--"}</TableCell>
-                          
-                          {/* <TableCell align="left">{CapitalizeFirstLetter(store_withdraw?.store_bank?.holder_name)}</TableCell> */}
-                         
                           <TableCell align="left">
                             <Moment format="DD-MM-YYYY hh:mm a" >{created_at}</Moment> 
                           </TableCell>   
@@ -266,7 +242,7 @@ export default function Withdrawal() {
               return `Page: ${page}`;
             }}
             backIconButtonProps={
-              page == 1 ? {disabled: true} : undefined
+              page === 1 ? {disabled: true} : undefined
             }
             nextIconButtonProps={
               filteredTransaction.length === 0 || filteredTransaction.length < rowsPerPage? {disabled: true} : undefined

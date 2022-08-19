@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { filter } from 'lodash';
-import { Link as RouterLink } from 'react-router-dom';
 import {useSelector, useDispatch} from 'react-redux';
 import { makeStyles } from "@mui/styles";
 import Moment from 'react-moment';
@@ -11,7 +10,6 @@ import {
   Stack,
   Avatar,
   Button,
-  Checkbox,
   Tooltip,
   TableRow,
   TableBody,
@@ -26,12 +24,12 @@ import {
 // components
 import Page from '../components/Page';
 import Scrollbar from '../components/Scrollbar';
-import Iconify from '../components/Iconify';
 import SearchNotFound from '../components/SearchNotFound';
-import { UserListHead, UserListToolbar, UserMoreMenu } from '../sections/@dashboard/user';
+import { UserListHead, UserListToolbar } from '../sections/@dashboard/user';
 import {FetchUserList} from '../redux/user/fetch/action';
 import {Toggler} from '../redux/user/toggler/action';
 import Spinner from 'src/components/Spinner';
+import {CapitalizeFirstLetter} from 'src/helperFunctions';
 // ----------------------------------------------------------------------
 
 const useStyles = makeStyles({
@@ -39,7 +37,6 @@ const useStyles = makeStyles({
     padding: "10px 16px",
   }
 });
-
 
 const TABLE_HEAD = [
   {
@@ -113,11 +110,6 @@ function applySortFilter(array, comparator, query) {
     return filter(array, (_user) => _user.name.toLowerCase().indexOf(query.toLowerCase()) !== -1);
   }
   return stabilizedThis.map((el) => el[0]);
-}
-
-function CapitalizeFirstLetter (s){
-  if (typeof s !== 'string') return ''
-  return s.charAt(0).toUpperCase() + s.slice(1)
 }
 
 export default function User() {
@@ -274,7 +266,7 @@ export default function User() {
               return `Page: ${page}`;
             }}
             backIconButtonProps={
-              page == 1 ? {disabled: true} : undefined
+              page === 1 ? {disabled: true} : undefined
             }
             nextIconButtonProps={
               filteredUsers.length === 0 || filteredUsers.length < rowsPerPage? {disabled: true} : undefined

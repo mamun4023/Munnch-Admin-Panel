@@ -1,13 +1,6 @@
 import { filter } from 'lodash';
-import { sentenceCase } from 'change-case';
-import { useEffect, useState, useRef } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
-import { IconButton , Button, Switch} from '@mui/material';
-import Tooltip from '@mui/material/Tooltip';
-import { alpha } from '@mui/material/styles';
+import { useEffect, useState } from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-import MenuPopover from '../components/MenuPopover';
 import Moment from 'react-moment';
 import { makeStyles } from '@mui/styles';
 // material
@@ -23,23 +16,18 @@ import {
   Typography,
   TableContainer,
   TablePagination,
-  Box,
   MenuItem,
-  ListItemIcon,
-  ListItemText
 } from '@mui/material';
 // components
 import Page from '../components/Page';
-import Label from '../components/Label';
 import Scrollbar from '../components/Scrollbar';
-import Iconify from '../components/Iconify';
 import SearchNotFound from '../components/SearchNotFound';
 import { OrderListHead, OrderListToolbar, OrderMoreMenu } from '../sections/@dashboard/order';
 import {FetchOrderList} from '../redux/order/FetchAllOrder/action';
-import {CancleOrder} from '../redux/order/cancelToggler/actions';
 import Spinner from 'src/components/Spinner';
-// ----------------------------------------------------------------------
+import {CapitalizeFirstLetter} from 'src/helperFunctions';
 
+// ----------------------------------------------------------------------
 
 const useStyles = makeStyles({
   tableCell: {
@@ -119,11 +107,6 @@ function applySortFilter(array, comparator, query) {
     return filter(array, (_user) => _user.customer?.name.toLowerCase().indexOf(query.toLowerCase()) !== -1);
   }
   return stabilizedThis.map((el) => el[0]);
-}
-
-function CapitalizeFirstLetter (s){
-  if (typeof s !== 'string') return ''
-  return s.charAt(0).toUpperCase() + s.slice(1)
 }
 
 function LowerCase(s){
@@ -239,7 +222,7 @@ export default function Order() {
                 <TableBody>
                   {filteredUsers
                     .map((row) => {
-                      const { id,  paid_price, customer, store, order, rider_data,store_menu_items, address, status, created_at } = row;
+                      const { id,  paid_price, customer, store, order, rider_data, status, created_at } = row;
                       return (
                         <TableRow
                           hover
@@ -286,7 +269,7 @@ export default function Order() {
               return `Page: ${page}`;
             }}
             backIconButtonProps={
-              page == 1 ? {disabled: true} : undefined
+              page === 1 ? {disabled: true} : undefined
             }
             nextIconButtonProps={
               filteredUsers.length === 0 || filteredUsers.length < rowsPerPage? {disabled: true} : undefined

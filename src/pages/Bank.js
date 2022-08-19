@@ -31,6 +31,7 @@ import {FetchBankList} from '../redux/bank/fetchAll/action';
 import {PopularToggler} from '../redux/bank/popularToggler/action';
 import {StatusToggler} from '../redux/bank/statusToggler/action';
 import Spinner from 'src/components/Spinner';
+import {CapitalizeAllLetter} from 'src/helperFunctions';
 
 // ----------------------------------------------------------------------
 
@@ -102,11 +103,6 @@ function applySortFilter(array, comparator, query) {
     return filter(array, (_user) => _user.name.toLowerCase().indexOf(query.toLowerCase()) !== -1);
   }
   return stabilizedThis.map((el) => el[0]);
-}
-
-function CapitalizeFirstLetter (s){
-  if (typeof s !== 'string') return ''
-  return s.charAt(0).toUpperCase() + s.slice(1)
 }
 
 export default function Bank() {
@@ -229,7 +225,7 @@ export default function Bank() {
                           tabIndex={-1}
                         >
                           <TableCell className= {classes.tableCell} align="left">{id}</TableCell>
-                          <TableCell className= {classes.tableCell}  align="left">{CapitalizeFirstLetter(name)}</TableCell>
+                          <TableCell className= {classes.tableCell}  align="left">{CapitalizeAllLetter(name)}</TableCell>
                           <TableCell className= {classes.tableCell}  align="left">
                             <Avatar  variant="square" style={{width : "70px"}} src= {image} />
                           </TableCell>
