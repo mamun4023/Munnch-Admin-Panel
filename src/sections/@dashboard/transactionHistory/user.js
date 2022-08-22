@@ -130,11 +130,10 @@ export default function Withdrawal() {
       referenceNumber : data.bill_plz_payment?.bill_id,
       paymentStatus : LowerCase(data.order?.status),
       paymentMode : data.bill_plz_payment? "BillPlz" : "--",
-      date :  moment(data.bill_plz_payment?.created_at).format("DD-MM-YYYY hh:mm a")
+      date :  moment(data?.created_at).format("DD-MM-YYYY hh:mm a")
     }
     csvDATA.push(obj)
   })
-
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';

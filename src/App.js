@@ -22,3 +22,7 @@ export default function App() {
     </ThemeConfig>
   );
 }
+{
+  console.log("%cStop","color : red")
+  console.log("This is Developer Tool")
+}

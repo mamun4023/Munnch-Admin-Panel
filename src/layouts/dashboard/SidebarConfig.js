@@ -6,11 +6,6 @@ import Iconify from '../../components/Iconify';
 const getIcon = (name) => <Iconify icon={name} width={22} height={22} />;
 
 const sidebarConfig = [
-  // {
-  //   title: 'dashboard',
-  //   path: '/dashboard/app',
-  //   icon: getIcon('eva:pie-chart-2-fill')
-  // },
   {
     title: 'user',
     path: '/dashboard/user',
@@ -76,24 +71,11 @@ const sidebarConfig = [
     path: '/dashboard/settings',
     icon: getIcon('clarity:settings-solid')
   },
-  // {
-  //   title: 'Loyalty',
-  //   path: '/dashboard/loyalty',
-  //   icon: getIcon('ic:baseline-loyalty')
-  // },
-  
   {
     title: 'Report',
     path: '/dashboard/report',
     icon: getIcon('carbon:analytics')
   },
-
-  // {
-  //   title: 'Delivery Fee',
-  //   path: '/dashboard/delivery_fee',
-  //   icon: getIcon('mdi:truck-delivery')
-  // },
-
   {
     title: 'Contact Us',
     path: '/dashboard/contact',

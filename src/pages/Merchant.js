@@ -86,11 +86,11 @@ const TABLE_HEAD = [
     id: 'status',
     alignRight: false 
   },
-  { 
-    label: 'APPROVAL', 
-    id: 'approval',
-    alignRight: false 
-  },
+  // { 
+  //   label: 'APPROVAL', 
+  //   id: 'approval',
+  //   alignRight: false 
+  // },
 ];
 
 // ----------------------------------------------------------------------
@@ -259,12 +259,12 @@ export default function Merchant() {
                                defaultChecked = {status === 1?true: false}
                             />
                           </TableCell>
-                          <TableCell className= {classes.tableCell}  align="left">
+                          {/* <TableCell className= {classes.tableCell}  align="left">
                             <Switch
                               onClick={()=> ApprovalToggleHandler(id)}
                               defaultChecked = {is_approved === 1?true: false}
                             />
-                          </TableCell>
+                          </TableCell> */}
                           <TableCell className= {classes.tableCell}  align="right">
                             <MerchantMoreMenu 
                               id = {id} 
