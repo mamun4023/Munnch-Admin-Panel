@@ -278,7 +278,12 @@ export default function UserGrowth() {
                 </Stack>
               </div>  
               <Box sx={{ p: 3, pb: 1 }} dir="ltr">
-                <ReactApexChart type="line" series={CHART_DATA} options={chartOptions} height={364} />
+                <ReactApexChart
+                  type="line" 
+                  series={CHART_DATA} 
+                  options={chartOptions} 
+                  height={364} 
+                />
               </Box>
       </Card>
   );

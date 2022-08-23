@@ -37,8 +37,8 @@ const TABLE_HEAD = [
     alignRight: false 
   },
   { 
-    label: 'ORDER ID', 
-    id: 'orderID', 
+    label: 'MERCHANT NAME', 
+    id: 'name', 
     alignRight: false 
   },
   { 
@@ -47,13 +47,13 @@ const TABLE_HEAD = [
     alignRight: false 
   },
   { 
-    label: 'PAYMENT STATUS',
-    id: 'referenceNumber', 
+    label: 'AMOUNT',
+    id: 'amount', 
     alignRight: false 
   },
   { 
-    label: 'PAYMENT MODE',
-    id: 'referenceNumber', 
+    label: 'TYPE',
+    id: 'type', 
     alignRight: false 
   },
   { 
@@ -120,11 +120,11 @@ export default function Withdrawal() {
 
   TransactionList?.forEach(data => {
     let obj = {
-      id : data.id,
-      orderId : data.order?.id,
+      id : data?.id,
+      orderId : data?.order?.id,
       referenceNumber : data.bill_plz_payment?.bill_id,
-      paymentStatus : LowerCase(data.order?.status),
-      paymentMode : data.bill_plz_payment? "BillPlz" : "Wallet",
+      amount : data?.amount?.toFixed(2),
+      type : data?.type,
       date :  moment(data?.created_at).format("DD-MM-YYYY hh:mm a")
     }
     csvDATA.push(obj)
@@ -154,10 +154,10 @@ export default function Withdrawal() {
 
   const headers = [
     { label: "ID", key: "id" },
-    { label: "ORDER ID", key: "orderId" },
+    { label: "MERCHANT NAME", key: "merchantName" },
     { label: "REFERENCE NUMBER",  key: "referenceNumber" },
-    { label: "PAYMENT STATUS", key: "paymentStatus"},
-    { label: "PAYMENT MODE", key: "paymentMode" },
+    { label: "AMOUNT", key: "amount"},
+    { label: "TYPE", key: "type" },
     { label: "CREATED AT", key: "date" },
   ];
 
@@ -200,17 +200,18 @@ export default function Withdrawal() {
                 <TableBody>
                   {filteredTransaction
                     .map((row) => {
-                      const { id, order, bill_plz_payment, created_at } = row;
+                      const { id, type, amount, store_withdraw, created_at } = row;
                       return (
                         <TableRow
                           hover
                           key={id}
                         >
                           <TableCell align="left">{id}</TableCell>
-                          <TableCell align="left">{order?.id}</TableCell>
-                          <TableCell align="left">{ CapitalizeAllLetter(bill_plz_payment?.bill_id)}</TableCell>
-                          <TableCell align="left">{ LowerCase(order?.status)}</TableCell>
-                          <TableCell align="left">{bill_plz_payment?"BillPlz": "--"}</TableCell>
+                          <TableCell align="left">{store_withdraw?.store_bank?.holder_name}</TableCell>
+                          <TableCell align="left">{store_withdraw?.store_bank?.account_number}</TableCell>
+                       
+                          <TableCell align="left">{type}</TableCell>
+                          <TableCell align="left">{amount?.toFixed(2)}</TableCell>
                           <TableCell align="left">
                             <Moment format="DD-MM-YYYY hh:mm a" >{created_at}</Moment> 
                           </TableCell>   
