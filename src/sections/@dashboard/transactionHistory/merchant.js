@@ -99,13 +99,6 @@ function applySortFilter(array, comparator, query) {
   return stabilizedThis.map((el) => el[0]);
 }
 
-function LowerCase (s){
-  if (typeof s !== 'string') return ''
-  var removeUnderScore = s.replace(/_/g, "");
-  let makeLowerCase =  removeUnderScore.toLowerCase();
-  return makeLowerCase.charAt(0).toUpperCase() + makeLowerCase.slice(1)
-}
-
 export default function Withdrawal() {
   const [page, setPage] = useState(1);
   const [order, setOrder] = useState('desc');

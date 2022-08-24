@@ -16,7 +16,6 @@ export const MerchantStatusToggler = (id)=>{
     }
 }
 
-
 export const UserStatusToggler = (id)=>{
     return ()=>{
         axios.post(`${URL}/api/v1/admin/withdraw/customer/status/${id}`,{}, AuthConfig)
@@ -24,7 +23,6 @@ export const UserStatusToggler = (id)=>{
                 const response = res.data.message;
                 console.log(response);
                 toast.dark(response)
-                
             })
             .catch((err)=>{
                 console.log(err)

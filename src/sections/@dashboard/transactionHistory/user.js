@@ -25,9 +25,8 @@ import Scrollbar from '../../../components/Scrollbar';
 import SearchNotFound from '../../../components/SearchNotFound';
 import { WithdrawalListHead, WithdrawalListToolbar } from './index';
 import {FetchUserTransactionList} from '../../../redux/transactionHistory/User/action';
-import {UserStatusToggler} from '../../../redux/withdraw/ApproveToggler/actions';
 import Spinner from 'src/components/Spinner';
-import {CapitalizeAllLetter} from 'src/helperFunctions';
+import {CapitalizeFirstLetter} from 'src/helperFunctions';
 
 // ----------------------------------------------------------------------
 
@@ -100,18 +99,6 @@ function applySortFilter(array, comparator, query) {
   return stabilizedThis.map((el) => el[0]);
 }
 
-// function CapitalizedLetter (s){
-//   if (typeof s !== 'string') return ''
-//   return s.toUpperCase()
-// }
-
-function LowerCase(s){
-  if (typeof s !== 'string') return ''
-  var removeUnderScore = s.replace(/_/g, "");
-  let makeLowerCase =  removeUnderScore.toLowerCase();
-  return makeLowerCase.charAt(0).toUpperCase() + makeLowerCase.slice(1)
-}
-
 export default function Withdrawal() {
   const [page, setPage] = useState(1);
   const [order, setOrder] = useState('desc');
@@ -136,7 +123,7 @@ export default function Withdrawal() {
       phoneNumber : data?.customer?.phone,
       amount : data?.amount?.toFixed(2),
       type : data?.type,
-      date :  moment(data?.created_at).format("DD-MM-YYYY hh:mm a")
+      date : moment(data?.created_at).format("DD-MM-YYYY hh:mm a")
     }
     csvDATA.push(obj)
   })
@@ -167,7 +154,7 @@ export default function Withdrawal() {
     { label: "ID", key: "id" },
     { label: "USER NAME", key: "userName" },
     { label: "EMAIL", key: "email" },
-    { label: "PHONE NUMBER",  key: "phoneNumber" },
+    { label: "PHONE NUMBER", key: "phoneNumber" },
     { label: "AMOUNT", key: "amount"},
     { label: "TYPE", key: "type" },
     { label: "CREATED AT", key: "date" },
@@ -187,7 +174,6 @@ export default function Withdrawal() {
                 filterName={filterName}
                 onFilterName={handleFilterByName}
               />
-
             <div style={{ marginTop : "25px" }}>
               <Button 
                 sx={{marginRight : 10}} 
@@ -200,7 +186,6 @@ export default function Withdrawal() {
               </Button>
             </div>
           </div>
-          
           {loading? <Spinner/> :  <Box> 
           <Scrollbar>
             <TableContainer sx={{ minWidth: 1200 }}>
@@ -219,11 +204,9 @@ export default function Withdrawal() {
                         <TableRow
                           hover
                           key={id}
-                          tabIndex={-1}
-                          role="checkbox"
                         >
                           <TableCell align="left">{id}</TableCell>
-                          <TableCell align="left">{customer?.name}</TableCell>
+                          <TableCell align="left">{CapitalizeFirstLetter(customer?.name)}</TableCell>
                           <TableCell align="left">{customer?.email}</TableCell>
                           <TableCell align="left">{customer?.phone}</TableCell>
                           <TableCell align="left">{amount?.toFixed(2)}</TableCell>
@@ -264,8 +247,7 @@ export default function Withdrawal() {
             nextIconButtonProps={
               filteredUsers.length === 0 || filteredUsers.length < rowsPerPage? {disabled: true} : undefined
             }
-          />
-          
+          />  
         </Box>}  
         </Card>
       </Container>
