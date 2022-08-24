@@ -42,14 +42,14 @@ const TABLE_HEAD = [
     id: 'userName', 
     alignRight: false 
   },
-  // { 
-  //   label: 'EMAIL',
-  //   id: 'email', 
-  //   alignRight: false 
-  // },
   { 
-    label: 'REFERENCE NUMBER',
-    id: 'referenceNumber', 
+    label: 'EMAIL',
+    id: 'email', 
+    alignRight: false 
+  },
+  { 
+    label: 'PHONE NUMBER',
+    id: 'phoneNumber', 
     alignRight: false 
   },
   { 
@@ -95,7 +95,7 @@ function applySortFilter(array, comparator, query) {
     return a[1] - b[1];
   });
   if (query) {
-    return filter(array, (_user) => _user.bill_plz_payment?.bill_id.toLowerCase().indexOf(query.toLowerCase()) !== -1);
+    return filter(array, (_user) => _user.customer?.name.toLowerCase().indexOf(query.toLowerCase()) !== -1);
   }
   return stabilizedThis.map((el) => el[0]);
 }
@@ -132,7 +132,8 @@ export default function Withdrawal() {
     let obj = {
       id : data?.id,
       userName : data?.customer?.name,
-      referenceNumber : data?.customer?.phone,
+      email : data?.customer?.email,
+      phoneNumber : data?.customer?.phone,
       amount : data?.amount?.toFixed(2),
       type : data?.type,
       date :  moment(data?.created_at).format("DD-MM-YYYY hh:mm a")
@@ -165,7 +166,8 @@ export default function Withdrawal() {
   const headers = [
     { label: "ID", key: "id" },
     { label: "USER NAME", key: "userName" },
-    { label: "REFERENCE NUMBER",  key: "referenceNumber" },
+    { label: "EMAIL", key: "email" },
+    { label: "PHONE NUMBER",  key: "phoneNumber" },
     { label: "AMOUNT", key: "amount"},
     { label: "TYPE", key: "type" },
     { label: "CREATED AT", key: "date" },
@@ -222,7 +224,7 @@ export default function Withdrawal() {
                         >
                           <TableCell align="left">{id}</TableCell>
                           <TableCell align="left">{customer?.name}</TableCell>
-                          {/* <TableCell align="left">{customer?.email}</TableCell> */}
+                          <TableCell align="left">{customer?.email}</TableCell>
                           <TableCell align="left">{customer?.phone}</TableCell>
                           <TableCell align="left">{amount?.toFixed(2)}</TableCell>
                           <TableCell align="left">{type}</TableCell>

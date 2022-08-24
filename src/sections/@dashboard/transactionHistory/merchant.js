@@ -26,7 +26,7 @@ import SearchNotFound from '../../../components/SearchNotFound';
 import { WithdrawalListHead, WithdrawalListToolbar } from './index';
 import {FetchMerchantTransactionList} from '../../../redux/transactionHistory/merchant/action';
 import Spinner from 'src/components/Spinner';
-import {CapitalizeAllLetter} from 'src/helperFunctions';
+import {CapitalizeFirstLetter} from 'src/helperFunctions';
 
 // ----------------------------------------------------------------------
 
@@ -38,12 +38,17 @@ const TABLE_HEAD = [
   },
   { 
     label: 'MERCHANT NAME', 
-    id: 'name', 
+    id: 'merchantName', 
     alignRight: false 
   },
   { 
-    label: 'REFERENCE NUMBER',
-    id: 'referenceNumber', 
+    label: 'EMAIL', 
+    id: 'email', 
+    alignRight: false 
+  },
+  { 
+    label: 'PHONE NUMBER',
+    id: 'phoneNumber', 
     alignRight: false 
   },
   { 
@@ -89,7 +94,7 @@ function applySortFilter(array, comparator, query) {
     return a[1] - b[1];
   });
   if (query) {
-    return filter(array, (_user) => _user.bill_plz_payment?.bill_id.toLowerCase().indexOf(query.toLowerCase()) !== -1);
+    return filter(array, (_user) => _user.vendor?.personal_name.toLowerCase().indexOf(query.toLowerCase()) !== -1);
   }
   return stabilizedThis.map((el) => el[0]);
 }
@@ -121,8 +126,9 @@ export default function Withdrawal() {
   TransactionList?.forEach(data => {
     let obj = {
       id : data?.id,
-      orderId : data?.order?.id,
-      referenceNumber : data.bill_plz_payment?.bill_id,
+      merchantName : data?.vendor?.personal_name,
+      email : data?.vendor?.email,
+      phoneNumber : data?.vendor?.phone,
       amount : data?.amount?.toFixed(2),
       type : data?.type,
       date :  moment(data?.created_at).format("DD-MM-YYYY hh:mm a")
@@ -155,7 +161,8 @@ export default function Withdrawal() {
   const headers = [
     { label: "ID", key: "id" },
     { label: "MERCHANT NAME", key: "merchantName" },
-    { label: "REFERENCE NUMBER",  key: "referenceNumber" },
+    { label: "EMAIL", key: "email" },
+    { label: "PHONE NUMBER",  key: "phoneNumber" },
     { label: "AMOUNT", key: "amount"},
     { label: "TYPE", key: "type" },
     { label: "CREATED AT", key: "date" },
@@ -200,18 +207,18 @@ export default function Withdrawal() {
                 <TableBody>
                   {filteredTransaction
                     .map((row) => {
-                      const { id, type, amount, store_withdraw, created_at } = row;
+                      const { id, vendor, type, amount, created_at } = row;
                       return (
                         <TableRow
                           hover
                           key={id}
                         >
                           <TableCell align="left">{id}</TableCell>
-                          <TableCell align="left">{store_withdraw?.store_bank?.holder_name}</TableCell>
-                          <TableCell align="left">{store_withdraw?.store_bank?.account_number}</TableCell>
-                       
-                          <TableCell align="left">{type}</TableCell>
+                          <TableCell align="left">{CapitalizeFirstLetter(vendor?.personal_name)}</TableCell>
+                          <TableCell align="left">{vendor?.email}</TableCell>
+                          <TableCell align="left">{vendor?.phone}</TableCell>
                           <TableCell align="left">{amount?.toFixed(2)}</TableCell>
+                          <TableCell align="left">{type}</TableCell>
                           <TableCell align="left">
                             <Moment format="DD-MM-YYYY hh:mm a" >{created_at}</Moment> 
                           </TableCell>   
