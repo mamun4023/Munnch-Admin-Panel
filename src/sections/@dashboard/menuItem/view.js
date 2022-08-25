@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import { Table, TableRow, TableCell, Card, CardContent, Typography, Grid } from '@mui/material';
+import { Table, TableRow, TableCell, Card,CardMedia, CardContent, Typography, Grid } from '@mui/material';
 import {Link as RouterLink, useParams} from 'react-router-dom';
 import Moment from 'react-moment';
 import { makeStyles } from "@mui/styles";
@@ -50,9 +50,10 @@ export default function View() {
                             </Typography>
                                     {
                                         image? 
-                                            <img 
-                                                src= {image}
-                                                style = {{minWidth : "700px"}}
+                                            <CardMedia
+                                                component="img"
+                                                style={{backgroundRepeat : "no-repeat", borderRadius : "10px", maxHeight : "400px"}}
+                                                image= {image}
                                             />
                                         : <Typography color= "text.secondary" textAlign= "center" padding={3}  >  empty</Typography>
                                     }

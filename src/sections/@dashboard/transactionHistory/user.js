@@ -165,7 +165,7 @@ export default function Withdrawal() {
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={1}>
           <Typography variant="h4" gutterBottom>
-           User Transaction History
+            User Transaction History
           </Typography>
         </Stack>
         <Card>
@@ -186,7 +186,7 @@ export default function Withdrawal() {
               </Button>
             </div>
           </div>
-          {loading? <Spinner/> :  <Box> 
+          {loading? <Spinner/> : <Box> 
           <Scrollbar>
             <TableContainer sx={{ minWidth: 1200 }}>
               <Table>

@@ -334,7 +334,7 @@ function Update() {
     }
   }
 
-  const regMatch = /^((http|https):\/\/)?(www.)?(?!.*(http|https|www.))[a-zA-Z0-9_-]+(\.[a-zA-Z]+)+(\/)?.([\w\?[a-zA-Z-_%\/@?]+)*([^\/\w\?[a-zA-Z0-9_-]+=\w+(&[a-zA-Z0-9_]+=\w+)*)?$/;
+  const regMatch = /^((ftp|http|https):\/\/)(www.)?(?!.*(ftp|http|https|www.))[a-zA-Z0-9_-]+(\.[a-zA-Z]+)+((\/)[\w#]+)*(\/\w+\?[a-zA-Z0-9_]+=\w+(&[a-zA-Z0-9_]+=\w+)*)?$/gm
   
   const StoreSchema = Yup.object().shape({
     store_name: Yup.string().required('Store Name is required'),
@@ -346,9 +346,9 @@ function Update() {
     city : Yup.string().required('City is required').nullable(),
     cuisines : Yup.array().required("Cusine is required").nullable(),
     foodType : Yup.array().required("Food Type is required").nullable(),
-    website : Yup.string().matches(regMatch, "Enter a valid website URL").nullable(),
-    instagram : Yup.string().matches(regMatch, "Enter a valid instagram URL").nullable(),
-    facebook : Yup.string().matches(regMatch, "Enter a valid facebook URL").nullable()
+    website : Yup.string().required("required").matches(regMatch, "Enter a valid website URL"),
+    instagram : Yup.string().required("required").matches(regMatch, "Enter a valid instagram URL"),
+    facebook : Yup.string().required("required").matches(regMatch, "Enter a valid facebook URL").nullable(),
   });
 
   const formik = useFormik({

@@ -167,13 +167,11 @@ export default function UserGrowth() {
  CustomerYear.forEach(data =>{
    customerData.push(data.total)
  })
-
-  
+ 
  MerchantYear.forEach(data =>{
   merchantData.push(data.total)
 })
 
-  
   const CHART_DATA = [
     {
       name: 'Customers ',
@@ -207,16 +205,6 @@ export default function UserGrowth() {
     ],
     xaxis: { type: 'date' },
     tooltip: {
-      // shared: true,
-      // intersect: false,
-      // y: {
-      //   formatter: (y) => {
-      //     if (typeof y !== 'undefined') {
-      //       return `${y.toFixed(0)}`;
-      //     }
-      //     return y;
-      //   }
-      // },
       x: {
         show: true,
         format: 'dd MMM',
@@ -240,7 +228,6 @@ export default function UserGrowth() {
                     fullWidth
                     select
                     size='small'
-                    // label="Coupon Type"
                     variant="outlined"
                     value={year}
                     onChange = {(e)=>setYear(e.target.value)}

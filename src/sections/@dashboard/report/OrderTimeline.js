@@ -113,7 +113,7 @@ export default function AppOrderTimeline() {
         <Timeline>
           {TIMELINES.map((item, index) => (
             <OrderItem 
-              key={item.title} 
+              key={item?.title} 
               item={item} 
               isLast={index === TIMELINES.length - 1} 
             />

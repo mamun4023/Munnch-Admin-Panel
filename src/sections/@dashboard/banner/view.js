@@ -37,7 +37,7 @@ export default function View() {
                         <Card>   
                             <CardMedia
                                 component="img"
-                                style={{backgroundRepeat : "no-repeat", borderRadius : "10px"}}
+                                style={{backgroundRepeat : "no-repeat", borderRadius : "10px", maxHeight : "400px"}}
                                 image= {singleBanner?.image?singleBanner.image : isImage(singleBanner?.url)?singleBanner?.url: null}
                             />
                         </Card>

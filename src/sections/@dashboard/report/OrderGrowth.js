@@ -3,7 +3,6 @@ import ReactApexChart from 'react-apexcharts';
 import {useDispatch, useSelector} from 'react-redux';
 // material
 import { Card, CardHeader, Box, MenuItem, Stack, TextField} from '@mui/material';
-//
 import { BaseOptionChart } from '../../../components/charts';
 import { useEffect, useState } from 'react';
 import {FetchOrderGrowth} from '../../../redux/report/fetchOrderGrowth/action';
@@ -106,7 +105,6 @@ export default function OrderGrowth() {
     orderData.push(data.total)
   })
 
-
   const CHART_DATA = [
     {
       name: 'Order Curve ',
@@ -156,10 +154,7 @@ export default function OrderGrowth() {
   return (
     <Card>
           <div style={{ display:"flex", flexWrap:"wrap", justifyContent:"space-between"}}> 
-              <CardHeader 
-                title="Order Growth" 
-                // subheader="(+43%) than last year" 
-              />
+              <CardHeader title="Order Growth" />
                 <Stack
                    sx={{
                     marginRight : 5,
@@ -167,14 +162,14 @@ export default function OrderGrowth() {
                     padding : 0,
                    }}
                 > 
-                 <TextField
+                  <TextField
                     fullWidth
                     select
                     size='small'
                     variant="outlined"
                     value={year}
                     onChange = {(e)=>setYear(e.target.value)}
-                    >    
+                  >    
                       <MenuItem value= "2022"> 2022 </MenuItem>
                       <MenuItem value= "2023"> 2023 </MenuItem>
                       <MenuItem value= "2024"> 2024 </MenuItem>
@@ -184,26 +179,6 @@ export default function OrderGrowth() {
                       <MenuItem value= "2028"> 2028 </MenuItem>
                       <MenuItem value= "2029"> 2029 </MenuItem>
                       <MenuItem value= "2030"> 2030 </MenuItem>
-                      {/* <MenuItem value= "2024"> 2031 </MenuItem>
-                      <MenuItem value= "2024"> 2032 </MenuItem>
-                      <MenuItem value= "2024"> 2033 </MenuItem>
-                      <MenuItem value= "2024"> 2034 </MenuItem>
-                      <MenuItem value= "2024"> 2035 </MenuItem>
-                      <MenuItem value= "2024"> 2036 </MenuItem>
-                      <MenuItem value= "2024"> 2037 </MenuItem>
-                      <MenuItem value= "2024"> 2038 </MenuItem>
-                      <MenuItem value= "2024"> 2039 </MenuItem>
-                      <MenuItem value= "2024"> 2040 </MenuItem>
-                      <MenuItem value= "2024"> 2041 </MenuItem>
-                      <MenuItem value= "2024"> 2042 </MenuItem>
-                      <MenuItem value= "2024"> 2043 </MenuItem>
-                      <MenuItem value= "2024"> 2044 </MenuItem>
-                      <MenuItem value= "2024"> 2045 </MenuItem>
-                      <MenuItem value= "2024"> 2046 </MenuItem>
-                      <MenuItem value= "2024"> 2047 </MenuItem>
-                      <MenuItem value= "2024"> 2048 </MenuItem>
-                      <MenuItem value= "2024"> 2049 </MenuItem>
-                      <MenuItem value= "2024"> 2050 </MenuItem> */}
                   </TextField>
                 </Stack>
               </div>  
