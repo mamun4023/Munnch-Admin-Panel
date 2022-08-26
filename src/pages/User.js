@@ -69,7 +69,6 @@ const TABLE_HEAD = [
     id: 'balance',
     alignRight: false
   },
-
   {
     label: 'REGISTER AT',
     id: 'registerAt',
@@ -199,7 +198,6 @@ export default function User() {
                 >Inactive</Button> 
               </div>
           </div>
-
          {loading? <Spinner/> : <Box>  
           <Scrollbar>
             <TableContainer sx={{ minWidth: 1200 }}>
@@ -222,7 +220,7 @@ export default function User() {
                           <TableCell className= {classes.tableCell}  align="left">{id}</TableCell>
                           <TableCell className= {classes.tableCell}   align="left">{CapitalizeFirstLetter(name)}</TableCell>
                           <TableCell className= {classes.tableCell}  align="left">
-                            <Avatar  variant="square" style={{width : "70px"}} src= {profile_image} />
+                            <Avatar  variant="circle" style={{width : "70px"}} src= {profile_image} />
                           </TableCell>
                           <TableCell className= {classes.tableCell}  align="left">{email}</TableCell>
                           <TableCell className= {classes.tableCell}  align="left">{phone}</TableCell>

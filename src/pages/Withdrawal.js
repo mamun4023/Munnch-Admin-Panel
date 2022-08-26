@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link as RouterLink} from 'react-router-dom';
-import {Typography, Box, Button, styled, Grid, Stack} from '@mui/material';
+import {Typography, Button, styled, Grid, Stack} from '@mui/material';
 import Page from '../components/Page';
 
 const RootStyle = styled(Page)(({ theme }) => ({
@@ -15,11 +15,10 @@ export default function Withdraw() {
      <>
       <RootStyle title="Munchh | Withdrawal"> </RootStyle>
           <Typography  variant="h4" gutterBottom>
-                Withdrawal Management
+              Withdrawal Management
           </Typography>
         <Grid
             container
-            // item xs={8} 
             spacing={0}
             direction="column"
             alignItems="center"

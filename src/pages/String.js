@@ -10,7 +10,6 @@ const RootStyle = styled(Page)(({ theme }) => ({
 }));
 
 export default function MyEditor() {
-  
   return (
      <>
       <RootStyle title="Munchh | Strings"> </RootStyle>

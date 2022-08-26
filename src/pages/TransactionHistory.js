@@ -17,14 +17,14 @@ export default function Transaction() {
           <Typography  variant="h4" gutterBottom>
               Transaction Management
           </Typography>
-        <Grid
+          <Grid
             container
             spacing={0}
             direction="column"
             alignItems="center"
             justifyContent="center"
             style={{ minHeight: '60vh' }}
-        >
+          >
             <Grid item xs={6} >
                   <Stack style={{ width : "450px" }} spacing={3}>
                     <Button
