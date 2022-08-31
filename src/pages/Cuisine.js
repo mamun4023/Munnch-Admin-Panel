@@ -52,7 +52,7 @@ const TABLE_HEAD = [
     alignRight: false 
   },
   { 
-    label: 'IMAGE ', 
+    label: 'IMAGE', 
     id: 'image', 
     alignRight: false 
   },

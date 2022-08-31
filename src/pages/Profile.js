@@ -14,7 +14,7 @@ const RootStyle = styled(Page)(({ theme }) => ({
     [theme.breakpoints.up('md')]: {
       display: 'flex'
     }
-  }));
+}));
 
 export default function Profile() {
   const [value, setValue] = React.useState("admin_detail");

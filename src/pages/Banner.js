@@ -198,9 +198,7 @@ export default function Banner() {
          {loading? <Spinner/> : <Box>  
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
-              <Table 
-                
-              >
+              <Table>
                 <BannerListHead
                   order={order}
                   orderBy={orderBy}

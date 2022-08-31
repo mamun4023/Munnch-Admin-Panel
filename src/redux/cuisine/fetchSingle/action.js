@@ -28,7 +28,6 @@ export const FetchSingleList = (id)=>{
         axios.get(`${URL}/api/v1/admin/cuisine/single/${id}`, AuthConfig)
             .then(res =>{
                 const response = res.data.data;
-                // console.log(response);
                 dispatch(FetchSingleItemSuccess(response));
             })
             .catch((err)=>{
