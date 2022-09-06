@@ -27,7 +27,7 @@ export const FetchGrowth = (year)=>{
         dispatch(FetchGrowthRequest());
         axios.get(`${URL}/api/v1/admin/dashboard/growth-chart/${year}`, AuthConfig)
             .then(res =>{
-                const response = res.data.data;
+                const response = res?.data?.data;
                 // console.log(response);
                 dispatch(FetchGrowthSuccess(response));
             })

@@ -47,7 +47,7 @@ export default function TotalUsers() {
       <IconWrapperStyle>
         <Iconify  icon="fa6-solid:users" width={50} height={50} />
       </IconWrapperStyle>
-      <Typography variant="h3">{TotalData?.totalCustomers}</Typography>
+      <Typography variant="h3">{TotalData?.totalCustomers? TotalData?.totalCustomers : 0}</Typography>
       <Typography sx={{ opacity: 0.72 }}>
         Total Customers
       </Typography>

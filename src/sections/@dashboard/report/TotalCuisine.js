@@ -38,7 +38,7 @@ export default function AppItemOrders() {
       <IconWrapperStyle>
         <Iconify icon="dashicons:food" width={50} height={50} />
       </IconWrapperStyle>
-      <Typography variant="h3">{TotalData?.totalCuisines}</Typography>
+      <Typography variant="h3">{TotalData?.totalCuisines? TotalData?.totalCuisines: 0}</Typography>
       <Typography variant="subtitle2" sx={{ opacity: 0.72 }}>
         Total Cuisines
       </Typography>

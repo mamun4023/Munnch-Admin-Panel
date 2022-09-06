@@ -27,7 +27,7 @@ export const FetchOrderGrowth = (year)=>{
         dispatch(FetchOrderGrowthRequest());
         axios.get(`${URL}/api/v1/admin/dashboard/order-growth-chart/${year}`, AuthConfig)
             .then(res =>{
-                const response = res.data.data;
+                const response = res?.data?.data;
                 // console.log(response);
                 dispatch(FetchOrderGrowthSuccess(response));
             })

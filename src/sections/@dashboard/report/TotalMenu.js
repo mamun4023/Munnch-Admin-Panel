@@ -40,7 +40,7 @@ export default function AppBugReports() {
       <IconWrapperStyle>
         <Iconify icon="bxs:food-menu" width={50} height={50} />
       </IconWrapperStyle>
-      <Typography variant="h3">{TotalData?.totalMenuItems}</Typography>
+      <Typography variant="h3">{TotalData?.totalMenuItems? TotalData?.totalMenuItems : 0}</Typography>
       <Typography variant="subtitle2" sx={{ opacity: 0.72 }}>
         Total Menu Items
       </Typography>

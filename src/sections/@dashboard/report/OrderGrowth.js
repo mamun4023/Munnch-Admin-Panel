@@ -102,14 +102,14 @@ export default function OrderGrowth() {
   const orderData = [];
 
   OrderedYear.forEach(data =>{
-    orderData.push(data.total)
+    orderData?.push(data.total)
   })
 
   const CHART_DATA = [
     {
       name: 'Order Curve ',
       type: 'area',
-      data: orderData
+      data: orderData? orderData : [0,0,0,0,0,0,0,0,0,0,0,0]
     },
   ];
 

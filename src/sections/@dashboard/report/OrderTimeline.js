@@ -64,37 +64,37 @@ export default function AppOrderTimeline() {
   const TIMELINES = [
     {
       title: 'Total Assigning Driver Order',
-      order : OrderTimeLineData[0]?.total ,
+      order : OrderTimeLineData[0]?.total? OrderTimeLineData[0]?.total : 0,
       type: 'order1'
     },
     {
       title: 'Total Ongoing Order',
-      order : OrderTimeLineData[4]?.total,
+      order : OrderTimeLineData[4]?.total? OrderTimeLineData[4]?.total : 0,
       type: 'order2'
     },
     {
       title: 'Total Pending Order',
-      order : OrderTimeLineData[5]?.total,
+      order : OrderTimeLineData[5]?.total? OrderTimeLineData[5]?.total : 0,
       type: 'order3'
     },
     {
       title: 'Total Completed Order',
-      order : OrderTimeLineData[2]?.total,
+      order : OrderTimeLineData[2]?.total? OrderTimeLineData[2]?.total : 0,
       type: 'order4'
     },
     {
       title: 'Total Cancelled Order',
-      order : OrderTimeLineData[1]?.total,
+      order : OrderTimeLineData[1]?.total? OrderTimeLineData[1]?.total : 0,
       type: 'order5'
     },
     {
       title: 'Total Expired Order',
-      order : OrderTimeLineData[3]?.total,
+      order : OrderTimeLineData[3]?.total? OrderTimeLineData[3]?.total : 0,
       type: 'order6'
     },
     {
       title: 'Total Rejected Order',
-      order : OrderTimeLineData[6]?.total,
+      order : OrderTimeLineData[6]?.total ? OrderTimeLineData[6]?.total : 0,
       type: 'order7'
     }
   ];

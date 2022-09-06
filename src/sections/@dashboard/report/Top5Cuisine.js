@@ -42,19 +42,19 @@ export default function TopCuisines() {
   const ChartData = useSelector(state =>state.Top5Cuisine.data);
 
   const ChartNumber = [
-    ChartData[0]?.total,
-    ChartData[1]?.total,
-    ChartData[2]?.total,
-    ChartData[3]?.total,
-    ChartData[4]?.total,
+    ChartData[0]?.total? ChartData[0]?.total : 0, 
+    ChartData[1]?.total? ChartData[1]?.total : 0,
+    ChartData[2]?.total? ChartData[2]?.total : 0,
+    ChartData[3]?.total? ChartData[3]?.total : 0,
+    ChartData[4]?.total? ChartData[4]?.total : 0,
   ]
 
   const ChartLevels = [
-    ChartData[0]?.cuisine_name,
-    ChartData[1]?.cuisine_name,
-    ChartData[2]?.cuisine_name,
-    ChartData[3]?.cuisine_name,
-    ChartData[4]?.cuisine_name,
+    ChartData[0]?.cuisine_name? ChartData[0]?.cuisine_name : "empty",
+    ChartData[1]?.cuisine_name? ChartData[1]?.cuisine_name : "empty",
+    ChartData[2]?.cuisine_name? ChartData[2]?.cuisine_name : "empty",
+    ChartData[3]?.cuisine_name? ChartData[3]?.cuisine_name : "empty",
+    ChartData[4]?.cuisine_name? ChartData[4]?.cuisine_name : "empty"
   ]
 
   const theme = useTheme();

@@ -22,12 +22,12 @@ const FetchTotalFailed = (err)=>{
     }
 }
 
-export const FetchTotal = (status, search, page, limit, sortOrder)=>{
+export const FetchTotal = ()=>{
     return (dispatch)=>{
         dispatch(FetchTotalRequest());
         axios.get(`${URL}/api/v1/admin/dashboard`, AuthConfig)
             .then(res =>{
-                const response = res.data.data;
+                const response = res?.data?.data;
                 // console.log(response);
                 dispatch(FetchTotalSuccess(response));
             })

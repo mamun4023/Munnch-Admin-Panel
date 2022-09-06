@@ -165,23 +165,23 @@ export default function UserGrowth() {
  const merchantData = [];
  
  CustomerYear.forEach(data =>{
-   customerData.push(data.total)
+   customerData?.push(data.total)
  })
  
  MerchantYear.forEach(data =>{
-  merchantData.push(data.total)
+  merchantData?.push(data.total)
 })
 
   const CHART_DATA = [
     {
       name: 'Customers ',
       type: 'column',
-      data: customerData
+      data: customerData? customerData : [0,0,0,0,0,0,0,0,0,0,0,0]
     },
     {
       name: 'Merchants',
       type: 'area',
-      data: merchantData
+      data: merchantData? merchantData : [0,0,0,0,0,0,0,0,0,0,0,0]
     },
   ];
 

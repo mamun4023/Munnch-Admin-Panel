@@ -27,7 +27,7 @@ export const FetchOrderTimeLine = ()=>{
         dispatch(FetchOrderTimelineRequest());
         axios.get(`${URL}/api/v1/admin/dashboard/order-timeline-chart`, AuthConfig)
             .then(res =>{
-                const response = res.data.data;
+                const response = res?.data?.data;
                 // console.log(response);
                 dispatch(FetchOrderTimelineSuccess(response));
             })
