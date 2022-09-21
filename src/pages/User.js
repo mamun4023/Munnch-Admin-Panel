@@ -130,9 +130,9 @@ export default function User() {
   }
 
   const InactiveStatusHandler = ()=>{
-    setUserStatus("0");
-    setPage(1);
-    setRowsPerPage(5);
+    setUserStatus("0")
+    setPage(1)
+    setRowsPerPage(5)
     setOrder('desc')
   }
 
@@ -178,7 +178,7 @@ export default function User() {
           <Typography variant="h4" gutterBottom>
             User Management
           </Typography>
-        </Stack>
+        </Stack>  
         <Card>
           <div style={{ display:"flex", flexWrap:"wrap", justifyContent:"space-between"}}>
               <UserListToolbar

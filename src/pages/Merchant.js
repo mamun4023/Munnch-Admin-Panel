@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { filter } from 'lodash';
 import {Link as RouterLink } from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
+import Moment from 'react-moment';
 import { makeStyles } from "@mui/styles";
 // material
 import {
@@ -19,7 +20,9 @@ import {
   Switch,
   Box,
   Avatar,
-  Rating
+  Rating,
+  IconButton,
+  TextField
 } from '@mui/material';
 // components
 import Page from '../components/Page';
@@ -27,10 +30,13 @@ import Spinner from 'src/components/Spinner';
 import Scrollbar from '../components/Scrollbar';
 import SearchNotFound from '../components/SearchNotFound';
 import { MerchantListHead, MerchantListToolbar, MerchantMoreMenu } from '../sections/@dashboard/merchant';
+import CSVModal from '../sections/@dashboard/merchant/CSVModal';
 import Iconify from '../components/Iconify';
+import DatePopover from '../components/datePopOver';
 import {FetchMerchantList} from '../redux/merchant/fetchAll/action';
 import {StatusToggler} from '../redux/merchant/statusToggler/action';
 import {ApprovalToggler} from '../redux/merchant/aprovalToggler/action';
+import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import {CapitalizeFirstLetter} from 'src/helperFunctions';
 // ----------------------------------------------------------------------
 
@@ -48,7 +54,7 @@ const TABLE_HEAD = [
   },
   { 
     label: 'MERCHANT NAME', 
-    id: 'name', 
+    id: 'personal_name', 
     alignRight: false 
   },
   { 
@@ -84,6 +90,11 @@ const TABLE_HEAD = [
   { 
     label: 'ACCOUNT STATUS', 
     id: 'status',
+    alignRight: false 
+  },
+  { 
+    label: 'CREATED AT', 
+    id: 'createdAt',
     alignRight: false 
   },
   // { 
@@ -132,25 +143,41 @@ export default function Merchant() {
   const [orderBy, setOrderBy] = useState('id');
   const [filterName, setFilterName] = useState('');
   const [rowsPerPage, setRowsPerPage] = useState(5);
-  const [merchantStatus, setMerchantStatus] = useState("1")
+  const [merchantStatus, setMerchantStatus] = useState("1");
+  const [startDate, setStartDate] = useState(undefined);
+  const [endDate, setEndDate] = useState(undefined);
+
+  const [open, setOpen] = useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+
+
+
 
   const ActiveStatusHandler = ()=>{
     setMerchantStatus("1");
     setPage(1);
     setRowsPerPage(5)
-    orderBy('asc');
+    setOrder('asc');
   }
 
   const InactiveStatusHandler = ()=>{
     setMerchantStatus("0");
     setPage(1);
     setRowsPerPage(5)
-    orderBy('asc');
+    setOrder('asc');
   }
 
   useEffect(()=>{
-    dispatch(FetchMerchantList(merchantStatus, filterName, page, rowsPerPage, order));
-  },[dispatch, merchantStatus, filterName, page, rowsPerPage, order])
+    dispatch(FetchMerchantList(merchantStatus, filterName, page, rowsPerPage, orderBy, order, startDate, endDate));
+  },[dispatch, merchantStatus, filterName, page, rowsPerPage, orderBy, order, startDate, endDate])
 
   const MerchantList = useSelector(state => state.FetchMerchantList.data)
   const loading = useSelector(state => state.FetchMerchantList.loading);
@@ -210,7 +237,24 @@ export default function Merchant() {
                   filterName={filterName}
                   onFilterName={handleFilterByName}
                 />
+                 
               <div style={{ marginTop : "25px" }} > 
+
+                <CSVModal
+                  open = {open}
+                  handleClickOpen = {handleClickOpen}
+                  handleClose = {handleClose}
+                  status = {merchantStatus}
+                />
+                <Button
+                  variant='outlined'
+                  onClick={handleClickOpen}
+                  sx = {{
+                    marginRight : "10px"
+                  }}
+                >
+                  Export CSV
+                </Button>
                 <Button
                     variant= {merchantStatus === "1"? "contained": "outlined"}
                     onClick = {ActiveStatusHandler}
@@ -220,6 +264,7 @@ export default function Merchant() {
                     variant= {merchantStatus === "0"? "contained": "outlined"}
                     onClick = {InactiveStatusHandler}
                 >Inactive</Button> 
+                
               </div>
           </div>
         {loading?<Spinner/> : <Box> 
@@ -235,7 +280,7 @@ export default function Merchant() {
                 <TableBody>
                   {filteredUsers
                     .map((row) => {
-                      const { id, personal_name, profile_pic, ic_number, email, phone,wallet,restaurants, status, is_approved } = row;
+                      const { id, personal_name, profile_pic, ic_number, email, phone,wallet,restaurants, status, is_approved, created_at } = row;
                       return (
                         <TableRow
                           hover
@@ -258,6 +303,9 @@ export default function Merchant() {
                                onClick={()=> StatusToggleHandler(id)}
                                defaultChecked = {status === 1?true: false}
                             />
+                          </TableCell>
+                          <TableCell className= {classes.tableCell} align="left">
+                            <Moment format="DD-MM-YYYY hh:mm a" >{created_at}</Moment>
                           </TableCell>
                           {/* <TableCell className= {classes.tableCell}  align="left">
                             <Switch

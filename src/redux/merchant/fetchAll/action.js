@@ -22,10 +22,10 @@ const FetchMerchantListFailed = (err)=>{
     }
 }
 
-export const FetchMerchantList = (status, search, page, limit, order)=>{
+export const FetchMerchantList = (status, search, page, limit, orderBy, order)=>{
     return (dispatch)=>{
         dispatch(FetchMerchantListRequest());
-        axios.get(`${URL}/api/v1/admin/merchant/list?status=${status}&keyword=${search}&page=${page}&limit=${limit}&sortOrder=${order}`, AuthConfig)
+        axios.get(`${URL}/api/v1/admin/merchant/list?status=${status}&keyword=${search}&page=${page}&limit=${limit}&orderBy=${orderBy}&sortOrder=${order}`, AuthConfig)
             .then(res =>{
                 const response = res.data.data.merchants;
                 // console.log("data ",response);

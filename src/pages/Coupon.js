@@ -269,7 +269,7 @@ export default function Coupon() {
                     disableElevation
                 >Active</Button>
                 <Button
-                   variant= {couponStatus === "0"? "contained": "outlined"}
+                   variant = {couponStatus === "0"? "contained": "outlined"}
                    onClick = {InactiveStatusHandler}
                    disableElevation
                 >Inactive</Button> 
