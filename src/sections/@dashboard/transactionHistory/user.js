@@ -176,13 +176,23 @@ export default function Withdrawal() {
               />
             <div style={{ marginTop : "25px" }}>
               <Button 
-                sx={{marginRight : 10}} 
+                variant='outlined'
                 color ="primary"
+                sx={{
+                  marginRight : 10,
+                }} 
               > 
-                <CSVLink
-                  headers={headers}
-                  filename="transactions.csv"
-                  data={csvDATA}>Download CSV</CSVLink>
+                  <CSVLink
+                    headers={headers}
+                    filename="transactions.csv"
+                    data={csvDATA}
+                    style ={{
+                      textDecoration : "none",
+                      color : "black"
+                    }}
+                  >
+                    Download CSV
+                  </CSVLink>
               </Button>
             </div>
           </div>

@@ -1,4 +1,4 @@
-export const URL =  "https://api-munchh.segwitz.dev"
+export const URL =  "https://api.munchhnow.com"
 
 // development api "https://api-munchh.segwitz.dev"
 // production api  "https://api.munchhnow.com"

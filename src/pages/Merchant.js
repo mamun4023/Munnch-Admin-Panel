@@ -32,11 +32,9 @@ import SearchNotFound from '../components/SearchNotFound';
 import { MerchantListHead, MerchantListToolbar, MerchantMoreMenu } from '../sections/@dashboard/merchant';
 import CSVModal from '../sections/@dashboard/merchant/CSVModal';
 import Iconify from '../components/Iconify';
-import DatePopover from '../components/datePopOver';
 import {FetchMerchantList} from '../redux/merchant/fetchAll/action';
 import {StatusToggler} from '../redux/merchant/statusToggler/action';
 import {ApprovalToggler} from '../redux/merchant/aprovalToggler/action';
-import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import {CapitalizeFirstLetter} from 'src/helperFunctions';
 // ----------------------------------------------------------------------
 
@@ -146,7 +144,6 @@ export default function Merchant() {
   const [merchantStatus, setMerchantStatus] = useState("1");
   const [startDate, setStartDate] = useState(undefined);
   const [endDate, setEndDate] = useState(undefined);
-
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
@@ -156,10 +153,6 @@ export default function Merchant() {
   const handleClose = () => {
     setOpen(false);
   };
-
-
-
-
 
   const ActiveStatusHandler = ()=>{
     setMerchantStatus("1");
