@@ -2,5 +2,5 @@
 
 
 # Login Credentials
-  Email : admin@mail.com
+  Email : admin@mail.com <br/>
   pass : secret
